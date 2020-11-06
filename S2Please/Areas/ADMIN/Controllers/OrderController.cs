@@ -91,6 +91,7 @@ namespace S2Please.Areas.ADMIN.Controllers
             {
                 vm.Order = resultOrder.FirstOrDefault();
             }
+
             var html = RenderViewToString(this.ControllerContext, "~/Areas/ADMIN/Views/Order/_Detail.cshtml", vm);
             return Content(JsonConvert.SerializeObject(new
             {
