@@ -1,0 +1,554 @@
+﻿@model S2Please.Models.TableViewModel
+@using S2Please.Helper
+@using Newtonsoft.Json;
+@using System.Web.Mvc.Html
+@using S2Please.Areas.WEB_SHOP.ViewModel
+@using System.Collections.Generic
+@using S2Please.ViewModel
+@using System.Globalization
+@{
+    Layout = null;
+    CultureInfo cul = CultureInfo.GetCultureInfo("vi-VN");   // try with "en-U
+
+}
+<style>
+    .cusor {
+        cursor: pointer !important;
+    }
+
+    .au-checkmark.mix-state::before {
+        width: 10px;
+        height: 11px;
+        position: absolute;
+        top: 4px;
+        left: 4px;
+        background-color: #2CA01C;
+        content: close-quote;
+        transition-duration: .5s;
+        box-sizing: border-box;
+        display: inline-block;
+        transition-property: background-color;
+        z-index: 8;
+    }
+</style>
+<div class="table-responsive table-responsive-data2">
+    <table class="table table-data2">
+        <thead>
+            <tr>
+                @if (Model.TABLE_COLUMN_FIELD != null && Model.TABLE_COLUMN_FIELD.Count() > 0)
+                {
+                    foreach (var item in Model.TABLE_COLUMN_FIELD)
+                    {
+                        var width = string.Empty;
+                        if (!String.IsNullOrEmpty(item.WIDTH))
+                        {
+                            width = "width:" + item.WIDTH;
+                        }
+                        if (item.PRESENTATION == "CHECK_BOX")
+                        {
+                            <th style="@item.CSS;@width" class="@item.CLASS" id="check-all-@Model.TABLE_NAME">
+                                <label class="au-checkbox">
+                                    <input type="checkbox" id="checked-all" onclick="clickCheckAll(this)">
+                                    <span class="au-checkmark" id="au-checkmark-all"></span>
+                                </label>
+                            </th>
+                        }
+                        else if (item.PRESENTATION == "ACTION")
+                        {
+                            <th style="@item.CSS;@width" class="@item.CLASS">
+
+                            </th>
+                        }
+                        else
+                        {
+                            if (Model.TABLE_COLUMN != null && Model.TABLE_COLUMN.Count() > 0)
+                            {
+                                var data = Model.TABLE_COLUMN.Where(s => s.COLUMN_NAME == item.COLUMN_NAME).ToList().FirstOrDefault();
+                                if (data != null)
+                                {
+                                    <th style="@item.CSS;@width" class="@item.CLASS">@FunctionHelpers.GetValueLocalization(data.ID, "TABLE_COLUMN", "COLUMN_NAME")</th>
+                                }
+                            }
+
+                        }
+                    }
+                }
+
+            </tr>
+        </thead>
+        <tbody>
+
+            @if (Model.DATA != null && Model.DATA.Count() > 0)
+            {
+                foreach (var data in Model.DATA)
+                {
+                    if (data.ToString() != "")
+                    {
+                        var rowId = Model.TABLE_NAME + "-row-" + data.ID;
+                        <tr class="tr-shadow" id="@(rowId+"tr-shadow")">
+                            @{
+
+                                if (Model.TABLE_COLUMN_FIELD != null && Model.TABLE_COLUMN_FIELD.Count() > 0)
+                                {
+
+                                    foreach (var item in Model.TABLE_COLUMN_FIELD)
+                                    {
+                                        List<string> ControlData = new List<string>();
+                                        string actionLink = item.ACTION_LINK;
+                                        string onClick = item.ON_CLICK;
+                                        string funtionName = item.FUNTION_NAME;
+                                        var width = string.Empty;
+                                        var colorClass =string.Empty;
+                                        if (!String.IsNullOrEmpty(item.WIDTH))
+                                        {
+                                            width = "width:" + item.WIDTH;
+                                        }
+                                        foreach (Newtonsoft.Json.Linq.JProperty property in data)
+                                        {
+                                            if (!String.IsNullOrEmpty(actionLink))
+                                            {
+                                                string valueReplace = "{" + property.Name + "}";
+                                                if (data[item.COLUMN_NAME] != null && data[property.Name].Value != null)
+                                                {
+                                                    actionLink = actionLink.Replace(valueReplace, data[property.Name].Value.ToString());
+                                                }
+                                            }
+                                            if (!String.IsNullOrEmpty(onClick))
+                                            {
+                                                string valueReplace = "{" + property.Name + "}";
+                                                if (data[item.COLUMN_NAME] != null && data[property.Name].Value != null)
+                                                {
+                                                    onClick = onClick.Replace(valueReplace, data[property.Name].Value.ToString());
+                                                }
+                                            }
+                                            if (!String.IsNullOrEmpty(funtionName))
+                                            {
+                                                string valueReplace = "{" + property.Name + "}";
+                                                if (data[item.COLUMN_NAME] != null && data[property.Name].Value != null)
+                                                {
+                                                    funtionName = funtionName.Replace(valueReplace, data[property.Name].Value.ToString());
+                                                }
+                                            }
+                                            if (!String.IsNullOrEmpty(item.PRESENTATION) && item.PRESENTATION== "LABLED-COLUMN")
+                                            {
+                                                colorClass = FunctionHelpers.GetValueLocalizationClass(long.Parse(data[item.VALUE_FIELD].Value.ToString()), item.DATA_TYPE);
+                                            }
+                                        }
+
+                                        if (item.PRESENTATION_DATA != null && item.PRESENTATION_DATA.Count() > 0)
+                                        {
+                                            foreach (var pd in item.PRESENTATION_DATA)
+                                            {
+                                                if (pd != null && pd.IS_MUITL_LANGUAGE)
+                                                {
+                                                    if (data[pd.VALUE_FIELD].Value != null)
+                                                    {
+                                                        var key = FunctionHelpers.GetValueLocalization(long.Parse(data[pd.VALUE_FIELD].Value), pd.DATA_TYPE, pd.PROPERTY_NAME);
+                                                        ControlData.Add(key);
+                                                    }
+                                                }
+                                                else
+                                                {
+                                                    if (pd != null && data[pd.VALUE_FIELD].Value != null)
+                                                    {
+                                                        ControlData.Add(data[pd.VALUE_FIELD].Value);
+
+                                                    }
+                                                }
+                                            }
+                                        }
+                                        else
+                                        {
+                                            if (data[item.COLUMN_NAME] != null && data[item.COLUMN_NAME].Value != null)
+                                            {
+                                                ControlData.Add(data[item.COLUMN_NAME].Value);
+                                            }
+                                        }
+
+                                        if (item.PRESENTATION == "CHECK_BOX")
+                                        {
+                                            var value = string.Empty;
+                                            if (ControlData != null && ControlData.Count() > 0)
+                                            {
+                                                value = ControlData[0];
+                                            }
+                                            <td style="@item.CSS;@width" class="@item.CLASS">
+                                                <label class="au-checkbox">
+                                                    <input type="checkbox" class="row-checkbox" onclick="clickRowCheck('@value')" value="@value" name="table_checkbox" id="checkbox_@value">
+                                                    <span class="au-checkmark" id="au-checkmark-@value"></span>
+                                                </label>
+                                            </td>
+                                        }
+                                        else if (item.PRESENTATION == "LINK")
+                                        {
+                                            var value = string.Empty;
+                                            if (ControlData != null && ControlData.Count() > 0)
+                                            {
+                                                value = ControlData[0];
+                                            }
+                                            <td style="@item.CSS;@width" class="@item.CLASS">
+                                                @if (!String.IsNullOrEmpty(actionLink))
+                                                {
+                                                    <a href="@actionLink" class="font-bold">@value</a>
+                                                }
+                                                else
+                                                {
+                                                    <a href="#" onclick="@onClick" class="font-bold">@value</a>
+                                                }
+                                            </td>
+                                        }
+                                        else if (item.PRESENTATION == "BOOL")
+                                        {
+                                            var value = string.Empty;
+                                            if (ControlData != null && ControlData.Count() > 0)
+                                            {
+                                                value = ControlData[0];
+                                            }
+                                            string icon = string.Empty;
+                                            string styleButton = string.Empty;
+                                            string styleIcon = string.Empty;
+
+                                            if (value == "True")
+                                            {
+                                                value = "fa fa-check";
+                                                styleButton = "background:green;margin:auto";
+                                                styleIcon = "color:white";
+                                            }
+                                            else
+                                            {
+                                                value = "fa fa-times-circle";
+                                                styleButton = "background:red;margin:auto";
+                                                styleIcon = "color:white";
+                                            }
+                                            <td>
+                                                <div class="table-data-feature">
+                                                    <button class="item" style="@styleButton">
+                                                        <i class="@value" style="@styleIcon"></i>
+                                                    </button>
+                                                </div>
+                                            </td>
+                                        }
+                                        else if (item.PRESENTATION == "ACTION")
+                                        {
+                                            <td>
+                                                <div class="table-data-feature">
+                                                    @if (item.ACTION != null && item.ACTION.Count() > 0)
+                                                    {
+                                                        foreach (var action in item.ACTION)
+                                                        {
+                                                            var funtionNameButon = action.FUNTION_NAME;
+                                                            foreach (Newtonsoft.Json.Linq.JProperty property in data)
+                                                            {
+                                                                if (!String.IsNullOrEmpty(funtionNameButon))
+                                                                {
+                                                                    string valueReplace = "{" + property.Name + "}";
+                                                                    if (data[property.Name] != null && data[property.Name].Value != null)
+                                                                    {
+                                                                        funtionNameButon = funtionNameButon.Replace(valueReplace, data[property.Name].Value.ToString());
+                                                                    }
+                                                                }
+                                                            }
+                                                            if (action.DROPDOWN != null && action.DROPDOWN.Count() > 0)
+                                                            {
+                                                                bool check = false;
+                                                                foreach (var dropdown in action.DROPDOWN)
+                                                                {
+                                                                    if (dropdown != null && FunctionHelpers.CheckPermission(Model.MENU_NAME, dropdown.ACTION_NAME))
+                                                                    {
+                                                                        check = true;
+                                                                        break;
+                                                                    }
+                                                                }
+                                                                if (true)
+                                                                {
+
+                                                                }
+                                                                if (check)
+                                                                {
+                                                                    <button class="item" data-toggle="dropdown" title="@FunctionHelpers.GetValueLanguage(action.BUTTON_NAME)" onclick="@funtionNameButon" type="button" data-placement="top">
+                                                                        <i class="@action.CLASS"></i>
+                                                                    </button>
+                                                                    <div class="dropdown-menu" aria-labelledby="navbarDropdown1">
+
+                                                                        @foreach (var dropdown in action.DROPDOWN)
+                                                                        {
+                                                                            funtionNameButon = dropdown.FUNTION_NAME;
+                                                                            foreach (Newtonsoft.Json.Linq.JProperty property in data)
+                                                                            {
+                                                                                if (!String.IsNullOrEmpty(funtionNameButon))
+                                                                                {
+                                                                                    string valueReplace = "{" + property.Name + "}";
+                                                                                    if (data[property.Name] != null && data[property.Name].Value != null)
+                                                                                    {
+                                                                                        funtionNameButon = funtionNameButon.Replace(valueReplace, data[property.Name].Value.ToString());
+                                                                                    }
+                                                                                }
+                                                                            }
+                                                                            if (dropdown != null && FunctionHelpers.CheckPermission(Model.MENU_NAME, dropdown.ACTION_NAME))
+                                                                            {
+                                                                                <a class="dropdown-item cusor" onclick="@funtionNameButon">@FunctionHelpers.GetValueLanguage(dropdown.BUTTON_NAME)</a>
+                                                                            }
+                                                                        }
+                                                                    </div>
+                                                                }
+
+                                                            }
+                                                            else
+                                                            {
+                                                                if (action != null && FunctionHelpers.CheckPermission(Model.MENU_NAME, action.ACTION_NAME))
+                                                                {
+                                                                    <button class="item" data-toggle="tooltip" data-placement="top" title="@FunctionHelpers.GetValueLanguage(action.BUTTON_NAME)" onclick="@funtionNameButon" type="button">
+                                                                        <i class="@action.CLASS"></i>
+                                                                    </button>
+                                                                }
+
+                                                            }
+
+                                                        }
+                                                    }
+
+                                                </div>
+                                            </td>
+
+                                        }
+                                        else if (item.PRESENTATION == "DATETIME")
+                                        {
+                                            var value = string.Empty;
+                                            DateTime? date = null;
+                                            if (ControlData != null && ControlData.Count() > 0)
+                                            {
+                                                value = ControlData[0];
+                                                if (!string.IsNullOrEmpty(value))
+                                                {
+                                                    date = Convert.ToDateTime(value);
+                                                }
+                                            }
+                                            <td style="@item.CSS;@width" class="@item.CLASS">
+                                                <span>
+                                                    @if (date != null)
+                                                    {
+                                                        @date.Value.ToString("dd/MM/yyyy HH:mm:ss")
+                                                    }
+                                                </span>
+                                            </td>
+                                        }
+                                        else if (item.PRESENTATION == "DATE")
+                                        {
+                                            var value = string.Empty;
+                                            DateTime? date = null;
+                                            if (ControlData != null && ControlData.Count() > 0)
+                                            {
+                                                value = ControlData[0];
+                                                if (!string.IsNullOrEmpty(value))
+                                                {
+                                                    date = Convert.ToDateTime(value);
+                                                }
+                                            }
+                                            <td style="@item.CSS;@width" class="@item.CLASS">
+                                                <span>
+                                                    @if (date != null)
+                                                    {
+                                                        @date.Value.ToString("dd/MM/yyyy")
+                                                    }
+                                                </span>
+                                            </td>
+                                        }
+                                        else if (item.PRESENTATION == "CURENCY")
+                                        {
+                                            var value = string.Empty;                                          
+                                            if (ControlData != null && ControlData.Count() > 0)
+                                            {
+                                                value = ControlData[0];                                               
+                                            }
+                                            <td style="@item.CSS;@width;color:red" class="@item.CLASS">
+                                                <span>
+                                                    @Convert.ToDouble(value).ToString("#,###", cul.NumberFormat) đ
+                                                </span>
+                                            </td>
+                                        }
+                                        else if (item.PRESENTATION == "LABLED-COLUMN")
+                                        {
+                                            var value = string.Empty;
+                                            if (ControlData != null && ControlData.Count() > 0)
+                                            {
+                                                value = ControlData[0];
+                                            }
+                                            <td style="@item.CSS;@width" class="@item.CLASS">
+                                                <div  class="@colorClass">
+                                                    <span>
+                                                        @value
+                                                    </span>
+                                                </div>
+                                            </td>
+                                        }
+                                        else
+                                        {
+                                            var value = string.Empty;
+                                            if (ControlData != null && ControlData.Count() > 0)
+                                            {
+                                                value = ControlData[0];
+                                            }
+                                            <td style="@item.CSS;@width" class="@item.CLASS">
+                                                <span >
+                                                    @value
+                                                </span>
+                                            </td>
+                                        }
+
+
+                                    }
+                                }
+                            }
+                        </tr>
+                        <tr class="spacer" id="@(rowId+ "tr-spacer")"></tr>
+                    }
+                }
+            }
+
+        </tbody>
+    </table>
+</div>
+@if (Model.IS_SHOW_FOOTER)
+{
+    <div class="table-data__tool s2please-footer">
+        <div class="table-data__tool-right">
+            <div class="select-pagesize">
+                <div class="rs-select2--light  rs-select3--sm">
+                    @if ((Model.PAGE_INDEX * Model.PAGE_SIZE) > Model.TOTAL)
+                    {
+                        <span class="font-bold">@((Model.PAGE_INDEX * Model.PAGE_SIZE) - Model.PAGE_SIZE + 1 ) - @Model.TOTAL  (@Model.TOTAL)@FunctionHelpers.GetValueLanguage("Title.Record")</span>
+                    }
+                    else
+                    {
+                        <span class="font-bold">@((Model.PAGE_INDEX * Model.PAGE_SIZE) - Model.PAGE_SIZE + 1 ) - @(Model.PAGE_INDEX * Model.PAGE_SIZE)  (@Model.TOTAL) @FunctionHelpers.GetValueLanguage("Title.Record")</span>
+                    }
+                </div>
+                <div class="rs-select2--light  rs-select1--sm ">
+                    <span class="font-bold">@FunctionHelpers.GetValueLanguage("Title.Show")</span>
+                </div>
+                <div class="rs-select2--light rs-select2--sm">
+                    <select class="js-select2 @Model.TABLE_NAME-paging-items-per-page" name="time" id="@Model.TABLE_NAME-paging-items-per-page" onchange="changeItemsPerpage('@Model.TABLE_NAME')">
+                        @foreach (var item in Model.SELECT_OPTION)
+                        {
+                            if (item.IS_SELECTED)
+                            {
+                                <option value="@item.VALUE" selected>@item.VALUE</option>
+                            }
+                            else
+                            {
+                                <option value=@item.VALUE>@item.VALUE</option>
+                            }
+                        }
+                    </select>
+                    <div class="dropDownSelect2"></div>
+                </div>
+                <div class="rs-select2--light">
+                    <nav>
+                        <ul class="pagination">
+                            @{
+                                var disabledEnvent = string.Empty;
+                                if (Model.PAGE_INDEX == 1)
+                                {
+                                    disabledEnvent = "pointer-events: none";
+                                }
+                            }
+                            <li class="page-item" style="@disabledEnvent" onclick="prev('@Model.TABLE_NAME')"><a class="page-link">Trước</a></li>
+                            @{
+                                int index = Convert.ToInt16(Model.PAGE_INDEX);
+                                int maxPageShow = 0;
+
+                                double totalPage = Convert.ToDouble(Model.TOTAL) / Convert.ToDouble(Model.PAGE_SIZE);
+                                if (index < totalPage)
+                                {
+                                    maxPageShow = Convert.ToInt16(Model.PAGE_INDEX) + 3;
+                                    if (maxPageShow > totalPage)
+                                    {
+                                        maxPageShow = Convert.ToInt16(Math.Ceiling(totalPage));
+                                    }
+
+                                }
+                                else
+                                {
+                                    maxPageShow = Convert.ToInt16(Model.PAGE_INDEX);
+                                }
+
+                                int start = 0;
+                                if (totalPage < 4)
+                                {
+                                    start = 1;
+                                }
+                                else if ((maxPageShow - index) < 3)
+                                {
+                                    start = maxPageShow - 3;
+                                }
+                                else
+                                {
+                                    start = Convert.ToInt16(Model.PAGE_INDEX);
+                                }
+
+                                if (index > 1)
+                                {
+                                    if (Convert.ToInt16(Math.Ceiling(totalPage)) > 4)
+                                    {
+                                        int dot = start - 1;
+                                        <li onclick="jumpPage('@Model.TABLE_NAME',1)"><a class="page-link"><<</a></li>
+                                        <li onclick="prevDots('@Model.TABLE_NAME','@dot')"><a class="page-link">...</a></li>
+                                    }
+                                }
+
+                                do
+                                {
+                                    var active = string.Empty;
+                                    if (start == Convert.ToInt16(Model.PAGE_INDEX))
+                                    {
+                                        active = "active";
+                                    }
+                                    <li class="@active page-item" id="topcontrol" onclick="changePage('@Model.TABLE_NAME','@start')"><a class="page-link">@start</a></li>
+
+                                    start += 1;
+                                    index++;
+                                }
+                                while (start <= maxPageShow);
+
+
+                                if (maxPageShow < totalPage)
+                                {
+                                    int dot = start;
+                                    <li class="page-item" onclick="nextDots('@Model.TABLE_NAME','@dot')"><a class="page-link">...</a></li>
+                                    <li class="page-item" onclick="jumpPage('@Model.TABLE_NAME','@Convert.ToInt16(Math.Ceiling(totalPage))')"><a class="page-link">>></a></li>
+                                }
+                            }
+                            @{
+                                disabledEnvent = string.Empty;
+                                if (Model.PAGE_INDEX == Convert.ToInt16(Math.Ceiling(totalPage)))
+                                {
+                                    disabledEnvent = "pointer-events: none";
+                                }
+                            }
+                            <li class="page-item" style="@disabledEnvent" onclick="next('@Model.TABLE_NAME')" id="topcontrol"><a class="page-link">Sau</a></li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+<script>
+    ControlModel[@Html.Raw(Json.Encode(Model.TABLE_NAME))] = @Html.Raw(Json.Encode(Model));
+    ControlModel[@Html.Raw(Json.Encode(Model.TABLE_NAME))].DATA = @Html.Raw(JsonConvert.SerializeObject(Model.DATA));
+    // Select 2
+    $(document).ready(function () {
+        try {
+                $("." +'@Model.TABLE_NAME'+"-paging-items-per-page").each(function () {
+                    $(this).select2({
+                        minimumResultsForSearch: 20,
+                        //dropdownParent: $(this).next('.dropDownSelect2')
+                    });
+                });
+
+            } catch (error) {
+                console.log(error);
+            }
+    })
+
+</script>

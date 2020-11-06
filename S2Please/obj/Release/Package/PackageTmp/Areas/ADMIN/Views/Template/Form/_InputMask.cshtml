@@ -1,0 +1,63 @@
+﻿@model S2Please.ViewModel.InputModel
+@using S2Please.Helper
+@{
+    Layout = null;
+}
+<style>
+   .star-required{
+       color:red
+   }
+   .message-error{
+       color:red
+   }
+</style>
+
+
+@if (!String.IsNullOrEmpty(Model.LabelName))
+{
+    <div class="col col-md-3 padding-0">
+        <label  class="form-control-label">
+            @FunctionHelpers.GetValueLanguage(Model.LabelName)
+            @if (Model.IsRequied)
+            {
+                <span class="star-required">*</span>
+            }
+        </label>
+    </div>
+} 
+
+<div class="col-12 col-md-12 padding-0">
+    <input type="@Model.Type"  id="@Model.Id.ToLower()" class="form-control @Model.Class" onkeyup="@Model.OnKeyUp" value="@Model.Value" @Model.Attribute input-mask="@Model.TypeInputMask" style="@Model.Style" placeholder="@FunctionHelpers.GetValueLanguage(Model.Placeholder)" name="@Model.Name" @Model.Readonly>
+
+    @if (Model.IsRequied)
+    {
+        <label class="help-block message-error"  id="message-error-@Model.Id.ToLower()" name="message-error-@Model.Name" ></label>
+    }
+    else
+    {
+        <label></label>
+    }
+</div>
+<script>
+    $(document).ready(function () {
+        if ('@Model.TypeInputMask' == 'currency') {
+            $("#" + '@Model.Id.ToLower()').inputmask({
+                alias: "currency",
+                prefix: '',
+                digits: '0'
+            });
+        }
+        else if ('@Model.TypeInputMask' == 'numeric') {
+            $("#" + '@Model.Id.ToLower()').inputmask({
+                alias: "numeric",
+                prefix: '',
+                digits: '0'
+            });
+        }
+    });
+</script>
+
+
+
+
+

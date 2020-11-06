@@ -1,0 +1,22 @@
+﻿@model S2Please.ViewModel.RemoveViewModel
+@using System.Web.Mvc.Html
+@using S2Please.Areas.WEB_SHOP.ViewModel
+@using System.Collections.Generic
+@using S2Please.ViewModel
+@using S2Please.Helper
+@using System.Globalization
+
+@{
+    Layout = null;
+    CultureInfo cul = CultureInfo.GetCultureInfo("vi-VN");   // try with "en-U
+}
+
+<div class="modal-header">
+    <h4>@FunctionHelpers.GetValueLanguage("Question.Remove")?</h4>
+</div>
+
+<div class="modal-footer">
+    <button type="button" title="@FunctionHelpers.GetValueLanguage("Cart.Remove")" class="btn btn-secondary" data-dismiss="modal" onclick="remove('@Model.Id','@Model.LinkRemove')">@FunctionHelpers.GetValueLanguage("Button.Save")</button>
+
+    <button type="button" title="@FunctionHelpers.GetValueLanguage("Button.Title.Close")" class="btn btn-secondary" data-dismiss="modal">@FunctionHelpers.GetValueLanguage("Button.Title.Close")</button>
+</div>

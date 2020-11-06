@@ -1,0 +1,14 @@
+﻿
+@{
+    Layout = null;
+}
+
+<span class="total-cart" id="total-cart">
+    @if (ViewBag.TotalCart != 0)
+    {
+        var total = "(" + ViewBag.TotalCart + ")";
+        @total
+    }
+</span>
+
+

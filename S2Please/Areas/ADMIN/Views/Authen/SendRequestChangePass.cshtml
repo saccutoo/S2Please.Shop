@@ -1,0 +1,117 @@
+﻿@model S2Please.Areas.ADMIN.ViewModel.LoginViewModel
+@using S2Please.Helper
+@{ 
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Required meta tags-->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Title Page-->
+    <title>@FunctionHelpers.GetValueLanguage("Authen.ChangePassword")</title>
+    <!-- Fontfaces CSS-->
+    <link href="~/LayoutAdmin/css/font-face.css" rel="stylesheet" media="all">
+    <link href="~/LayoutAdmin/vendor/font-awesome-4.7/css/font-awesome.min.css" rel="stylesheet" media="all">
+    <link href="~/LayoutAdmin/vendor/font-awesome-5/css/fontawesome-all.min.css" rel="stylesheet" media="all">
+    <link href="~/LayoutAdmin/vendor/mdi-font/css/material-design-iconic-font.min.css" rel="stylesheet" media="all">
+    <!-- Bootstrap CSS-->
+    <link href="~/LayoutAdmin/vendor/bootstrap-4.1/bootstrap.min.css" rel="stylesheet" media="all">
+    <!-- ~/LayoutAdmin/vendor CSS-->
+    <link href="~/LayoutAdmin/vendor/animsition/animsition.min.css" rel="stylesheet" media="all">
+    <link href="~/LayoutAdmin/vendor/bootstrap-progressbar/bootstrap-progressbar-3.3.4.min.css" rel="stylesheet" media="all">
+    <link href="~/LayoutAdmin/vendor/wow/animate.css" rel="stylesheet" media="all">
+    <link href="~/LayoutAdmin/vendor/css-hamburgers/hamburgers.min.css" rel="stylesheet" media="all">
+    <link href="~/LayoutAdmin/vendor/slick/slick.css" rel="stylesheet" media="all">
+    <link href="~/LayoutAdmin/vendor/select2/select2.min.css" rel="stylesheet" media="all">
+    <link href="~/LayoutAdmin/vendor/perfect-scrollbar/perfect-scrollbar.css" rel="stylesheet" media="all">
+    <!-- Main CSS-->
+    <link href="~/LayoutAdmin/css/theme.css" rel="stylesheet" media="all">
+    <style>
+        .requied{
+            color:red;
+        }
+    </style>
+</head>
+<body class="animsition">
+    <div class="page-wrapper">
+        <div class="page-content--bge5">
+            <div class="container">
+                <div class="login-wrap">
+                    <div class="login-content">
+                        <div class="login-logo">
+                            <a href="#">
+                                <img src="~/LayoutAdmin/images/icon/logo.png" alt="CoolAdmin">
+                            </a>
+                        </div>
+                        <div class="login-form">
+                            <form action="@Url.Action("SendRequestChangePass","Authen",new { area = "ADMIN" })" method="post">
+                                @if (Model.Success && Model.Is_SendRequest)
+                                {
+                                    <div class="form-group">
+                                        <section>
+                                            <div class="alert alert-success alert-dismissible in">
+                                                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                                                <strong>@FunctionHelpers.GetValueLanguage("Message.Success")!</strong> @Model.Message
+                                            </div>
+                                        </section>
+                                    </div>
+                                }   
+                                @if (!Model.Success && !Model.Is_SendRequest && !String.IsNullOrEmpty(Model.Code))
+                                {
+                                    <div class="form-group">
+                                        <section>
+                                            <div class="alert alert-danger alert-dismissible in">
+                                                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                                                <strong>@FunctionHelpers.GetValueLanguage("Message.Error")!</strong> @Model.Message
+                                            </div>
+                                        </section>
+                                    </div>
+                                }                         
+                                <div class="form-group">
+                                    <label>@FunctionHelpers.GetValueLanguage("Authen.EmailAddress") <span class="requied">*</span></label>
+                                    <input class="au-input au-input--full" type="email" name="EMAIL" value="@Model.Email" placeholder="@FunctionHelpers.GetValueLanguage("Authen.EnterEmail")">
+                                    @if (Model!=null && Model.Is_Error_Email_Required)
+	                                {
+		                                 <span class="requied">@FunctionHelpers.GetValueLanguage("Error.Required")</span>       }
+                                    else if (Model != null && Model.IS_Error_Format_Email)
+                                    {
+                                        <span class="requied">@FunctionHelpers.GetValueLanguage("Error.EmailFormat")</span>
+                                    }
+                                </div>
+                                <button class="au-btn au-btn--block au-btn--green m-b-20" type="submit">@FunctionHelpers.GetValueLanguage("Authen.Send")</button>                             
+                            </form>                          
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Jquery JS-->
+    <script src="~/LayoutAdmin/vendor/jquery-3.2.1.min.js"></script>
+    <!-- Bootstrap JS-->
+    <script src="~/LayoutAdmin/vendor/bootstrap-4.1/popper.min.js"></script>
+    <script src="~/LayoutAdmin/vendor/bootstrap-4.1/bootstrap.min.js"></script>
+    <!-- ~/LayoutAdmin/vendor JS       -->
+    <script src="~/LayoutAdmin/vendor/slick/slick.min.js">
+    </script>
+    <script src="~/LayoutAdmin/vendor/wow/wow.min.js"></script>
+    <script src="~/LayoutAdmin/vendor/animsition/animsition.min.js"></script>
+    <script src="~/LayoutAdmin/vendor/bootstrap-progressbar/bootstrap-progressbar.min.js">
+    </script>
+    <script src="~/LayoutAdmin/vendor/counter-up/jquery.waypoints.min.js"></script>
+    <script src="~/LayoutAdmin/vendor/counter-up/jquery.counterup.min.js">
+    </script>
+    <script src="~/LayoutAdmin/vendor/circle-progress/circle-progress.min.js"></script>
+    <script src="~/LayoutAdmin/vendor/perfect-scrollbar/perfect-scrollbar.js"></script>
+    <script src="~/LayoutAdmin/vendor/chartjs/Chart.bundle.min.js"></script>
+    <script src="~/LayoutAdmin/vendor/select2/select2.min.js">
+    </script>
+    <!-- Main JS-->
+    <script src="~/LayoutAdmin/js/main.js"></script>
+</body>
+</html>
+<!-- end document-->
+

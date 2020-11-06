@@ -1,0 +1,15 @@
+﻿@model S2Please.Models.ResultModel
+@{
+    ViewBag.Title = "Error";
+    Layout = null;
+}
+
+<link href="~/Content/bootstrap.css" rel="stylesheet" />
+
+@if (Model!=null && Model.Success)
+{
+    <h2>không lỗi</h2>
+}
+else{
+    <h2>@Model.error</h2>
+}

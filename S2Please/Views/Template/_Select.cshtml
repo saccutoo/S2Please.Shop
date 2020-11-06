@@ -1,0 +1,82 @@
+﻿@model S2Please.ViewModel.SelectModel
+@using S2Please.Helper
+@{
+    Layout = null;
+}
+<style>
+   .select2-search__field{
+       height:30px !important;
+   }
+   .select2-message-error{
+       margin-top:10px;
+   }
+</style>
+
+<label class="control-label">
+    @FunctionHelpers.GetValueLanguage(Model.LabelName)
+@if (Model.IsRequied)
+{
+    <span class="star-required">*</span>
+}
+</label>
+
+<select id="@Model.Id.ToLower()" name="@Model.Name" class="@Model.Class form-control" onchange="@Model.OnChange" style="@Model.Style">
+    <option value="0">--@FunctionHelpers.GetValueLanguage("Dropdown.Select") @FunctionHelpers.GetValueLanguage(Model.LabelName).ToLower()--</option>
+    @if (Model.Datas != null && Model.Datas.Count() > 0 && Model.IsSearchAjax == false)
+    {
+        foreach (var item in Model.Datas)
+        {
+            var selected = string.Empty;
+            if (item[Model.FieldId] == Model.Value)
+            {
+                selected = "selected";
+            }
+            if (Model.IsMultiLanguage)
+            {
+                <option value="@item[Model.FieldId].Value" @selected> @FunctionHelpers.GetValueLocalization(long.Parse(item[Model.FieldId].Value),Model.DataType,Model.PropertyName)</option>
+            }
+            else
+            {
+                <option value="@item[Model.FieldId].Value" @selected> @item[Model.FieldName]</option>
+            }
+        }
+    }
+</select> 
+
+<label class="control-label message-error select2-message-error" name="message-error-@Model.Name"></label>
+
+
+<script>
+    var isSearchAjax = '@Model.IsSearchAjax';
+    if (isSearchAjax=='False') {
+        $('#' + '@Model.Id.ToLower()').select2({});
+    }
+    else {
+        $('#' + '@Model.Id.ToLower()').select2({
+            //minimumInputLength: 1,
+            ajax: {
+                url: '@Model.Url',
+                dataType: 'json',
+                type: "POST",
+                quietMillis: 50,
+                data: function (term) {
+                    return {
+                        value: term.term
+                    };
+                },
+                processResults: function (data) {
+                    return {
+                        results: $.map(data.datas, function (item) {
+                            return {
+                                text: item.NAME,
+                                id: item.CODE
+                            }
+                        })
+                    };
+                }
+            }
+        })
+    }
+
+</script>
+

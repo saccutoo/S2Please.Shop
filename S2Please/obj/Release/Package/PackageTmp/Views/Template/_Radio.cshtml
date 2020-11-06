@@ -1,0 +1,10 @@
+﻿@model S2Please.ViewModel.InputModel
+@using S2Please.Helper
+@{
+    Layout = null;
+}
+
+<label class="radio" for="@Model.Id.ToLower()">
+    <input type="radio" name="@Model.Name" value="@Model.Value" id="@Model.Id.ToLower()" @Model.Attribute>@Model.LabelName
+</label>
+

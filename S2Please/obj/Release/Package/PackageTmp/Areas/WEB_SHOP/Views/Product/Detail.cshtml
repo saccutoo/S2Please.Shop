@@ -1,0 +1,440 @@
+﻿@model S2Please.Areas.WEB_SHOP.ViewModel.ProductDetailViewModel
+@using System.Web.Mvc.Html
+@using S2Please.Areas.WEB_SHOP.ViewModel
+@using System.Globalization
+@using S2Please.Models
+@using System.Collections.Generic
+@using S2Please.ParramType
+@using S2Please.Helper
+
+@{
+    ViewBag.Title =FunctionHelpers.GetValueLanguage("Product.ProductDetail");
+    Layout = "~/Areas/WEB_SHOP/Views/Shared/_Layout.cshtml";
+    CultureInfo cul = CultureInfo.GetCultureInfo("vi-VN");   // try with "en-U
+}
+@section HeaderText
+{
+    @Html.Partial("~/Areas/WEB_SHOP/Views/Shared/_Header_Img.cshtml", new HeaderImgViewModel { Image = "", KeyLanguage = "Product.ProductDetail" })
+}
+<style>
+    .price-text{
+        color:red;
+    }
+    .line-through{
+        font-size:13px; 
+    }
+    .regular  li{
+        margin-left:0px;
+    }
+    .regular  li img{
+        height:50px;
+    }
+    
+    .slider {
+        width: 50%;
+        margin: 100px auto;
+    }
+
+    .slick-slide {
+      margin: 0px 5px;
+    }
+
+    .slick-slide img {
+      width: 100%;
+    }
+
+    .slick-prev:before,
+    .slick-next:before {
+      color: black;
+    }
+
+
+    .slick-slide {
+      transition: all ease-in-out .3s;
+      opacity: .2;
+    }
+    
+    .slick-active {
+      opacity: .5;
+    }
+
+    .slick-current {
+      opacity: 1;
+    }
+    .thumbnails.small{
+        margin-left: 20px;
+        margin-right: 15px;
+    }
+    .address-bonus{
+        margin-left:15px;
+    }
+    .address-color{
+        list-style:none;
+    }
+    .address-color li{
+        float:left;
+        margin-left:5px;
+        cursor:pointer;
+    }
+    .address-size{
+        list-style:none;
+    }
+    .address-strong-size{
+        clear:both
+    }
+    .address-size li{
+        width:15px;
+        text-align:center;
+    }
+    .address-color .thumbnail.active{
+        border: 1px solid red;
+    }
+    #image-main{
+        height:370px;
+    }
+    .img-color-img{
+        height:50px;
+        width:50px;
+    }
+    video{
+        width:100%;
+        height:45px;
+    }
+</style>
+
+<section class="main-content">
+    <div class="row">
+        <div class="span9">
+            <div class="row">
+                @if (Model.ProductImgs != null && Model.ProductImgs.Count() > 0)
+                {
+                    <div class="span4">
+                        @{
+                            var data = Model.ProductImgs.Where(s => s.IS_MAIN == true).FirstOrDefault();
+                            
+                        }
+                        <a href="~/Image/@data.PRODUCT_IMAGE" class="thumbnail " data-fancybox-group="group1" title="@data.PRODUCT_IMAGE"><img id="image-main" alt="" src="~/Image/@data.PRODUCT_IMAGE" height="370"></a>
+                        <ul class="thumbnails small regular slide">
+                            @foreach (var item in Model.ProductImgs.Where(s => s.IS_MAIN == false))
+                            {
+                                if (item.PRODUCT_IMAGE.IndexOf(".mp4") > -1)
+                                {
+
+                                    <li>
+                                        <a href="~/Image/@item.PRODUCT_IMAGE" class="thumbnail horver-img-slide" data-fancybox-group="group1" title="@item.PRODUCT_IMAGE">
+                                            <video >
+                                                <source src="~/Image/@item.PRODUCT_IMAGE" type="video/mp4">
+                                            </video>
+                                        </a>
+                                    </li>
+                                }
+                            }
+                           
+                            @foreach (var item in Model.ProductImgs.Where(s => s.IS_MAIN == false))
+                            {
+                                if (item.PRODUCT_IMAGE.IndexOf(".mp4") == -1)
+                                {
+                                   
+                                    <li class="span1">
+                                        <a href="~/Image/@item.PRODUCT_IMAGE" class="thumbnail horver-img-slide" data-fancybox-group="group1" title="@item.PRODUCT_IMAGE"><img src="~/Image/@item.PRODUCT_IMAGE" alt=""></a>
+                                    </li>
+                                }
+                            }
+
+                        </ul>
+                    </div>
+                 }
+                
+                @if (Model.Product != null)
+                {
+                    <div class="span5">
+                        <address>
+                            <strong>@FunctionHelpers.GetValueLanguage("Product.ProductName"):</strong> <span>@Model.Product.NAME</span><br>
+                            <strong>@FunctionHelpers.GetValueLanguage("Product.ProductCode"):</strong> <span>@Model.Product.PRODUCT_CODE</span><br>
+                            @if (Model.Product.PRODUCT_ORIGIN != null && Model.Product.PRODUCT_ORIGIN != "")
+                            {
+                                <strong>@FunctionHelpers.GetValueLanguage("Product.ProductOrigin"):</strong> <span>@Model.Product.PRODUCT_ORIGIN</span><br>
+                            }
+                            @if (Model.Product.PRODUCT_MATERIAL != null && Model.Product.PRODUCT_MATERIAL != "")
+                            {
+                                <strong>@FunctionHelpers.GetValueLanguage("Product.ProductMateria"):</strong> <span>@Model.Product.PRODUCT_MATERIAL</span><br>
+                            }
+                            <strong>@FunctionHelpers.GetValueLanguage("Product.ProductColor"):</strong> <span id="product-color">@Model.Product.COLOR</span><br>
+                               
+
+                            <strong>@FunctionHelpers.GetValueLanguage("Product.ProductAmount"):</strong> <span id="product-amount">@Model.Product.AMOUNT.ToString()</span><br>
+
+                            @*@if (Model.ProductBonus != null && Model.ProductBonus.Count() > 0)
+                            {
+                                <strong>@FunctionHelpers.GetValueLanguage("Product.Bonus"):</strong> <ul class="address-bonus">
+                                  @foreach (var item in Model.ProductBonus)
+                                  {
+                                      <li>@item.BONUS_NAME</li>
+                                  }
+                                </ul>
+                            }*@
+
+                            @if (Model.ProductColors != null && Model.ProductColors.Count() > 0)
+                            {
+                                var data = Model.ProductColors.Where(s => s.IS_MAIN == true).ToList().FirstOrDefault();
+                                var index = 0;
+                                <strong>@FunctionHelpers.GetValueLanguage("Product.GroupColor"):</strong> <span id="text-color">@data.COLOR</span> 
+                                <input type="text" id="color-id" value="@data.ID" class="hidden"/>
+                                <ul style="list-style:none" class="address-color">
+                                    
+                                    @foreach (var item in Model.ProductColors)
+                                    {
+                                        var active = string.Empty;
+                                        if (index == 0)
+                                        {
+                                            active = "active";
+                                        }
+                                        <li class="thumbnail @active img-color " title="@item.COLOR" onclick="clickImgColor('@item.ID','@item.COLOR','@item.IMG','@item.AMOUNT')" >
+                                            <img src="~/Image/@item.IMG" class="img-color-img" alt="" width="50" height="50">
+                                        </li>
+
+                                        index++;
+                                    }
+                                    @*@foreach (var item in Model.ProductMappers)
+                                    {
+                                        var active = string.Empty;
+                                        if (index == 0)
+                                        {
+                                            active = "active";
+                                        }
+                                        <li class="thumbnail @active img-color " title="@item.COLOR" onclick="clickImgColor('@item.COLOR_ID','@item.COLOR','@item.IMG','@item.AMOUNT')">
+                                            <img src="~/Image/@item.IMG" class="img-color-img" alt="" width="50" height="50">
+                                        </li>
+
+                                        index++;
+                                    }*@
+                                </ul><br /><br />
+                            }
+                            <br />
+                            @if (Model.ProductSizes != null && Model.ProductSizes.Count() > 0)
+                            {
+                                var index = 0;
+                                <strong class="address-strong-size">@FunctionHelpers.GetValueLanguage("Product.Size"):</strong>
+                                var data = Model.ProductSizes.Where(s => s.IS_MAIN == true).ToList().FirstOrDefault();
+                                if (data != null)
+                                {
+                                    <input type="text" id="size-id" value="@data.ID" class="hidden" />
+                                    <ul class="address-size address-color">
+                                        @foreach (var item in Model.ProductSizes)
+                                        {
+                                            var active = string.Empty;
+                                            if (index == 0)
+                                            {
+                                                active = "active";
+                                            }
+                                            <li class="thumbnail @active thumbnail-size" size-id="@item.ID" onclick="clickSize('@item.ID')">
+                                                @item.SIZE_NAME
+                                            </li>
+                                            index++;
+                                        }
+
+                                    </ul>
+                                }
+
+                            }
+                            
+
+                        </address>
+                        <br />
+                        <h4 id="product-price">
+                          @Html.Partial("~/Areas/WEB_SHOP/Views/Product/_PriceDetail.cshtml", new ProductPriceViewModel(){ ProductMapper=Model.ProductMapper})
+                        </h4>
+                    </div>
+                }
+                
+
+                <div class="span5">
+                    <form class="form-inline">
+                        @*<label class="checkbox">
+                            <input type="checkbox" value=""> Option one is this and that
+                        </label>
+                        <br />
+                        <label class="checkbox">
+                            <input type="checkbox" value=""> Be sure to include why it's great
+                        </label>*@
+
+                        <p>&nbsp;</p>
+                        @*<label>Qty:</label>*@
+                        <input type="text" value="@Model.Product.ID" id="product-id" class="hidden">
+                        <input type="text" class="span1" value="1" id="value-input-amount">
+                        <button id="btn-add-cart" class="btn btn-inverse" type="button">@FunctionHelpers.GetValueLanguage("Product.AddCart")</button>
+                    </form>
+                </div>
+
+
+            </div>
+            <div class="row">
+                <div class="span9">
+                    <ul class="nav nav-tabs" id="myTab">
+                        <li class="active"><a href="#home">@FunctionHelpers.GetValueLanguage("Product.Decription")</a></li>
+                        <li class=""><a href="#profile">@FunctionHelpers.GetValueLanguage("Product.AdditionalInformation")</a></li>
+                    </ul>
+                    <div class="tab-content">
+                        <div class="tab-pane active" id="home">@Model.Product.DECRIPTION
+                        </div>
+                        <div class="tab-pane" id="profile">
+                            <table class="table table-striped shop_attributes">
+                                <tbody>
+                                    <tr class="">
+                                        <th>@FunctionHelpers.GetValueLanguage("Product.Size")</th>
+                                       @{
+                                           var size = string.Empty;
+                                           if (Model.ProductSizes != null && Model.ProductSizes.Count() > 0)
+                                           {
+                                               foreach (var item in Model.ProductSizes)
+                                               {
+                                                   if (size == string.Empty)
+                                                   {
+                                                       size = item.SIZE_NAME;
+                                                   }
+                                                   else
+                                                   {
+                                                       size = size + "," + item.SIZE_NAME;
+                                                   }
+                                               }
+                                            <td>@size</td>
+                                           }
+                                    }
+                                    </tr>
+                                    <tr class="alt">
+                                        <th>@FunctionHelpers.GetValueLanguage("Product.ProductColor")</th>
+                                        @{
+                                            var color = string.Empty;
+                                            if (Model.ProductColors != null && Model.ProductColors.Count() > 0)
+                                            {
+                                                foreach (var item in Model.ProductColors)
+                                                {
+                                                    if (color == string.Empty)
+                                                    {
+                                                        color = item.COLOR;
+                                                    }
+                                                    else
+                                                    {
+                                                        color = color + "," + item.COLOR;
+                                                    }
+                                                }
+                                            }
+                                            <td>@color</td>
+                                        }
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="span9">
+                    <br>
+                    @{ 
+                        var vm = new ProductContentViewModel();
+                        vm.Index = 0;
+                        vm.Value = Model.Product.PRODUCT_TYPE_ID.ToString();
+                        vm.Product_Type_Id = Model.Product.PRODUCT_TYPE_ID;
+                        vm.Products = new List<ProductModel>();
+                        vm.Name = FunctionHelpers.GetValueLanguage("Product.RelatedProducts");
+                        //vm.Param= new ParamType { PAGE_SIZE = 9, PAGE_NUMBER = 1 };
+                        vm.Url = "/WEB_SHOP/Product/LoadSlideRelated";
+                        vm.NumberInPage = 3;
+                        vm.NumberProductGet = 9;
+                        vm.StoredProcedureName = "Product_Get_ProductByTypeId";
+                    }
+                    @Html.Action("_ProductContent", "Product", new { area = "WEB_SHOP" , viewModel = vm })
+
+                    <br>
+
+                    @{
+                        if (Model.ViewProducts != null && Model.ViewProducts.Where(s => s.ID != Model.Product.ID).Count() > 0)
+                        {
+                            @Html.Partial("~/Areas/WEB_SHOP/Views/Product/_ProductContent.cshtml", new ProductContentViewModel() { Product_Type_Id = new Random().Next(10000,99999), Products = Model.ViewProducts.Where(s=>s.ID!=Model.Product.ID).ToList(), Name =FunctionHelpers.GetValueLanguage("Product.ViewProduct"), Index = 0,NumberInPage=3,NumberProductGet=9 });
+                        }
+                    }
+                </div>
+            </div>
+        </div>
+        <div class="span3 col">
+           
+            @*Danh mục liên quan*@
+            @{
+                var vm_Categorie = new ProductDetailListCategoriesViewModel();
+                vm_Categorie.ProductTypeID = Model.Product.PRODUCT_TYPE_ID;
+                vm_Categorie.GroupID = Model.Product.PRODUCT_GROUP_ID;
+            }
+            @Html.Action("_ProductDetail_Categories", "Product", new { area = "WEB_SHOP", viewModel = vm_Categorie })
+
+            @*Sản phẩm random*@
+
+            <div class="block">
+
+                @{
+                    vm = new ProductContentViewModel();
+                    vm.Index = 0;
+                    vm.Products = new List<ProductModel>();
+                    vm.Url = "/WEB_SHOP/Product/LoadSlideRandom";
+                    vm.NumberInPage = 1;
+                    vm.NumberProductGet = 3;
+                    Random random = new Random();
+                    vm.Product_Type_Id=random.Next(10000,99999);
+                    vm.Value = Model.Product.ID.ToString();
+                    vm.StoredProcedureName = "Product_Get_ProductRanDom";
+                }
+                @Html.Action("_ProductContent", "Product", new { area = "WEB_SHOP", viewModel = vm })                
+            </div>
+
+
+            @*<div class="block">
+                <h4 class="title"><strong>Best</strong> Seller</h4>
+                <ul class="small-product">
+                    <li>
+                        <a href="#" title="Praesent tempor sem sodales">
+                            <img src="~/Layout/themes/images/ladies/1.jpg" alt="Praesent tempor sem sodales">
+                        </a>
+                        <a href="#">Praesent tempor sem</a>
+                    </li>
+                    <li>
+                        <a href="#" title="Luctus quam ultrices rutrum">
+                            <img src="~/Layout/themes/images/ladies/2.jpg" alt="Luctus quam ultrices rutrum">
+                        </a>
+                        <a href="#">Luctus quam ultrices rutrum</a>
+                    </li>
+                    <li>
+                        <a href="#" title="Fusce id molestie massa">
+                            <img src="~/Layout/themes/images/ladies/3.jpg" alt="Fusce id molestie massa">
+                        </a>
+                        <a href="#">Fusce id molestie massa</a>
+                    </li>
+                </ul>
+            </div>*@
+        </div>
+    </div>
+</section>
+
+@section scripts
+{
+    <script src="~/Scripts/ProductDetail/ProductDetail.js"></script>
+    <script>
+        $(function () {
+            $('#myTab a:first').tab('show');
+            $('#myTab a').click(function (e) {
+                e.preventDefault();
+                $(this).tab('show');
+            })
+
+            var test = $.connection.tesHub;
+            test.client.addNewMessageToPage = function (name, message) {
+                //$('#discussion').append('<li><strong>' + htmlEncode(name)
+                //    + '</strong>: ' + htmlEncode(message) + '</li>');
+                alert(message);
+            };
+            $.connection.hub.start().done(function () {
+                $('#btn-test').click(function () {
+                    test.server.send('vinh', 'Đặt hàng thành công');
+                });
+            });
+        })
+        
+    </script>
+}

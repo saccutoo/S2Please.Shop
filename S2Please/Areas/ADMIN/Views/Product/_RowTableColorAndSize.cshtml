@@ -1,0 +1,85 @@
+﻿@model S2Please.Areas.ADMIN.ViewModel.RowTableColorAndSizeViewModel
+@using S2Please.Helper
+@using S2Please.Models
+@using Newtonsoft.Json
+@using S2Please.ViewModel
+@using System.Globalization
+@using System.Web.Mvc
+@{
+    Layout = null;
+    CultureInfo cul = CultureInfo.GetCultureInfo("vi-VN");   // try with "en-U
+    int index = 0;
+}
+@if (Model.ColorSizeMapper != null && Model.ColorSizeMapper.Count() > 0)
+{
+    foreach (var item in Model.ColorSizeMapper)
+    {
+        <tr id="tr-@index">
+            <td>        
+                <div class="col-12 col-md-12 padding-0">
+
+                </div>
+                <div class="col-12 col-md-12 padding-0" style="height:68px;">
+                    <input type="radio" class="input-radio" value="true" name="ColorSizeMap[@index].IS_MAIN" onclick="clickRadioIsMain(this)"  style="margin-top:23px;" @(item.IS_MAIN==true?"checked":"")/>
+
+                </div>
+            </td>
+            <td>
+                <input type="text" class="value-index" value="@index" name="ColorSizeMap[@index].INDEX" hidden />
+                @Html.Partial("~/Areas/ADMIN/Views/Template/Form/_Input.cshtml", new InputModel() { Id = "COLOR_" + index, Name = "ColorSizeMap[" + index + "].COLOR", IsRequied = true, Value = item.COLOR, Readonly = "readonly", Style = "margin-top:6px;width:100px;" })
+            </td>
+            <td>
+                @Html.Partial("~/Areas/ADMIN/Views/Template/Form/_Input.cshtml", new InputModel() { Id = "SIZE_" + index, Name = "ColorSizeMap[" + index + "].SIZE", IsRequied = true, Value = item.SIZE, Readonly = "readonly", Style = "width:100px;" })
+            </td>
+            <td>
+                @Html.Partial("~/Areas/ADMIN/Views/Template/Form/_InputMask.cshtml", new InputModel() { Type = "text", Id = "PRICE_" + index, Class = "", Name = "ColorSizeMap[" + index + "].PRICE", Value = item.PRICE.ToString(), IsRequied = true, Style = "width:100px;",TypeInputMask= "currency" , Attribute = "inputMask" })
+            </td>
+            <td>
+                @Html.Partial("~/Areas/ADMIN/Views/Template/Form/_InputMask.cshtml", new InputModel() { Type = "text", Id = "RATE_" + index, Class = "", Name = "ColorSizeMap[" + index + "].RATE", Value = item.RATE.ToString(), IsRequied = true, Style = "width:100px;", TypeInputMask = "numeric" , Attribute = "inputMask" })
+            </td>
+            <td>
+                @Html.Partial("~/Areas/ADMIN/Views/Template/Form/_InputMask.cshtml", new InputModel() { Type = "text", Id = "AMOUNT_" + index, Class = "", Name = "ColorSizeMap[" + index + "].AMOUNT", Value = item.AMOUNT.ToString(), IsRequied = true, Style = "width:100px;", TypeInputMask = "numeric" ,Attribute="inputMask" })
+            </td>
+            @*<td>
+                @{
+                    var src = string.Empty;
+                    var path = string.Empty;
+                    if (!String.IsNullOrEmpty(item.IMG))
+                    {
+                        src = "/Image/" + item.IMG;
+                        path = Server.MapPath("~/Image/" + item.IMG);
+                    }
+                }
+                <div id="upload-img-@index" style="border: 2px dotted;height: 50px;width: 50px;text-align: center;margin-bottom: 22px;cursor:pointer;@(src==string.Empty?"":"display:none;")" >
+                    <input type="file" id="file-@index" name="ColorSizeMap[@index].IMG" onchange="changeFile(this,'@index')" value="@path" hidden>
+                    <span class="fa fa-upload" style="line-height:45px;" onclick="clickFile('@index')"></span>
+                    <input type="text" id="file-name-@index" name="ColorSizeMap[@index].FILE_NAME" value="@item.IMG" style="display:none"/>
+                </div>
+                <div id="show-img-@index" style="height: 50px;width: 50px;text-align: center;margin-bottom: 22px;@(src==string.Empty?"display:none;border: 2px dotted;":"display:block;border: none;")">
+                    <style>
+                        .image-template {
+                            width: 50px;
+                            height: 50px;
+                        }
+                        .remove-img{
+                            position: absolute;
+                            color: red;     
+                            z-index: 100;
+                            margin-left: -9px;
+                            margin-top: -10px;
+                            cursor: pointer;
+                            font-size: 20px;
+                        }
+                    </style>                   
+                    <img src="@src" id="img-@index" class="image-template" />
+                    <span class="fas fa-times remove-img" id="remove-img-@index" title="@FunctionHelpers.GetValueLanguage("Btn_Delete")" onclick="removeImg(@index)"></span>
+                </div>
+            </td>*@
+            <td>
+                <span style="margin-bottom: 22px;font-size:20px;cursor:pointer !important;color:red" title="@FunctionHelpers.GetValueLanguage("Btn_Delete")" class="zmdi zmdi-delete " onclick="removeRow('@index')"></span>
+            </td>
+        </tr>
+        index++;
+    }
+}
+

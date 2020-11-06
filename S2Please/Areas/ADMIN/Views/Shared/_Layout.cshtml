@@ -1,0 +1,153 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Required meta tags-->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="au theme template">
+    <!-- Title Page-->
+    <!-- Fontfaces CSS-->
+    <link href="~/LayoutAdmin/css/font-face.css" rel="stylesheet" media="all">
+    <link href="~/LayoutAdmin/vendor/font-awesome-4.7/css/font-awesome.min.css" rel="stylesheet" media="all">
+    <link href="~/LayoutAdmin/vendor/font-awesome-5/css/fontawesome-all.min.css" rel="stylesheet" media="all">
+    <link href="~/LayoutAdmin/vendor/mdi-font/css/material-design-iconic-font.min.css" rel="stylesheet" media="all">
+    <!-- Bootstrap CSS-->
+    <link href="~/LayoutAdmin/vendor/bootstrap-4.1/bootstrap.min.css" rel="stylesheet" media="all">
+    <!-- Vendor CSS-->
+    <link href="~/LayoutAdmin/vendor/animsition/animsition.min.css" rel="stylesheet" media="all">
+    <link href="~/LayoutAdmin/vendor/bootstrap-progressbar/bootstrap-progressbar-3.3.4.min.css" rel="stylesheet" media="all">
+    <link href="~/LayoutAdmin/vendor/wow/animate.css" rel="stylesheet" media="all">
+    <link href="~/LayoutAdmin/vendor/css-hamburgers/hamburgers.min.css" rel="stylesheet" media="all">
+    <link href="~/LayoutAdmin/vendor/slick/slick.css" rel="stylesheet" media="all">
+    <link href="~/LayoutAdmin/vendor/select2/select2.min.css" rel="stylesheet" media="all">
+    <link href="~/LayoutAdmin/vendor/perfect-scrollbar/perfect-scrollbar.css" rel="stylesheet" media="all">
+    <!-- Main CSS-->
+    <link href="~/LayoutAdmin/css/theme.css" rel="stylesheet" media="all">
+    <link href="~/Content/common-admin.css" rel="stylesheet" />
+
+
+    <!-- Jquery JS-->
+    <script src="~/LayoutAdmin/vendor/jquery-3.2.1.min.js"></script>
+    <!-- Bootstrap JS-->
+    <script src="~/LayoutAdmin/vendor/bootstrap-4.1/popper.min.js"></script>
+    <script src="~/LayoutAdmin/vendor/bootstrap-4.1/bootstrap.min.js"></script>
+    <!-- Vendor JS       -->
+    <script src="~/LayoutAdmin/vendor/slick/slick.min.js">
+    </script>
+    <script src="~/LayoutAdmin/vendor/wow/wow.min.js"></script>
+    <script src="~/LayoutAdmin/vendor/animsition/animsition.min.js"></script>
+    <script src="~/LayoutAdmin/vendor/bootstrap-progressbar/bootstrap-progressbar.min.js">
+    </script>
+    <script src="~/LayoutAdmin/vendor/counter-up/jquery.waypoints.min.js"></script>
+    <script src="~/LayoutAdmin/vendor/counter-up/jquery.counterup.min.js">
+    </script>
+    <script src="~/LayoutAdmin/vendor/circle-progress/circle-progress.min.js"></script>
+    <script src="~/LayoutAdmin/vendor/perfect-scrollbar/perfect-scrollbar.js"></script>
+    <script src="~/LayoutAdmin/vendor/chartjs/Chart.bundle.min.js"></script>
+    <script src="~/LayoutAdmin/vendor/select2/select2.min.js"></script>
+    <!-- jquery loader -->
+    <script src="~/Scripts/jquery-loading-overlay-master/dist/loadingoverlay.min.js"></script>
+    <!--end jquery loader -->
+    <!-- jquery tags -->
+    <script src="~/Scripts/TagsInput/dist/jquery.tagsinput-revisited.min.js"></script>
+    <!-- end jquery tags -->
+    <!-- css jquery-->
+    <script src="~/Scripts/boostrap-datepicker/dist/js/bootstrap-datepicker.min.js"></script>
+    <!-- css jquery -->
+    <!--  juqery ui-->
+    <script src="~/Scripts/Jquery-ui/jquery-ui.min.js"></script>
+    <!-- end  datepicker -->
+    <!-- jquery Toastr -->
+    <script src="~/Scripts/Toastr/dist/toastr.min.js"></script>
+    <!--end jquery Toastr -->
+
+    <!-- jquery inputMask -->
+    <script src="~/Scripts/InputMask/dist/jquery.inputmask.min.js"></script>
+    <!--end jquery inputMask -->
+
+    <!-- jquery Toastr -->
+    <link href="~/Scripts/Toastr/dist/toastr.min.css" rel="stylesheet" />
+    <script src="~/Scripts/Toastr/dist/toastr.min.js"></script>
+    <!--end jquery Toastr -->
+
+    <!-- css tags input -->
+    <link href="~/Scripts/TagsInput/dist/jquery.tagsinput-revisited.min.css" rel="stylesheet" />
+    <!-- css tags input -->
+
+    <!-- css datepicker-->
+    <link href="~/Scripts/boostrap-datepicker/dist/css/bootstrap-datepicker.min.css" rel="stylesheet" />
+    <!--end css datepicker -->
+
+    <!-- css juqery ui-->
+    <link href="~/Scripts/Jquery-ui/jquery-ui.min.css" rel="stylesheet" />
+    <!-- end css datepicker -->
+   
+    <!-- jquery Toastr -->
+    <link href="~/Scripts/Toastr/dist/toastr.min.css" rel="stylesheet" />
+    <!--end jquery Toastr -->
+
+    <script>
+        var ControlModel = [];
+    </script>
+</head>
+<body class="animsition" id="body" style="font-family:Roboto">
+    <div class="page-wrapper">
+        <!-- HEADER MOBILE-->
+        
+        @Html.Partial("~/Areas/ADMIN/Views/Shared/_Header_Mobile.cshtml")
+
+        <!-- END HEADER MOBILE-->
+
+        <!-- MENU SIDEBAR-->
+
+        @Html.Partial("~/Areas/ADMIN/Views/Shared/_Menu_Sidebar.cshtml")
+        
+        <!-- END MENU SIDEBAR-->
+
+        <!-- PAGE CONTAINER-->
+        <div class="page-container">
+            <!-- HEADER DESKTOP-->
+
+            @Html.Partial("~/Areas/ADMIN/Views/Shared/_Header_Desktop.cshtml")
+
+            <!-- HEADER DESKTOP-->
+            <!-- MAIN CONTENT-->
+            <div class="main-content">
+                @RenderBody()
+
+            </div>
+            <!-- END MAIN CONTENT-->
+            <!-- END PAGE CONTAINER-->
+        </div>
+    </div>
+
+    <!-- modal scroll -->
+    <div class="modal fade" id="modal-right" tabindex="-1" role="dialog" aria-labelledby="scrollmodalLabel" aria-hidden="true">
+        <div class="modal-dialog right modal-lg" role="document">
+            <div class="modal-content" id="modal-content-right">
+              
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="modal-center" tabindex="-1" role="dialog" aria-labelledby="scrollmodalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content" id="modal-content-center">
+               
+            </div>
+        </div>
+    </div>
+    <!-- end modal scroll -->
+
+  
+
+    <!-- Main JS-->
+    <script src="~/LayoutAdmin/js/main.js"></script>
+    <script src="~/Scripts/Common/CommonAdmin.js"></script>
+</body>
+</html>
+<!-- end document-->
+
+@RenderSection("scripts", required: false)
+
+

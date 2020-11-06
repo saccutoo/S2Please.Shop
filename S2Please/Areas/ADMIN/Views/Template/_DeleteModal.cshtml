@@ -1,0 +1,22 @@
+﻿@model S2Please.Models.BaseModel
+@using S2Please.Helper
+@using S2Please.Models
+@using Newtonsoft.Json
+@using S2Please.ViewModel
+@using System.Globalization
+
+@{
+    Layout = null;
+}
+
+<div class="modal-header">
+    <h4 class="modal-title" id="scrollmodalLabel">@FunctionHelpers.GetValueLanguage("Modal.Title.QuestionDelete").ToUpper()</h4>
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+
+<div class="modal-footer">
+    <button type="button" class="btn btn-secondary" data-dismiss="modal">@FunctionHelpers.GetValueLanguage("Button.Title.Close")</button>
+    <button type="button" class="btn btn-primary" onclick="saveDelete('@Model.ID')">@FunctionHelpers.GetValueLanguage("Button.Save")</button>
+</div>

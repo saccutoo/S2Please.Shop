@@ -1,0 +1,322 @@
+﻿@model S2Please.Areas.ADMIN.ViewModel.FilterViewModel
+@using S2Please.Helper
+@using S2Please.Models
+@using Newtonsoft.Json
+@using S2Please.ViewModel
+
+@{
+    Layout = null;
+    if (Model.Type=="1")
+    {
+        Model.Columns = Model.Columns.Where(s => s.IS_FILTER == true).ToList();
+    }
+    if (Model.Type == "0")
+    {
+        Model.Columns = Model.Columns.Where(s => s.IS_SORT == true).ToList();
+
+    }
+}
+
+<style>
+    .filter ul{
+        list-style:none;
+        width:100%;
+    }
+    .filter .filter-column{
+        clear:both;
+        width:100%;
+    }
+    .filter .filter-column .filter-column-checkbox{
+       float:left;
+       margin-left:50px;
+       margin-top: 10px;
+
+    }
+    .filter .filter-column .filter-column-title{
+       float:left;
+       margin-left:30px;
+       line-height:44px;
+    }
+    .modal-body{
+        padding-left:0px;
+        padding-right:0px;
+    }
+    .filter-column-config{
+        clear: both;
+        /*height: 135px;*/
+        padding-left: 15px;
+        padding-right:15px;
+        margin-left: 48px;
+        margin-right: 30px;
+        border: 1px solid #ccc;
+    }
+    .filter-column-config .select2-selection {
+        height:35px;
+        margin-top:10px;
+        border-radius: 0px;
+        border: none;
+        border-bottom: 1px solid #ccc
+    }
+    .filter-column-config .select2-selection__rendered {
+        line-height:35px !important;
+    }
+    .filter-column-config .select2-selection__arrow {
+        line-height:35px !important;
+    }
+      .filter-column-config .tagsinput{
+       border:none;
+       border-bottom:1px solid #ccc;
+   }
+      .filter-column-config .datepicker-input{
+          border: none;
+        border-bottom: 1px solid #ccc;
+        box-shadow: none;
+      }
+      /*.select2-search__field{
+          display:none
+      }*/
+    
+     #sort-column li:hover .action-sort{
+      /*display:block;*/
+    }
+     .action-sort {
+         height: 100%;
+        margin-right: 30px;
+        line-height: 42px;
+         /*display:none;*/
+     }
+
+     .action-sort .fa.fa-arrow-up{
+         margin-right: 10px;
+     }
+</style>
+@if (!Model.IsMoblie)
+{
+    <style>
+        #sort-column li:hover {
+            background:#f0f0f0;
+           cursor: pointer !important;
+        }
+    </style>
+
+}
+<div class="modal-header">
+    @if (Model.Type == "1")
+    {
+        <h5 class="modal-title" id="scrollmodalLabel">@FunctionHelpers.GetValueLanguage("Button.Filter")</h5>
+    }
+    else
+    {
+        <h5 class="modal-title" id="scrollmodalLabel">@FunctionHelpers.GetValueLanguage("Title.OrderAndShowHide")</h5>
+    }
+    @*<button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="closeModel()">
+        <span aria-hidden="true">&times;</span>
+    </button>*@
+</div>
+<div class="modal-body">
+    <div id="filter" class="filter">
+
+        <ul class="filter-list-column" id="@(Model.Type=="1"?"":"sort-column")">
+            @if (Model.Columns != null && Model.Columns.Count > 0)
+            {
+                foreach (var column in Model.Columns.OrderBy(s=>s.ORDER))
+                {
+                    if (Model.ColumnFilters!=null && Model.ColumnFilters.Count()>0)
+                    {
+                        var data = Model.ColumnFilters.Where(s => s.COLUMN_ID == column.ID).FirstOrDefault();
+                        if (data!=null && !String.IsNullOrEmpty(data.VALUE))
+                        {
+                            column.VALUE = Model.ColumnFilters.Where(s => s.COLUMN_ID == column.ID).FirstOrDefault().VALUE.ToString();
+                        }
+                    }
+                    <li class="filter-column" column-id="@column.ID" style="@(Model.Type=="1"?"max-height:300px":"height:42px")">
+                        <input id="column_type-@column.ID" value="@column.COLUMN_TYPE" hidden />
+                        <div class="filter-column-checkbox">
+                            @Html.Partial("~/Areas/ADMIN/Views/Template/_Checkbox.cshtml", new CheckBoxViewModel()
+                       {
+                           Id = "cb-filter-column-" + column.ID.ToString(),
+                           Name = "filter-checkbox-name",
+                           Value = column.ID.ToString(),
+                           AttributeCheck = column.IS_CHECK==true && Model.Type=="1"?"checked": column.IS_SHOW == true && Model.Type == "0"?"checked":"" ,
+                           OnClick = "columnCheck(" + column.ID.ToString() + ")",
+                       })
+                        </div>
+                        <div class="filter-column-title">
+                            <span>
+                                @FunctionHelpers.GetValueLocalization(column.ID, "TABLE_COLUMN", "COLUMN_NAME")
+                            </span>
+                        </div>
+                        @if (Model.Type == "0" && Model.IsMoblie)
+                        {
+		                     <div class="action-sort pull-right ">
+                                 <span class="icon-sort fa fa-arrow-up my-button-up">
+
+                                 </span>
+                                 <span class="icon-sort fa  fa-arrow-down my-button-down">
+
+                                 </span>
+                             </div>
+	                    }
+                        @if (Model.Type == "1")
+                        {
+                            var hidden = string.Empty;
+                            if (!column.IS_CHECK)
+                            {
+                                hidden = "hidden";
+                            }
+                            var conditionColumn = Model.Conditions.Where(x => (";" + x.GROUP_FILTER_TYPE + ";").Contains(";" + column.COLUMN_TYPE.ToString() + ";")).ToList();
+                            <div class="filter-column-config" column-id="@column.ID" id="filter-column-config-@column.ID" @hidden>
+                                @Html.Partial("~/Areas/ADMIN/Views/Template/_Select.cshtml", new SelectModel()
+                               {
+                                   Id="select-condition-id-"+column.ID,
+                                   Name= "select-condition-name" + column.ID,
+                                   Class="",
+                                   //OnChange="changeCondition("+column.ID+")",
+                                   Style="",
+                                   IsMultiLanguage=true,
+                                   FieldId="ID",
+                                   PropertyName="NAME",
+                                   DataType="CL_CONDITION_FILTER",
+                                   DropdownParent= "#modal-right",
+                                   Value=column.IS_CHECK==true && Model.ColumnFilters.Where(s => s.COLUMN_ID == column.ID).FirstOrDefault() !=null? Model.ColumnFilters.Where(s=>s.COLUMN_ID==column.ID).FirstOrDefault().CONDITION_ID.ToString():"",
+                                   Datas=JsonConvert.DeserializeObject<List<dynamic>>(JsonConvert.SerializeObject(conditionColumn))
+                               })
+                                @Html.Action("FilterSelector", "Filter", new { column = column })
+                            </div>
+                        }
+                    </li>
+                    
+                }
+
+            }
+
+        </ul>
+    </div>
+
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="closeModel('@Model.Type', '@Model.TableName')">@FunctionHelpers.GetValueLanguage("Button.Cancel")</button>
+        @{
+            var buttonName = string.Empty;
+            if (Model.Type == "1")
+            {
+                buttonName = FunctionHelpers.GetValueLanguage("Button.Filter");
+            }
+            else
+            {
+                buttonName = FunctionHelpers.GetValueLanguage("Button.Save");
+            }
+        }      
+    <button type="button" class="btn btn-primary" onclick="filterAndSort('@Model.Type','@Model.TableName')">@buttonName</button>
+</div>
+
+<script>
+    var type = '@Model.Type';
+    if (type=="0") {
+        $(function () {
+            $("#sort-column").sortable();
+            //$("#sort-column").disableSelection();
+        });
+    }
+    function filterAndSort(type, tableName) {
+        loadingBody.Show();
+        var data = [];
+        if (type == "1") {
+            var inputChecks = $(".filter-column-checkbox input");
+            for (var i = 0; i < inputChecks.length; i++) {
+                if ($(inputChecks[i]).is(":checked")) {
+                    var columnId = $(inputChecks[i]).val();
+                    var conditionID = $("#select-condition-id-" + columnId).val();
+                    var columnType = $("#column_type-" + columnId).val();
+                    var value = "";
+                    if (columnType == "1" || columnType == "2") {
+                        var name = "condition-name-input-multi" + columnId;
+                        var value = $("input[name=" + "'" + name + "'" + "]").val();
+                    }
+                    else {
+                        var value = $("#input-value-" + columnId).val();
+                    }
+
+                    var obj = {
+                        COLUMN_ID: columnId,
+                        CONDITION_ID: conditionID,
+                        VALUE: value
+                    }
+                    data.push(obj);
+                }
+            }
+        }
+        else if(type=="0"){
+            var columns = $(".filter-column");
+            if (columns != null && columns.length>0) {
+                for (var i = 0; i < columns.length; i++) {
+                    //cb-filter-column-
+                    var columnName = $(columns[i])[0].getAttribute("column-name");
+                    var columnID = $(columns[i])[0].getAttribute('column-id')
+                    var check = $("#cb-filter-column-" + columnID).is(":checked");
+                    var obj = {
+                        COLUMN_ID: columnID,
+                        IS_SHOW: check,
+                        POSITION: i
+                    }
+                    data.push(obj);
+                }       
+            }
+        }
+        $.ajax({
+            type: "POST",
+            url: "/ADMIN/Filter/SaveTable",
+            data: {
+                data: data,
+                type:type,
+                tableName: tableName
+            },
+            dataType: "json",
+            success: function (response) {
+                if (type=="1") {
+                    if (response.result == null || response.result == "") {
+                        ControlModel[tableName].STRING_FILTER = "";
+                    }
+                    reaload(tableName, 1, $("#" + tableName + "-paging-items-per-page").val(), response.result)
+                    $("#modal-right").modal("hide");
+                    if (type == "1") {
+                        $(".fa-filter").css("color", "green");
+                    }
+                }
+                else if (type == "0") {
+                    reaload(tableName, 1, $("#" + tableName + "-paging-items-per-page").val(), "")
+                    $("#modal-right").modal("hide");
+
+                }
+                loadingBody.Hide();
+
+            },
+            error: function (response, status, error) {
+                loadingBody.Hide();
+            }
+        });
+    }
+
+
+    function closeModel(type, tableName) {
+        if (type=="1") {
+            $("#modal-content-right .modal-body").remove();
+            $(".fa-filter").css("color", "rgb(128, 128, 128)");
+            ControlModel[tableName].STRING_FILTER = "";
+            reaload(tableName, 1, $("#" + tableName + "-paging-items-per-page").val(), "")
+        }
+      
+
+    }
+
+    $(document).ready(function () {
+        $('.my-button-up').click(function () {
+            var current = $(this).closest('li');
+            current.prev().before(current);
+        });
+        $('.my-button-down').click(function () {
+            var current = $(this).closest('li');
+            current.next().after(current);
+        })
+    });
+</script>

@@ -1,0 +1,406 @@
+﻿@model S2Please.Areas.ADMIN.ViewModel.ProductSaveViewModel
+@using S2Please.ViewModel
+@using S2Please.Areas.ADMIN.ViewModel
+@using S2Please.Models
+@using S2Please.Helper
+@{
+    Layout = "~/Areas/ADMIN/Views/Shared/_Layout.cshtml";
+
+}
+
+<style>
+    .card{
+      margin-bottom: 5px;
+    }
+    .table-data2 thead{
+
+        background: #333;
+    }
+     .table-data2 thead th{
+
+       color:white !important;
+    }
+     .table-responsive-data2{
+         padding-left:30px;
+     }
+     .div-input-image{
+        border: 1px dotted;
+        height: 150px;
+        margin-left:10px;
+        margin-bottom:10px;
+        float:left
+     }
+     .div-input-image span{
+         line-height: 140px;
+        cursor: pointer;
+        text-align: center;
+        height: 100%;
+        width: 150px;
+        font-size: 45px;
+        cursor:pointer;
+     }
+     .div-input-image img{
+         height:100% !important;
+         width:150px !important;
+     }
+
+     .div-input-image .img-thumbnail{
+         max-width:150px !important;
+     }
+     #remove-list-image{
+         display:none;
+         color: red;
+         cursor: pointer;
+         display: none;
+         float:right;
+         line-height:40px;
+     }
+     #remove-video{
+         display:none;
+         color: red;
+         cursor: pointer;
+         display: none;
+         float:right;
+         line-height:40px;
+     }
+     .row-img-slide{
+       position: absolute;
+       margin-left: -10px;
+       margin-top: -10px;
+       cursor: pointer !important;
+       font-size: 20px;
+       color: red !important;
+     }
+     .row-img-by-color{
+        width: 50px;
+        height: 50px;
+        border: 1px solid dotted;
+        border: 1px dotted;
+        margin-top: 10px;
+        margin-left: 10px;
+        text-align:center;
+        line-height:50px;
+        font-size:20px;
+        float:left;
+        cursor:pointer !important;
+     }
+     .img-by-color{
+         width:100%;
+         height:100%;
+     }
+</style>
+<!DOCTYPE html>
+<script>
+    var listImg = [];
+    var errorImg1 = '@Model.ErrorListImg_1';
+    var errorImg2 = '@Model.ErrorListImg_2';
+    var errorImg3 = '@Model.ErrorListImg_3';
+    var errorImg4 = '@Model.ErrorListImg_4';
+    var errorVideo = '@Model.ErrorVideo';
+    var errorVideoFormat = '@Model.ErrorVideoFormat';
+
+</script>
+
+@if (Model.Product.ID == 0)
+{
+    <title>@FunctionHelpers.GetValueLanguage("Product.Title.AddProduct")</title>
+
+}
+else
+{
+    <title>@FunctionHelpers.GetValueLanguage("Product.Title.UpdateProduct")</title>
+
+}
+<div class="section__content section__content--p30">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <form id="form-product">
+                    <div id="accordion">
+                        <div class="card" >
+                            <div class="card-header" id="card-headingOne">
+                                <h5 class="mb-0">
+                                    <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                        @FunctionHelpers.GetValueLanguage("Product.Card.ProductInfomation")
+                                    </button>
+                                </h5>
+                            </div>
+                            <input type="text" value="@Model.Product.ID" id="product_id" name="model.ID" hidden/>
+                            <div id="collapseOne" class="collapse show" aria-labelledby="headingOne">
+                                <div class="card-body">
+                                    <div class="row form-group">
+                                        <div class="col col-md-6">
+                                            @Html.Partial("~/Areas/ADMIN/Views/Template/Form/_Input.cshtml", new InputModel() { Type = "text", Id = "NAME", Class = "", Name = "model.NAME", LabelName = "Product.ProductName", Value = Model.Product.NAME,IsRequied=true })
+                                        </div>
+                                        <div class="col col-md-6">
+                                            @Html.Partial("~/Areas/ADMIN/Views/Template/Form/_Textarea.cshtml", new InputModel() { Type = "text", Id = "DECRIPTION", Class = "", Name = "model.DECRIPTION", LabelName = "Product.Decription", Value = Model.Product.DECRIPTION,Style= "height:38px;" })
+                                        </div>
+                                    </div>
+                                    <div class="row form-group">
+                                        <div class="col col-md-6">
+                                            @Html.Partial("~/Areas/ADMIN/Views/Template/Form/_Select.cshtml", new SelectModel() { Id = "PRODUCT_TYPE_ID", Name = "model.PRODUCT_TYPE_ID", Datas = Model.Types, LabelName = "Product.Type", IsRequied = true, Value = Model.Product.PRODUCT_TYPE_ID.ToString(), FieldId = "ID", FieldName = "NAME",IsShowTitle=true })
+                                        </div>
+                                        <div class="col col-md-6">
+                                            @Html.Partial("~/Areas/ADMIN/Views/Template/Form/_Select.cshtml", new SelectModel() { Id = "PRODUCT_GROUP_ID", Name = "model.PRODUCT_GROUP_ID", Datas = Model.Groups, LabelName = "Product.Group", IsRequied = true, Value = Model.Product.PRODUCT_GROUP_ID.ToString(), FieldId = "ID", FieldName = "GROUP_NAME", IsShowTitle = true })
+                                        </div>
+                                    </div>
+
+                                    <div class="row form-group">
+                                        <div class="col col-md-6">
+                                            @Html.Partial("~/Areas/ADMIN/Views/Template/Form/_Input.cshtml", new InputModel() { Type = "text", Id = "PRODUCT_MATERIAL", Class = "", Name = "model.PRODUCT_MATERIAL", LabelName = "Product.ProductMateria", Value = Model.Product.PRODUCT_MATERIAL })
+                                        </div>
+                                        <div class="col col-md-6">
+                                            @Html.Partial("~/Areas/ADMIN/Views/Template/Form/_Input.cshtml", new InputModel() { Type = "text", Id = "PRODUCT_ORIGIN", Class = "", Name = "model.PRODUCT_ORIGIN", LabelName = "Product.ProductOrigin", Value = Model.Product.PRODUCT_ORIGIN })
+                                        </div>
+                                    </div>
+
+                                    <div class="row form-group">
+                                        <div class="col col-md-6">
+                                            @{ 
+                                                var check = string.Empty ;
+                                                if (Model.Product.IS_NEW)
+                                                {
+                                                    check = "checked";
+                                                }
+                                            }
+                                            @Html.Partial("~/Areas/ADMIN/Views/Template/Form/_Switch.cshtml", new InputModel() {  Id = "IS_NEW", Class = "", Name = "model.IS_NEW", LabelName = "Product.New", Value ="true" ,Attribute= check })
+                                        </div>
+                                        <div class="col col-md-6">
+                                            @{
+                                                check = "checked";
+                                                if (Model.Product.IS_SHOW!=null && !Model.Product.IS_SHOW.Value)
+                                                {
+                                                    check = string.Empty;
+                                                }
+                                            }
+                                            @Html.Partial("~/Areas/ADMIN/Views/Template/Form/_Switch.cshtml", new InputModel() { Id = "IS_SHOW", Class = "", Name = "model.IS_SHOW", LabelName = "Product.Show", Value = "true", Attribute = check })
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card" >
+                            <div class="card-header" id="card-headingTwo">
+                                <h5 class="mb-0">
+                                    <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                        @FunctionHelpers.GetValueLanguage("Product.Card.ColorAndSize")
+                                    </button>
+                                    <label class="help-block message-error" id="message-error-headingTwo" name="message-error-headingTwo" style="color:red;font-size:unset;font-weight:normal"></label>
+                                </h5>
+                            </div>
+                            <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo">
+                                <div class="card-body">
+                                    <div class="row form-group">
+                                        <div class="col col-md-6">
+                                            @{ 
+                                                var value = string.Empty;
+                                                if (Model.ProductColors!=null && Model.ProductColors.Count()>0)
+                                                {
+                                                    foreach (var item in Model.ProductColors)
+                                                    {
+                                                        if (value == string.Empty)
+                                                        {
+                                                            value = item.COLOR;
+                                                        }
+                                                        else
+                                                        {
+                                                            value += "," + item.COLOR;
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                            @Html.Partial("~/Areas/ADMIN/Views/Template/_InputMulti.cshtml", new InputModel() { Type = "text", Id = "COLOR", Class = "", Name = "model.COLOR", LabelName = "Product.GroupColor", Value = value, IsRequied = true, OnBlur = "blurColorOrSize()", IsFuntionBlur = true })
+                                        </div>
+                                        <div class="col col-md-6">
+
+                                            @{
+                                                value = string.Empty;
+                                                if (Model.ProductSizes != null && Model.ProductSizes.Count() > 0)
+                                                {
+                                                    foreach (var item in Model.ProductSizes)
+                                                    {
+                                                        if (value == string.Empty)
+                                                        {
+                                                            value = item.SIZE_NAME;
+                                                        }
+                                                        else
+                                                        {
+                                                            value += "," + item.SIZE_NAME;
+                                                        }
+                                                    }
+                                                }
+                                            }
+
+                                            @Html.Partial("~/Areas/ADMIN/Views/Template/_InputMulti.cshtml", new InputModel() { Type = "text", Id = "SIZE", Class = "", Name = "model.SIZE", LabelName = "Product.Size", Value = value, IsRequied = true, OnBlur = "blurColorOrSize()", IsFuntionBlur = true })
+                                        </div>
+                                    </div>
+                                    <div class="row form-group">
+                                        <div class="col col-md-12 " id="list-img-by-color">
+                                            @if (Model.FileColors != null && Model.FileColors.Count() > 0)
+                                            {
+                                                SlideImgViewModel vm = new SlideImgViewModel();
+                                                vm.Files = Model.FileColors;
+                                                @Html.Partial("~/Areas/ADMIN/Views/Product/_ListImgByColor.cshtml", vm)
+                                            }
+                                            else
+                                            {
+                                                @Html.Partial("~/Areas/ADMIN/Views/Product/_ListImgByColor.cshtml", new SlideImgViewModel())
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card" >
+                            <div class="card-header" id="card-headingThree">
+                                <h5 class="mb-0">
+                                    <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                                        @FunctionHelpers.GetValueLanguage("Product.ProductDetail")
+                                    </button>
+                                    <label class="help-block message-error" id="message-error-card.colorsizemap" name="message-error-Card.ColorSizeMap" style="color:red;font-size:unset;font-weight:normal"></label>
+                                </h5>
+                            </div>
+                            <div id="collapseThree" class="collapse" aria-labelledby="headingThree">
+                                <div class="card-body">
+                                    <div class="row table-responsive table-responsive-data2">
+                                        <table class="table table-data2 ">
+                                            <thead >
+                                                <tr>
+                                                    <th>@FunctionHelpers.GetValueLanguage("TableTitle.IsMain")</th>
+                                                    <th>@FunctionHelpers.GetValueLanguage("Product.ProductColor")</th>
+                                                    <th>@FunctionHelpers.GetValueLanguage("Product.Size")</th>
+                                                    <th>@FunctionHelpers.GetValueLanguage("Product.ProductPrice")</th>
+                                                    <th>@FunctionHelpers.GetValueLanguage("Product.Rate") %</th>
+                                                    <th>@FunctionHelpers.GetValueLanguage("Product.ProductAmount")</th>
+                                                    @*<th>@FunctionHelpers.GetValueLanguage("Cart.Image")</th>*@
+                                                    <th>@FunctionHelpers.GetValueLanguage("Product.Action")</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="body-color-size-map">
+                                               @if (Model.ProductMapp!=null && Model.ProductMapp.Count()>0)
+                                               {
+                                                   RowTableColorAndSizeViewModel vm = new RowTableColorAndSizeViewModel();
+                                                   List<ProductColorSizeMapperModel> ColorSizeMaps = new List<ProductColorSizeMapperModel>();
+                                                   foreach (var item in Model.ProductMapp)
+                                                   {
+                                                       ColorSizeMaps.Add(new ProductColorSizeMapperModel()
+                                                       {
+                                                           COLOR = item.COLOR,
+                                                           SIZE = item.SIZE,
+                                                           ID=item.ID,
+                                                           AMOUNT=item.AMOUNT,
+                                                           RATE=item.RATE,
+                                                           IS_MAIN=item.IS_MAIN,
+                                                           PRICE=item.PRICE,
+                                                           IMG=item.IMG
+                                                       });
+                                                   }
+                                                   vm.ColorSizeMapper = ColorSizeMaps;
+                                                   @Html.Partial("~/Areas/ADMIN/Views/Product/_RowTableColorAndSize.cshtml", vm);
+                                               }       
+                                           </tbody>
+                                        </table>
+                                    </div>
+
+                                    <button class="btn btn-info" type="button"  id="button-plus-row" onclick="plusRow()" style="margin-left:15px;margin-top:10px;display:none;">
+                                        <i class="fa fa-plus"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            @{
+                                var css = "display:block";
+                                var cssRemove = "display:none";
+                                if (Model.ProductSlides != null && Model.ProductSlides.Count() > 0)
+                                {
+                                    css = "display:none";
+                                    cssRemove = "display:block";
+                                }
+
+                            }
+                            
+                            <div class="card-header" id="card-headingFour">
+                                <h5 class="mb-0">
+                                    <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+                                       @FunctionHelpers.GetValueLanguage("Product.SileImage")
+                                    </button>
+                                    <label class="help-block message-error" id="message-error-slide-image" name="message-error-Card.SildeImage" style="color:red;font-size:unset;font-weight:normal"></label>
+
+                                    <span class="fa fa-times" id="remove-list-image" onclick="removeListImage()" style="@cssRemove"></span>
+                                </h5>
+                            </div>
+                            <div id="collapseFour" class="collapse" aria-labelledby="headingFour" style="overflow: auto;">
+                                <div class="card-body">
+                                    <div class="slide-image" id="slide-image-id">
+                                        @if (Model.FileSlides != null && Model.FileSlides.Count() > 0)
+                                        {
+                                            SlideImgViewModel vm = new SlideImgViewModel();
+                                            vm.Files = Model.FileSlides;
+                                            @Html.Partial("~/Areas/ADMIN/Views/Product/_ListSlideImg.cshtml", vm)
+                                        }
+                                        else
+                                        {
+                                            @Html.Partial("~/Areas/ADMIN/Views/Product/_ListSlideImg.cshtml", new SlideImgViewModel())
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        @*<div class="card">
+                            <div class="card-header" id="card-headingFive">
+                                <h5 class="mb-0">
+                                    <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
+                                        @FunctionHelpers.GetValueLanguage("Product.Video")
+                                    </button>
+                                    <label class="help-block message-error" id="message-error-video" name="message-error-video" style="color:red;font-size:unset;font-weight:normal"></label>
+
+                                    <span class="fa fa-times" id="remove-video" onclick="removeVideo()"></span>
+                                </h5>
+                            </div>
+                            <div id="collapseFive" class="collapse" aria-labelledby="headingFive">
+                                <div class="card-body">
+                                    <div class="video-upload">
+                                       <input type="file" id="file-video" onchange="changeVideo(this)"/> <br />
+                                     
+                                    </div>
+                                </div>
+                            </div>
+                        </div>*@
+                    </div>
+                    <div style="margin:auto">
+                        <center>
+                            <button type="button" onclick="comeBackProduct()" class="btn btn-primary">
+                                @FunctionHelpers.GetValueLanguage("Button.ComeBack")
+                            </button>
+                            @if (FunctionHelpers.CheckPermission("Product", "Update"))
+                            {
+                                <button type="button" onclick="saveProduct()" class="btn btn-success">
+                                    @FunctionHelpers.GetValueLanguage("Button.Save")
+                                </button>
+                            }                   
+                        </center>
+                       
+                    </div>
+                   
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    var slideImg = [];
+    $(document).ready(function () {
+        errorImg1 = decodeEntities(errorImg1);
+        errorImg2 = decodeEntities(errorImg2);
+        errorImg3 = decodeEntities(errorImg3);
+        errorImg4 = decodeEntities(errorImg4);
+        errorVideo = decodeEntities(errorVideo);
+        errorVideoFormat = decodeEntities(errorVideoFormat);
+    })
+</script>
+<script src="~/Scripts/Product/AdminProduct.js"></script>

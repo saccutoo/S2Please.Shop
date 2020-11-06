@@ -1,0 +1,63 @@
+﻿@model S2Please.Areas.WEB_SHOP.ViewModel.LanguageViewModel
+@{
+    Layout = null;
+}
+<style>
+    .language{
+        width:55px;
+        margin:0;
+    }
+    .filter-option img{
+        width:30px;
+        height:20px;
+    }
+    .dropdown-menu img{
+         max-width: 30px !important;
+         width:30px !important;
+         height:30px;
+    }
+</style>
+
+
+<select class="selectpicker language" data-width="fit"  onchange="changeLanguage()" id="language">
+    @foreach (var item in Model.languages)
+    {
+        var check = string.Empty;
+        if (item.ID.ToString() == Model.languageId)
+        {
+            check = "selected";
+        }
+        <option value="@item.ID" data-content='<img src="/Image/@item.LANGUAGE_IMAGE"/> ' @check></option>
+    }
+    
+</select>
+
+<script>
+    $(function () {
+        $('.selectpicker').selectpicker();
+    });
+
+    function changeLanguage() {
+        $.ajax({
+            type: "POST",
+            url: "/Base/ChangeLanguage",
+            data: {
+                languageId: $('#language').val()
+            },
+            dataType: "json",
+            success: function (msg) {
+                if (msg) {
+                    window.location.reload();
+                }
+            },
+            error: function (req, status, error) {
+                alert("Error try again");
+            }
+        });
+    }
+</script>
+@section HomePageSlider
+{
+    <script src="~/Scripts/Common/Common.js"></script>
+}
+

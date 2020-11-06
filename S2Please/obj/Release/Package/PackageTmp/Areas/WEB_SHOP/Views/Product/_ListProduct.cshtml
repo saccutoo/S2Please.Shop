@@ -1,0 +1,146 @@
+﻿@using System.Globalization
+@model S2Please.Areas.WEB_SHOP.ViewModel.ProductListViewModel
+@using S2Please.Helper
+@{
+    Layout = null;
+    CultureInfo cul = CultureInfo.GetCultureInfo("vi-VN");   // try with "en-U
+}
+
+<style>
+    .product-box img {
+        height: 270px;
+    }
+
+    .product-box {
+        height: 380px;
+    }
+    .pagination li{
+        cursor:pointer !important;
+    }
+</style>
+@if (Model.Products != null && Model.Products.Count() > 0)
+{
+    <ul class="thumbnails listing-products">
+        @foreach (var item in Model.Products)
+        {
+            <li class="span3">
+                <div class="product-box" title="@item.NAME">
+                    <span class="sale_tag"></span>
+                    <p><a href="/Product-Detail/@FunctionHelpers.Encrypt(item.ID.ToString(), FunctionHelpers.KeyEncrypt)"><img src="~/Image/@item.IMAGE" alt="" /></a></p>
+                    <a href="/Product-Detail/@FunctionHelpers.Encrypt(item.ID.ToString(), FunctionHelpers.KeyEncrypt)" style="font-size:15px" class="title">@item.NAME</a><br />
+                    @{
+                        float pricerat = item.PRICE;
+                        if (item.DISCOUNT_RATE > 0)
+                        {
+                            pricerat = item.PRICE - (item.PRICE) * (float.Parse(item.DISCOUNT_RATE.ToString()) / 100);
+                        }
+                    }
+
+                    <p class="category" style="color:red;font-size:15px;padding-top:10px">@pricerat.ToString("#,###", cul.NumberFormat) ₫</p>
+                    @if (item.DISCOUNT_RATE > 0)
+                    {
+                        var lineThrough = "text-decoration: line-through";
+                        string rate = item.DISCOUNT_RATE.ToString() + "%";
+                        <p class="price" style="font-size:12px;font-size:15px;padding:0;">
+                            <span style="@lineThrough">@item.PRICE.ToString("#,###", cul.NumberFormat) ₫</span>
+                            <span>-@rate</span>
+                        </p>
+
+                    }
+
+                </div>
+            </li>
+        }
+    </ul>
+    <hr>
+    <div class="pagination pagination-small pagination-centered">
+        <ul>
+           @{ 
+               var disabledEnvent = string.Empty;
+               if (Model.Parram.PAGE_NUMBER==1)
+               {
+                   disabledEnvent = "pointer-events: none";
+               }
+           }
+            <li style="@disabledEnvent" onclick="prev('Products')"><a>Prev</a></li>
+            @{
+                int index = Convert.ToInt16(Model.Parram.PAGE_NUMBER);
+                int maxPageShow = 0;
+
+                double totalPage = Convert.ToDouble(Model.Total) / Convert.ToDouble(Model.Parram.PAGE_SIZE);
+                if (index < totalPage)
+                {
+                    maxPageShow = Convert.ToInt16(Model.Parram.PAGE_NUMBER) + 3;
+                    if (maxPageShow > totalPage)
+                    {
+                        maxPageShow = Convert.ToInt16(Math.Ceiling(totalPage));
+                    }
+
+                }
+                else
+                {
+                    maxPageShow = Convert.ToInt16(Model.Parram.PAGE_NUMBER);
+                }
+
+                int start = 0;
+                if (totalPage < 4)
+                {
+                    start = 1;
+                }
+                else if ((maxPageShow - index) < 3)
+                {
+                    start = maxPageShow - 3;
+                }
+                else
+                {
+                    start = Convert.ToInt16(Model.Parram.PAGE_NUMBER);
+                }
+
+                if (index > 1)
+                {
+                    if (Convert.ToInt16(Math.Ceiling(totalPage)) > 4)
+                    {
+                        int dot = start - 1;
+                        <li onclick="jumpPagex ('Products',1)"><a><<</a></li>
+                        <li onclick="prevDots('Products','@dot')"><a >...</a></li>
+                    }                  
+                }
+               
+                do
+                {
+                    var active = string.Empty;
+                    if (start == Convert.ToInt16(Model.Parram.PAGE_NUMBER))
+                    {
+                        active = "active";
+                    }
+                    <li class="@active"  id="topcontrol" onclick="changePage('Products','@start')"><a>@start</a></li>
+
+                    start += 1;
+                    index++;
+                }
+                while (start <= maxPageShow);
+
+
+                if (maxPageShow < totalPage)
+                {
+                    int dot = start;
+                    <li onclick="nextDots('Products','@dot')"><a >...</a></li>
+                    <li onclick="jumpPage('Products','@Convert.ToInt16(Math.Ceiling(totalPage))')"><a >>></a></li>
+                }
+            }
+            @{ 
+                disabledEnvent = string.Empty;
+                if (Model.Parram.PAGE_NUMBER == Convert.ToInt16(Math.Ceiling(totalPage)))
+                {
+                    disabledEnvent = "pointer-events: none";
+                }
+            }
+            <li  style="@disabledEnvent" onclick="next('Products')" id="topcontrol"><a>Next</a></li>
+        </ul>
+    </div>
+ }
+<script>
+    ControlModel["Products"]=@Html.Raw(Json.Encode(Model));
+</script>
+
+

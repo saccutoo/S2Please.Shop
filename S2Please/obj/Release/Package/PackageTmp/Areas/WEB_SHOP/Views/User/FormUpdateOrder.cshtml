@@ -1,0 +1,122 @@
+﻿@model S2Please.Areas.WEB_SHOP.ViewModel.UpdateOrderViewModel
+@using System.Web.Mvc.Html
+@using S2Please.Areas.WEB_SHOP.ViewModel
+@using System.Collections.Generic
+@using S2Please.ViewModel
+@using S2Please.Helper
+@using System.Globalization
+
+@{
+    Layout = "~/Areas/WEB_SHOP/Views/Shared/_Layout.cshtml";
+    CultureInfo cul = CultureInfo.GetCultureInfo("vi-VN");   // try with "en-U
+}
+
+<form id="form-update-order">
+    <br />
+    <div class="accordion-group">
+        <div class="accordion-inner">
+            <div class="row-fluid">
+                <div class="span6">
+                    <div class="input-hidden">
+                        <input type="text" value="@Model.Order.CUSTOMER_ID" name="model.CUSTOMER_ID" style="display:none" />
+                        <input type="text" value="@Model.Order.ID" name="model.ID" style="display:none" />
+
+                    </div>
+                    <h4>@FunctionHelpers.GetValueLanguage("Cart.YourPersonalDetails")</h4>
+                    <div class="control-group">
+                        @Html.Partial("~/Views/Template/_Input.cshtml", new InputModel() { Type = "text", Id = "FULL_NAME", Class = "input-xlarge", Name = "model.FULL_NAME", LabelName = "Cart.FullName", IsRequied = true, Value = Model.Order.FULL_NAME })
+                    </div>
+                    <div class="control-group">
+                        @Html.Partial("~/Views/Template/_Input.cshtml", new InputModel() { Type = "text", Id = "EMAIL", Class = "input-xlarge", Name = "model.EMAIL", LabelName = "Authen.EmailAddress", IsRequied = true, Value = Model.Order.EMAIL })
+                    </div>
+                    <div class="control-group">
+                        @Html.Partial("~/Views/Template/_Input.cshtml", new InputModel() { Type = "text", Id = "PHONE", Class = "input-xlarge", Name = "model.PHONE", LabelName = "Cart.TelePhone", IsRequied = true, Value = Model.Order.PHONE })
+                    </div>
+                    <div class="control-group">
+                        @Html.Partial("~/Views/Template/_Input.cshtml", new InputModel() { Type = "text", Id = "FAX", Class = "input-xlarge", Name = "model.FAX", LabelName = "Fax", Value = Model.Order.FAX })
+                    </div>
+                </div>
+                <div class="span6">
+                    <h4>@FunctionHelpers.GetValueLanguage("Cart.YourAddress")</h4>
+
+                    <div class="control-group">
+                        @Html.Partial("~/Views/Template/_Select.cshtml", new SelectModel() { Id = "CITY", Name = "model.CITY", Datas = Model.Citys, Class = "input-xlarge", IsSearchAjax = false, Url = "/WEB_SHOP/Search/SearchCity", LabelName = "Cart.City", IsRequied = true, Value = Model.Order.CITY.ToString(), FieldId = "CODE", FieldName = "NAME_VN" })
+                    </div>
+                    <div class="control-group" id="select2-district">
+                        @Html.Partial("~/Views/Template/_Select.cshtml", new SelectModel() { Id = "DISTRICT", Name = "model.DISTRICT", Datas = Model.Districts, Class = "input-xlarge", LabelName = "Cart.District", IsRequied = true, Value = Model.Order.DISTRICT.ToString(), FieldId = "CODE", FieldName = "NAME_VN" })
+                    </div>
+                    <div class="control-group" id="select2-community">
+                        @Html.Partial("~/Views/Template/_Select.cshtml", new SelectModel() { Id = "COMMUNITY", Name = "model.COMMUNITY", Datas = Model.Communitys, Class = "input-xlarge", LabelName = "Cart.Community", IsRequied = true, Value = Model.Order.COMMUNITY.ToString(), FieldId = "CODE", FieldName = "NAME_VN" })
+                    </div>
+                    <div class="control-group">
+                        @Html.Partial("~/Views/Template/_Input.cshtml", new InputModel() { Type = "text", Id = "ADRESS_SPECIFIC", Class = "input-xlarge", Name = "model.ADRESS_SPECIFIC", LabelName = "Cart.Hamlet", IsRequied = true, Value = Model.Order.ADRESS_SPECIFIC })
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br />
+    <div class="accordion-group">
+        <table class="table table-striped table-responsive table-custom">
+            <thead>
+                <tr>
+                    <th>@FunctionHelpers.GetValueLanguage("Product.ProductName")</th>
+                    <th>@FunctionHelpers.GetValueLanguage("Product.GroupColor")</th>
+                    <th>@FunctionHelpers.GetValueLanguage("Product.Size")</th>
+                    <th>@FunctionHelpers.GetValueLanguage("Product.ProductAmount")</th>
+                    <th>@FunctionHelpers.GetValueLanguage("Product.ProductPrice")</th>
+                    <th>@FunctionHelpers.GetValueLanguage("Product.Rate")</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model != null && Model.OrderDetails != null && Model.OrderDetails.Count() > 0)
+                {
+                    int index=0;
+                    foreach (var item in Model.OrderDetails)
+                    {
+                        <tr>
+                            <td>
+                                <input class="display-none" name="orderDetail[@index].ID" value="@item.ID"/>
+                                <input class="display-none" name="orderDetail[@index].COLOR_ID" value="@item.COLOR_ID" />
+                                <input class="display-none" name="orderDetail[@index].SIZE_ID" value="@item.SIZE_ID" />
+                                <input class="display-none" name="orderDetail[@index].PRODUCT_ID" value="@item.PRODUCT_ID" />
+                                <input class="display-none" name="orderDetail[@index].ORDER_ID" value="@item.ORDER_ID" />
+
+                                <span>@item.PRODUCT_NAME</span>
+                            </td>
+                            <td>
+
+                                <span>@item.COLOR</span>
+                            </td>
+                            <td>
+                                <span>@item.SIZE_NAME</span>
+                            </td>
+                            <td>
+                                @Html.Partial("~/Views/Template/_Input.cshtml", new InputModel() { Type = "number", Id = "AMOUNT", Class = "input-xlarge", Name ="orderDetail["+index+"].AMOUNT", Value = item.AMOUNT.ToString() ,Style= "width:50px" })
+                            </td>
+                            <td>
+                                <span>@item.PRICE.ToString("#,###", cul.NumberFormat)</span>
+                            </td>
+                            <td>
+                                <span>@item.RATE %</span>
+                            </td>
+                        </tr>
+                        index++;
+                    }
+                }
+            </tbody>
+        </table>
+    </div>
+</form>
+<div class="modal-header">
+    <button id="btn-button-update-order" class="btn btn-inverse" type="button" onclick="updateOrder()">@FunctionHelpers.GetValueLanguage("Cart.Update")</button>
+    <button id="btn-button-comback" class="btn btn-inverse" type="button" onclick="comeBack()">@FunctionHelpers.GetValueLanguage("Button.ComeBack")</button>
+</div>
+@section scripts
+{  
+     <script>
+        var shipFees = [];
+    </script>
+    <script src="~/Scripts/Cart/CheckOut.js"></script>
+    <script src="~/Scripts/Customer/Customer.js"></script>
+}

@@ -1,0 +1,41 @@
+﻿@model S2Please.ViewModel.InputModel
+@using S2Please.Helper
+@{
+    Layout = null;
+}
+<style>
+  
+</style>
+
+@if (!String.IsNullOrEmpty(Model.LabelName))
+{
+    <div class="col col-md-3 padding-0">
+        <label class="form-control-label">
+            @FunctionHelpers.GetValueLanguage(Model.LabelName)
+            @if (Model.IsRequied)
+            {
+                <span class="star-required">*</span>
+            }
+        </label>
+    </div>
+}
+
+
+<div class="col-12 col-md-12 padding-0">
+
+    <label class="switch switch-text switch-primary" >
+        <input type="checkbox" class="switch-input @Model.Class" value="@Model.Value" onclick="@Model.OnClick" id="@Model.Id" name="@Model.Name" @Model.Attribute>
+        <span data-on="On" data-off="Off" class="switch-label " style="border: 1px solid #ccc;"></span>
+        <span class="switch-handle"></span>
+    </label>
+
+    @if (Model.IsRequied)
+    {
+        <label class="help-block message-error" name="message-error-@Model.Name"></label>
+    }
+</div>
+
+
+
+
+

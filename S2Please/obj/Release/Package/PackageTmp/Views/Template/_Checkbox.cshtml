@@ -1,0 +1,21 @@
+﻿@model S2Please.ViewModel.CheckBoxViewModel
+@{
+    Layout = null;
+}
+<style>
+    .custom-checkbox{
+        clear:both;
+    }
+    .custom-checkbox input{
+        float:left;
+    }
+     .custom-checkbox label{
+        margin-left: 20px;
+        line-height: 22px;
+    }
+</style>
+<div class="custom-control custom-checkbox">
+    <input type="checkbox" class="custom-control-input @Model.Class" id="@Model.Id" name="@Model.Name"  style="@Model.Style" value="@Model.Value"   onchange="@Model.OnChange" onkeyup="@Model.OnKeyUp" onclick="@Model.OnClick" @Model.AttributeCheck>
+    <label class="custom-control-label" for="@Model.Id" onclick="@Model.OnClick">@Model.Text</label>
+</div>
+

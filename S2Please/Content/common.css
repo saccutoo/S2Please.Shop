@@ -1,0 +1,71 @@
+﻿.requied-text{
+    color:red;
+
+}
+.message-error{
+    color:red;
+}
+.header_text {
+    margin-bottom:0px !important;
+}
+.result-message{
+    padding:0px !important;
+}
+
+.result-message div{
+    background-color:#c0f79b;
+}
+.result-message .action{
+    cursor:pointer;
+}
+.result-message .message-text{
+    font-weight:bold;
+}
+.total-cart{
+    color:red;
+}
+
+.modal-body{
+    overflow-y: unset;
+}
+ .cusor{
+       cursor:pointer !important;
+ }
+ .font-bold{
+     font-weight:bold;
+ }
+ .button-edit{
+     color:blue;
+ }
+ .display-none{
+     display:none;
+ }
+
+ .modal-dialog.right{
+    position: fixed;
+    right: 0;
+    margin: 0;
+    overflow: auto;
+    height: 100%;
+ }
+@media only screen and (max-width: 600px) {
+  .input-amount{
+		width:23px;
+	}
+  .table-custom{
+      overflow:auto;
+      display:block;
+  }
+   .table-custom td{
+      white-space:nowrap;
+  }
+   .table-custom th{
+      white-space:nowrap;
+  }
+   #gender {
+       width:268px !important;
+   }
+   .display-none{
+     display:none;
+ }
+}

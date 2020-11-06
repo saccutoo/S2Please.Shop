@@ -1,0 +1,34 @@
+﻿@model S2Please.ViewModel.InputModel
+@using S2Please.Helper
+@{
+    Layout = null;
+}
+<style>
+   .star-required{
+       color:red
+   }
+   .message-error{
+       color:red
+   }
+</style>
+
+
+@if (!String.IsNullOrEmpty(Model.LabelName))
+{
+    <label class="control-label">
+        @FunctionHelpers.GetValueLanguage(Model.LabelName)
+        @if (Model.IsRequied)
+        {
+            <span class="star-required">*</span>
+        }
+</label>
+}
+
+<div class="controls">
+    <input type="@Model.Type" id="@Model.Id.ToLower()" class="form-control @Model.Class" onkeyup="@Model.OnKeyUp" value="@Model.Value" @Model.Attribute style="@Model.Style" placeholder="@FunctionHelpers.GetValueLanguage(Model.Placeholder)" name="@Model.Name" @Model.Readonly/>  
+</div> 
+@if (Model.IsRequied)
+{
+    <label class="control-label message-error" name="message-error-@Model.Name"></label>
+}
+

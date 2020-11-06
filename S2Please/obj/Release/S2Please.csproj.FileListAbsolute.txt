@@ -1,0 +1,217 @@
+C:\Users\laptop\Documents\Visual Studio 2015\Projects\S2Please\S2Please\bin\ApplicationInsights.config
+C:\Users\laptop\Documents\Visual Studio 2015\Projects\S2Please\S2Please\bin\roslyn\csc.exe
+C:\Users\laptop\Documents\Visual Studio 2015\Projects\S2Please\S2Please\bin\roslyn\Microsoft.Build.Tasks.CodeAnalysis.dll
+C:\Users\laptop\Documents\Visual Studio 2015\Projects\S2Please\S2Please\bin\roslyn\Microsoft.CodeAnalysis.CSharp.dll
+C:\Users\laptop\Documents\Visual Studio 2015\Projects\S2Please\S2Please\bin\roslyn\Microsoft.CodeAnalysis.dll
+C:\Users\laptop\Documents\Visual Studio 2015\Projects\S2Please\S2Please\bin\roslyn\Microsoft.CodeAnalysis.VisualBasic.dll
+C:\Users\laptop\Documents\Visual Studio 2015\Projects\S2Please\S2Please\bin\roslyn\Microsoft.CSharp.Core.targets
+C:\Users\laptop\Documents\Visual Studio 2015\Projects\S2Please\S2Please\bin\roslyn\Microsoft.VisualBasic.Core.targets
+C:\Users\laptop\Documents\Visual Studio 2015\Projects\S2Please\S2Please\bin\roslyn\System.Collections.Immutable.dll
+C:\Users\laptop\Documents\Visual Studio 2015\Projects\S2Please\S2Please\bin\roslyn\System.Reflection.Metadata.dll
+C:\Users\laptop\Documents\Visual Studio 2015\Projects\S2Please\S2Please\bin\roslyn\vbc.exe
+C:\Users\laptop\Documents\Visual Studio 2015\Projects\S2Please\S2Please\bin\roslyn\VBCSCompiler.exe
+C:\Users\laptop\Documents\Visual Studio 2015\Projects\S2Please\S2Please\bin\roslyn\VBCSCompiler.exe.config
+C:\Users\laptop\Documents\Visual Studio 2015\Projects\S2Please\S2Please\bin\S2Please.dll.config
+C:\Users\laptop\Documents\Visual Studio 2015\Projects\S2Please\S2Please\bin\S2Please.dll
+C:\Users\laptop\Documents\Visual Studio 2015\Projects\S2Please\S2Please\bin\S2Please.pdb
+C:\Users\laptop\Documents\Visual Studio 2015\Projects\S2Please\S2Please\bin\Antlr3.Runtime.dll
+C:\Users\laptop\Documents\Visual Studio 2015\Projects\S2Please\S2Please\bin\EntityFramework.dll
+C:\Users\laptop\Documents\Visual Studio 2015\Projects\S2Please\S2Please\bin\EntityFramework.SqlServer.dll
+C:\Users\laptop\Documents\Visual Studio 2015\Projects\S2Please\S2Please\bin\Microsoft.AI.Agent.Intercept.dll
+C:\Users\laptop\Documents\Visual Studio 2015\Projects\S2Please\S2Please\bin\Microsoft.AI.DependencyCollector.dll
+C:\Users\laptop\Documents\Visual Studio 2015\Projects\S2Please\S2Please\bin\Microsoft.AI.PerfCounterCollector.dll
+C:\Users\laptop\Documents\Visual Studio 2015\Projects\S2Please\S2Please\bin\Microsoft.AI.ServerTelemetryChannel.dll
+C:\Users\laptop\Documents\Visual Studio 2015\Projects\S2Please\S2Please\bin\Microsoft.AI.Web.dll
+C:\Users\laptop\Documents\Visual Studio 2015\Projects\S2Please\S2Please\bin\Microsoft.AI.WindowsServer.dll
+C:\Users\laptop\Documents\Visual Studio 2015\Projects\S2Please\S2Please\bin\Microsoft.ApplicationInsights.dll
+C:\Users\laptop\Documents\Visual Studio 2015\Projects\S2Please\S2Please\bin\Microsoft.AspNet.Identity.Core.dll
+C:\Users\laptop\Documents\Visual Studio 2015\Projects\S2Please\S2Please\bin\Microsoft.AspNet.Identity.EntityFramework.dll
+C:\Users\laptop\Documents\Visual Studio 2015\Projects\S2Please\S2Please\bin\Microsoft.AspNet.Identity.Owin.dll
+C:\Users\laptop\Documents\Visual Studio 2015\Projects\S2Please\S2Please\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll
+C:\Users\laptop\Documents\Visual Studio 2015\Projects\S2Please\S2Please\bin\Microsoft.Owin.dll
+C:\Users\laptop\Documents\Visual Studio 2015\Projects\S2Please\S2Please\bin\Microsoft.Owin.Host.SystemWeb.dll
+C:\Users\laptop\Documents\Visual Studio 2015\Projects\S2Please\S2Please\bin\Microsoft.Owin.Security.Cookies.dll
+C:\Users\laptop\Documents\Visual Studio 2015\Projects\S2Please\S2Please\bin\Microsoft.Owin.Security.dll
+C:\Users\laptop\Documents\Visual Studio 2015\Projects\S2Please\S2Please\bin\Microsoft.Owin.Security.Facebook.dll
+C:\Users\laptop\Documents\Visual Studio 2015\Projects\S2Please\S2Please\bin\Microsoft.Owin.Security.Google.dll
+C:\Users\laptop\Documents\Visual Studio 2015\Projects\S2Please\S2Please\bin\Microsoft.Owin.Security.MicrosoftAccount.dll
+C:\Users\laptop\Documents\Visual Studio 2015\Projects\S2Please\S2Please\bin\Microsoft.Owin.Security.OAuth.dll
+C:\Users\laptop\Documents\Visual Studio 2015\Projects\S2Please\S2Please\bin\Microsoft.Owin.Security.Twitter.dll
+C:\Users\laptop\Documents\Visual Studio 2015\Projects\S2Please\S2Please\bin\Microsoft.Web.Infrastructure.dll
+C:\Users\laptop\Documents\Visual Studio 2015\Projects\S2Please\S2Please\bin\Newtonsoft.Json.dll
+C:\Users\laptop\Documents\Visual Studio 2015\Projects\S2Please\S2Please\bin\Owin.dll
+C:\Users\laptop\Documents\Visual Studio 2015\Projects\S2Please\S2Please\bin\SHOP.COMMON.exe
+C:\Users\laptop\Documents\Visual Studio 2015\Projects\S2Please\S2Please\bin\System.Net.Http.Formatting.dll
+C:\Users\laptop\Documents\Visual Studio 2015\Projects\S2Please\S2Please\bin\System.Web.Helpers.dll
+C:\Users\laptop\Documents\Visual Studio 2015\Projects\S2Please\S2Please\bin\System.Web.Http.dll
+C:\Users\laptop\Documents\Visual Studio 2015\Projects\S2Please\S2Please\bin\System.Web.Http.Owin.dll
+C:\Users\laptop\Documents\Visual Studio 2015\Projects\S2Please\S2Please\bin\System.Web.Http.WebHost.dll
+C:\Users\laptop\Documents\Visual Studio 2015\Projects\S2Please\S2Please\bin\System.Web.Mvc.dll
+C:\Users\laptop\Documents\Visual Studio 2015\Projects\S2Please\S2Please\bin\System.Web.Optimization.dll
+C:\Users\laptop\Documents\Visual Studio 2015\Projects\S2Please\S2Please\bin\System.Web.Razor.dll
+C:\Users\laptop\Documents\Visual Studio 2015\Projects\S2Please\S2Please\bin\System.Web.WebPages.Deployment.dll
+C:\Users\laptop\Documents\Visual Studio 2015\Projects\S2Please\S2Please\bin\System.Web.WebPages.dll
+C:\Users\laptop\Documents\Visual Studio 2015\Projects\S2Please\S2Please\bin\System.Web.WebPages.Razor.dll
+C:\Users\laptop\Documents\Visual Studio 2015\Projects\S2Please\S2Please\bin\WebGrease.dll
+C:\Users\laptop\Documents\Visual Studio 2015\Projects\S2Please\S2Please\bin\AutoMapper.dll
+C:\Users\laptop\Documents\Visual Studio 2015\Projects\S2Please\S2Please\bin\SHOP.COMMON.pdb
+C:\Users\laptop\Documents\Visual Studio 2015\Projects\S2Please\S2Please\bin\Microsoft.AI.DependencyCollector.xml
+C:\Users\laptop\Documents\Visual Studio 2015\Projects\S2Please\S2Please\bin\Microsoft.AI.ServerTelemetryChannel.xml
+C:\Users\laptop\Documents\Visual Studio 2015\Projects\S2Please\S2Please\bin\Microsoft.AI.Web.xml
+C:\Users\laptop\Documents\Visual Studio 2015\Projects\S2Please\S2Please\bin\Microsoft.AI.WindowsServer.xml
+C:\Users\laptop\Documents\Visual Studio 2015\Projects\S2Please\S2Please\bin\Microsoft.ApplicationInsights.xml
+C:\Users\laptop\Documents\Visual Studio 2015\Projects\S2Please\S2Please\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
+C:\Users\laptop\Documents\Visual Studio 2015\Projects\S2Please\S2Please\bin\Newtonsoft.Json.xml
+C:\Users\laptop\Documents\Visual Studio 2015\Projects\S2Please\S2Please\bin\System.Net.Http.Formatting.xml
+C:\Users\laptop\Documents\Visual Studio 2015\Projects\S2Please\S2Please\bin\System.Web.Helpers.xml
+C:\Users\laptop\Documents\Visual Studio 2015\Projects\S2Please\S2Please\bin\System.Web.Http.xml
+C:\Users\laptop\Documents\Visual Studio 2015\Projects\S2Please\S2Please\bin\System.Web.Http.WebHost.xml
+C:\Users\laptop\Documents\Visual Studio 2015\Projects\S2Please\S2Please\bin\System.Web.Mvc.xml
+C:\Users\laptop\Documents\Visual Studio 2015\Projects\S2Please\S2Please\bin\System.Web.Optimization.xml
+C:\Users\laptop\Documents\Visual Studio 2015\Projects\S2Please\S2Please\bin\System.Web.Razor.xml
+C:\Users\laptop\Documents\Visual Studio 2015\Projects\S2Please\S2Please\bin\System.Web.WebPages.xml
+C:\Users\laptop\Documents\Visual Studio 2015\Projects\S2Please\S2Please\bin\System.Web.WebPages.Deployment.xml
+C:\Users\laptop\Documents\Visual Studio 2015\Projects\S2Please\S2Please\bin\System.Web.WebPages.Razor.xml
+C:\Users\laptop\Documents\Visual Studio 2015\Projects\S2Please\S2Please\bin\Antlr3.Runtime.pdb
+C:\Users\laptop\Documents\Visual Studio 2015\Projects\S2Please\S2Please\bin\EntityFramework.xml
+C:\Users\laptop\Documents\Visual Studio 2015\Projects\S2Please\S2Please\bin\EntityFramework.SqlServer.xml
+C:\Users\laptop\Documents\Visual Studio 2015\Projects\S2Please\S2Please\bin\Microsoft.AspNet.Identity.Core.xml
+C:\Users\laptop\Documents\Visual Studio 2015\Projects\S2Please\S2Please\bin\Microsoft.AspNet.Identity.Owin.xml
+C:\Users\laptop\Documents\Visual Studio 2015\Projects\S2Please\S2Please\bin\Microsoft.AspNet.Identity.EntityFramework.xml
+C:\Users\laptop\Documents\Visual Studio 2015\Projects\S2Please\S2Please\bin\Microsoft.Owin.xml
+C:\Users\laptop\Documents\Visual Studio 2015\Projects\S2Please\S2Please\bin\Microsoft.Owin.Host.SystemWeb.xml
+C:\Users\laptop\Documents\Visual Studio 2015\Projects\S2Please\S2Please\bin\Microsoft.Owin.Security.xml
+C:\Users\laptop\Documents\Visual Studio 2015\Projects\S2Please\S2Please\bin\Microsoft.Owin.Security.Facebook.xml
+C:\Users\laptop\Documents\Visual Studio 2015\Projects\S2Please\S2Please\bin\Microsoft.Owin.Security.Cookies.xml
+C:\Users\laptop\Documents\Visual Studio 2015\Projects\S2Please\S2Please\bin\Microsoft.Owin.Security.OAuth.xml
+C:\Users\laptop\Documents\Visual Studio 2015\Projects\S2Please\S2Please\bin\Microsoft.Owin.Security.Google.xml
+C:\Users\laptop\Documents\Visual Studio 2015\Projects\S2Please\S2Please\bin\Microsoft.Owin.Security.Twitter.xml
+C:\Users\laptop\Documents\Visual Studio 2015\Projects\S2Please\S2Please\bin\Microsoft.Owin.Security.MicrosoftAccount.xml
+C:\Users\laptop\Documents\Visual Studio 2015\Projects\S2Please\S2Please\bin\System.Web.Http.Owin.xml
+C:\Users\laptop\Documents\Visual Studio 2015\Projects\S2Please\S2Please\bin\AutoMapper.xml
+C:\Users\laptop\Documents\Visual Studio 2015\Projects\S2Please\S2Please\obj\Release\S2Please.csprojResolveAssemblyReference.cache
+C:\Users\laptop\Documents\Visual Studio 2015\Projects\S2Please\S2Please\obj\Release\S2Please.dll
+C:\Users\laptop\Documents\Visual Studio 2015\Projects\S2Please\S2Please\obj\Release\S2Please.pdb
+C:\Users\laptop\documents\visual studio 2015\Projects\S2Please\S2Please\bin\Microsoft.AspNet.SignalR.Core.dll
+C:\Users\laptop\documents\visual studio 2015\Projects\S2Please\S2Please\bin\Microsoft.AspNet.SignalR.SystemWeb.dll
+C:\Users\laptop\documents\visual studio 2015\Projects\S2Please\S2Please\bin\Microsoft.AspNet.SignalR.Core.xml
+C:\Users\laptop\documents\visual studio 2015\Projects\S2Please\S2Please\bin\Microsoft.AspNet.SignalR.SystemWeb.xml
+C:\Users\laptop\Documents\Visual Studio 2015\Projects\S2Please\S2Please\bin\EPPlus.dll
+C:\Users\laptop\Documents\Visual Studio 2015\Projects\S2Please\S2Please\bin\EPPlus.xml
+C:\Users\laptop\documents\visual studio 2015\Projects\S2Please\S2Please\bin\ClosedXML.dll
+C:\Users\laptop\documents\visual studio 2015\Projects\S2Please\S2Please\bin\DocumentFormat.OpenXml.dll
+C:\Users\laptop\documents\visual studio 2015\Projects\S2Please\S2Please\bin\ExcelNumberFormat.dll
+C:\Users\laptop\documents\visual studio 2015\Projects\S2Please\S2Please\bin\ClosedXML.pdb
+C:\Users\laptop\documents\visual studio 2015\Projects\S2Please\S2Please\bin\ClosedXML.xml
+C:\Users\laptop\documents\visual studio 2015\Projects\S2Please\S2Please\bin\DocumentFormat.OpenXml.xml
+C:\Users\laptop\documents\visual studio 2015\Projects\S2Please\S2Please\bin\ExcelNumberFormat.xml
+C:\S2Please\S2Please\bin\ApplicationInsights.config
+C:\S2Please\S2Please\bin\roslyn\csc.exe
+C:\S2Please\S2Please\bin\roslyn\Microsoft.Build.Tasks.CodeAnalysis.dll
+C:\S2Please\S2Please\bin\roslyn\Microsoft.CodeAnalysis.CSharp.dll
+C:\S2Please\S2Please\bin\roslyn\Microsoft.CodeAnalysis.dll
+C:\S2Please\S2Please\bin\roslyn\Microsoft.CodeAnalysis.VisualBasic.dll
+C:\S2Please\S2Please\bin\roslyn\Microsoft.CSharp.Core.targets
+C:\S2Please\S2Please\bin\roslyn\Microsoft.VisualBasic.Core.targets
+C:\S2Please\S2Please\bin\roslyn\System.Collections.Immutable.dll
+C:\S2Please\S2Please\bin\roslyn\System.Reflection.Metadata.dll
+C:\S2Please\S2Please\bin\roslyn\vbc.exe
+C:\S2Please\S2Please\bin\roslyn\VBCSCompiler.exe
+C:\S2Please\S2Please\bin\roslyn\VBCSCompiler.exe.config
+C:\S2Please\S2Please\bin\S2Please.dll.config
+C:\S2Please\S2Please\bin\S2Please.dll
+C:\S2Please\S2Please\bin\S2Please.pdb
+C:\S2Please\S2Please\bin\Antlr3.Runtime.dll
+C:\S2Please\S2Please\bin\ClosedXML.dll
+C:\S2Please\S2Please\bin\DocumentFormat.OpenXml.dll
+C:\S2Please\S2Please\bin\EntityFramework.dll
+C:\S2Please\S2Please\bin\EntityFramework.SqlServer.dll
+C:\S2Please\S2Please\bin\EPPlus.dll
+C:\S2Please\S2Please\bin\ExcelNumberFormat.dll
+C:\S2Please\S2Please\bin\Microsoft.AI.Agent.Intercept.dll
+C:\S2Please\S2Please\bin\Microsoft.AI.DependencyCollector.dll
+C:\S2Please\S2Please\bin\Microsoft.AI.PerfCounterCollector.dll
+C:\S2Please\S2Please\bin\Microsoft.AI.ServerTelemetryChannel.dll
+C:\S2Please\S2Please\bin\Microsoft.AI.Web.dll
+C:\S2Please\S2Please\bin\Microsoft.AI.WindowsServer.dll
+C:\S2Please\S2Please\bin\Microsoft.ApplicationInsights.dll
+C:\S2Please\S2Please\bin\Microsoft.AspNet.Identity.Core.dll
+C:\S2Please\S2Please\bin\Microsoft.AspNet.Identity.EntityFramework.dll
+C:\S2Please\S2Please\bin\Microsoft.AspNet.Identity.Owin.dll
+C:\S2Please\S2Please\bin\Microsoft.AspNet.SignalR.Core.dll
+C:\S2Please\S2Please\bin\Microsoft.AspNet.SignalR.SystemWeb.dll
+C:\S2Please\S2Please\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll
+C:\S2Please\S2Please\bin\Microsoft.Owin.dll
+C:\S2Please\S2Please\bin\Microsoft.Owin.Host.SystemWeb.dll
+C:\S2Please\S2Please\bin\Microsoft.Owin.Security.Cookies.dll
+C:\S2Please\S2Please\bin\Microsoft.Owin.Security.dll
+C:\S2Please\S2Please\bin\Microsoft.Owin.Security.Facebook.dll
+C:\S2Please\S2Please\bin\Microsoft.Owin.Security.Google.dll
+C:\S2Please\S2Please\bin\Microsoft.Owin.Security.MicrosoftAccount.dll
+C:\S2Please\S2Please\bin\Microsoft.Owin.Security.OAuth.dll
+C:\S2Please\S2Please\bin\Microsoft.Owin.Security.Twitter.dll
+C:\S2Please\S2Please\bin\Microsoft.Web.Infrastructure.dll
+C:\S2Please\S2Please\bin\Newtonsoft.Json.dll
+C:\S2Please\S2Please\bin\Owin.dll
+C:\S2Please\S2Please\bin\SHOP.COMMON.exe
+C:\S2Please\S2Please\bin\System.Net.Http.Formatting.dll
+C:\S2Please\S2Please\bin\System.Web.Helpers.dll
+C:\S2Please\S2Please\bin\System.Web.Http.dll
+C:\S2Please\S2Please\bin\System.Web.Http.Owin.dll
+C:\S2Please\S2Please\bin\System.Web.Http.WebHost.dll
+C:\S2Please\S2Please\bin\System.Web.Mvc.dll
+C:\S2Please\S2Please\bin\System.Web.Optimization.dll
+C:\S2Please\S2Please\bin\System.Web.Razor.dll
+C:\S2Please\S2Please\bin\System.Web.WebPages.Deployment.dll
+C:\S2Please\S2Please\bin\System.Web.WebPages.dll
+C:\S2Please\S2Please\bin\System.Web.WebPages.Razor.dll
+C:\S2Please\S2Please\bin\WebGrease.dll
+C:\S2Please\S2Please\bin\AutoMapper.dll
+C:\S2Please\S2Please\bin\SHOP.COMMON.pdb
+C:\S2Please\S2Please\bin\ClosedXML.pdb
+C:\S2Please\S2Please\bin\ClosedXML.xml
+C:\S2Please\S2Please\bin\DocumentFormat.OpenXml.xml
+C:\S2Please\S2Please\bin\EPPlus.xml
+C:\S2Please\S2Please\bin\ExcelNumberFormat.xml
+C:\S2Please\S2Please\bin\Microsoft.AI.DependencyCollector.xml
+C:\S2Please\S2Please\bin\Microsoft.AI.ServerTelemetryChannel.xml
+C:\S2Please\S2Please\bin\Microsoft.AI.Web.xml
+C:\S2Please\S2Please\bin\Microsoft.AI.WindowsServer.xml
+C:\S2Please\S2Please\bin\Microsoft.ApplicationInsights.xml
+C:\S2Please\S2Please\bin\Microsoft.AspNet.SignalR.Core.xml
+C:\S2Please\S2Please\bin\Microsoft.AspNet.SignalR.SystemWeb.xml
+C:\S2Please\S2Please\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
+C:\S2Please\S2Please\bin\Newtonsoft.Json.xml
+C:\S2Please\S2Please\bin\System.Net.Http.Formatting.xml
+C:\S2Please\S2Please\bin\System.Web.Helpers.xml
+C:\S2Please\S2Please\bin\System.Web.Http.xml
+C:\S2Please\S2Please\bin\System.Web.Http.WebHost.xml
+C:\S2Please\S2Please\bin\System.Web.Mvc.xml
+C:\S2Please\S2Please\bin\System.Web.Optimization.xml
+C:\S2Please\S2Please\bin\System.Web.Razor.xml
+C:\S2Please\S2Please\bin\System.Web.WebPages.xml
+C:\S2Please\S2Please\bin\System.Web.WebPages.Deployment.xml
+C:\S2Please\S2Please\bin\System.Web.WebPages.Razor.xml
+C:\S2Please\S2Please\bin\Antlr3.Runtime.pdb
+C:\S2Please\S2Please\bin\EntityFramework.xml
+C:\S2Please\S2Please\bin\EntityFramework.SqlServer.xml
+C:\S2Please\S2Please\bin\Microsoft.AspNet.Identity.Core.xml
+C:\S2Please\S2Please\bin\Microsoft.AspNet.Identity.Owin.xml
+C:\S2Please\S2Please\bin\Microsoft.AspNet.Identity.EntityFramework.xml
+C:\S2Please\S2Please\bin\Microsoft.Owin.xml
+C:\S2Please\S2Please\bin\Microsoft.Owin.Host.SystemWeb.xml
+C:\S2Please\S2Please\bin\Microsoft.Owin.Security.xml
+C:\S2Please\S2Please\bin\Microsoft.Owin.Security.Facebook.xml
+C:\S2Please\S2Please\bin\Microsoft.Owin.Security.Cookies.xml
+C:\S2Please\S2Please\bin\Microsoft.Owin.Security.OAuth.xml
+C:\S2Please\S2Please\bin\Microsoft.Owin.Security.Google.xml
+C:\S2Please\S2Please\bin\Microsoft.Owin.Security.Twitter.xml
+C:\S2Please\S2Please\bin\Microsoft.Owin.Security.MicrosoftAccount.xml
+C:\S2Please\S2Please\bin\System.Web.Http.Owin.xml
+C:\S2Please\S2Please\bin\AutoMapper.xml
+C:\S2Please\S2Please\obj\Release\S2Please.dll
+C:\S2Please\S2Please\obj\Release\S2Please.pdb
+C:\S2Please\S2Please\bin\SHOP.COMMON.exe.config
+C:\S2Please\S2Please\obj\Release\S2Please.csprojAssemblyReference.cache
+C:\S2Please\S2Please\obj\Release\S2Please.csproj.CoreCompileInputs.cache
+C:\S2Please\S2Please\obj\Release\S2Please.csproj.CopyComplete

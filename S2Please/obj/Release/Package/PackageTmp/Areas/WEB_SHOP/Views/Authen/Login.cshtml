@@ -1,0 +1,155 @@
+﻿@model S2Please.Areas.WEB_SHOP.ViewModel.LoginViewModel
+@using S2Please.Areas.WEB_SHOP.ViewModel;
+@using S2Please.Helper
+@{
+    ViewBag.Title = "Login";
+    Layout = "~/Areas/WEB_SHOP/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    .result-message{
+        margin-bottom:0px !important;
+    }
+</style>
+@section HeaderText
+{
+    @Html.Partial("~/Areas/WEB_SHOP/Views/Shared/_Header_Img.cshtml",new HeaderImgViewModel { Image="",KeyLanguage= "Authen.LoginOrRegsiter" })
+}
+@if (Model.Is_Create && Model.Success)
+{
+    <section >
+        <div class="alert alert-success alert-dismissible fade in">
+            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+            <strong>@FunctionHelpers.GetValueLanguage("Message.Success")!</strong> @FunctionHelpers.GetValueLanguage("Authen.Message.CreateUser")
+        </div>
+    </section>
+}
+else if (Model.Is_Login == true && Model.Success == false)
+{
+    <section >
+        <div class="alert alert-danger alert-dismissible fade in">
+            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+            <strong>@FunctionHelpers.GetValueLanguage("Message.Error")!</strong> @Model.Message
+        </div>
+    </section>
+}
+<section class="main-content">
+    <div class="row">
+        <div class="span5">
+            <h4 class="title"><span class="text"><strong>@FunctionHelpers.GetValueLanguage("Authen.Login") </strong></span></h4>
+            <form action="@Url.Action("Login", "Authen", new { Area = "WEB_SHOP" })" method="post">
+                <input type="hidden" name="next" value="/">
+                <fieldset>
+                    <div class="control-group">
+                        <label class="control-label">@FunctionHelpers.GetValueLanguage("Authen.UserName") <span class="requied-text">*</span></label>
+                        <div class="controls">
+                            @{ 
+                                var valueUser = Model.Is_Create == true && Model.Success == true ? Model.User.USER_NAME : "";
+                            }
+                            <input type="text" name="USER_NAME" value="@valueUser" placeholder="@FunctionHelpers.GetValueLanguage("Authen.EnterUserName")" id="username" class="input-xlarge">
+                        </div>
+                        @if (Model.Is_Error_User_Name_Required && Model.Is_Login)
+                        {
+                            <label class="control-label message-error">@FunctionHelpers.GetValueLanguage("Error.Required") @FunctionHelpers.GetValueLanguage("Authen.UserName").ToLower() </label>
+                        }
+                    </div>
+                    <div class="control-group">
+                        <label class="control-label">@FunctionHelpers.GetValueLanguage("Authen.Password") <span class="requied-text">*</span></label>
+                        <div class="controls">
+                            @{
+                                var valuePassword = Model.Is_Create == true && Model.Success == true ? Model.User.PASS_WORD : "";
+                            }
+                            <input type="password" name="PASS_WORD" value="@valuePassword" placeholder="@FunctionHelpers.GetValueLanguage("Authen.EnterPassWord")" id="password" class="input-xlarge">
+                        </div>
+                        @if (Model.IS_Error_Password_Required && Model.Is_Login)
+                        {
+                            <label class="control-label message-error">@FunctionHelpers.GetValueLanguage("Error.Required") @FunctionHelpers.GetValueLanguage("Authen.Password").ToLower() </label>
+                        }
+                    </div>
+                    <div class="control-group">
+                        <input tabindex="3" class="btn btn-inverse large" type="submit" value="@FunctionHelpers.GetValueLanguage("Authen.SignIntoYourAccount")">
+                        <hr>
+                        <p class="reset"> <a tabindex="4" href="/ForgotPassword" title="@FunctionHelpers.GetValueLanguage("Authen.RecoverYourUsernameOrPassword")">@FunctionHelpers.GetValueLanguage("Authen.YouHaveForgottenYourPassword")</a></p>
+                    </div>
+                </fieldset>
+            </form>
+        </div>
+        <div class="span7">
+            <h4 class="title"><span class="text"><strong>@FunctionHelpers.GetValueLanguage("Authen.Register") </strong> </span></h4>
+            <form action="@Url.Action("Register", "Authen", new { Area = "WEB_SHOP" })" method="post" class="form-stacked">
+                <fieldset>
+                    <div class="control-group">
+                        <label class="control-label">@FunctionHelpers.GetValueLanguage("Authen.UserName") <span class="requied-text">*</span> </label>
+                        <div class="controls">
+                            <input type="text" name="USER_NAME" value="@Model.User.USER_NAME" placeholder="@FunctionHelpers.GetValueLanguage("Authen.EnterUserName")" class="input-xlarge">
+                        </div>      
+                        @if (Model.Is_Error_User_Name_Required && Model.Is_Create)
+                        {
+                            <label class="control-label message-error">@FunctionHelpers.GetValueLanguage("Error.Required") @FunctionHelpers.GetValueLanguage("Authen.UserName").ToLower() </label>
+                        }
+                        else if (Model.Is_Error_User_Name_Exist && Model.Is_Create)
+                        {
+                            <label class="control-label message-error">@FunctionHelpers.GetValueLanguage("Error.UserName.AlreadyExist") </label>
+                        }                             
+                    </div>
+                    <div class="control-group">
+                        <label class="control-label">@FunctionHelpers.GetValueLanguage("Authen.EmailAddress") <span class="requied-text">*</span> </label>
+                        <div class="controls">
+                            <input type="email" name="EMAIL" value="@Model.User.EMAIL" placeholder="@FunctionHelpers.GetValueLanguage("Authen.EnterEmail")" class="input-xlarge">
+                        </div>
+                        @if (Model.Is_Error_Email_Required && Model.Is_Create)
+                        {
+                            <label class="control-label message-error">@FunctionHelpers.GetValueLanguage("Error.Required") @FunctionHelpers.GetValueLanguage("Authen.EmailAddress").ToLower() </label>
+                        }
+                        else if (Model.IS_Error_Format_Email && Model.Is_Create)
+                        {
+                            <label class="control-label message-error">@FunctionHelpers.GetValueLanguage("Error.Format") @FunctionHelpers.GetValueLanguage("Authen.EmailAddress").ToLower() </label>
+                        }
+                        else if (Model.Is_Error_User_Email_Exist && Model.Is_Create)
+                        {
+                            <label class="control-label message-error">@FunctionHelpers.GetValueLanguage("Error.Email.AlreadyExist") </label>
+                        }
+                    </div>
+                    <div class="control-group">
+                        <label class="control-label">@FunctionHelpers.GetValueLanguage("Authen.Password") <span class="requied-text">*</span> </label>
+                        <div class="controls">
+                            <input type="password" name="PASS_WORD" value="@Model.User.PASS_WORD" placeholder="@FunctionHelpers.GetValueLanguage("Authen.EnterPassWord")" class="input-xlarge">
+                        </div>
+                        @if (Model.IS_Error_Password_Required && Model.Is_Create)
+                        {
+                            <label class="control-label message-error">@FunctionHelpers.GetValueLanguage("Error.Required") @FunctionHelpers.GetValueLanguage("Authen.Password").ToLower() </label>
+                        }
+                        else if(Model.IS_Error_Password_Length && Model.Is_Create)
+                        {
+                            <label class="control-label message-error">@FunctionHelpers.GetValueLanguage("Error.Password_Length") @FunctionHelpers.GetValueLanguage("Authen.Password").ToLower() </label>
+                        }
+                    </div>
+                    <div class="control-group">
+                        <label class="control-label">@FunctionHelpers.GetValueLanguage("Authen.EnterAgainPassword") <span class="requied-text">*</span> </label>
+                        <div class="controls">
+                            <input type="password" name="PASS_WORD_AGAIN" value="@Model.User.PASS_WORD_AGAIN" placeholder="@FunctionHelpers.GetValueLanguage("Authen.EnterAgainPassword")" class="input-xlarge">
+                        </div>
+                        @if (Model.IS_Error_Password_Required_Again && Model.Is_Create)
+                        {
+                            <label class="control-label message-error">@FunctionHelpers.GetValueLanguage("Error.Required") @FunctionHelpers.GetValueLanguage("Authen.Password").ToLower() </label>
+                        }
+                        else if (Model.IS_Error_Password_Not_Match_Again && Model.Is_Create)
+                        {
+                            <label class="control-label message-error">@FunctionHelpers.GetValueLanguage("Authen.Message.PasswordDoesNotMatch") </label>
+                        }
+                    </div>
+                    <div class="control-group">
+                        @*<p>Now that we know who you are. I'm not a mistake! In a comic, you know how you can tell who the arch-villain's going to be?</p>*@
+                    </div>
+                    <hr>
+                    <div class="actions"><input tabindex="9" class="btn btn-inverse large" type="submit" value="@FunctionHelpers.GetValueLanguage("Authen.CreateYourAccount")"></div>
+                </fieldset>
+            </form>
+        </div>
+    </div>
+</section>
+<script>
+    function removeMessage(html) {
+        $('#result-message').remove();
+    }
+</script>

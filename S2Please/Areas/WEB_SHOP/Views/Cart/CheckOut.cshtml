@@ -1,0 +1,340 @@
+﻿@model S2Please.Areas.WEB_SHOP.ViewModel.CheckOutViewModel
+@using System.Web.Mvc.Html
+@using S2Please.Areas.WEB_SHOP.ViewModel
+@using System.Globalization
+@using S2Please.Models
+@using System.Collections.Generic
+@using S2Please.ParramType
+@using S2Please.ViewModel
+@using S2Please.Helper
+
+@{
+    Layout = "~/Areas/WEB_SHOP/Views/Shared/_Layout.cshtml";
+    CultureInfo cul = CultureInfo.GetCultureInfo("vi-VN");   // try with "en-U
+    float total = 0;
+    float amount = 0;
+}
+<style>
+    .star-color{
+        color:red;
+    }
+    .message-error{
+        color:red;
+    }
+    .message-error-username{
+        display:none;
+    }
+    .message-error-password{
+        display:none;
+    }
+    .message-error-password1{
+        display:none;
+    }
+        .content-cart {
+        text-align: center;
+    }
+
+        .content-cart h3 {
+            color: red;
+            margin: 0px;
+            margin-top: 10px;
+        }
+
+        .content-cart i {
+            cursor: pointer;
+        }
+
+    .table img {
+        width: 50px;
+        height: 50px;
+    }
+    .input-hidden{
+        display:none;
+    }
+</style>
+
+
+@if (Model != null && Model.Carts.Count() > 0)
+{
+    @section HeaderText
+    {
+        @Html.Partial("~/Areas/WEB_SHOP/Views/Shared/_Header_Img.cshtml", new HeaderImgViewModel { Image = "", KeyLanguage = "Cart.Pay" })
+    }
+    <section class="main-content">
+        <div class="row">
+            <div class="span12">
+                <div class="accordion" id="accordion2">
+                    @if (Model.UserId == 0)
+                    {
+                        <div class="accordion-group">
+                            <div class="accordion-heading">
+                                <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseOne">@FunctionHelpers.GetValueLanguage("CheckOut.PayOption").ToUpper()</a>
+                            </div>
+                            <div id="collapseOne" class="accordion-body in collapse">
+                                <div class="accordion-inner">
+                                    <div class="row-fluid">
+
+                                        <div class="span6">
+                                            <h4>@FunctionHelpers.GetValueLanguage("CheckOut.HasCustomer")</h4>
+                                            @*<p>I am a returning customer</p>*@
+                                            <fieldset>
+                                                <div class="control-group">
+                                                    <label class="control-label">@FunctionHelpers.GetValueLanguage("Authen.UserName") <span class="star-color">*</span></label>
+                                                    <div class="controls">
+                                                        @Html.Partial("~/Views/Template/_Input.cshtml", new InputModel() { Type = "text", Placeholder = "Authen.EnterUserName", Id = "username", Class = "input-xlarge" })
+                                                    </div>
+                                                    <label class="control-label message-error message-error-username">@FunctionHelpers.GetValueLanguage("Error.Required") @FunctionHelpers.GetValueLanguage("Authen.UserName").ToLower() </label>
+                                                </div>
+                                                <div class="control-group">
+                                                    <label class="control-label">@FunctionHelpers.GetValueLanguage("Authen.Password") <span class="star-color">*</span></label>
+                                                    <div class="controls">
+                                                        @Html.Partial("~/Views/Template/_Input.cshtml", new InputModel() { Type = "password", Placeholder = "Authen.EnterPassWord", Id = "password", Class = "input-xlarge" })
+                                                    </div>
+                                                    <label class="control-label message-error message-error-password">@FunctionHelpers.GetValueLanguage("Error.Required") @FunctionHelpers.GetValueLanguage("Authen.Password").ToLower() </label>
+                                                    <label class="control-label message-error message-error-password1">@FunctionHelpers.GetValueLanguage("Error.Required") @FunctionHelpers.GetValueLanguage("Authen.Message.WrongLogin").ToLower() </label>
+                                                </div>
+                                                <button class="btn btn-inverse" type="button" onclick="login()">@FunctionHelpers.GetValueLanguage("Authen.Login")</button>
+                                            </fieldset>
+                                        </div>
+                                        <div class="span6">
+                                            <h4>@FunctionHelpers.GetValueLanguage("CheckOut.NewCustomer")</h4>
+                                            <p>@FunctionHelpers.GetValueLanguage("CheckOut.ContentNewCustomer")</p>
+                                            <fieldset>
+                                                @*<label class="radio" for="register">
+                                                        <input type="radio" name="account" value="register" id="register" checked="checked">Register Account
+                                                    </label>
+                                                    <label class="radio" for="guest">
+                                                        <input type="radio" name="account" value="guest" id="guest">Guest Checkout
+                                                    </label>
+                                                    <br>*@
+
+                                                <form action="@Url.Action("CreateAccount","Authen",new { area="WEB_SHOP"})" method="post">
+                                                    <button class="btn btn-inverse" type="submit">@FunctionHelpers.GetValueLanguage("CheckOut.CreateAccount")</button>
+                                                </form>
+
+                                            </fieldset>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+
+                    <form id="form-order">
+                        <div class="accordion-group" >
+                            <div class="accordion-heading" id="group-account-billing-details">
+                                <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseTwo">@FunctionHelpers.GetValueLanguage("Cart.AccountAndBillingDetails").ToUpper()</a>
+                            </div>
+                            <div id="collapseTwo" class="accordion-body collapse">
+                                <div class="accordion-inner">
+                                    <div class="row-fluid">
+                                        <div class="span6">
+                                           <div class="input-hidden">
+                                               <input type="text" value="@Model.Customer.ID" name="model.CUSTOMER_ID" class="hidden" />
+                                               <input type="text" id="fee_ship" name="model.FEE_SHIP" class="hidden" />
+                                           </div>
+                                            <h4>@FunctionHelpers.GetValueLanguage("Cart.YourPersonalDetails")</h4>
+                                            <div class="control-group">
+                                                @Html.Partial("~/Views/Template/_Input.cshtml", new InputModel() { Type = "text", Id = "FULL_NAME", Class = "input-xlarge", Name = "model.FULL_NAME", LabelName = "Cart.FullName", IsRequied = true ,Value=Model.Customer.FULL_NAME})
+                                            </div>
+                                            <div class="control-group">
+                                                @Html.Partial("~/Views/Template/_Input.cshtml", new InputModel() { Type = "text", Id = "EMAIL", Class = "input-xlarge", Name = "model.EMAIL", LabelName = "Authen.EmailAddress", IsRequied = true, Value = Model.Customer.EMAIL })
+                                            </div>
+                                            <div class="control-group">
+                                                @Html.Partial("~/Views/Template/_Input.cshtml", new InputModel() { Type = "text", Id = "PHONE", Class = "input-xlarge", Name = "model.PHONE", LabelName = "Cart.TelePhone", IsRequied = true, Value = Model.Customer.PHONE })
+                                            </div>
+                                            <div class="control-group">
+                                                @Html.Partial("~/Views/Template/_Input.cshtml", new InputModel() { Type = "text", Id = "FAX", Class = "input-xlarge", Name = "model.FAX", LabelName = "Fax", Value = Model.Customer.FAX })
+                                            </div>
+                                        </div>
+                                        <div class="span6">
+                                            <h4>@FunctionHelpers.GetValueLanguage("Cart.YourAddress")</h4>
+
+                                            <div class="control-group">
+                                                @Html.Partial("~/Views/Template/_Select.cshtml", new SelectModel() { Id = "CITY", Name = "model.CITY", Datas =Model.Citys, Class = "input-xlarge", IsSearchAjax = false, Url = "/WEB_SHOP/Search/SearchCity", LabelName = "Cart.City", IsRequied = true, Value = Model.Customer.CITY.ToString(),FieldId="CODE",FieldName="NAME_VN" })
+                                            </div>
+                                            <div class="control-group" id="select2-district">
+                                                @Html.Partial("~/Views/Template/_Select.cshtml", new SelectModel() { Id = "DISTRICT", Name = "model.DISTRICT", Datas = Model.Districts, Class = "input-xlarge", LabelName = "Cart.District", IsRequied = true, Value = Model.Customer.DISTRICT.ToString(), FieldId = "CODE", FieldName = "NAME_VN" })
+                                            </div>
+                                            <div class="control-group" id="select2-community">
+                                                @Html.Partial("~/Views/Template/_Select.cshtml", new SelectModel() { Id = "COMMUNITY", Name = "model.COMMUNITY", Datas = Model.Communitys, Class = "input-xlarge", LabelName = "Cart.Community", IsRequied = true,Value=Model.Customer.COMMUNITY.ToString(), FieldId = "CODE", FieldName = "NAME_VN" })
+                                            </div>
+                                            <div class="control-group">
+                                                @Html.Partial("~/Views/Template/_Input.cshtml", new InputModel() { Type = "text", Id = "ADRESS_SPECIFIC", Class = "input-xlarge", Name = "model.ADRESS_SPECIFIC", LabelName = "Cart.Hamlet", IsRequied = true, Value = Model.Customer.ADRESS_SPECIFIC })
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="accordion-group">
+                            <div class="accordion-heading">
+                                <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseThree">@FunctionHelpers.GetValueLanguage("Cart.MethodPay").ToUpper()</a>
+                            </div>
+                            <div id="collapseThree" class="accordion-body collapse">
+                                <div class="accordion-inner">
+                                    <div class="row-fluid">
+                                        <div class="control-group">
+
+                                            @if (Model != null && Model.MethodPays != null && Model.MethodPays.Count() > 0)
+                                            {
+                                                foreach (var item in Model.MethodPays)
+                                                {
+                                                    @Html.Partial("~/Views/Template/_Radio.cshtml", new InputModel()
+                                                   {
+                                                       Id = "NAME_" + item.ID,
+                                                       Name = "model.METHOD_PAY",
+                                                       LabelName = FunctionHelpers.GetValueLocalization(item.ID, "CL_METHOD_PAY", "NAME"),
+                                                       Attribute = item.ID == 2 ? "checked='checked'" : "",
+                                                       Value = item.ID.ToString()
+                                                        })
+                                                    }
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="accordion-group">
+                            <div class="accordion-heading">
+                                <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseThree4">@FunctionHelpers.GetValueLanguage("Cart.CartDetail").ToUpper()</a>
+                            </div>
+                            <div id="collapseThree4" class="accordion-body collapse">
+                                <div class="accordion-inner">
+                                    <div class="row-fluid">
+                                        <table class="table table-striped table-responsive table-custom">
+                                            <thead>
+                                                <tr>
+                                                    <th>@FunctionHelpers.GetValueLanguage("Cart.Image")</th>
+                                                    <th>@FunctionHelpers.GetValueLanguage("Cart.ProductName")</th>
+                                                    <th>@FunctionHelpers.GetValueLanguage("Cart.Amount")</th>
+                                                    <th>@FunctionHelpers.GetValueLanguage("Cart.Price")</th>
+                                                    <th>@FunctionHelpers.GetValueLanguage("Cart.IntoMoney")</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @foreach (var item in Model.Carts)
+                                                {
+                                                    <tr>                                                     
+                                                        <td>
+                                                            <a href="/Product-Detail/@FunctionHelpers.Encrypt(item.PRODUCT_ID.ToString(),FunctionHelpers.KeyEncrypt)">
+                                                                <img src="~/Image/@item.ProductColorSizeMapper.IMG" alt="" />
+                                                            </a>
+                                                        </td>
+                                                        <td>
+                                                            @item.NAME <br />
+                                                            @FunctionHelpers.GetValueLanguage("Product.GroupColor"):@item.ProductColorSizeMapper.COLOR<br />
+                                                            @FunctionHelpers.GetValueLanguage("Product.Size"): @item.ProductColorSizeMapper.SIZE_NAME
+
+                                                        </td>
+                                                        <td>
+                                                            @item.AMOUNT
+                                                        </td>
+                                                        <td>
+                                                            @{
+                                                                float pricerat = item.ProductColorSizeMapper.PRICE;
+                                                                if (item.ProductColorSizeMapper.DISCOUNT_RATE > 0)
+                                                                {
+                                                                    pricerat = item.ProductColorSizeMapper.PRICE - (item.ProductColorSizeMapper.PRICE) * (float.Parse(item.ProductColorSizeMapper.DISCOUNT_RATE.ToString()) / 100);
+                                                                }
+                                                            }
+                                                            <strong>@pricerat.ToString("#,###", cul.NumberFormat)</strong> <span style="color:red">₫</span>
+                                                            @if (item.ProductColorSizeMapper.DISCOUNT_RATE > 0)
+                                                            {
+                                                                var lineThrough = "text-decoration: line-through";
+                                                                string rate = item.ProductColorSizeMapper.DISCOUNT_RATE.ToString() + "%";
+                                                                <p class="price" style="font-size:12px;font-size:15px;padding:0;">
+                                                                    <span style="@lineThrough"><strong>@item.ProductColorSizeMapper.PRICE.ToString("#,###", cul.NumberFormat)</strong> <span style="color:red">₫</span></span>
+                                                                    <span>-@rate</span>
+                                                                </p>
+
+                                                            }
+
+                                                        </td>
+                                                        <td>
+                                                            @{
+                                                                float intoMoney = pricerat * item.AMOUNT;
+                                                            }
+                                                            <strong>@intoMoney.ToString("#,###", cul.NumberFormat) </strong> <span style="color:red">₫</span>
+                                                        </td>
+                                                    </tr>
+                                                     total += intoMoney;
+                                                     amount += int.Parse(item.AMOUNT.ToString());
+                                              }                                              
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                     <div class="row-fluid">
+                                         <input type="text" value="@total" id="input-total"  class="hidden"/>
+                                         <input type="text"  id="fee_ship" name="model.FEE_SHIP" class="hidden" />
+
+                                         <div class="pull-right">
+                                             @FunctionHelpers.GetValueLanguage("Cart.TotalAmount"): <strong>@amount</strong><br />
+                                             @FunctionHelpers.GetValueLanguage("Cart.ShipFee"): <strong id="fee-ship"> </strong><span style="color:red"> ₫</span><br />
+                                             @FunctionHelpers.GetValueLanguage("Cart.TotalMoney"): <strong id="total"></strong> <span style="color:red"> ₫</span>
+                                         </div>
+                                        
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        
+                    </form>
+                    <div class="button-order">
+                        <center>
+                            <button id="btn-button-order" class="btn btn-inverse" type="button" onclick="backToCart()">@FunctionHelpers.GetValueLanguage("Cart.YourCart")</button>
+                            <button id="btn-button-order" class="btn btn-inverse" type="button" onclick="order()">@FunctionHelpers.GetValueLanguage("Cart.Order")</button>
+                        </center>
+                    </div>                 
+                </div>
+
+            </div>
+        </div>
+    </section>
+}
+else
+{
+    <section class="main-content">
+        <div class="row">
+            <div class="span12">
+                <div class="content-cart">
+                    <h3>@FunctionHelpers.GetValueLanguage("Cart.NoHasProduct")</h3><br />
+                    <a href="/home-page"><i class="fas fa-cart-plus" style="font-size: 111px;"></i></a>
+                </div>
+            </div>
+        </div>
+    </section>
+}
+
+
+@section scripts
+{
+    <script>
+        var shipFees=@Html.Raw(Json.Encode(Model.ShipFees));
+        var customerId='@Model.Customer.ID';
+        var cityId='@Model.Customer.CITY';
+        var data = $.grep(shipFees, function (element, index) {
+            return element.CODE_CITY != 0;
+        });
+        debugger
+        if (customerId!='0' && cityId==data[0].CODE_CITY) {
+            $("#fee-ship").text(parseFloat(data[0].PRICE, 10).toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, "$1,").toString());
+            var total = $("#input-total").val();
+            total = parseInt(total) + data[0].PRICE;
+            $("#fee_ship").val(data[0].PRICE);
+            $("#total").text(parseFloat(total, 10).toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, "$1,").toString());
+            $("#fee_ship").val(shipFees[0].ID);
+        }
+        else {
+            $("#fee-ship").text(parseFloat(data[0].PRICE, 10).toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, "$1,").toString());
+            var total = $("#input-total").val();
+            total = parseInt(total) + data[0].PRICE;
+            $("#fee_ship").val(data[0].PRICE);
+            $("#total").text(parseFloat(total, 10).toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, "$1,").toString());
+            $("#fee_ship").val(shipFees[1].ID);
+
+        }
+    </script>
+    <script src="~/Scripts/Cart/CheckOut.js"></script>
+}

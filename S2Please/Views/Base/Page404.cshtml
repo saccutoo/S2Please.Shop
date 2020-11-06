@@ -1,0 +1,37 @@
+﻿@model S2Please.Models.Page404Model
+@using S2Please.Helper
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+
+
+    <title>404</title>
+
+  
+    <link type="text/css" rel="stylesheet" href="~/colorlib-error-404-12/css/style.css" />
+
+
+
+</head>
+
+<body>
+    <div id="notfound">
+        <div class="notfound">
+            <div class="notfound-404">
+                <h1>4<span></span>4</h1>
+            </div>
+            <h2>@FunctionHelpers.GetValueLanguage("Permisson.PageNotBeFound")</h2>
+            <p>@String.Format(FunctionHelpers.GetValueLanguage("Permisson.PageNotBeFoundContent"),Model.USER_NAME)</p>
+            <a href="/admin/white-page">Trở về trang chủ</a>
+        </div>
+    </div>
+
+</body>
+</html>
+

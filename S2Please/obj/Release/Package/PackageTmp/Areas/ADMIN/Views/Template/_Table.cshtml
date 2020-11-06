@@ -1,0 +1,169 @@
+﻿@model S2Please.Models.TableViewModel
+@using S2Please.Helper
+
+@{
+    Layout = null;
+}
+<style>
+    .table-data2 thead {
+        background: #333;
+    }
+
+    .table-data2 th {
+        color: white !important;
+    }
+
+    .color-button-blue {
+        background-color: #4066f0 !important;
+    }
+</style>
+<h3 class="title-5 m-b-35">@Model.TITLE_TABLE_NAME</h3>
+<div class="table-data__tool">
+    <div class="table-data__tool-left">
+        @*<div class="rs-select2--light rs-select2--md">
+                <select class="js-select2" name="property">
+                    <option selected="selected">All Properties</option>
+                    <option value="">Option 1</option>
+                    <option value="">Option 2</option>
+                </select>
+                <div class="dropDownSelect2"></div>
+            </div>
+            <div class="rs-select2--light rs-select2--sm">
+                <select class="js-select2" name="time">
+                    <option selected="selected">Today</option>
+                    <option value="">3 Days</option>
+                    <option value="">1 Week</option>
+                </select>
+                <div class="dropDownSelect2"></div>
+            </div>*@
+        <button class="au-btn-filter" onclick="showPopupColumn('1','@Model.TABLE_NAME')">
+            <i class="fa fa-filter"></i>@FunctionHelpers.GetValueLanguage("Button.Filter")
+        </button>
+        <button class="au-btn-filter" onclick="showPopupColumn('0','@Model.TABLE_NAME')">
+            <i class="fa fa-unsorted"></i>@FunctionHelpers.GetValueLanguage("Button.Sort")
+        </button>
+        @if (Model.BULK_ACTION != null && Model.BULK_ACTION.Count() > 0)
+        {
+            foreach (var action in Model.BULK_ACTION)
+            {
+                var funtionNameButon = action.FUNTION_NAME;
+                if (Model.DATA != null && Model.DATA.Count() > 0)
+                {
+                    foreach (var data in Model.DATA)
+                    {
+
+                        foreach (Newtonsoft.Json.Linq.JProperty property in data)
+                        {
+                            if (!String.IsNullOrEmpty(funtionNameButon))
+                            {
+                                string valueReplace = "{" + property.Name + "}";
+                                if (data[property.Name] != null && data[property.Name].Value != null)
+                                {
+                                    funtionNameButon = funtionNameButon.Replace(valueReplace, data[property.Name].Value.ToString());
+                                }
+                            }
+                        }
+
+                    }
+                }
+                if (action.DROPDOWN != null && action.DROPDOWN.Count() > 0)
+                {
+                    bool check = false;
+                    foreach (var dropdown in action.DROPDOWN)
+                    {
+                        if (dropdown != null && FunctionHelpers.CheckPermission(Model.MENU_NAME, dropdown.ACTION_NAME))
+                        {
+                            check = true;
+                            break;
+                        }
+                    }
+                    if (true)
+                    {
+
+                    }
+                    if (check)
+                    {
+                        
+
+                        <button class="au-btn-filter" data-toggle="dropdown" title="@FunctionHelpers.GetValueLanguage(action.BUTTON_NAME)" onclick="@funtionNameButon" type="button" data-placement="top">
+                            <i class=""></i>@FunctionHelpers.GetValueLanguage(action.BUTTON_NAME)
+                        </button>
+
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown1">
+
+                            @foreach (var dropdown in action.DROPDOWN)
+                            {
+                                funtionNameButon = dropdown.FUNTION_NAME;
+                                if (Model.DATA != null && Model.DATA.Count() > 0)
+                                {
+                                    foreach (var data in Model.DATA)
+                                    {
+                                        foreach (Newtonsoft.Json.Linq.JProperty property in data)
+                                        {
+                                            if (!String.IsNullOrEmpty(funtionNameButon))
+                                            {
+                                                string valueReplace = "{" + property.Name + "}";
+                                                if (data[property.Name] != null && data[property.Name].Value != null)
+                                                {
+                                                    funtionNameButon = funtionNameButon.Replace(valueReplace, data[property.Name].Value.ToString());
+                                                }
+                                            }
+                                        }
+
+                                    }
+                                }
+                                if (dropdown != null && FunctionHelpers.CheckPermission(Model.MENU_NAME, dropdown.ACTION_NAME))
+                                {
+                                    <a class="dropdown-item cusor" onclick="@funtionNameButon">@FunctionHelpers.GetValueLanguage(dropdown.BUTTON_NAME)</a>
+                                }
+                            }
+                        </div>
+                    }
+
+                }
+                else
+                {
+                    if (action != null && FunctionHelpers.CheckPermission(Model.MENU_NAME, action.ACTION_NAME))
+                    {
+                        <button class="item" data-toggle="tooltip" data-placement="top" title="@FunctionHelpers.GetValueLanguage(action.BUTTON_NAME)" onclick="@funtionNameButon" type="button">
+                            <i class="@action.CLASS"></i>
+                        </button>
+                    }
+
+                }
+            }
+        }
+    </div>
+    <div class="table-data__tool-right">
+        @if (FunctionHelpers.CheckPermission(Model.MENU_NAME, "Update"))
+        {
+            <button class="au-btn au-btn-icon au-btn--green au-btn--small" onclick="clickAdd()">
+                <i class="zmdi zmdi-plus"></i>@FunctionHelpers.GetValueLanguage("Btn_Add")
+            </button>
+        }
+        @if (FunctionHelpers.CheckPermission(Model.MENU_NAME, "Export"))
+        {
+            <button class="au-btn au-btn-icon au-btn--green au-btn--small color-button-blue" onclick="exportExcel('@Model.TABLE_NAME')">
+                <i class="fa fa-download"></i>@FunctionHelpers.GetValueLanguage("Btn_Export")
+            </button>
+        }@if (FunctionHelpers.CheckPermission(Model.MENU_NAME, "Import"))
+        {
+            <button class="au-btn au-btn-icon au-btn--green au-btn--small color-button-blue">
+                <i class="fa fa-upload"></i>@FunctionHelpers.GetValueLanguage("Btn_Import")
+            </button>
+        }
+        @*<div class="rs-select2--dark rs-select2--sm rs-select2--dark2">
+                <select class="js-select2" name="type">
+                    <option selected="selected">Export</option>
+                    <option value="">Option 1</option>
+                    <option value="">Option 2</option>
+                </select>
+                <div class="dropDownSelect2"></div>
+            </div>*@
+    </div>
+</div>
+<div id="table-@Model.TABLE_NAME">
+    @Html.Partial("~/Areas/ADMIN/Views/Template/_TableContent.cshtml", Model)
+</div>
+
+<script src="~/Scripts/Common/Table.js"></script>

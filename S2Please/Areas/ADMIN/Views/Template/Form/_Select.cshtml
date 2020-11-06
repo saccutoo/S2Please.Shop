@@ -1,0 +1,109 @@
+﻿@model S2Please.ViewModel.SelectModel
+@using S2Please.Helper
+@{
+    Layout = null;
+}
+<style>
+   .select2-search__field{
+       height:30px !important;
+   }
+   .select2-message-error{
+       margin-top:10px;
+   }
+     .select2-selection{
+       height: 40px !important;
+      border-radius: 0 !important;
+   }
+  .select2-selection__rendered{
+      line-height: 40px !important;
+  }
+</style>
+
+@if (!String.IsNullOrEmpty(Model.LabelName))
+{
+    <div class="col col-md-3 padding-0">
+        <label class="form-control-label">
+            @FunctionHelpers.GetValueLanguage(Model.LabelName)
+            @if (Model.IsRequied)
+            {
+                <span class="star-required">*</span>
+            }
+        </label>
+    </div>
+} 
+
+
+<div class="col-12 col-md-12 padding-0">
+    <select id="@Model.Id.ToLower()" name="@Model.Name" class="@Model.Class form-control" onchange="@Model.OnChange" style="@Model.Style" @Model.Attribute>
+        @if (Model.IsShowTitle)
+        {
+            <option value="0">-- @FunctionHelpers.GetValueLanguage("Dropdown.Select") --</option>
+        }
+
+        @if (Model.Datas != null && Model.Datas.Count() > 0 && Model.IsSearchAjax == false)
+        {
+            foreach (var item in Model.Datas)
+            {
+                var selected = string.Empty;
+                if (item[Model.FieldId] != null && item[Model.FieldId].Value.ToString() == Model.Value)
+                {
+                    selected = "selected";
+                }
+                if (Model.IsMultiLanguage)
+                {
+                    <option value="@item[Model.FieldId].Value" @selected> @FunctionHelpers.GetValueLocalization(long.Parse(item[Model.FieldId].Value.ToString()), Model.DataType, Model.PropertyName)</option>
+                }
+                else
+                {
+                    <option value="@item[Model.FieldId].Value" @selected> @item[Model.FieldName]</option>
+                }
+            }
+        }
+    </select>
+
+    @if (Model.IsRequied)
+    {
+        <label class="help-block message-error select2-message-error" id="message-error-@Model.Id.ToLower()" name="message-error-@Model.Name" ></label>
+    }
+    else
+    {
+        <label ></label>
+    }
+</div>
+
+<script>
+    $(document).ready(function () {
+        var isSearchAjax = '@Model.IsSearchAjax';
+        if (isSearchAjax == 'False') {
+            $('#' + '@Model.Id.ToLower()').select2();
+        }
+        else {
+            $('#' + '@Model.Id.ToLower()').select2({
+                //minimumInputLength: 1,
+                ajax: {
+                    url: '@Model.Url',
+                    dataType: 'json',
+                    type: "POST",
+                    quietMillis: 50,
+                    data: function (term) {
+                        return {
+                            value: term.term
+                        };
+                    },
+                    processResults: function (data) {
+                        return {
+                            results: $.map(data.datas, function (item) {
+                                return {
+                                    text: item.NAME,
+                                    id: item.CODE
+                                }
+                            })
+                        };
+                    }
+                }
+            })
+        }
+    })
+    
+</script>
+

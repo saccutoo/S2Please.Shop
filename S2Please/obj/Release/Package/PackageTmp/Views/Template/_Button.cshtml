@@ -1,0 +1,10 @@
+﻿@model S2Please.ViewModel.ButtonModel
+@using S2Please.Helper
+@{
+    Layout = null;
+}
+<style>
+   
+</style>
+<button type="@Model.Type" class="btn @Model.Class" style="@Model.Style" id="@Model.Id" name="@Model.Name" onclick="@Model.OnClick" Title="@FunctionHelpers.GetValueLanguage(Model.Title)">@Model.Text</button>   
+

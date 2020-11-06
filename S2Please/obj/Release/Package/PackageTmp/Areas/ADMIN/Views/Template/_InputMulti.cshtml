@@ -1,0 +1,40 @@
+﻿@model S2Please.ViewModel.InputModel
+@using S2Please.Helper
+@{
+    Layout = null;
+}
+<style>
+   .star-required{
+       color:red
+   }
+   .message-error{
+       color:red
+   }
+ 
+</style>
+
+
+@if (!String.IsNullOrEmpty(Model.LabelName))
+{
+    <label class="control-label">
+        @FunctionHelpers.GetValueLanguage(Model.LabelName)
+        @if (Model.IsRequied)
+        {
+            <span class="star-required">*</span>
+        }
+</label>
+}
+
+<div class="controls">
+    <input id="@Model.Id.ToLower()" name="@Model.Name" class="@Model.Class" style="@Model.Style" value="@Model.Value" onblur="@Model.OnBlur">
+</div> 
+
+<label class="control-label message-error" name="message-error-@Model.Name"></label>
+
+
+<script>
+    var funtionBlur = '@Model.IsFuntionBlur';
+    if (funtionBlur=='False') {
+        $('#' + '@Model.Id.ToLower()').tagsInput({});
+    }
+</script>

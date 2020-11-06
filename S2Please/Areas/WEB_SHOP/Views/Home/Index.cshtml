@@ -1,0 +1,98 @@
+﻿@using S2Please.Areas.WEB_SHOP.ViewModel
+@model S2Please.Areas.WEB_SHOP.ViewModel.ProductViewModel
+@using S2Please.ViewModel
+@using S2Please.Helper
+
+
+@{
+    ViewBag.Title = "S2Please";
+    Layout = "~/Areas/WEB_SHOP/Views/Shared/_Layout.cshtml";
+}
+
+@section HomePageSlider
+{
+    @Html.Partial("~/Areas/WEB_SHOP/Views/Shared/_Home_Slider.cshtml")
+}
+@section HeaderText
+{
+    @*@Html.Partial("~/Areas/WEB_SHOP/Views/Shared/_Header_Text.cshtml")*@
+}
+
+@section FeatureBox
+{
+    @Html.Partial("~/Areas/WEB_SHOP/Views/Shared/_Feature_Box.cshtml")
+}
+
+
+@*@section OurClient
+{
+    @Html.Partial("~/Areas/WEB_SHOP/Views/Shared/_OurClient.cshtml")
+}*@
+
+@*<button class="btn btn-danger" id="btn-test">test</button>*@
+
+<div class="row">
+    <div class="span12">
+        @if (Model.Products.Count() > 0 && Model.ProductTypes.Count() > 0)
+        {
+            foreach (var pt in Model.ProductGroups)
+            {
+
+                <div class="row">
+                    <div class="span12">
+                        @if (pt.TYPE == LayoutViewModel.ProductNew)
+                        {
+                            if (Model.Products.Where(s => s.IS_NEW == true).Count() > 0)
+                            {
+                                @Html.Partial("~/Areas/WEB_SHOP/Views/Product/_ProductContent.cshtml", new ProductContentViewModel() { Product_Type_Id = pt.ID, Products = Model.Products.Where(s => s.IS_NEW == true).ToList(), Name = FunctionHelpers.GetValueLocalization(pt.ID, "PRODUCT_GROUP", "NAME"), Param = Model.Param, Index = 0 });
+                            }
+                        }
+                        else
+                        {
+                            if (Model.Products.Where(s => s.PRODUCT_GROUP_ID == pt.ID && s.IS_NEW == false).Count() > 0)
+                            {
+                                @Html.Partial("~/Areas/WEB_SHOP/Views/Product/_ProductContent.cshtml", new ProductContentViewModel() { Product_Type_Id = pt.ID, Products = Model.Products.Where(s => s.PRODUCT_GROUP_ID == pt.ID && s.IS_NEW == false).ToList(), Name = FunctionHelpers.GetValueLocalization(pt.ID, "PRODUCT_GROUP", "NAME"), Param = Model.Param, Index = 0 });
+                            }
+                        }
+
+                    </div>
+                </div>
+                <br />
+            }
+
+        }
+    </div>
+</div>
+
+@section scripts
+{
+
+    @*<script>
+        $(function () {
+            $(document).ready(function () {
+                var test = $.connection.tesHub;
+                test.client.addNewMessageToPage = function (name, message) {
+                    alert(message);
+                };
+
+                $.connection.hub.start().done(function () {
+                    $('#btn-test').click(function () {
+                        test.server.send('vinh', 'Đặt hàng thành công');
+                    });
+                });
+
+            });
+
+        });
+
+        function htmlEncode(value) {
+            var encodedValue = $('<div />').text(value).html();
+            return encodedValue;
+        }
+
+        //$('#btn-test').click(function () {
+        //    loadingBody.Show();
+        //});
+
+    </script>*@
+}

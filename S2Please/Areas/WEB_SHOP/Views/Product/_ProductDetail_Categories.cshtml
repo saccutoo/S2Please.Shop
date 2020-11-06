@@ -1,0 +1,59 @@
+﻿@using System.Globalization
+@model S2Please.Areas.WEB_SHOP.ViewModel.ProductDetailListCategoriesViewModel
+@using S2Please.Helper
+@{
+    Layout = null;
+}
+
+@{
+    if (Model.ProductTypes != null && Model.ProductTypes.Count() > 0)
+    {
+        var datas = Model.ProductTypes.Where(s => s.PRODUCT_GROUP_ID == Model.GroupID).ToList();
+        if (datas != null && datas.Count() > 0)
+        {
+            <div class="block">
+                <ul class="nav nav-list">
+                    <li class="nav-header">@FunctionHelpers.GetValueLanguage("Product.RelatedCategories")</li>
+                    @foreach (var item in datas)
+                    {
+                        var active = Model.ProductTypeID == item.ID ? "active" : "";
+                        <li class="@active"><a href="/Products/@FunctionHelpers.Encrypt(item.ID.ToString(),FunctionHelpers.KeyEncrypt)/@FunctionHelpers.Encrypt("0",FunctionHelpers.KeyEncrypt)">@FunctionHelpers.GetValueLocalization(item.ID, "PRODUCT_TYPE", "NAME")</a></li>
+
+                    }
+                </ul>
+                @{
+                    datas = Model.ProductTypes.Where(s => s.PRODUCT_GROUP_ID != Model.GroupID).ToList();
+                    if (datas != null && datas.Count() > 0)
+                    {
+                         <br />
+                        <ul class="nav nav-list below">
+                            <li class="nav-header">@FunctionHelpers.GetValueLanguage("Product.OrtherCategories")</li>
+                            @foreach (var item in datas)
+                            {
+
+                                var active = Model.ProductTypeID == item.ID ? "active" : "";
+                                <li class="@active"><a href="/Products/@FunctionHelpers.Encrypt(item.ID.ToString(),FunctionHelpers.KeyEncrypt)/@FunctionHelpers.Encrypt("0",FunctionHelpers.KeyEncrypt)" class="@active">@FunctionHelpers.GetValueLocalization(item.ID, "PRODUCT_TYPE", "NAME")</a></li>
+
+                            }
+                        </ul>
+                    }
+                }
+                
+            </div>
+        }
+        
+    }
+}
+
+
+
+
+@*<br />
+    <ul class="nav nav-list below">
+        <li class="nav-header">MANUFACTURES</li>
+        <li><a href="products.html">Adidas</a></li>
+        <li><a href="products.html">Nike</a></li>
+        <li><a href="products.html">Dunlop</a></li>
+        <li><a href="products.html">Yamaha</a></li>
+    </ul>*@
+

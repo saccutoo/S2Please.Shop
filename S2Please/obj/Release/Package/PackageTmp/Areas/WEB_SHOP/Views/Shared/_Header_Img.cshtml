@@ -1,0 +1,17 @@
+﻿@using S2Please.Helper
+@model S2Please.Areas.WEB_SHOP.ViewModel.HeaderImgViewModel
+@{ 
+    Layout = null;
+}
+<style>
+    .header_text h4{
+        height:30px;
+    }
+    .header_text h4 span{
+        line-height:30px;
+    }
+</style>
+<section class="header_text sub">
+    <img class="pageBanner" src="~/Layout/themes/images/pageBanner.png" alt="New products">
+    <h4><span>@FunctionHelpers.GetValueLanguage(Model.KeyLanguage).ToUpper()</span></h4>
+</section>

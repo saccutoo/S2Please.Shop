@@ -1,0 +1,35 @@
+﻿ .font-bold{
+     font-weight:bold;
+ }
+ .pagination li{
+     cursor:pointer !important;
+ }
+
+  .modal-dialog.right{
+    position: fixed;
+    right: 0;
+    margin: 0;
+    height: 100%;
+    width:100%;
+ }
+  #modal-content-right{
+      height:100%;
+  }
+ #modal-content-right .modal-body{
+    overflow: auto;
+    max-height: calc(100% - 125px);
+}
+ #modal-content-right .modal-footer{
+    position: fixed;
+    bottom: 0px;
+    height: 65px;
+    z-index: 10;
+    background: white;
+    width: 100%;
+}
+ .padding-0{
+     padding:0px;
+ }
+ .form-group{
+     margin-bottom:0px !important;
+ }

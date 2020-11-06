@@ -1,0 +1,193 @@
+﻿@model S2Please.Areas.WEB_SHOP.ViewModel.CartViewModel
+@using System.Web.Mvc.Html
+@using S2Please.Areas.WEB_SHOP.ViewModel
+@using System.Globalization
+@using S2Please.Models
+@using System.Collections.Generic
+@using S2Please.ParramType
+@using S2Please.Helper
+
+@{
+    ViewBag.Title = FunctionHelpers.GetValueLanguage("Cart.YourCart");
+    Layout = "~/Areas/WEB_SHOP/Views/Shared/_Layout.cshtml";
+    CultureInfo cul = CultureInfo.GetCultureInfo("vi-VN");   // try with "en-U
+    int index = 0;
+    float total = 0;
+    int amount = 0;
+
+}
+
+<style>
+    .content-cart{
+        text-align:center;
+    }
+    .content-cart h3{
+        color:red;
+        margin:0px;
+        margin-top:10px;
+    }
+    .content-cart i{
+        cursor:pointer;
+    }
+    .table img{
+        width:50px;
+        height:50px;
+    }   
+</style>
+
+
+@if (Model != null && Model.Carts.Count() > 0)
+{
+    @section HeaderText
+    {
+        @Html.Partial("~/Areas/WEB_SHOP/Views/Shared/_Header_Img.cshtml", new HeaderImgViewModel { Image = "", KeyLanguage = "Cart.YourCart" })
+    }
+    <section class="main-content">
+            <div class="row">
+                <form id="cart-form">
+                    <div class="span12">
+
+                    <h4 class="title"><span class="text"><strong></strong> </span></h4>
+
+                    <table class="table table-striped table-responsive table-custom">
+                        <thead>
+                            <tr>
+                                <th>@FunctionHelpers.GetValueLanguage("Cart.Remove")</th>
+                                <th>@FunctionHelpers.GetValueLanguage("Cart.Image")</th>
+                                <th>@FunctionHelpers.GetValueLanguage("Cart.ProductName")</th>
+                                <th>@FunctionHelpers.GetValueLanguage("Cart.Amount")</th>
+                                <th>@FunctionHelpers.GetValueLanguage("Cart.Price")</th>
+                                <th>@FunctionHelpers.GetValueLanguage("Cart.IntoMoney")</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.Carts)
+                            {                               
+                                <tr>
+                                    <td > 
+                                        <div style="display:none;">
+                                            <input class="input-mini hidden" type="text" value="@item.PRODUCT_ID" name="model[@index].PRODUCT_ID" />
+                                            <input class="input-mini hidden" type="text" value="@item.COLOR_ID" name="model[@index].COLOR_ID" />
+                                            <input class="input-mini hidden" type="text" value="@item.SIZE_ID" name="model[@index].SIZE_ID" />
+                                            <input class="input-mini hidden" type="text" value="@item.ID" name="model[@index].ID" />
+                                            <input class="input-mini hidden" type="text" value="@item.NAME" name="model[@index].NAME" />
+
+                                        </div>
+                                        <input type="checkbox" value="@item.ID" name="model[@index].CHECK_ID">
+                                    </td>
+                                    <td>
+                                        
+                                        <a href="/Product-Detail/@FunctionHelpers.Encrypt(item.PRODUCT_ID.ToString(),FunctionHelpers.KeyEncrypt)">
+                                            <img src="~/Image/@item.ProductColorSizeMapper.IMG" alt="" />
+                                        </a>
+                                    </td>
+                                    <td>
+                                        @item.NAME <br />
+                                        @FunctionHelpers.GetValueLanguage("Product.GroupColor"):@item.ProductColorSizeMapper.COLOR<br />
+                                        @FunctionHelpers.GetValueLanguage("Product.Size"): @item.ProductColorSizeMapper.SIZE_NAME <br />
+                                        @*@if (item.ProductBonus != null && item.ProductBonus.Count() > 0)
+                                        {
+                                            <span>@FunctionHelpers.GetValueLanguage("Product.Bonus"): </span>
+                                            <ul>
+                                                @foreach (var bonus in item.ProductBonus)
+                                                {
+                                                    <li>@bonus.BONUS_NAME</li>
+                                                }
+                                            </ul>
+                                        }*@
+                                    </td>
+                                    <td>
+                                        <input type="text" value="@item.AMOUNT" class="input-mini input-amount" name="model[@index].AMOUNT">
+                                    </td>
+                                    <td>
+                                        @{
+                                            float pricerat = item.ProductColorSizeMapper.PRICE;
+                                            if (item.ProductColorSizeMapper.DISCOUNT_RATE > 0)
+                                            {
+                                                pricerat = item.ProductColorSizeMapper.PRICE - (item.ProductColorSizeMapper.PRICE) * (float.Parse(item.ProductColorSizeMapper.DISCOUNT_RATE.ToString()) / 100);
+                                            }
+                                        }
+                                        <strong>@pricerat.ToString("#,###", cul.NumberFormat)</strong> <span style="color:red">₫</span>
+                                        @if (item.ProductColorSizeMapper.DISCOUNT_RATE > 0)
+                                        {
+                                            var lineThrough = "text-decoration: line-through";
+                                            string rate = item.ProductColorSizeMapper.DISCOUNT_RATE.ToString() + "%";
+                                            <p class="price" style="font-size:12px;font-size:15px;padding:0;">
+                                                <span style="@lineThrough"><strong>@item.ProductColorSizeMapper.PRICE.ToString("#,###", cul.NumberFormat)</strong> <span style="color:red">₫</span></span>
+                                                <span>-@rate</span>
+                                            </p>
+                                           
+                                        }
+                                      
+                                    </td>
+                                    <td>
+                                        @{
+                                            float intoMoney = pricerat * item.AMOUNT;
+                                        }
+                                        <strong>@intoMoney.ToString("#,###", cul.NumberFormat) </strong> <span style="color:red">₫</span>
+                                    </td>
+                                </tr>
+                               total += intoMoney;
+                               amount += int.Parse(item.AMOUNT.ToString());
+                               index++;
+                                           
+                              }
+                            <tr>
+                                <td>&nbsp;</td>
+                                <td>&nbsp;</td>
+                                <td>&nbsp;</td>
+                                <td>@FunctionHelpers.GetValueLanguage("Cart.TotalAmount"): <strong>@amount</strong></td>
+                                <td>&nbsp;</td>
+                                <td>@FunctionHelpers.GetValueLanguage("Cart.TotalMoney"): <strong>@total.ToString("#,###", cul.NumberFormat)</strong> <span style="color:red">₫</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+
+                    @*<h4>What would you like to do next?</h4>
+                    <p>Choose if you have a discount code or reward points you want to use or would like to estimate your delivery cost.</p>
+                    <label class="radio">
+                        <input type="radio" name="optionsRadios" id="optionsRadios1" value="option1" checked="">
+                        Use Coupon Code
+                    </label>
+                    <label class="radio">
+                        <input type="radio" name="optionsRadios" id="optionsRadios2" value="option2">
+                        Estimate Shipping &amp; Taxes
+                    </label>
+                    <hr>
+                    <p class="cart-total right">
+                        <strong>Sub-Total</strong>:	$100.00<br>
+                        <strong>Eco Tax (-2.00)</strong>: $2.00<br>
+                        <strong>VAT (17.5%)</strong>: $17.50<br>
+                        <strong>Total</strong>: $119.50<br>
+                    </p>*@
+                    <hr />
+                    <p class="buttons center">
+                        <button class="btn" type="button" onclick="updateCart()">@FunctionHelpers.GetValueLanguage("Cart.Update")</button>
+                        <button class="btn" type="button" onclick="continueShopping()">@FunctionHelpers.GetValueLanguage("Cart.Continue")</button>
+                        <button class="btn btn-inverse" type="button" id="checkout" >@FunctionHelpers.GetValueLanguage("Cart.Pay")</button>
+                    </p>
+                </div>
+                </form>
+            </div>
+     </section>
+    
+}
+else
+{
+    <section class="main-content">
+        <div class="row">
+            <div class="span12">
+                <div class="content-cart">
+                    <h3>@FunctionHelpers.GetValueLanguage("Cart.NoHasProduct")</h3><br />
+                    <a href="/home-page"><i class="fas fa-cart-plus" style="font-size: 111px;"></i></a>
+                </div>         
+            </div>
+        </div>
+    </section>
+}
+
+@section scripts
+{
+    <script src="~/Scripts/Cart/Cart.js"></script>
+}

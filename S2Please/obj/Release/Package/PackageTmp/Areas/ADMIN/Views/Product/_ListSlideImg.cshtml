@@ -1,0 +1,25 @@
+﻿@model S2Please.Areas.ADMIN.ViewModel.SlideImgViewModel
+@using S2Please.Helper
+@using S2Please.Models
+@using Newtonsoft.Json
+@using S2Please.ViewModel
+@using System.Globalization
+
+@{
+    Layout = null;
+    int index = 0;
+}
+
+<div class="div-input-image" id="div-input-multi-image" @(Model.Files!=null && Model.Files.Count()>0 ? "hidden" : "")>
+    <input type="file" id="file-slide-img" onchange="changeListFileImage(this)" multiple hidden>
+    <span class="fa fa-upload" onclick="clickListFileImage()"></span>
+</div>
+
+@foreach (var item in Model.Files)
+{
+    <div class="div-input-image-row div-input-image" id="div-input-image-@index" >
+        <img src="~/Image/@item.FILE_NAME" class="img-thumbnail image-times">
+        <p class="fa fa-times row-img-slide" onclick="removeRowImgslide('@item.FILE_NAME','@item.ID')"></p>
+    </div>
+    index++;
+}

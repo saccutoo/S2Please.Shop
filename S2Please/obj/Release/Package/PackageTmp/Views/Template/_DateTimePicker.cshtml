@@ -1,0 +1,38 @@
+﻿@model S2Please.ViewModel.InputModel
+@using S2Please.Helper
+@{
+    Layout = null;
+}
+<style>
+   .star-required{
+       color:red
+   }
+   .message-error{
+       color:red
+   }
+</style>
+
+
+<label class="control-label">@FunctionHelpers.GetValueLanguage(Model.LabelName) 
+    @if (Model.IsRequied)
+    {
+        <span class="star-required">*</span>
+    }
+</label>
+<div class="controls">
+    <div class="input-append date form_datetime" id="form_datetime-@Model.Id.ToLower()">
+        <input size="16" type="text" value="@Model.Value" placeholder="dd/mm/yyyy" id="@Model.Id.ToLower()" name="@Model.Name" class="@Model.Class" style="@Model.Style">
+        <span class="add-on"><i class="icon-th"></i></span>
+    </div>  
+</div> 
+<label class="control-label message-error" name="message-error-@Model.Name"></label>
+<script type="text/javascript">
+    var id = "#form_datetime-" + '@Model.Id.ToLower()';
+    $(function () {
+        $(id).datetimepicker({
+            format: "dd/mm/yyyy",
+            autoclose: true,
+            altFieldTimeOnly: false
+        });
+    });
+</script> 

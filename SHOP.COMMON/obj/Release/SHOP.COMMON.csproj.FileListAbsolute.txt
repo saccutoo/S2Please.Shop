@@ -1,0 +1,21 @@
+C:\Users\laptop\Documents\Visual Studio 2015\Projects\S2Please\SHOP.COMMON\bin\Release\SHOP.COMMON.exe.config
+C:\Users\laptop\Documents\Visual Studio 2015\Projects\S2Please\SHOP.COMMON\bin\Release\SHOP.COMMON.exe
+C:\Users\laptop\Documents\Visual Studio 2015\Projects\S2Please\SHOP.COMMON\bin\Release\SHOP.COMMON.pdb
+C:\Users\laptop\Documents\Visual Studio 2015\Projects\S2Please\SHOP.COMMON\bin\Release\AutoMapper.dll
+C:\Users\laptop\Documents\Visual Studio 2015\Projects\S2Please\SHOP.COMMON\bin\Release\Newtonsoft.Json.dll
+C:\Users\laptop\Documents\Visual Studio 2015\Projects\S2Please\SHOP.COMMON\bin\Release\AutoMapper.xml
+C:\Users\laptop\Documents\Visual Studio 2015\Projects\S2Please\SHOP.COMMON\bin\Release\Newtonsoft.Json.xml
+C:\Users\laptop\Documents\Visual Studio 2015\Projects\S2Please\SHOP.COMMON\obj\Release\SHOP.COMMON.exe
+C:\Users\laptop\Documents\Visual Studio 2015\Projects\S2Please\SHOP.COMMON\obj\Release\SHOP.COMMON.pdb
+C:\S2Please\SHOP.COMMON\bin\Release\SHOP.COMMON.exe.config
+C:\S2Please\SHOP.COMMON\bin\Release\SHOP.COMMON.exe
+C:\S2Please\SHOP.COMMON\bin\Release\SHOP.COMMON.pdb
+C:\S2Please\SHOP.COMMON\bin\Release\AutoMapper.dll
+C:\S2Please\SHOP.COMMON\bin\Release\Newtonsoft.Json.dll
+C:\S2Please\SHOP.COMMON\bin\Release\AutoMapper.xml
+C:\S2Please\SHOP.COMMON\bin\Release\Newtonsoft.Json.xml
+C:\S2Please\SHOP.COMMON\obj\Release\SHOP.COMMON.exe
+C:\S2Please\SHOP.COMMON\obj\Release\SHOP.COMMON.pdb
+C:\S2Please\SHOP.COMMON\obj\Release\SHOP.COMMON.csprojAssemblyReference.cache
+C:\S2Please\SHOP.COMMON\obj\Release\SHOP.COMMON.csproj.CoreCompileInputs.cache
+C:\S2Please\SHOP.COMMON\obj\Release\SHOP.COMMON.csproj.CopyComplete

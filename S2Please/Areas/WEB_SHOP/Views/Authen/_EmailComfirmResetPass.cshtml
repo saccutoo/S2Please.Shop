@@ -1,0 +1,26 @@
+﻿@model S2Please.Areas.WEB_SHOP.ViewModel.LoginViewModel
+@using System.Web.Mvc.Html
+@using S2Please.Areas.WEB_SHOP.ViewModel
+@using System.Globalization
+@using S2Please.Models
+@using System.Collections.Generic
+@using S2Please.ParramType
+@using S2Please.ViewModel
+@using S2Please.Helper
+
+@{
+    Layout = null;
+    CultureInfo cul = CultureInfo.GetCultureInfo("vi-VN");   // try with "en-U
+
+}
+
+<section class="main-content" style="width:100%">
+    <div class="row">
+        <form id="cart-form">
+            <div class="span12">
+                <p>@FunctionHelpers.GetValueLanguage("Email.Message.ComfirmResetPass"):<a href="https://s2please.net/ForgotPassword?Code=@Model.Code&Is_Confirm=true&Email=@Model.Email">@Model.Code</a></p>
+            </div>
+        </form>
+    </div>
+</section>
+

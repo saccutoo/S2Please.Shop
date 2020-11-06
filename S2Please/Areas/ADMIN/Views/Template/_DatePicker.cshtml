@@ -1,0 +1,48 @@
+﻿@model S2Please.ViewModel.InputModel
+@using S2Please.Helper
+@{
+    Layout = null;
+}
+<style>
+   .star-required{
+       color:red
+   }
+   .message-error{
+       color:red
+   }
+ 
+</style>
+
+
+@if (!String.IsNullOrEmpty(Model.LabelName))
+{
+    <label class="control-label">
+        @FunctionHelpers.GetValueLanguage(Model.LabelName)
+        @if (Model.IsRequied)
+        {
+            <span class="star-required">*</span>
+        }
+</label>
+}
+
+<div class="controls">
+    <input id="@Model.Id.ToLower()" name="@Model.Name" class="form-control @Model.Class"  style="@Model.Style">
+</div> 
+
+<label class="control-label message-error" name="message-error-@Model.Name"></label>
+
+<script>
+    var checkSetDate='@Model.IsSetDate'
+    if (checkSetDate=='True') {
+        $('#' + '@Model.Id.ToLower()').datepicker({
+            autoclose: true,
+            format: "dd/mm/yyyy"
+        }).datepicker('setDate', 'today');
+    }
+    else {
+        $('#' + '@Model.Id.ToLower()').datepicker({
+            autoclose: true,
+            format: "dd/mm/yyyy"
+        })
+    }
+</script>

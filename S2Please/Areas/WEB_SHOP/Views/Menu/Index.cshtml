@@ -1,0 +1,41 @@
+﻿@model S2Please.Areas.WEB_SHOP.ViewModel.MenuViewModel
+@using S2Please.Helper
+@{
+    Layout = null;
+}
+<style>
+    .menu-li.active{
+        color:white;
+        background-color:#eb4800;
+    }
+</style>
+<section class="navbar main-menu">
+    <div class="navbar-inner main-menu">
+        <a href="/home-page" class="logo pull-left"><img src="~/Layout/themes/images/logo.png" class="site_logo" alt=""></a>
+        <nav id="menu" class="pull-right">
+            <ul>
+                @*<li>
+                    <a href="./products.html">Woman</a>
+                    <ul>
+                        <li><a href="./products.html">Lacinia nibh</a></li>
+                        <li><a href="./products.html">Eget molestie</a></li>
+                        <li><a href="./products.html">Varius purus</a></li>
+                    </ul>
+                </li>*@
+                @if (Model.Menus != null && Model.Menus.Count() > 0)
+                {
+                    var menuParents = Model.Menus.Where(s => s.PARENT_ID == 0).ToList();
+                    if (menuParents != null && menuParents.Count() > 0)
+                    {
+                        foreach (var menuParent in menuParents)
+                        {
+                            <li value="@menuParent.PRODUCT_GROUP_ID" class="menu-li">
+                                <a href="@menuParent.LINK/@FunctionHelpers.Encrypt("0",FunctionHelpers.KeyEncrypt)/@FunctionHelpers.Encrypt(menuParent.PRODUCT_GROUP_ID.ToString(),FunctionHelpers.KeyEncrypt)" >@FunctionHelpers.GetValueLocalization(menuParent.ID,"MENU", "MENU_NAME").ToUpper()</a>
+                            </li>
+                        }
+                    }
+                }
+            </ul>
+        </nav>
+    </div>
+</section>

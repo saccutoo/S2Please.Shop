@@ -1,0 +1,43 @@
+﻿@{ 
+    Layout = null;
+}
+@using S2Please.Helper
+<style>
+
+    .feature_box .service{
+        height:140px;
+    }
+</style>
+<div class="row">
+    <div class="span12">
+        <div class="row feature_box">
+            <div class="span4">
+                <div class="service">
+                    <div class="responsive">
+                        <span class="fas fa-car" style="font-size:50px;color:#eb4800;"></span>
+                        <h4> <strong>@FunctionHelpers.GetValueLanguage("Labled.Delivery").ToUpper()</strong></h4>
+                        <p>@FunctionHelpers.GetValueLanguage("Labled.DeliveryAllVN").</p>
+                    </div>
+                </div>
+            </div>
+            <div class="span4">
+                <div class="service">
+                    <div class="customize">
+                        <span class="fas fa-money-bill-alt " style="font-size:50px;color:#eb4800;"></span>
+                        <h4> <strong>@FunctionHelpers.GetValueLanguage("Labled.Pay").ToUpper()</strong></h4>
+                        <p>@FunctionHelpers.GetValueLanguage("Labled.ReceiveGoodsCheck").</p>
+                    </div>
+                </div>
+            </div>
+            <div class="span4">
+                <div class="service">
+                    <div class="support">
+                        <span class="fas fa-phone" style="font-size:50px;color:#eb4800;"></span>
+                        <h4> <strong>@FunctionHelpers.GetValueLanguage("Labled.Support").ToUpper()</strong></h4>
+                        <p>@FunctionHelpers.GetValueLanguage("Labled.SupportContent").</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

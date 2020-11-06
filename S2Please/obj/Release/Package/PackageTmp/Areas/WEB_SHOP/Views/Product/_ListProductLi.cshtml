@@ -1,0 +1,63 @@
+﻿@using System.Globalization
+@model S2Please.Areas.WEB_SHOP.ViewModel.ProductContentViewModel
+@using S2Please.Helper
+@{
+    Layout = null;
+    CultureInfo cul = CultureInfo.GetCultureInfo("vi-VN");   // try with "en-U
+    var index = Model.Index;
+}
+
+@{
+    if (Model.Products != null && Model.Products.Count() > 0)
+    {
+        int count = Model.Products.Count();
+        int start = 0;
+        do
+        {
+            var active = "active";
+            if (start >= Model.NumberInPage)
+            {
+                active = string.Empty;
+            }
+            var data = Model.Products.Skip(start).Take(Model.NumberInPage).ToList();
+            <div class="item" silde-index="@index">
+                <ul class="thumbnails ">
+                    @foreach (var item in data)
+                    {
+                        <li class="span3">
+                            <div class="product-box" title="@item.NAME">
+                                <span class="sale_tag"></span>
+                                <p><a href="/Product-Detail/@FunctionHelpers.Encrypt(item.ID.ToString(),FunctionHelpers.KeyEncrypt)"><img src="~/Image/@item.IMAGE" alt="" /></a></p>
+                                <a href="/Product-Detail/@FunctionHelpers.Encrypt(item.ID.ToString(),FunctionHelpers.KeyEncrypt)" style="font-size:15px" class="title">@item.NAME</a><br />
+                                @{
+                                    float pricerat = item.PRICE;
+                                    if (item.DISCOUNT_RATE > 0)
+                                    {
+                                        pricerat = item.PRICE - (item.PRICE) * (float.Parse(item.DISCOUNT_RATE.ToString()) / 100);
+                                    }
+                                }
+
+                                <p class="category" style="color:red;font-size:15px;padding-top:10px">@pricerat.ToString("#,###", cul.NumberFormat) ₫</p>
+                                @if (item.DISCOUNT_RATE > 0)
+                                {
+                                    var lineThrough = "text-decoration: line-through";
+                                    string rate = item.DISCOUNT_RATE.ToString() + "%";
+                                    <p class="price" style="font-size:12px;font-size:15px;padding:0;">
+                                        <span style="@lineThrough">@item.PRICE.ToString("#,###", cul.NumberFormat) ₫</span>
+                                        <span>-@rate</span>
+                                    </p>
+
+                                }
+
+                            </div>
+                        </li>
+                   }
+                </ul>
+            </div>
+              start += Model.NumberInPage;
+           index++;
+         }
+          while (start < count);
+     }
+
+}

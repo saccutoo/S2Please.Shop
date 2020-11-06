@@ -1,0 +1,85 @@
+﻿@model S2Please.Areas.WEB_SHOP.ViewModel.ProductListViewModel
+@using System.Web.Mvc.Html
+@using S2Please.Areas.WEB_SHOP.ViewModel
+@using System.Globalization
+@using S2Please.Models
+@using System.Collections.Generic
+@using S2Please.ParramType
+@using S2Please.ViewModel
+@using S2Please.Helper
+@{
+    ViewBag.Title = FunctionHelpers.GetValueLanguage("Product.ProductDetail");
+    Layout = "~/Areas/WEB_SHOP/Views/Shared/_Layout.cshtml";
+    CultureInfo cul = CultureInfo.GetCultureInfo("vi-VN");   // try with "en-U
+}
+@section HeaderText
+{
+    @Html.Partial("~/Areas/WEB_SHOP/Views/Shared/_Header_Img.cshtml", new HeaderImgViewModel { Image = "", KeyLanguage = FunctionHelpers.GetValueLanguage("Product.Products") })
+}
+
+<section class="main-content">
+
+    <div class="row">
+        <div class="span9" id="list-product">
+
+            @if (Model!=null && Model.Products!=null && Model.Products.Count() > 0)
+            {
+                @Html.Partial("~/Areas/WEB_SHOP/Views/Product/_ListProduct.cshtml",Model);
+            }
+        </div>
+        <div class="span3 col">             
+            <div class="block">
+                @if (Model.DataProductTypes != null && Model.DataProductTypes.Count() > 0)
+                {
+                    <ul class="nav nav-list">
+                        <li class="nav-header">@FunctionHelpers.GetValueLanguage("Product.RelatedCategories")</li>
+                        @{
+                            int index = 0;
+                            var data = string.Empty;
+                            if (Model.ProductTypes != null && Model.ProductTypes.Count() > 0)
+                            {
+                                data = Model.ProductTypes.FirstOrDefault();
+                            }
+                            foreach (var item in Model.DataProductTypes)
+                            {
+                                bool check = false;
+                                if (data != null && item.ID.ToString() == data)
+                                {
+                                    check = true;
+                                }
+                                <li>
+                                    @Html.Partial("~/Views/Template/_Checkbox.cshtml", new CheckBoxViewModel() { Id = "check-" + item.ID, Name = "checkbox", Value = item.ID.ToString(), AttributeCheck = check == true ? "checked" : "", Text = FunctionHelpers.GetValueLocalization(item.ID, "PRODUCT_TYPE", "NAME"), OnClick="clickProductType('Products',"+item.ID+")"})
+                                </li>
+                                index++;
+                            }
+                        }
+                    </ul>
+                 }       
+            </div>
+            
+            <div class="block">
+                <ul class="nav nav-list">
+                    <li class="nav-header">@FunctionHelpers.GetValueLanguage("Product.ProductPrice")</li>
+                    <li>
+                        @Html.Partial("~/Views/Template/_Input.cshtml", new InputModel() { Id = "from-money", Name = "from-money" , Type = "number", Placeholder = "Product.FromMoney" })
+                    </li>
+                    <li>
+                        @Html.Partial("~/Views/Template/_Input.cshtml", new InputModel() { Id = "to-money", Name = "to-money",Type="number",Placeholder= "Product.To" })
+                    </li>
+                    <li>
+                        @Html.Partial("~/Views/Template/_Button.cshtml", new ButtonModel() { Id = "btn-search-product", Name = "btn-search-product",Type="button",Class= " btn-primary fas fa-search", OnClick="clickSearchProduct('Products')",Title= "Product.Search" })
+                    </li>
+                </ul>
+
+            </div>
+        </div>
+    </div>
+</section>
+
+@section scripts
+{
+    <script src="~/Scripts/Product/Product.js"></script>
+    <script>
+        method.ActiveMenu('Products');
+    </script>
+}
