@@ -18,7 +18,6 @@ namespace S2Please
 {
     public class WebApiApplication : System.Web.HttpApplication
     {
-        private ado _ado = new ado();
         protected void Application_Start()
         {
             AreaRegistration.RegisterAllAreas();
@@ -26,6 +25,8 @@ namespace S2Please
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
+            UnityConfig.RegisterComponents();
+
             //SqlDependency.Start(ConfigurationManager.AppSettings["DBConnection"]);
         }
 

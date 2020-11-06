@@ -20,13 +20,13 @@ using Hrm.Common.Helpers;
 using ClosedXML.Excel;
 using System.IO;
 using SHOP.COMMON.Helpers;
+using Repository;
 
 namespace S2Please.Areas.ADMIN.Controllers
 {
     public class OrderController : BaseController
     {
         // GET: ADMIN/Order
-
         public ActionResult Index()
         {
 

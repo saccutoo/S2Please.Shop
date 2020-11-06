@@ -8,8 +8,6 @@ C:\Users\laptop\Documents\Visual Studio 2015\Projects\S2Please\SHOP.COMMON\bin\D
 C:\Users\laptop\Documents\Visual Studio 2015\Projects\S2Please\SHOP.COMMON\obj\Debug\SHOP.COMMON.exe
 C:\Users\laptop\Documents\Visual Studio 2015\Projects\S2Please\SHOP.COMMON\obj\Debug\SHOP.COMMON.pdb
 C:\Users\laptop\documents\visual studio 2015\Projects\S2Please\SHOP.COMMON\obj\Debug\SHOP.COMMON.csprojResolveAssemblyReference.cache
-C:\S2Please\SHOP.COMMON\bin\Debug\SHOP.COMMON.exe.config
-C:\S2Please\SHOP.COMMON\bin\Debug\SHOP.COMMON.exe
 C:\S2Please\SHOP.COMMON\bin\Debug\SHOP.COMMON.pdb
 C:\S2Please\SHOP.COMMON\bin\Debug\AutoMapper.dll
 C:\S2Please\SHOP.COMMON\bin\Debug\Newtonsoft.Json.dll
@@ -17,6 +15,7 @@ C:\S2Please\SHOP.COMMON\bin\Debug\AutoMapper.xml
 C:\S2Please\SHOP.COMMON\bin\Debug\Newtonsoft.Json.xml
 C:\S2Please\SHOP.COMMON\obj\Debug\SHOP.COMMON.csproj.CoreCompileInputs.cache
 C:\S2Please\SHOP.COMMON\obj\Debug\SHOP.COMMON.csproj.CopyComplete
-C:\S2Please\SHOP.COMMON\obj\Debug\SHOP.COMMON.exe
 C:\S2Please\SHOP.COMMON\obj\Debug\SHOP.COMMON.pdb
-C:\S2Please\SHOP.COMMON\obj\Debug\SHOP.COMMON.csprojAssemblyReference.cache
+C:\S2Please\SHOP.COMMON\bin\Debug\SHOP.COMMON.dll.config
+C:\S2Please\SHOP.COMMON\bin\Debug\SHOP.COMMON.dll
+C:\S2Please\SHOP.COMMON\obj\Debug\SHOP.COMMON.dll

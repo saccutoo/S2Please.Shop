@@ -20,12 +20,21 @@ using Hrm.Common.Helpers;
 using ClosedXML.Excel;
 using System.IO;
 using SHOP.COMMON.Helpers;
+using Repository;
 
 namespace S2Please.Areas.ADMIN.Controllers
 {
     public class ProductController : BaseController
     {
         // GET: ADMIN/Product
+
+        //khởi tạo các Repository
+        private IProductRepository _productRepository;
+        public ProductController(IProductRepository productRepository)
+        {
+            this._productRepository = productRepository;
+        }
+
         [HttpGet]
         public ActionResult Index()
         {
@@ -77,12 +86,13 @@ namespace S2Please.Areas.ADMIN.Controllers
             vm.ID = id;
 
             param.Add(new Param { Key = "@ID", Value = id.ToString() });
-            var responseProduct = ListProcedure<ProductModel>(new ProductModel(), "Product_Get_GetProductById", param);
+
+
+            var responseProduct = _productRepository.GetProductById(id);
             var resultProduct = JsonConvert.DeserializeObject<List<ProductModel>>(JsonConvert.SerializeObject(responseProduct.Results));
             if (resultProduct != null && resultProduct.Count() > 0)
             {
                 vm.Product = resultProduct.FirstOrDefault();
-
             }
 
 
@@ -1021,21 +1031,9 @@ namespace S2Please.Areas.ADMIN.Controllers
         public TableViewModel GetData(TableViewModel tableData, ParamType paramType)
         {
 
-            var param = new List<Param>();
-            var basicParamype = new List<ParamType>();
-            basicParamype.Add(paramType);
-            param.Add(new Param
-            {
-                IsUserDefinedTableType = true,
-                paramUserDefinedTableType = new SqlParameter("@BasicParamType", SqlDbType.Structured)
-                {
-                    TypeName = "dbo.BasicParamType",
-                    Value = DataTableHelper.ConvertToUserDefinedDataTable(basicParamype)
-                }
-            });
-            param.Add(new Param { Key = "@TotalRecord", Value = "0", IsOutPut = true, Type = "Int" });
+            var type = MapperHelper.Map<ParamType, Repository.Type.ParamType> (paramType);
+            var response = _productRepository.ProductFromAdmin(type);
 
-            var response = ListProcedure<ProductModel>(new ProductModel(), "Product_Get_ProductFromAdmin", param, false, true);
             if (response != null)
             {
                 if (response.Success == false && CheckPermision(response.StatusCode) == false)

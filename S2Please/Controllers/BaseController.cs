@@ -27,11 +27,13 @@ using System.Web.Routing;
 using System.Web.Security;
 using S2Please.ParramType;
 using System.Net;
+using Repository;
 namespace S2Please.Controllers
 {
     public class BaseController : Controller
     {
         // GET: Home
+
         private string _connection = ConfigurationManager.AppSettings["DBConnection"];
         public ResultModel ListProcedure<T>(T model, string stroedProcedure, List<Param> param, bool IsCache = false, bool IsCheckPermison = false)
         {
