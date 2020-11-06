@@ -92,13 +92,12 @@
 <!DOCTYPE html>
 <script>
     var listImg = [];
-    var errorImg1 = '@Model.ErrorListImg_1';
-    var errorImg2 = '@Model.ErrorListImg_2';
-    var errorImg3 = '@Model.ErrorListImg_3';
-    var errorImg4 = '@Model.ErrorListImg_4';
-    var errorVideo = '@Model.ErrorVideo';
-    var errorVideoFormat = '@Model.ErrorVideoFormat';
-
+    var errorImg1 = '@FunctionHelpers.GetValueLanguage("Product.Error.ListImage1");';
+    var errorImg2 = '@FunctionHelpers.GetValueLanguage("Product.Error.ListImage2")';
+    var errorImg3 = '@FunctionHelpers.GetValueLanguage("Product.Error.ListImage3")';
+    var errorImg4 = '@FunctionHelpers.GetValueLanguage("Product.Error.ListImage4")';
+    var errorVideo = '@FunctionHelpers.GetValueLanguage("Product.Error.Video")';
+    var errorVideoFormat = '@FunctionHelpers.GetValueLanguage("Product.Error.VideoFormat")';
 </script>
 
 @if (Model.Product.ID == 0)

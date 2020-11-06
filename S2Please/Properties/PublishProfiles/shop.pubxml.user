@@ -2820,6 +2820,9 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     <File Include="SHOP.COMMON.csproj">
       <publishTime>06/28/2020 15:40:47</publishTime>
     </File>
+    <File Include="SignalR/TesHub.cs">
+      <publishTime>11/07/2020 02:45:46</publishTime>
+    </File>
     <File Include="Views/Base/Error.cshtml">
       <publishTime>07/06/2020 14:46:14</publishTime>
     </File>

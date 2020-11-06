@@ -2,7 +2,7 @@
 @model S2Please.Areas.WEB_SHOP.ViewModel.ProductViewModel
 @using S2Please.ViewModel
 @using S2Please.Helper
-
+@using SHOP.COMMON
 
 @{
     ViewBag.Title = "S2Please";
@@ -29,7 +29,7 @@
     @Html.Partial("~/Areas/WEB_SHOP/Views/Shared/_OurClient.cshtml")
 }*@
 
-@*<button class="btn btn-danger" id="btn-test">test</button>*@
+<button class="btn btn-danger" id="btn-test">test</button>
 
 <div class="row">
     <div class="span12">
@@ -40,7 +40,7 @@
 
                 <div class="row">
                     <div class="span12">
-                        @if (pt.TYPE == LayoutViewModel.ProductNew)
+                        @if (pt.TYPE == TypeGroup.ProductNew)
                         {
                             if (Model.Products.Where(s => s.IS_NEW == true).Count() > 0)
                             {
@@ -67,7 +67,7 @@
 @section scripts
 {
 
-    @*<script>
+    <script>
         $(function () {
             $(document).ready(function () {
                 var test = $.connection.tesHub;
@@ -94,5 +94,5 @@
         //    loadingBody.Show();
         //});
 
-    </script>*@
+    </script>
 }
