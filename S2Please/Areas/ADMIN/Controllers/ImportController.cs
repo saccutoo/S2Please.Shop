@@ -22,7 +22,7 @@ namespace S2Please.Areas.ADMIN.Controllers
 {
     public class ImportController : BaseController
     {
-        // GET: ADMIN/Exec
+        // GET: ADMIN/Exec 
         public ActionResult Index(ResultModel model)
         {
             return View(model);
