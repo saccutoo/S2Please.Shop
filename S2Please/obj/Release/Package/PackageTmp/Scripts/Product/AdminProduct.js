@@ -14,7 +14,6 @@ function viewDetail(id) {
             loadingBody.Hide();
         },
         error: function (response, status, error) {
-            debugger
             alert("Error try again");
             loadingBody.Hide();
 

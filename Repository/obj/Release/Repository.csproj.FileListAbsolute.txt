@@ -1,0 +1,15 @@
+C:\S2Please\Repository\bin\Release\Repository.dll.config
+C:\S2Please\Repository\bin\Release\Repository.dll
+C:\S2Please\Repository\bin\Release\Repository.pdb
+C:\S2Please\Repository\bin\Release\Newtonsoft.Json.dll
+C:\S2Please\Repository\bin\Release\SHOP.COMMON.dll
+C:\S2Please\Repository\bin\Release\AutoMapper.dll
+C:\S2Please\Repository\bin\Release\SHOP.COMMON.pdb
+C:\S2Please\Repository\bin\Release\SHOP.COMMON.dll.config
+C:\S2Please\Repository\bin\Release\Newtonsoft.Json.xml
+C:\S2Please\Repository\bin\Release\AutoMapper.xml
+C:\S2Please\Repository\obj\Release\Repository.csprojAssemblyReference.cache
+C:\S2Please\Repository\obj\Release\Repository.csproj.CoreCompileInputs.cache
+C:\S2Please\Repository\obj\Release\Repository.csproj.CopyComplete
+C:\S2Please\Repository\obj\Release\Repository.dll
+C:\S2Please\Repository\obj\Release\Repository.pdb

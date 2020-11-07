@@ -366,7 +366,21 @@
                                                 </span>
                                             </td>
                                         }
-                                       
+                                        else if (item.PRESENTATION == "LABLED-COLUMN")
+                                        {
+                                            var value = string.Empty;
+                                            if (ControlData != null && ControlData.Count() > 0)
+                                            {
+                                                value = ControlData[0];
+                                            }
+                                            <td style="@item.CSS;@width" class="@item.CLASS">
+                                                <div  class="@colorClass">
+                                                    <span>
+                                                        @value
+                                                    </span>
+                                                </div>
+                                            </td>
+                                        }
                                         else
                                         {
                                             var value = string.Empty;
@@ -375,7 +389,7 @@
                                                 value = ControlData[0];
                                             }
                                             <td style="@item.CSS;@width" class="@item.CLASS">
-                                                <span class="@colorClass">
+                                                <span >
                                                     @value
                                                 </span>
                                             </td>
@@ -523,16 +537,18 @@
     ControlModel[@Html.Raw(Json.Encode(Model.TABLE_NAME))] = @Html.Raw(Json.Encode(Model));
     ControlModel[@Html.Raw(Json.Encode(Model.TABLE_NAME))].DATA = @Html.Raw(JsonConvert.SerializeObject(Model.DATA));
     // Select 2
-    try {
+    $(document).ready(function () {
+        try {
+                $("." +'@Model.TABLE_NAME'+"-paging-items-per-page").each(function () {
+                    $(this).select2({
+                        minimumResultsForSearch: 20,
+                        //dropdownParent: $(this).next('.dropDownSelect2')
+                    });
+                });
 
-        $(".js-select2").each(function () {
-            $(this).select2({
-                minimumResultsForSearch: 20,
-                dropdownParent: $(this).next('.dropDownSelect2')
-            });
-        });
+            } catch (error) {
+                console.log(error);
+            }
+    })
 
-    } catch (error) {
-        console.log(error);
-    }
 </script>

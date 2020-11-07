@@ -25,8 +25,7 @@ namespace S2Please
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
-            UnityConfig.RegisterComponents();
-
+            RegisterDependencies.Register();
             //SqlDependency.Start(ConfigurationManager.AppSettings["DBConnection"]);
         }
 

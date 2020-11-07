@@ -1,10 +1,6 @@
-C:\S2Please\Repository\obj\Debug\Repository.csprojAssemblyReference.cache
-C:\S2Please\Repository\obj\Debug\Repository.csproj.CoreCompileInputs.cache
 C:\S2Please\Repository\bin\Debug\Repository.dll.config
 C:\S2Please\Repository\bin\Debug\Repository.dll
 C:\S2Please\Repository\bin\Debug\Repository.pdb
-C:\S2Please\Repository\obj\Debug\Repository.dll
-C:\S2Please\Repository\obj\Debug\Repository.pdb
 C:\S2Please\Repository\bin\Debug\Newtonsoft.Json.dll
 C:\S2Please\Repository\bin\Debug\SHOP.COMMON.dll
 C:\S2Please\Repository\bin\Debug\AutoMapper.dll
@@ -12,4 +8,8 @@ C:\S2Please\Repository\bin\Debug\SHOP.COMMON.pdb
 C:\S2Please\Repository\bin\Debug\SHOP.COMMON.dll.config
 C:\S2Please\Repository\bin\Debug\Newtonsoft.Json.xml
 C:\S2Please\Repository\bin\Debug\AutoMapper.xml
+C:\S2Please\Repository\obj\Debug\Repository.csprojAssemblyReference.cache
+C:\S2Please\Repository\obj\Debug\Repository.csproj.CoreCompileInputs.cache
 C:\S2Please\Repository\obj\Debug\Repository.csproj.CopyComplete
+C:\S2Please\Repository\obj\Debug\Repository.dll
+C:\S2Please\Repository\obj\Debug\Repository.pdb

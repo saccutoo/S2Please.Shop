@@ -11,6 +11,7 @@
 @using S2Please.Database;
 @using System.Web.Security;
 @using S2Please.ViewModel;
+@using SHOP.COMMON
 <!DOCTYPE html>
 <html>
 <head>
@@ -111,8 +112,7 @@
                         </li>
                         @{
 
-                            HttpCookie getCookie = HttpContext.Current.Request.Cookies[LayoutViewModel.ShopOnline];
-                            if (getCookie != null)
+                            if (!string.IsNullOrEmpty(CurrentUser.User.USER_NAME))
                             {
                                 <li><a href="/Customer">@FunctionHelpers.GetValueLanguage("Authen.UserName")</a></li>
                             }
@@ -126,7 +126,7 @@
                         <li><a href="/checkout">@FunctionHelpers.GetValueLanguage("Cart.Pay")</a></li>
                         @{
 
-                            if (getCookie != null)
+                            if (!string.IsNullOrEmpty(CurrentUser.User.USER_NAME))
                             {
                                 <li><a href="/WEB_SHOP/Authen/Logout">@FunctionHelpers.GetValueLanguage("Authen.LoginOut")</a></li>
                             }
