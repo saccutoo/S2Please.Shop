@@ -16,10 +16,9 @@ using System.Configuration;
 using S2Please.ParramType;
 using System.Data.SqlClient;
 using System.Data;
-using Hrm.Common.Helpers;
+using SHOP.COMMON.Helpers;
 using ClosedXML.Excel;
 using System.IO;
-using SHOP.COMMON.Helpers;
 using Repository;
 
 namespace S2Please.Areas.ADMIN.Controllers

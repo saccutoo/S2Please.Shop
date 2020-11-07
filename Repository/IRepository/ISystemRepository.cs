@@ -14,5 +14,17 @@ namespace Repository
     {
         //Get MultiLanguage
         ResultModel GetMultiLanguage();
+
+        //Get ExecSqlString
+        ResultModel ExecSql(string sql);
+
+        //Get Get_Condition_Filter
+        ResultModel GetConditionFilter();
+
+        //Get System_Get_ExcuteSqlString
+        ResultModel GetExcuteSqlString(string sql);
+
+        //Get import  adrress
+        ResultModel ImportCountry(List<ImportCountryType> datas, string isCity, string isDistrict, string isCommunity);
     }
 }

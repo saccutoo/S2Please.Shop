@@ -1,5 +1,4 @@
-﻿using Hrm.Common.Helpers;
-using Repository.Model;
+﻿using Repository.Model;
 using Repository.Type;
 using System;
 using System.Collections.Generic;
@@ -8,6 +7,7 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using SHOP.COMMON.Helpers;
 
 namespace Repository
 {
@@ -19,7 +19,6 @@ namespace Repository
             var param = new List<Param>();
             param.Add(new Param() { Key = "@TABLE_NAME", Value = tableName });
             param.Add(new Param() { Key = "@USER_ID", Value = userId.ToString() });
-
             return ListProcedure<TableUserConfigModel>(new TableUserConfigModel(), "Table_Get_TableUserConfig", param);
         }
 
@@ -44,6 +43,17 @@ namespace Repository
         public ResultModel GetSelectOption()
         {
             return ListProcedure<SelectOptionModel>(new SelectOptionModel(), "SelectOption_Get_SelectOption ", new List<Param>());
+        }
+
+        //Get update table user config 
+        public ResultModel UpdateTableUserConfig(string tableName,long userId,string content,string parram)
+        {
+            var paramType = new List<Param>();
+            paramType.Add(new Param() { Key = "@TABLE_NAME", Value = tableName });
+            paramType.Add(new Param() { Key = "@USER_ID", Value = userId.ToString() });
+            paramType.Add(new Param() { Key = "@TABLE_CONTENT", Value = content });
+            paramType.Add(new Param() { Key = "@PARAM", Value = parram });
+            return ListProcedure<ConditionFilterModel>(new ConditionFilterModel(), "Table_Update_TableUserConfig", paramType, false, false);
         }
     }
 }

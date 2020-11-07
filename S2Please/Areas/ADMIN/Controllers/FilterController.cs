@@ -16,13 +16,22 @@ using System.Configuration;
 using S2Please.ParramType;
 using System.Data.SqlClient;
 using System.Data;
-using Hrm.Common.Helpers;
 using S2Please.ViewModel;
+using Repository;
+using SHOP.COMMON.Helpers;
 
 namespace S2Please.Areas.ADMIN.Controllers
 {
     public class FilterController : BaseController
     {
+        // GET: ADMIN/Exec
+        private ISystemRepository _systemRepository;
+        private ITableRepository _tableRepository;
+        public FilterController(ISystemRepository systemRepository, ITableRepository tableRepository)
+        {
+            this._systemRepository = systemRepository;
+            this._tableRepository = tableRepository;
+        }
         // GET: ADMIN/Filter
         public ActionResult ShowModalColumn(string type, string tableName)
         {
@@ -31,20 +40,15 @@ namespace S2Please.Areas.ADMIN.Controllers
             vm.Type = type;
             vm.TableName = tableName;
             var table = new TableViewModel();
-            var paramType = new List<Param>();
-            paramType.Add(new Param() { Key = "@TABLE_NAME", Value = tableName });
-            paramType.Add(new Param() { Key = "@USER_ID", Value = CurrentUser.UserAdmin.USER_ID.ToString() });
-
-            var responseTableUser = ListProcedure<TableUserConfigModel>(new TableUserConfigModel(), "Table_Get_TableUserConfig", paramType, false, false);
+            var responseTableUser = _tableRepository.GetTableUserConfig(tableName, CurrentUser.UserAdmin.USER_ID);
             var resultTableUser = JsonConvert.DeserializeObject<List<TableUserConfigModel>>(JsonConvert.SerializeObject(responseTableUser.Results));
             if (resultTableUser != null && resultTableUser.Count() > 0)
             {
                 table = JsonConvert.DeserializeObject<TableViewModel>(resultTableUser.FirstOrDefault().TABLE_CONTENT);
                 vm.ColumnFilters= JsonConvert.DeserializeObject<List<ListColumnFilterModel>>(resultTableUser.FirstOrDefault().PARAM);
             }
-            paramType = new List<Param>();
-            paramType.Add(new Param() { Key = "@TABLE_NAME", Value = tableName });
-            var responseColumn = ListProcedure<TableColumnModel>(new TableColumnModel(), "TableColumn_Get_TableColumnByTableName", paramType, false, false);
+
+            var responseColumn = _tableRepository.GetTableColumnByTableName(tableName);
             var resultColumn = JsonConvert.DeserializeObject<List<TableColumnModel>>(JsonConvert.SerializeObject(responseColumn.Results));
             if (resultColumn != null && resultColumn.Count() > 0)
             {
@@ -69,14 +73,12 @@ namespace S2Please.Areas.ADMIN.Controllers
                 }
             }
 
-            paramType = new List<Param>();
-            var responseCondition = ListProcedure<ConditionFilterModel>(new ConditionFilterModel(), "ConditionFilter_Get_ConditionFilter", paramType, false, false);
+            var responseCondition = _systemRepository.GetConditionFilter();
             var resultCondition = JsonConvert.DeserializeObject<List<ConditionFilterModel>>(JsonConvert.SerializeObject(responseCondition.Results));
             if (resultCondition != null && resultCondition.Count() > 0)
             {
                 vm.Conditions = resultCondition;
             }
-
 
             var html = RenderViewToString(this.ControllerContext, "~/Areas/ADMIN/Views/Template/_showModalColumn.cshtml", vm);
             return Json(html, JsonRequestBehavior.AllowGet);
@@ -100,9 +102,7 @@ namespace S2Please.Areas.ADMIN.Controllers
 
                 if (!String.IsNullOrEmpty(column.SQL_QUERY))
                 {
-                    var paramType = new List<Param>();
-                    paramType.Add(new Param() { Key = "@SqlData", Value = column.SQL_QUERY });
-                    var responseQuery = ListProcedure<TableColumnModel>(new TableColumnModel(), "System_Get_ExcuteSqlString", paramType, false, false);
+                    var responseQuery = _systemRepository.GetExcuteSqlString(column.SQL_QUERY);
                     model.Datas = responseQuery.Results;
                 }
                 return PartialView("~/Areas/ADMIN/Views/Template/_Select.cshtml", model);
@@ -140,11 +140,7 @@ namespace S2Please.Areas.ADMIN.Controllers
         {
             var paramType = new List<Param>();
             ProductViewModel product = new ProductViewModel();
-            var param = new List<Param>();
-            param.Add(new Param() { Key = "@TABLE_NAME", Value = tableName });
-            param.Add(new Param() { Key = "@USER_ID", Value = CurrentUser.UserAdmin.USER_ID.ToString() });
-
-            var responseTableUser = ListProcedure<TableUserConfigModel>(new TableUserConfigModel(), "Table_Get_TableUserConfig", param, false, false);
+            var responseTableUser = _tableRepository.GetTableUserConfig(tableName, CurrentUser.UserAdmin.USER_ID);
             var resultTableUser = JsonConvert.DeserializeObject<List<TableUserConfigModel>>(JsonConvert.SerializeObject(responseTableUser.Results));
             if (resultTableUser != null && resultTableUser.Count() > 0)
             {
@@ -152,9 +148,7 @@ namespace S2Please.Areas.ADMIN.Controllers
             }
             else
             {
-                param = new List<Param>();
-                param.Add(new Param() { Key = "@TABLE_NAME", Value = tableName });
-                var responseTable = ListProcedure<TableModel>(new TableModel(), "Table_Get_Table", param, false, false);
+                var responseTable = _tableRepository.GetTableByTableName(tableName);
                 var resultTable = JsonConvert.DeserializeObject<List<TableModel>>(JsonConvert.SerializeObject(responseTable.Results));
                 if (resultTable != null && resultTable.Count() > 0)
                 {
@@ -183,9 +177,7 @@ namespace S2Please.Areas.ADMIN.Controllers
                 }
             }
             List<TableColumnModel> columns = new List<TableColumnModel>();
-            paramType = new List<Param>();
-            paramType.Add(new Param() { Key = "@TABLE_NAME", Value = tableName });
-            var responseColumn = ListProcedure<TableColumnModel>(new TableColumnModel(), "TableColumn_Get_TableColumnByTableName", paramType, false, false);
+            var responseColumn = _tableRepository.GetTableColumnByTableName(tableName);
             var resultColumn = JsonConvert.DeserializeObject<List<TableColumnModel>>(JsonConvert.SerializeObject(responseColumn.Results));
             if (resultColumn != null && resultColumn.Count() > 0)
             {
@@ -194,8 +186,7 @@ namespace S2Please.Areas.ADMIN.Controllers
 
             paramType = new List<Param>();
             List<ConditionFilterModel> conditions = new List<ConditionFilterModel>();
-
-            var responseCondition = ListProcedure<ConditionFilterModel>(new ConditionFilterModel(), "ConditionFilter_Get_ConditionFilter", paramType, false, false);
+            var responseCondition = _systemRepository.GetConditionFilter();
             var resultCondition = JsonConvert.DeserializeObject<List<ConditionFilterModel>>(JsonConvert.SerializeObject(responseCondition.Results));
             if (resultCondition != null && resultCondition.Count() > 0)
             {
@@ -264,13 +255,7 @@ namespace S2Please.Areas.ADMIN.Controllers
                 }
             }
 
-            paramType = new List<Param>();
-            paramType.Add(new Param() { Key = "@TABLE_NAME", Value = tableName });
-            paramType.Add(new Param() { Key = "@USER_ID", Value = CurrentUser.UserAdmin.USER_ID.ToString() });
-            paramType.Add(new Param() { Key = "@TABLE_CONTENT", Value = content });
-            paramType.Add(new Param() { Key = "@PARAM", Value = parram });
-
-            var responsUpdate = ListProcedure<ConditionFilterModel>(new ConditionFilterModel(), "Table_Update_TableUserConfig", paramType, false, false);
+            var responsUpdate = _tableRepository.UpdateTableUserConfig(tableName, CurrentUser.UserAdmin.USER_ID, content, parram);
             var resultUpdate = JsonConvert.DeserializeObject<List<ConditionFilterModel>>(JsonConvert.SerializeObject(responseCondition.Results));
             #endregion
 

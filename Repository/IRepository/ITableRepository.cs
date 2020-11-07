@@ -23,5 +23,8 @@ namespace Repository
 
         //Get SelectOption 
         ResultModel GetSelectOption();
+
+        //Get update table user config 
+        ResultModel UpdateTableUserConfig(string tableName, long userId, string content, string parram);
     }
 }

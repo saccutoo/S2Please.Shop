@@ -13,12 +13,18 @@ using System;
 using System.Web;
 using S2Please.Areas.ADMIN.ViewModel;
 using System.Configuration;
-
+using Repository;
 namespace S2Please.Areas.ADMIN.Controllers
 {
     public class AuthenController : BaseController
     {
         // GET: ADMIN/Authen
+        private IAuthenRepository _authenRepository;
+        public AuthenController(IAuthenRepository authenRepository)
+        {
+            this._authenRepository = authenRepository;
+        }
+
         [HttpGet]
         public ActionResult Login(LoginViewModel vm)
         {
@@ -44,11 +50,7 @@ namespace S2Please.Areas.ADMIN.Controllers
             }
             if (vm.Success)
             {
-                var param = new List<Param>();
-                param.Add(new Param { Key = "@USER_NAME", Value = model.USER_NAME });
-                param.Add(new Param { Key = "@PASS_WORD", Value = Security.EncryptKey(model.PASS_WORD) });
-                param.Add(new Param { Key = "@IS_EMPLOYEE", Value = "1" });
-                var responseUser = ListProcedure<UserModel>(new UserModel(), "User_Get_User", param);
+                var responseUser = _authenRepository.GetUser(model.USER_NAME, Security.EncryptKey(model.PASS_WORD),"1");
                 var resultUser = JsonConvert.DeserializeObject<List<UserModel>>(JsonConvert.SerializeObject(responseUser.Results));
                 if (resultUser != null && resultUser.Count() > 0)
                 {
@@ -109,12 +111,7 @@ namespace S2Please.Areas.ADMIN.Controllers
             {
                 Guid guid = Guid.NewGuid();
                 var code = guid.ToString();
-                var param = new List<Param>();
-                param.Add(new Param { Key = "@EMAIL", Value = model.EMAIL });
-                param.Add(new Param { Key = "@CODE", Value = code });
-                param.Add(new Param { Key = "@IS_EMPLOYEE", Value = "1" });
-                param.Add(new Param { Key = "@DATE_TIME", Value = DateTime.Now.AddMinutes(15).ToString() });
-                var responseUser = ListProcedure<UserModel>(new UserModel(), "User_Get_UserByEmail", param);
+                var responseUser = _authenRepository.GetUserByEmail(model.EMAIL, code,"1");
                 var resultUser = JsonConvert.DeserializeObject<List<UserModel>>(JsonConvert.SerializeObject(responseUser.Results));
                 if (resultUser!=null && resultUser.Count()>0)
                 {
@@ -155,9 +152,7 @@ namespace S2Please.Areas.ADMIN.Controllers
                 return RedirectToAction("Index","Dashboard",new { area="ADMIN"});
             }
             model.Success = false;
-            var param = new List<Param>();
-            param.Add(new Param { Key = "@CODE", Value = model.Code });
-            var response = ListProcedure<HistoryResetPassword>(new HistoryResetPassword(), "Get_History_Reset_Pass", param);
+            var response = _authenRepository.GetHistoryResetPass(model.Code);
             var result = JsonConvert.DeserializeObject<List<HistoryResetPassword>>(JsonConvert.SerializeObject(response.Results));
             if (result != null && result.Count() > 0)
             {
@@ -200,9 +195,7 @@ namespace S2Please.Areas.ADMIN.Controllers
             }
             if (vm.Success)
             {
-                var param = new List<Param>();
-                param.Add(new Param { Key = "@CODE", Value = vm.Code });
-                var response = ListProcedure<HistoryResetPassword>(new HistoryResetPassword(), "Get_History_Reset_Pass", param);
+                var response = _authenRepository.GetHistoryResetPass(vm.Code);
                 var result = JsonConvert.DeserializeObject<List<HistoryResetPassword>>(JsonConvert.SerializeObject(response.Results));
                 if (result != null && result.Count() > 0)
                 {
@@ -212,10 +205,7 @@ namespace S2Please.Areas.ADMIN.Controllers
                     }
                     else
                     {
-                        param = new List<Param>();
-                        param.Add(new Param { Key = "@PASS_WORD", Value = Security.EncryptKey(model.PASS_WORD) });
-                        param.Add(new Param { Key = "@EMAIL", Value = model.EMAIL });
-                        var responseS = ListProcedure<UserModel>(new UserModel(), "User_Update_ChangePasswordEmployees", param);
+                        var responseS = _authenRepository.ChangePasswordEmployees(Security.EncryptKey(model.PASS_WORD), model.EMAIL);
                         var resultS = JsonConvert.DeserializeObject<List<UserModel>>(JsonConvert.SerializeObject(responseS.Results));
                         if (resultS != null && resultS.Count() > 0)
                         {

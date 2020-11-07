@@ -16,13 +16,18 @@ using S2Please.ParramType;
 using OfficeOpenXml;
 using System.Data.SqlClient;
 using System.Data;
-using Hrm.Common.Helpers;
-
+using Repository;
+using SHOP.COMMON.Helpers;
 namespace S2Please.Areas.ADMIN.Controllers
 {
     public class ImportController : BaseController
     {
         // GET: ADMIN/Exec 
+        private ISystemRepository _systemRepository;
+        public ImportController(ISystemRepository systemRepository)
+        {
+            this._systemRepository = systemRepository;
+        }
         public ActionResult Index(ResultModel model)
         {
             return View(model);
@@ -75,19 +80,8 @@ namespace S2Please.Areas.ADMIN.Controllers
                 }
                 if (List!=null && List.Count()>0)
                 {
-                    param.Add(new Param { Key = "@IS_CITY", Value = fileName.IndexOf("CITY")!=-1?"1":"0" });
-                    param.Add(new Param { Key = "@IS_DISTRICT", Value = fileName.IndexOf("DISTRICT") != -1 ? "1" : "0" });
-                    param.Add(new Param { Key = "@IS_COMMUNITY", Value = fileName.IndexOf("COMMUNITY") != -1 ? "1" : "0" });
-                    param.Add(new Param
-                    {
-                        IsUserDefinedTableType = true,
-                        paramUserDefinedTableType = new SqlParameter("@Country", SqlDbType.Structured)
-                        {
-                            TypeName = "dbo.CountryType",
-                            Value = DataTableHelper.ConvertToUserDefinedDataTable(List)
-                        }
-                    });
-                    var response = ListProcedure<ImportCountryType>(new ImportCountryType(), "ImportCountry", param);
+                    var ListType = MapperHelper.MapList<ImportCountryType,Repository.Type.ImportCountryType>(List);
+                    var response = _systemRepository.ImportCountry(ListType,fileName.IndexOf("CITY") != -1 ? "1" : "0", fileName.IndexOf("DISTRICT") != -1 ? "1" : "0", fileName.IndexOf("COMMUNITY") != -1 ? "1" : "0");
                     var result = JsonConvert.DeserializeObject<List<ImportCountryType>>(JsonConvert.SerializeObject(response));
                 }
             }

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 
-namespace Hrm.Common.Helpers
+namespace SHOP.COMMON.Helpers
 {
     public static class DataTableHelper
     {

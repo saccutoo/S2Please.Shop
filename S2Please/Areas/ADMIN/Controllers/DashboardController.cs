@@ -12,16 +12,21 @@ using System.Web.Security;
 using System;
 using System.Web;
 using S2Please.Areas.WEB_SHOP.ViewModel;
-
+using Repository;
 namespace S2Please.Areas.ADMIN.Controllers
 {
     public class DashboardController : BaseController
     {
         // GET: ADMIN/Exec
+        private IDashboardRepository _dashboardRepository;
+        public DashboardController(IDashboardRepository dashboardRepository)
+        {
+            this._dashboardRepository = dashboardRepository;
+        }
         public ActionResult Index()
         {
             var param = new List<Param>();
-            var responseOrder = ListProcedure<OrderModel>(new OrderModel(), "Dashboard_Get_GetOrder", param,false,true);
+            var responseOrder = _dashboardRepository.GetDashboard();
             if (responseOrder!=null)
             {
                 if (responseOrder.Success==false && CheckPermision(responseOrder.StatusCode)==false)

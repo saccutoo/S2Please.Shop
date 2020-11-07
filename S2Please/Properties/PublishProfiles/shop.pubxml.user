@@ -211,7 +211,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>09/04/2020 14:35:19</publishTime>
     </File>
     <File Include="Areas/WEB_SHOP/Views/Home/Index.cshtml">
-      <publishTime>11/07/2020 02:50:04</publishTime>
+      <publishTime>11/07/2020 16:00:09</publishTime>
     </File>
     <File Include="Areas/WEB_SHOP/Views/Menu/DropdownLanuage.cshtml">
       <publishTime>07/23/2020 21:11:42</publishTime>
@@ -415,13 +415,13 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>11/27/2012 13:00:52</publishTime>
     </File>
     <File Include="bin/Repository.dll">
-      <publishTime>11/07/2020 11:18:31</publishTime>
+      <publishTime>11/07/2020 15:59:26</publishTime>
     </File>
     <File Include="bin/Repository.dll.config">
       <publishTime>11/07/2020 00:40:38</publishTime>
     </File>
     <File Include="bin/Repository.pdb">
-      <publishTime>11/07/2020 11:18:31</publishTime>
+      <publishTime>11/07/2020 15:59:26</publishTime>
     </File>
     <File Include="bin/roslyn/csc.exe">
       <publishTime>06/18/2015 20:19:46</publishTime>
@@ -460,10 +460,10 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>06/18/2015 20:19:46</publishTime>
     </File>
     <File Include="bin/S2Please.dll">
-      <publishTime>11/07/2020 11:18:36</publishTime>
+      <publishTime>11/07/2020 15:59:30</publishTime>
     </File>
     <File Include="bin/S2Please.pdb">
-      <publishTime>11/07/2020 11:18:36</publishTime>
+      <publishTime>11/07/2020 15:59:30</publishTime>
     </File>
     <File Include="bin/SHOP.COMMON.dll">
       <publishTime>11/07/2020 10:53:26</publishTime>
@@ -3259,7 +3259,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>06/26/2020 00:46:58</publishTime>
     </File>
     <File Include="Web.config">
-      <publishTime>11/07/2020 11:18:37</publishTime>
+      <publishTime>11/07/2020 15:59:31</publishTime>
     </File>
   </ItemGroup>
 </Project>

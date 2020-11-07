@@ -1,5 +1,4 @@
-﻿using Hrm.Common.Helpers;
-using Repository.Model;
+﻿using Repository.Model;
 using Repository.Type;
 using System;
 using System.Collections.Generic;
@@ -8,7 +7,7 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using SHOP.COMMON.Helpers;
 namespace Repository
 {
     public partial class ProductRepository : CommonRepository, IProductRepository
@@ -84,13 +83,13 @@ namespace Repository
         //Get list product type
         public ResultModel GetProductType()
         {
-            return ListProcedure<ProductTypeModel>(new ProductTypeModel(), "ProductType_Get_ProductType", new List<Param>());
+            return ListProcedure<ProductTypeModel>(new ProductTypeModel(), "ProductType_Get_ProductType", new List<Param>(),true);
         }
 
         //Get list product group
         public ResultModel GetProductGroup()
         {
-            return ListProcedure<ProductGroupModel>(new ProductGroupModel(), "ProductGroup_Get_ProductGroup", new List<Param>());
+            return ListProcedure<ProductGroupModel>(new ProductGroupModel(), "ProductGroup_Get_ProductGroup", new List<Param>(),true);
         }
 
         //Get product by product id from admin

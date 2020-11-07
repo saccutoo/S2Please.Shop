@@ -15,7 +15,6 @@ using System.Reflection;
 using SHOP.COMMON.Helpers;
 using S2Please.Helper;
 using S2Please.ParramType;
-using Hrm.Common.Helpers;
 using SHOP.COMMON;
 
 namespace S2Please.Areas.WEB_SHOP.Controllers

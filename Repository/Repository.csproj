@@ -55,10 +55,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="IRepository\IOrderRepository.cs" />
+    <Compile Include="IRepository\IAuthenRepository.cs" />
+    <Compile Include="IRepository\IDashboardRepository.cs" />
     <Compile Include="IRepository\ISystemRepository.cs" />
     <Compile Include="IRepository\ITableRepository.cs" />
     <Compile Include="Model\BaseModel.cs" />
+    <Compile Include="Model\ConditionFilterModel.cs" />
     <Compile Include="Model\ErrorModel.cs" />
+    <Compile Include="Model\HistoryResetPassword.cs" />
     <Compile Include="Model\MultiLanguageModel.cs" />
     <Compile Include="Model\OrderDetailModel.cs" />
     <Compile Include="Model\OrderModel.cs" />
@@ -76,15 +80,19 @@
     <Compile Include="Model\TableColumnModel.cs" />
     <Compile Include="Model\TableModel.cs" />
     <Compile Include="Model\TableUserConfigModel.cs" />
+    <Compile Include="Model\UserModel.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repository\CommonRepository.cs" />
     <Compile Include="Repository\OrderRepository.cs" />
+    <Compile Include="Repository\AuthenRepository.cs" />
+    <Compile Include="Repository\DashboardRepository.cs" />
     <Compile Include="Repository\SystemRepository.cs" />
     <Compile Include="Repository\TableRepository.cs" />
     <Compile Include="Repository\ProductRepository.cs" />
     <Compile Include="Type\ColorSizeMapperType.cs" />
     <Compile Include="Type\ColorType.cs" />
+    <Compile Include="Type\ImportCountryType.cs" />
     <Compile Include="Type\ParamType.cs" />
     <Compile Include="Type\ProductImgType.cs" />
     <Compile Include="Type\SizeType.cs" />

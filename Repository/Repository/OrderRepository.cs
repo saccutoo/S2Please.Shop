@@ -1,5 +1,4 @@
-﻿using Hrm.Common.Helpers;
-using Repository.Model;
+﻿using Repository.Model;
 using Repository.Type;
 using System;
 using System.Collections.Generic;
@@ -8,6 +7,7 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using SHOP.COMMON.Helpers;
 
 namespace Repository
 {
