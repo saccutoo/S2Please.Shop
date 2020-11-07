@@ -27,16 +27,19 @@ namespace S2Please.Areas.ADMIN.Controllers
     public class OrderController : BaseController
     {
         // GET: ADMIN/Order
+
+        private ITableRepository _tableRepository;
+        private IOrderRepository _orderRepository;
+        public OrderController(ITableRepository tableRepository, IOrderRepository orderRepository)
+        {
+            this._tableRepository = tableRepository;
+            this._orderRepository = orderRepository;
+        }
         public ActionResult Index()
         {
 
             OrderViewModel order = new OrderViewModel();
-            var param = new List<Param>();
-
-            param.Add(new Param() { Key = "@TABLE_NAME", Value = TableName.Order });
-            param.Add(new Param() { Key = "@USER_ID", Value = CurrentUser.UserAdmin.USER_ID.ToString() });
-
-            var responseTableUser = ListProcedure<TableUserConfigModel>(new TableUserConfigModel(), "Table_Get_TableUserConfig", param, false, false);
+            var responseTableUser = _tableRepository.GetTableUserConfig(TableName.Order, CurrentUser.UserAdmin.USER_ID);
             var resultTableUser = JsonConvert.DeserializeObject<List<TableModel>>(JsonConvert.SerializeObject(responseTableUser.Results));
             if (resultTableUser != null && resultTableUser.Count() > 0)
             {
@@ -44,9 +47,7 @@ namespace S2Please.Areas.ADMIN.Controllers
             }
             else
             {
-                param = new List<Param>();
-                param.Add(new Param() { Key = "@TABLE_NAME", Value = TableName.Order });
-                var responseOrder = ListProcedure<TableModel>(new TableModel(), "Table_Get_Table", param, false, false);
+                var responseOrder = _tableRepository.GetTableByTableName(TableName.Order);
                 var resultOrder = JsonConvert.DeserializeObject<List<TableModel>>(JsonConvert.SerializeObject(responseOrder.Results));
                 if (resultOrder != null && resultOrder.Count() > 0)
                 {
@@ -71,21 +72,16 @@ namespace S2Please.Areas.ADMIN.Controllers
         public ActionResult Detail(long id)
         {
             OrderDetailViewModel vm = new OrderDetailViewModel();
-
             //Lấy sản phẩm ID sản phẩm
-            var param = new List<Param>();
             vm.ID = id;
-
-            param.Add(new Param { Key = "@ORDER_ID", Value = id.ToString() });
-            var response = ListProcedure<OrderDetailModel>(new OrderDetailModel(), "OrderDetail_Get_GetOrderDetailByOrderId", param);
+            var response = _orderRepository.GetOrderDetailByOrderId(id);
             var result = JsonConvert.DeserializeObject<List<OrderDetailModel>>(JsonConvert.SerializeObject(response.Results));
             if (result != null && result.Count() > 0)
             {
                 vm.OrderDetails = result;
             }
-            param = new List<Param>();
-            param.Add(new Param { Key = "@ID", Value = id.ToString() });
-            var responseOrder = ListProcedure<OrderModel>(new OrderModel(), "Order_Get_GetOrderByID", param);
+
+            var responseOrder = _orderRepository.GetOrderById(id);
             var resultOrder = JsonConvert.DeserializeObject<List<OrderModel>>(JsonConvert.SerializeObject(responseOrder.Results));
             if (resultOrder != null && resultOrder.Count() > 0)
             {
@@ -98,6 +94,7 @@ namespace S2Please.Areas.ADMIN.Controllers
                 html
             }));
         }
+
         #region RenderTable
         public ActionResult ReloadTable(TableViewModel tableData, ParamType param)
         {
@@ -107,10 +104,7 @@ namespace S2Please.Areas.ADMIN.Controllers
                 param.STRING_FILTER = string.Empty;
             }
 
-            paramType.Add(new Param() { Key = "@TABLE_NAME", Value = TableName.Order });
-            paramType.Add(new Param() { Key = "@USER_ID", Value = CurrentUser.UserAdmin.USER_ID.ToString() });
-
-            var responseTableUser = ListProcedure<TableUserConfigModel>(new TableUserConfigModel(), "Table_Get_TableUserConfig", paramType, false, false);
+            var responseTableUser = _tableRepository.GetTableUserConfig(TableName.Order, CurrentUser.UserAdmin.USER_ID);
             var resultTableUser = JsonConvert.DeserializeObject<List<TableModel>>(JsonConvert.SerializeObject(responseTableUser.Results));
             if (resultTableUser != null && resultTableUser.Count() > 0)
             {
@@ -118,16 +112,13 @@ namespace S2Please.Areas.ADMIN.Controllers
             }
             else
             {
-                paramType = new List<Param>();
-                paramType.Add(new Param() { Key = "@TABLE_NAME", Value = TableName.Order });
-                var responseOrder = ListProcedure<TableModel>(new TableModel(), "Table_Get_Table", paramType, false, false);
+                var responseOrder = _tableRepository.GetTableByTableName(TableName.Order);
                 var resultOrder = JsonConvert.DeserializeObject<List<TableModel>>(JsonConvert.SerializeObject(responseOrder.Results));
                 if (resultOrder != null && resultOrder.Count() > 0)
                 {
                     tableData = JsonConvert.DeserializeObject<TableViewModel>(resultOrder.FirstOrDefault().TABLE_CONTENT);
                 }
             }
-
 
             tableData.TABLE_NAME = TableName.Order;
             tableData.TITLE_TABLE_NAME = FunctionHelpers.GetValueLanguage("Table.Title.Order");
@@ -165,24 +156,19 @@ namespace S2Please.Areas.ADMIN.Controllers
 
             if (tableData.TABLE_COLUMN == null || tableData.TABLE_COLUMN.Count() == 0)
             {
-                var param = new List<Param>();
-                param.Add(new Param() { Key = "@TABLE_NAME", Value = tableData.TABLE_NAME });
-                var responseColumn = ListProcedure<TableColumnModel>(new TableColumnModel(), "TableColumn_Get_TableColumnByTableName", param, false, false);
+                var responseColumn = _tableRepository.GetTableColumnByTableName(tableData.TABLE_NAME);
                 if (responseColumn != null && responseColumn.Results.Count() > 0)
                 {
                     tableData.TABLE_COLUMN = JsonConvert.DeserializeObject<List<TableColumnModel>>(JsonConvert.SerializeObject(responseColumn.Results));
                 }
             }
 
-
             if (tableData.SELECT_OPTION == null || tableData.SELECT_OPTION.Count() == 0)
             {
-                var param = new List<Param>();
-                var responseSelectOption = ListProcedure<SelectOptionModel>(new SelectOptionModel(), "SelectOption_Get_SelectOption ", param, false, false);
+                var responseSelectOption = _tableRepository.GetSelectOption();
                 if (responseSelectOption != null && responseSelectOption.Results.Count() > 0)
                 {
                     tableData.SELECT_OPTION = JsonConvert.DeserializeObject<List<SelectOptionModel>>(JsonConvert.SerializeObject(responseSelectOption.Results));
-
                 }
             }
 
@@ -202,22 +188,8 @@ namespace S2Please.Areas.ADMIN.Controllers
 
         public TableViewModel GetData(TableViewModel tableData, ParamType paramType)
         {
-
-            var param = new List<Param>();
-            var basicParamype = new List<ParamType>();
-            basicParamype.Add(paramType);
-            param.Add(new Param
-            {
-                IsUserDefinedTableType = true,
-                paramUserDefinedTableType = new SqlParameter("@BasicParamType", SqlDbType.Structured)
-                {
-                    TypeName = "dbo.BasicParamType",
-                    Value = DataTableHelper.ConvertToUserDefinedDataTable(basicParamype)
-                }
-            });
-            param.Add(new Param { Key = "@TotalRecord", Value = "0", IsOutPut = true, Type = "Int" });
-
-            var response = ListProcedure<OrderModel>(new OrderModel(), "Order_Get_OrderFromAdmin", param, false, true);
+            var type = MapperHelper.Map<ParamType, Repository.Type.ParamType>(paramType);
+            var response = _orderRepository.GetOrderFromAdmin(type);
             if (response != null)
             {
                 if (response.Success == false && CheckPermision(response.StatusCode) == false)
@@ -231,9 +203,9 @@ namespace S2Please.Areas.ADMIN.Controllers
                     tableData.TOTAL = Convert.ToInt32(response.OutValue.Parameters["@TotalRecord"].Value.ToString());
                 }
             }
-
             return tableData;
         }
+
         public ActionResult SesionExport(string TABLE_NAME, ParamType paramType)
         {
             if (String.IsNullOrEmpty(paramType.STRING_FILTER))
@@ -253,42 +225,23 @@ namespace S2Please.Areas.ADMIN.Controllers
             return Json(new { result = true }, JsonRequestBehavior.AllowGet);
 
         }
+
         public ActionResult Export(string TABLE_NAME)
         {
             TableViewModel tableData = new TableViewModel();
-
-
             tableData.TABLE_NAME = TABLE_NAME;
-            var param = new List<Param>();
-
-            param.Add(new Param() { Key = "@TABLE_NAME", Value = tableData.TABLE_NAME });
-            param.Add(new Param() { Key = "@USER_ID", Value = CurrentUser.UserAdmin.USER_ID.ToString() });
-
-            var responseTableUser = ListProcedure<TableUserConfigModel>(new TableUserConfigModel(), "Table_Get_TableUserConfig", param, false, false);
-            var resultTableUser = JsonConvert.DeserializeObject<List<TableModel>>(JsonConvert.SerializeObject(responseTableUser.Results));
-            if (resultTableUser != null && resultTableUser.Count() > 0)
+            var responseOrder = _tableRepository.GetTableByTableName(TABLE_NAME);
+            var resultOrder = JsonConvert.DeserializeObject<List<TableModel>>(JsonConvert.SerializeObject(responseOrder.Results));
+            if (resultOrder != null && resultOrder.Count() > 0)
             {
-                tableData = JsonConvert.DeserializeObject<TableViewModel>(resultTableUser.FirstOrDefault().TABLE_CONTENT);
-            }
-            else
-            {
-                param = new List<Param>();
-                param.Add(new Param() { Key = "@TABLE_NAME", Value = TABLE_NAME });
-                var responseOrder = ListProcedure<TableModel>(new TableModel(), "Table_Get_Table", param, false, false);
-                var resultOrder= JsonConvert.DeserializeObject<List<TableModel>>(JsonConvert.SerializeObject(responseOrder.Results));
-                if (resultOrder != null && resultOrder.Count() > 0)
-                {
-                    tableData = JsonConvert.DeserializeObject<TableViewModel>(resultOrder.FirstOrDefault().TABLE_CONTENT);
-                }
+                tableData = JsonConvert.DeserializeObject<TableViewModel>(resultOrder.FirstOrDefault().TABLE_CONTENT);
             }
 
             //tableData = GetData(tableData, paramType);
             tableData.TABLE_COLUMN_FIELD = tableData.TABLE_COLUMN_FIELD.Where(s => s.IS_SHOW == true).OrderBy(s => s.POSITION).ToList();
             tableData.DATA = Session["Export"] as List<dynamic>;
 
-            param = new List<Param>();
-            param.Add(new Param() { Key = "@TABLE_NAME", Value = TABLE_NAME });
-            var responseColumn = ListProcedure<TableColumnModel>(new TableColumnModel(), "TableColumn_Get_TableColumnByTableName", param, false, false);
+            var responseColumn = _tableRepository.GetTableColumnByTableName(TABLE_NAME);
             if (responseColumn != null && responseColumn.Results.Count() > 0)
             {
                 tableData.TABLE_COLUMN = JsonConvert.DeserializeObject<List<TableColumnModel>>(JsonConvert.SerializeObject(responseColumn.Results));

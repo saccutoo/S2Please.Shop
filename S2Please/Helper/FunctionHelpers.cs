@@ -1,27 +1,26 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using SHOP.COMMON;
 using System.Text;
 using System.Security.Cryptography;
 using S2Please.Controllers;
 using S2Please.Models;
 using Newtonsoft.Json;
-using System.Web.Mvc;
-using SHOP.COMMON.Entity;
+using Repository;
 using SHOP.COMMON.Helpers;
-
 namespace S2Please.Helper
 {
     public static class FunctionHelpers
     {
+        public static CommonRepository commonRepository = new CommonRepository();
         public static string GetValueLanguage(string key)
         {
             //Lấy danh sách đa ngôn ngữ
-            BaseController baseC = new BaseController();
             var model = new MultiLanguageModel();
-            var response = baseC.ListProcedure<MultiLanguageModel>(model, "MultiLanguage_Get_MultiLanguage", new List<Param>(), true);
+            var param = new List<Param>();
+            var paramType = MapperHelper.MapList<Param, Repository.Model.Param>(param);
+            var response = commonRepository.ListProcedure<MultiLanguageModel>(model, "MultiLanguage_Get_MultiLanguage", paramType, true);
             var result = JsonConvert.DeserializeObject<List<MultiLanguageModel>>(JsonConvert.SerializeObject(response.Results));
             var data = result.Where(s => s.KEY == key && s.LANGUAGE_ID == long.Parse(CurrentUser.LANGUAGE_ID.ToString())).FirstOrDefault();
             if (data != null)
@@ -112,9 +111,10 @@ namespace S2Please.Helper
         {
             //Lấy danh sách đa ngôn ngữ
             string key = string.Empty;
-            BaseController baseC = new BaseController();
             var model = new LocalizationModel();
-            var response = baseC.ListProcedure<LocalizationModel>(model, "Localization_Get_Localization", new List<Param>(), true);
+            var param = new List<Param>();
+            var paramType = MapperHelper.MapList<Param, Repository.Model.Param>(param);
+            var response = commonRepository.ListProcedure<LocalizationModel>(model, "Localization_Get_Localization", paramType, true);
             var result = JsonConvert.DeserializeObject<List<LocalizationModel>>(JsonConvert.SerializeObject(response.Results));
             var data = result.Where(s=>s.DATA_ID== dataId && s.DATA_TYPE== dataType && s.LANGUAGE_ID==CurrentUser.LANGUAGE_ID && s.PROPERTY_NAME== propertyName).FirstOrDefault();
             if (data != null)
@@ -131,9 +131,10 @@ namespace S2Please.Helper
         {
             //Lấy danh sách đa ngôn ngữ
             string key = string.Empty;
-            BaseController baseC = new BaseController();
             var model = new LocalizationModel();
-            var response = baseC.ListProcedure<LocalizationModel>(model, "LocalizationClass_Get_LocalizationClass", new List<Param>(), true);
+            var param = new List<Param>();
+            var paramType = MapperHelper.MapList<Param, Repository.Model.Param>(param);
+            var response = commonRepository.ListProcedure<LocalizationModel>(model, "LocalizationClass_Get_LocalizationClass", paramType, true);
             var result = JsonConvert.DeserializeObject<List<LocalizationModel>>(JsonConvert.SerializeObject(response.Results));
             var data = result.Where(s => s.DATA_ID == dataId && s.DATA_TYPE == dataType).FirstOrDefault();
             if (data != null)
@@ -149,8 +150,7 @@ namespace S2Please.Helper
 
         public static bool CheckPermission(string menuName,string action)
         {
-            BaseController baseC = new BaseController();
-            return baseC.CheckPermission(menuName, action,CurrentUser.UserAdmin.USER_ID);
+            return commonRepository.CheckPermission(menuName, action,CurrentUser.UserAdmin.USER_ID);
         }
 
         public static UserModel GetCurrentUserAdmin()

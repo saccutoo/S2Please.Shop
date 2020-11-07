@@ -19,10 +19,17 @@ namespace S2Please
             builder.RegisterType<CommonRepository>().InstancePerLifetimeScope();
             builder.RegisterType<ProductRepository>().As<IProductRepository>().InstancePerLifetimeScope();
             builder.RegisterType<TableRepository>().As<ITableRepository>().InstancePerLifetimeScope();
+            builder.RegisterType<OrderRepository>().As<IOrderRepository>().InstancePerLifetimeScope();
+            builder.RegisterType<SystemRepository>().As<ISystemRepository>().InstancePerLifetimeScope();
 
-            //controllers vs repositories
+            //controllers 
+            builder.RegisterType<S2Please.Controllers.BaseController>();
             builder.RegisterType<S2Please.Areas.ADMIN.Controllers.ProductController>();
+            builder.RegisterType<S2Please.Areas.ADMIN.Controllers.OrderController>();
+
+            //build all
             Container = builder.Build();
+
             //set dependency resolver
             DependencyResolver.SetResolver(new AutofacDependencyResolver(Container));
         }

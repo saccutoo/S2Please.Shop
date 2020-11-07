@@ -722,6 +722,8 @@ namespace S2Please.Controllers
             bool check = RemoveFileUpload(fileName);
             return Json(new { Success = check }, JsonRequestBehavior.AllowGet);
         }
+
+      
     }
     public class Dynamic{
         public long ID { get; set; }

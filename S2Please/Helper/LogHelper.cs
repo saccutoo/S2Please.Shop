@@ -11,21 +11,23 @@ using Newtonsoft.Json;
 using System.Web.Mvc;
 using SHOP.COMMON.Entity;
 using SHOP.COMMON.Helpers;
+using Repository;
 
 namespace S2Please.Helper
 {
     public static class LogHelper
     {
-       public static void LogError(string msg,string procedure)
+        public static CommonRepository _commonRepository = new CommonRepository();
+        public static void LogError(string msg,string procedure)
         {
-            BaseController bas = new BaseController();
             var modelError = new ErrorModel();
             var param1 = new List<Param>();
-            param1.Add(new Param { Key = "@ERROR_NUM", Value = new Random().Next(10000, 99999).ToString() });
+            param1.Add(new Param { Key = "@ERROR_NUM", Value = new Random().Next(100000000, 999999999).ToString() });
             param1.Add(new Param { Key = "@ERROR_MSG", Value = msg });
             param1.Add(new Param { Key = "@ERROR_PROC", Value = procedure });
             param1.Add(new Param { Key = "@CREATED_BY", Value = CurrentUser.UserAdmin.USER_ID.ToString() });
-            bas.ListProcedure<ErrorModel>(modelError, "utl_Insert_ErrorLog", param1);
+            var paramType = MapperHelper.MapList<Param, Repository.Model.Param>(param1);
+            _commonRepository.ListProcedure<ErrorModel>(modelError, "utl_Insert_ErrorLog", paramType);
         }
     }
 

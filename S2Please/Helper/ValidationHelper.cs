@@ -6,22 +6,24 @@ using System.Web;
 using S2Please.Controllers;
 using Newtonsoft.Json;
 using System.Text.RegularExpressions;
+using Repository;
+using SHOP.COMMON.Helpers;
 
 namespace S2Please.Helper
 {
     public static class ValidationHelper
     {
-
+        public static CommonRepository _commonRepository = new CommonRepository();
         public static List<ValidationModel> ListValidation<T>(List<T> models, string modelName)
         {
-            BaseController baseC = new BaseController();
             var result = new List<ValidationModel>();
             List<ColumnValidationModel> validationsR = new List<ColumnValidationModel>();
             if (models != null && models.Count > 0)
             {
                 var param = new List<Param>();
+                var paramType = MapperHelper.MapList<Param, Repository.Model.Param>(param);
                 param.Add(new Param { Key = "@TABLE_NAME", Value = models[0].GetType().Name.Replace("Model", string.Empty) });
-                var validationResponse = baseC.ListProcedure<ColumnValidationModel>(new ColumnValidationModel(), "Validation_Get_GetValidation", param);
+                var validationResponse = _commonRepository.ListProcedure<ColumnValidationModel>(new ColumnValidationModel(), "Validation_Get_GetValidation", paramType);
                 var validationResult = JsonConvert.DeserializeObject<List<ColumnValidationModel>>(JsonConvert.SerializeObject(validationResponse.Results));
 
                 if (validationResult != null && validationResult.Count() > 0)
@@ -45,14 +47,15 @@ namespace S2Please.Helper
 
         public static List<ValidationModel> Validation<T>(T model, string modelName, int index = -1, List<ColumnValidationModel> validationsR = null, string dbName = "")
         {
-            BaseController baseC = new BaseController();
             var result = new List<ValidationModel>();
             var nameOfModel = modelName;
             if (validationsR == null)
             {
                 var param = new List<Param>();              
                 param.Add(new Param { Key = "@TABLE_NAME", Value = model.GetType().Name.Replace("Model", string.Empty) });
-                var validationResponse = baseC.ListProcedure<ColumnValidationModel>(new ColumnValidationModel(), "Validation_Get_GetValidation", param);
+                var paramType = MapperHelper.MapList<Param, Repository.Model.Param>(param);
+
+                var validationResponse = _commonRepository.ListProcedure<ColumnValidationModel>(new ColumnValidationModel(), "Validation_Get_GetValidation", paramType);
                 var validationResult = JsonConvert.DeserializeObject<List<ColumnValidationModel>>(JsonConvert.SerializeObject(validationResponse.Results));
 
                 if (validationResult!=null && validationResult.Count()>0)

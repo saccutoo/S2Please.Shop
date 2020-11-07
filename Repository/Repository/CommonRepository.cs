@@ -112,7 +112,7 @@ namespace Repository
                         var modelError = new ErrorModel();
 
                         var param1 = new List<Param>();
-                        param1.Add(new Param { Key = "@ERROR_NUM", Value = new Random().Next(10000, 99999).ToString() });
+                        param1.Add(new Param { Key = "@ERROR_NUM", Value = new Random().Next(100000000, 999999999).ToString() });
                         param1.Add(new Param { Key = "@ERROR_MSG", Value = response.error });
                         param1.Add(new Param { Key = "@ERROR_PROC", Value = stroedProcedure });
                         param1.Add(new Param { Key = "@CREATED_BY", Value = CurrentUser.UserAdmin.USER_ID.ToString() });
@@ -148,8 +148,7 @@ namespace Repository
             catch (Exception ex)
             {
                 var modelError = new ErrorModel();
-                var param1 = new List<Param>();
-                param.Add(new Param { Key = "@ERROR_NUM", Value = new Random().Next(10000, 99999).ToString().ToString() });
+                param.Add(new Param { Key = "@ERROR_NUM", Value = new Random().Next(100000000, 999999999).ToString() });
                 param.Add(new Param { Key = "@ERROR_MSG", Value = ex.Message });
                 param.Add(new Param { Key = "@ERROR_PROC", Value = stroedProcedure });
                 param.Add(new Param { Key = "@CREATED_BY", Value = "1" });
