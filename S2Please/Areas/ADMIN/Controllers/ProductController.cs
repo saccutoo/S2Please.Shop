@@ -30,32 +30,28 @@ namespace S2Please.Areas.ADMIN.Controllers
 
         //khởi tạo các Repository
         private IProductRepository _productRepository;
-        public ProductController(IProductRepository productRepository)
+        private ITableRepository _tableRepository;
+        public ProductController(IProductRepository productRepository, ITableRepository tableRepository)
         {
             this._productRepository = productRepository;
+            this._tableRepository = tableRepository;
+
         }
 
         [HttpGet]
         public ActionResult Index()
         {
-
             ProductViewModel product = new ProductViewModel();
-            var param = new List<Param>();
-
-            param.Add(new Param() { Key = "@TABLE_NAME", Value = TableName.Product });
-            param.Add(new Param() { Key = "@USER_ID", Value = CurrentUser.UserAdmin.USER_ID.ToString() });
-
-            var responseTableUser = ListProcedure<TableUserConfigModel>(new TableUserConfigModel(), "Table_Get_TableUserConfig", param, false, false);
+            var responseTableUser = _tableRepository.GetTableUserConfig(TableName.Product, CurrentUser.UserAdmin.USER_ID);
             var resultTableUser = JsonConvert.DeserializeObject<List<TableModel>>(JsonConvert.SerializeObject(responseTableUser.Results));
+
             if (resultTableUser != null && resultTableUser.Count() > 0)
             {
                 product.Table = JsonConvert.DeserializeObject<TableViewModel>(resultTableUser.FirstOrDefault().TABLE_CONTENT);
             }
             else
             {
-                param = new List<Param>();
-                param.Add(new Param() { Key = "@TABLE_NAME", Value = TableName.Product });
-                var responseProduct = ListProcedure<TableModel>(new TableModel(), "Table_Get_Table", param, false, false);
+                var responseProduct = _tableRepository.GetTableByTableName(TableName.Product);
                 var resultProduct = JsonConvert.DeserializeObject<List<TableModel>>(JsonConvert.SerializeObject(responseProduct.Results));
                 if (resultProduct != null && resultProduct.Count() > 0)
                 {
@@ -81,13 +77,6 @@ namespace S2Please.Areas.ADMIN.Controllers
         {
             ProductDetailViewModel vm = new ProductDetailViewModel();
 
-            //Lấy sản phẩm ID sản phẩm
-            var param = new List<Param>();
-            vm.ID = id;
-
-            param.Add(new Param { Key = "@ID", Value = id.ToString() });
-
-
             var responseProduct = _productRepository.GetProductById(id);
             var resultProduct = JsonConvert.DeserializeObject<List<ProductModel>>(JsonConvert.SerializeObject(responseProduct.Results));
             if (resultProduct != null && resultProduct.Count() > 0)
@@ -95,26 +84,20 @@ namespace S2Please.Areas.ADMIN.Controllers
                 vm.Product = resultProduct.FirstOrDefault();
             }
 
-
             //Lấy danh sách ảnh ID sản phẩm
-            var responseProductImgs = ListProcedure<ProductImgModel>(new ProductImgModel(), "Product_Get_GetProductImgByProductId", param);
+            var responseProductImgs = _productRepository.GetProductImgByProductId(id);
             vm.ProductImgs = JsonConvert.DeserializeObject<List<ProductImgModel>>(JsonConvert.SerializeObject(responseProductImgs.Results));
 
-            ////Lấy danh sách bonus ID sản phẩm
-            //var responseNonus = ListProcedure<ProductBonusModel>(new ProductBonusModel(), "Product_Get_GetProductBonusByProductId", param);
-            //vm.ProductBonus = JsonConvert.DeserializeObject<List<ProductBonusModel>>(JsonConvert.SerializeObject(responseNonus.Results));
-
             //Lấy danh sách màu theo ID sản phẩm
-            var responseColors = ListProcedure<ProductColorModel>(new ProductColorModel(), "Product_Get_GetProductColorByProductId", param);
+            var responseColors = _productRepository.GetProductColorByProductId(id);
             vm.Colors = JsonConvert.DeserializeObject<List<ProductColorModel>>(JsonConvert.SerializeObject(responseColors.Results));
 
             //Lấy danh sách size theo ID sản phẩm
-            var responseSizes = ListProcedure<ProductSizeModel>(new ProductSizeModel(), "Product_Get_GetProductSizeByProductId", param);
+            var responseSizes = _productRepository.GetProductSizeByProductId(id);
             vm.Sizes = JsonConvert.DeserializeObject<List<ProductSizeModel>>(JsonConvert.SerializeObject(responseSizes.Results));
 
-
             //Lấy danh sách size theo ID sản phẩm
-            var responseMapper = ListProcedure<ProductColorSizeMapperModel>(new ProductColorSizeMapperModel(), "Product_Get_GetProductByProductID", param);
+            var responseMapper = _productRepository.GetProductColorSizeMapperByProductId(id);
             vm.ColorSizeMapper = JsonConvert.DeserializeObject<List<ProductColorSizeMapperModel>>(JsonConvert.SerializeObject(responseMapper.Results));
 
             var html = RenderViewToString(this.ControllerContext, "~/Areas/ADMIN/Views/Product/_Detail.cshtml", vm);
@@ -135,14 +118,8 @@ namespace S2Please.Areas.ADMIN.Controllers
 
         public ActionResult Delete(long id)
         {
-
-            var param = new List<Param>();
             var result = new ResultModel();
-
-            param.Add(new Param { Key = "@ID", Value = id.ToString() });
-            param.Add(new Param { Key = "@UPDATED_BY", Value = CurrentUser.UserAdmin.USER_ID.ToString() });
-
-            var response = ListProcedure<ProductModel>(new ProductModel(), "Product_Delete_DeleteProductByID", param, false, true);
+            var response = _productRepository.DeleteProductByID(id, CurrentUser.UserAdmin.USER_ID);
             if (response != null)
             {
                 if (response.Success == false && CheckPermision(response.StatusCode) == false)
@@ -188,27 +165,21 @@ namespace S2Please.Areas.ADMIN.Controllers
             ProductSaveViewModel vm = new ProductSaveViewModel();
             vm.Product.ID = id;
 
-            var param = new List<Param>();
-            var responseType = ListProcedure<ProductTypeModel>(new ProductTypeModel(), "ProductType_Get_ProductType", param, false, false);
+            var responseType = _productRepository.GetProductType();
             vm.Types = responseType.Results;
 
-
-            param = new List<Param>();
-            var responseGroup = ListProcedure<ProductGroupModel>(new ProductGroupModel(), "ProductGroup_Get_ProductGroup", param, false, false);
+            var responseGroup = _productRepository.GetProductGroup();
             vm.Groups = responseGroup.Results.Where(s => s.TYPE == 2).ToList();
 
             if (id!=0)
             {
-                param = new List<Param>();
-                param.Add(new Param() { Key = "@ID", Value = id.ToString() });
-                var responseProduct = ListProcedure<ProductModel>(new ProductModel(), "Product_Get_GetProductByIdFromAdmin", param, false, true);
-
+              
+                var responseProduct = _productRepository.GetProductByIdFromAdmin(id);
                 if (responseProduct != null)
                 {
                     if (responseProduct.Success == false && CheckPermision(responseProduct.StatusCode) == false)
                     {
                         return RedirectToRoute(new { action = "/Page404", controller = "Base", area = "" });
-
                     }
                     else
                     {
@@ -216,7 +187,7 @@ namespace S2Please.Areas.ADMIN.Controllers
                     }
                 }
 
-                var responseProductColor = ListProcedure<ProductColorModel>(new ProductColorModel(), "Product_Get_GetProductColorByProductId", param, false, false);
+                var responseProductColor = _productRepository.GetProductColorByProductId(id);
                 if (responseProductColor!=null && responseProductColor.Results!=null && responseProductColor.Results.Count()>0)
                 {
                     vm.ProductColors = JsonConvert.DeserializeObject<List<ProductColorModel>>(JsonConvert.SerializeObject(responseProductColor.Results));
@@ -231,23 +202,19 @@ namespace S2Please.Areas.ADMIN.Controllers
                     Session["COLOR-IMG"] = vm.FileColors;
                 }
 
-                var responseProductSize=ListProcedure<ProductSizeModel>(new ProductSizeModel(), "Product_Get_GetProductSizeByProductId", param, false, false);
+                var responseProductSize = _productRepository.GetProductSizeByProductId(id);
                 if (responseProductSize != null && responseProductSize.Results != null && responseProductSize.Results.Count() > 0)
                 {
                     vm.ProductSizes = JsonConvert.DeserializeObject<List<ProductSizeModel>>(JsonConvert.SerializeObject(responseProductSize.Results));
                 }
 
-                param = new List<Param>();
-                param.Add(new Param() { Key = "@PRODUCT_ID", Value = id.ToString() });
-                var responseProductMap = ListProcedure<ProductColorSizeMapperModel>(new ProductColorSizeMapperModel(), "Product_Get_GetProductMapperProductId", param, false, false);
+                var responseProductMap = _productRepository.GetProductMapperProductId(id);
                 if (responseProductMap != null && responseProductMap.Results != null && responseProductMap.Results.Count() > 0)
                 {
                     vm.ProductMapp = JsonConvert.DeserializeObject<List<ProductColorSizeMapperModel>>(JsonConvert.SerializeObject(responseProductMap.Results));
                 }
 
-                param = new List<Param>();
-                param.Add(new Param() { Key = "@ID", Value = id.ToString() });
-                var responseProductSlides = ListProcedure<ProductImgModel>(new ProductImgModel(), "Product_Get_GetProductImgByProductId", param, false, false);
+                var responseProductSlides = _productRepository.GetProductImgByProductId(id);
                 if (responseProductSlides != null && responseProductSlides.Results != null && responseProductSlides.Results.Count() > 0)
                 {
                     vm.ProductSlides = JsonConvert.DeserializeObject<List<ProductImgModel>>(JsonConvert.SerializeObject(responseProductSlides.Results));
@@ -267,7 +234,6 @@ namespace S2Please.Areas.ADMIN.Controllers
             return View(vm);
         }
 
-       
         public ActionResult ReloadTableColorAndSize(string COLOR, string SIZE, List<ProductColorSizeMapperModel> ColorSizeMap)
         {
             RowTableColorAndSizeViewModel vm = new RowTableColorAndSizeViewModel();
@@ -376,6 +342,7 @@ namespace S2Please.Areas.ADMIN.Controllers
             }
             return Json(new { Invalid = false }, JsonRequestBehavior.AllowGet);
         }
+
         public ActionResult SaveProduct(ProductModel model, List<ProductColorSizeMapperModel> ColorSizeMap, List<ProductColorModel> ListImgByColor)
         {
  
@@ -482,79 +449,22 @@ namespace S2Please.Areas.ADMIN.Controllers
                 colorSizeMapType.FirstOrDefault().IS_MAIN = true;
             }
 
+
             var param = new List<Param>();
 
             ParamType paramType = new ParamType();
             paramType.LANGUAGE_ID = CurrentUser.LANGUAGE_ID;
             paramType.USER_ID = CurrentUser.UserAdmin.USER_ID;
             paramType.ROLE_ID = CurrentUser.UserAdmin.ROLE_ID;
+            var paramTypeInsert = MapperHelper.Map<ParamType, Repository.Type.ParamType>(paramType);
+            var colorTypeInsert = MapperHelper.MapList<ColorType, Repository.Type.ColorType>(colorTypes);
+            var sizeTypeInsert = MapperHelper.MapList<SizeType, Repository.Type.SizeType>(sizeTypes);
+            var productImgTypeInsert = MapperHelper.MapList<ProductImgType, Repository.Type.ProductImgType>(productImgs);
+            var ColorSizeMapperTypeInsert = MapperHelper.MapList<ColorSizeMapperType, Repository.Type.ColorSizeMapperType>(colorSizeMapType);
+            var modelInsert=MapperHelper.Map<ProductModel, Repository.Model.ProductModel>(model);
 
-            var basicParamype = new List<ParamType>();
-            basicParamype.Add(paramType);
-
-            param.Add(new Param
-            {
-                IsUserDefinedTableType = true,
-                paramUserDefinedTableType = new SqlParameter("@BasicParamType", SqlDbType.Structured)
-                {
-                    TypeName = "dbo.BasicParamType",
-                    Value = DataTableHelper.ConvertToUserDefinedDataTable(basicParamype)
-                }
-            });
-
-
-            param.Add(new Param
-            {
-                IsUserDefinedTableType = true,
-                paramUserDefinedTableType = new SqlParameter("@ColorType", SqlDbType.Structured)
-                {
-                    TypeName = "dbo.ColorType",
-                    Value = DataTableHelper.ConvertToUserDefinedDataTable(colorTypes)
-                }
-            });
-
-            param.Add(new Param
-            {
-                IsUserDefinedTableType = true,
-                paramUserDefinedTableType = new SqlParameter("@SizeType", SqlDbType.Structured)
-                {
-                    TypeName = "dbo.SizeType",
-                    Value = DataTableHelper.ConvertToUserDefinedDataTable(sizeTypes)
-                }
-            });
-
-            param.Add(new Param
-            {
-                IsUserDefinedTableType = true,
-                paramUserDefinedTableType = new SqlParameter("@ProductImgType", SqlDbType.Structured)
-                {
-                    TypeName = "dbo.ProductImgType",
-                    Value = DataTableHelper.ConvertToUserDefinedDataTable(productImgs)
-                }
-            });
-
-            param.Add(new Param
-            {
-                IsUserDefinedTableType = true,
-                paramUserDefinedTableType = new SqlParameter("@ColorSizeMap", SqlDbType.Structured)
-                {
-                    TypeName = "dbo.ColorSizeMapperType",
-                    Value = DataTableHelper.ConvertToUserDefinedDataTable(colorSizeMapType)
-                }
-            });
-
-            param.Add(new Param { Key = "@ID", Value = model.ID.ToString() });
-            param.Add(new Param { Key = "@PRODUCT_CODE", Value = model.PRODUCT_CODE });
-            param.Add(new Param { Key = "@PRODUCT_TYPE_ID", Value = model.PRODUCT_TYPE_ID.ToString() });
-            param.Add(new Param { Key = "@PRODUCT_GROUP_ID", Value = model.PRODUCT_GROUP_ID.ToString() });
-            param.Add(new Param { Key = "@NAME", Value = model.NAME });
-            param.Add(new Param { Key = "@DECRIPTION", Value = model.DECRIPTION == null ? " " : model.DECRIPTION });
-            param.Add(new Param { Key = "@PRODUCT_MATERIAL", Value = model.PRODUCT_MATERIAL == null ? " " : model.PRODUCT_MATERIAL });
-            param.Add(new Param { Key = "@PRODUCT_ORIGIN", Value = model.PRODUCT_ORIGIN == null ? " " : model.PRODUCT_ORIGIN });
-            param.Add(new Param { Key = "@IS_SHOW", Value = model.IS_SHOW.ToString() });
-            param.Add(new Param { Key = "@IS_NEW", Value = model.IS_NEW.ToString() });
             var result = new ResultModel();
-            var response = ListProcedure<ProductModel>(new ProductModel(), "Product_Update_SaveProduct", param, false, true);
+            var response = _productRepository.SaveProduct(modelInsert, paramTypeInsert, colorTypeInsert, sizeTypeInsert, productImgTypeInsert, ColorSizeMapperTypeInsert);
             if (response != null)
             {
                 if (response.Success == false && CheckPermision(response.StatusCode) == false)
@@ -566,7 +476,14 @@ namespace S2Please.Areas.ADMIN.Controllers
                     if (response.Results == null || response.Results.Count() == 0)
                     {
                         result.Success = false;
-                        result.Message = FunctionHelpers.GetValueLanguage("Message.AddProduct.Error");
+                        if (model.ID != 0)
+                        {
+                            result.Message = FunctionHelpers.GetValueLanguage("Message.UpdateProduct.Error");
+                        }
+                        else
+                        {
+                            result.Message = FunctionHelpers.GetValueLanguage("Message.AddProduct.Error");
+                        }
                         result.CacheName = FunctionHelpers.GetValueLanguage("Message.Error");
                     }
                     else
@@ -594,7 +511,14 @@ namespace S2Please.Areas.ADMIN.Controllers
 
                         Session["Product"] = JsonConvert.DeserializeObject<ProductModel>(JsonConvert.SerializeObject(response.Results.FirstOrDefault()));
                         result.Success = true;
-                        result.Message = FunctionHelpers.GetValueLanguage("Message.AddProduct.Success");
+                        if (model.ID!=0)
+                        {
+                            result.Message = FunctionHelpers.GetValueLanguage("Message.UpdateProduct.Success");
+                        }
+                        else
+                        {
+                            result.Message = FunctionHelpers.GetValueLanguage("Message.AddProduct.Success");
+                        }
                         result.CacheName = FunctionHelpers.GetValueLanguage("Message.Success");
                     }
                 }
@@ -723,7 +647,6 @@ namespace S2Please.Areas.ADMIN.Controllers
             result.Success = false;
             return Json(result, JsonRequestBehavior.AllowGet);
         }
-
 
         public ActionResult UploadImgByColor(IEnumerable<HttpPostedFileBase> files,string dynamic)
         {
@@ -929,16 +852,12 @@ namespace S2Please.Areas.ADMIN.Controllers
         #region RenderTable
         public ActionResult ReloadTable(TableViewModel tableData, ParamType param)
         {
-            var paramType = new List<Param>();
             if (param.STRING_FILTER == null)
             {
                 param.STRING_FILTER = string.Empty;
             }
 
-            paramType.Add(new Param() { Key = "@TABLE_NAME", Value = TableName.Product });
-            paramType.Add(new Param() { Key = "@USER_ID", Value = CurrentUser.UserAdmin.USER_ID.ToString() });
-
-            var responseTableUser = ListProcedure<TableUserConfigModel>(new TableUserConfigModel(), "Table_Get_TableUserConfig", paramType, false, false);
+            var responseTableUser = _tableRepository.GetTableUserConfig(TableName.Product, CurrentUser.UserAdmin.USER_ID);
             var resultTableUser = JsonConvert.DeserializeObject<List<TableModel>>(JsonConvert.SerializeObject(responseTableUser.Results));
             if (resultTableUser != null && resultTableUser.Count() > 0)
             {
@@ -946,17 +865,13 @@ namespace S2Please.Areas.ADMIN.Controllers
             }
             else
             {
-                paramType = new List<Param>();
-                paramType.Add(new Param() { Key = "@TABLE_NAME", Value = TableName.Product });
-                var responseProduct = ListProcedure<TableModel>(new TableModel(), "Table_Get_Table", paramType, false, false);
+                var responseProduct = _tableRepository.GetTableByTableName(TableName.Product);
                 var resultProduct = JsonConvert.DeserializeObject<List<TableModel>>(JsonConvert.SerializeObject(responseProduct.Results));
                 if (resultProduct != null && resultProduct.Count() > 0)
                 {
                     tableData = JsonConvert.DeserializeObject<TableViewModel>(resultProduct.FirstOrDefault().TABLE_CONTENT);
                 }
             }
-
-
             tableData.TABLE_NAME = TableName.Product;
             tableData.TITLE_TABLE_NAME = FunctionHelpers.GetValueLanguage("Table.Title.Product");
             tableData = RenderTable(tableData, param);
@@ -993,20 +908,16 @@ namespace S2Please.Areas.ADMIN.Controllers
 
             if (tableData.TABLE_COLUMN == null || tableData.TABLE_COLUMN.Count() == 0)
             {
-                var param = new List<Param>();
-                param.Add(new Param() { Key = "@TABLE_NAME", Value = tableData.TABLE_NAME });
-                var responseColumn = ListProcedure<TableColumnModel>(new TableColumnModel(), "TableColumn_Get_TableColumnByTableName", param, false, false);
+                var responseColumn = _tableRepository.GetTableColumnByTableName(tableData.TABLE_NAME);
                 if (responseColumn != null && responseColumn.Results.Count() > 0)
                 {
                     tableData.TABLE_COLUMN = JsonConvert.DeserializeObject<List<TableColumnModel>>(JsonConvert.SerializeObject(responseColumn.Results));
                 }
             }
 
-
             if (tableData.SELECT_OPTION == null || tableData.SELECT_OPTION.Count() == 0)
             {
-                var param = new List<Param>();
-                var responseSelectOption = ListProcedure<SelectOptionModel>(new SelectOptionModel(), "SelectOption_Get_SelectOption ", param, false, false);
+                var responseSelectOption = _tableRepository.GetSelectOption();
                 if (responseSelectOption != null && responseSelectOption.Results.Count() > 0)
                 {
                     tableData.SELECT_OPTION = JsonConvert.DeserializeObject<List<SelectOptionModel>>(JsonConvert.SerializeObject(responseSelectOption.Results));
@@ -1050,6 +961,7 @@ namespace S2Please.Areas.ADMIN.Controllers
 
             return tableData;
         }
+
         public ActionResult SesionExport(string TABLE_NAME, ParamType paramType)
         {
             if (String.IsNullOrEmpty(paramType.STRING_FILTER))
@@ -1069,42 +981,22 @@ namespace S2Please.Areas.ADMIN.Controllers
             return Json(new { result = true }, JsonRequestBehavior.AllowGet);
 
         }
+
         public ActionResult Export(string TABLE_NAME)
         {
             TableViewModel tableData = new TableViewModel();
-
-
             tableData.TABLE_NAME = TABLE_NAME;
-            var param = new List<Param>();
-
-            param.Add(new Param() { Key = "@TABLE_NAME", Value = tableData.TABLE_NAME });
-            param.Add(new Param() { Key = "@USER_ID", Value = CurrentUser.UserAdmin.USER_ID.ToString() });
-
-            var responseTableUser = ListProcedure<TableUserConfigModel>(new TableUserConfigModel(), "Table_Get_TableUserConfig", param, false, false);
-            var resultTableUser = JsonConvert.DeserializeObject<List<TableModel>>(JsonConvert.SerializeObject(responseTableUser.Results));
-            if (resultTableUser != null && resultTableUser.Count() > 0)
+            var responseProduct = _tableRepository.GetTableByTableName(TABLE_NAME);
+            var resultProduct = JsonConvert.DeserializeObject<List<TableModel>>(JsonConvert.SerializeObject(responseProduct.Results));
+            if (resultProduct != null && resultProduct.Count() > 0)
             {
-                tableData = JsonConvert.DeserializeObject<TableViewModel>(resultTableUser.FirstOrDefault().TABLE_CONTENT);
-            }
-            else
-            {
-                param = new List<Param>();
-                param.Add(new Param() { Key = "@TABLE_NAME", Value = TABLE_NAME });
-                var responseProduct = ListProcedure<TableModel>(new TableModel(), "Table_Get_Table", param, false, false);
-                var resultProduct = JsonConvert.DeserializeObject<List<TableModel>>(JsonConvert.SerializeObject(responseProduct.Results));
-                if (resultProduct != null && resultProduct.Count() > 0)
-                {
-                    tableData = JsonConvert.DeserializeObject<TableViewModel>(resultProduct.FirstOrDefault().TABLE_CONTENT);
-                }
+                tableData = JsonConvert.DeserializeObject<TableViewModel>(resultProduct.FirstOrDefault().TABLE_CONTENT);
             }
 
-            //tableData = GetData(tableData, paramType);
             tableData.TABLE_COLUMN_FIELD = tableData.TABLE_COLUMN_FIELD.Where(s => s.IS_SHOW == true).OrderBy(s => s.POSITION).ToList();
             tableData.DATA = Session["Export"] as List<dynamic>;
 
-            param = new List<Param>();
-            param.Add(new Param() { Key = "@TABLE_NAME", Value = TABLE_NAME });
-            var responseColumn = ListProcedure<TableColumnModel>(new TableColumnModel(), "TableColumn_Get_TableColumnByTableName", param, false, false);
+            var responseColumn = _tableRepository.GetTableColumnByTableName(TABLE_NAME);
             if (responseColumn != null && responseColumn.Results.Count() > 0)
             {
                 tableData.TABLE_COLUMN = JsonConvert.DeserializeObject<List<TableColumnModel>>(JsonConvert.SerializeObject(responseColumn.Results));

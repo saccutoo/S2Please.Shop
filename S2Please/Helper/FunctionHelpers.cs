@@ -16,7 +16,6 @@ namespace S2Please.Helper
 {
     public static class FunctionHelpers
     {
-  
         public static string GetValueLanguage(string key)
         {
             //Lấy danh sách đa ngôn ngữ

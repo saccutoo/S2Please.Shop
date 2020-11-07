@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Repository.Model
 {
-    class BaseModel
+    public class BaseModel
     {
         public long ID { get; set; }
         public long CREATED_BY { get; set; }

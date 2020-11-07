@@ -18,6 +18,7 @@ namespace S2Please
             //repositories
             builder.RegisterType<CommonRepository>().InstancePerLifetimeScope();
             builder.RegisterType<ProductRepository>().As<IProductRepository>().InstancePerLifetimeScope();
+            builder.RegisterType<TableRepository>().As<ITableRepository>().InstancePerLifetimeScope();
 
             //controllers vs repositories
             builder.RegisterType<S2Please.Areas.ADMIN.Controllers.ProductController>();
