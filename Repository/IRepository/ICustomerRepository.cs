@@ -14,5 +14,8 @@ namespace Repository
     {
         //Get Customer By Id
         ResultModel GetCustomerById(long userId);
+
+        //update customer
+        ResultModel UpdateCustomer(CustomerModel model);
     }
 }

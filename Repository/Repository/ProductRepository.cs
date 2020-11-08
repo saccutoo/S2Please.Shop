@@ -197,5 +197,140 @@ namespace Repository
             param.Add(new Param { Key = "@ID", Value = id.ToString() });
             return ListProcedure<ProductBonusModel>(new ProductBonusModel(), "Product_Get_GetProductBonusByProductId", param);
         }
+
+        //Get danh sách sản phẩm từ view web
+        public ResultModel ProductFromWeb(List<ParamType> basicParamType)
+        {
+            var param = new List<Param>();
+            param.Add(new Param
+            {
+                IsUserDefinedTableType = true,
+                paramUserDefinedTableType = new SqlParameter("@BasicParamType", SqlDbType.Structured)
+                {
+                    TypeName = "dbo.BasicParamType",
+                    Value = DataTableHelper.ConvertToUserDefinedDataTable(basicParamType)
+                }
+            });
+            return ListProcedure<ProductModel>(new ProductModel(), "Product_Get_Product", param);
+        }
+
+        //Get danh sách sản phẩm từ view web by group Id
+        public ResultModel GetProductByGroupId(List<ParamType> basicParamType)
+        {
+            var param = new List<Param>();
+            param.Add(new Param
+            {
+                IsUserDefinedTableType = true,
+                paramUserDefinedTableType = new SqlParameter("@BasicParamType", SqlDbType.Structured)
+                {
+                    TypeName = "dbo.BasicParamType",
+                    Value = DataTableHelper.ConvertToUserDefinedDataTable(basicParamType)
+                }
+            });
+
+            return ListProcedure<ProductModel>(new ProductModel(), "Product_Get_ProductByGroupId", param);
+        }
+
+        //Get product bu proceder auto
+        public ResultModel GetProductbyStoredProcedureName(List<ParamType> basicParamType,string stroedPRocedure)
+        {
+            var param = new List<Param>();
+            param.Add(new Param
+            {
+                IsUserDefinedTableType = true,
+                paramUserDefinedTableType = new SqlParameter("@BasicParamType", SqlDbType.Structured)
+                {
+                    TypeName = "dbo.BasicParamType",
+                    Value = DataTableHelper.ConvertToUserDefinedDataTable(basicParamType)
+                }
+            });
+
+            return ListProcedure<ProductModel>(new ProductModel(), stroedPRocedure, param);
+        }
+
+        //Get Product By Type Id
+        public ResultModel GetProductByTypeId(List<ParamType> basicParamType)
+        {
+            var param = new List<Param>();
+            param.Add(new Param
+            {
+                IsUserDefinedTableType = true,
+                paramUserDefinedTableType = new SqlParameter("@BasicParamType", SqlDbType.Structured)
+                {
+                    TypeName = "dbo.BasicParamType",
+                    Value = DataTableHelper.ConvertToUserDefinedDataTable(basicParamType)
+                }
+            });
+
+            return ListProcedure<ProductModel>(new ProductModel(), "Product_Get_ProductByTypeId", param);
+        }
+
+        //Get Product random
+        public ResultModel GetProductRanDom(List<ParamType> basicParamType)
+        {
+            var param = new List<Param>();
+            param.Add(new Param
+            {
+                IsUserDefinedTableType = true,
+                paramUserDefinedTableType = new SqlParameter("@BasicParamType", SqlDbType.Structured)
+                {
+                    TypeName = "dbo.BasicParamType",
+                    Value = DataTableHelper.ConvertToUserDefinedDataTable(basicParamType)
+                }
+            });
+
+            return ListProcedure<ProductModel>(new ProductModel(), "Product_Get_ProductRanDom", param);
+        }
+
+        //Get Product Type By ID
+        public ResultModel GetProductTypeByID(long id)
+        {
+            var param = new List<Param>();
+            param.Add(new Param { Key = "@ID", Value = id.ToString() });
+            return ListProcedure<ProductTypeModel>(new ProductTypeModel(), "ProductType_Get_ProductTypeByID", param);
+        }
+
+
+        //Get Products
+        public ResultModel GetProducts(List<ParamType> basicParamType)
+        {
+            var param = new List<Param>();
+            param.Add(new Param
+            {
+                IsUserDefinedTableType = true,
+                paramUserDefinedTableType = new SqlParameter("@BasicParamType", SqlDbType.Structured)
+                {
+                    TypeName = "dbo.BasicParamType",
+                    Value = DataTableHelper.ConvertToUserDefinedDataTable(basicParamType)
+                }
+            });
+            param.Add(new Param { Key = "@TotalRecord", Value = "0", IsOutPut = true, Type = "Int" });
+            return ListProcedure<ProductModel>(new ProductModel(), "Product_Get_Products", param);
+        }
+
+        //Get Product Type By GroupID
+        public ResultModel GetProductTypeByGroupID(long id)
+        {
+            var param = new List<Param>();
+            param.Add(new Param { Key = "@ID", Value = id.ToString() });
+            return ListProcedure<ProductTypeModel>(new ProductTypeModel(), "ProductType_Get_ProductTypeByGroupID", param);
+        }
+
+        //Get Search Product
+        public ResultModel SearchProduct(List<ParamType> basicParamType)
+        {
+            var param = new List<Param>();
+            param.Add(new Param
+            {
+                IsUserDefinedTableType = true,
+                paramUserDefinedTableType = new SqlParameter("@BasicParamType", SqlDbType.Structured)
+                {
+                    TypeName = "dbo.BasicParamType",
+                    Value = DataTableHelper.ConvertToUserDefinedDataTable(basicParamType)
+                }
+            });
+            //Lấy danh sách sản phẩm
+            return ListProcedure<ProductModel>(new ProductModel(), "Product_Get_SearchProduct", param);
+        }
     }
 }

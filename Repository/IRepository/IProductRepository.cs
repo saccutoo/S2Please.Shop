@@ -52,5 +52,32 @@ namespace Repository
 
         //Get Product Bonus By Product Id
         ResultModel GetProductBonusByProductId(long id);
+
+        //Get danh sách sản phẩm từ view web
+        ResultModel ProductFromWeb(List<ParamType> basicParamType);
+
+        //Get danh sách sản phẩm từ view web by group Id
+        ResultModel GetProductByGroupId(List<ParamType> basicParamType);
+
+        //Get product bu proceder auto
+        ResultModel GetProductbyStoredProcedureName(List<ParamType> basicParamType, string stroedPRocedure);
+
+        //Get Product By Type Id
+        ResultModel GetProductByTypeId(List<ParamType> basicParamType);
+
+        //Get Product random
+        ResultModel GetProductRanDom(List<ParamType> basicParamType);
+
+        //Get Product Type By ID
+        ResultModel GetProductTypeByID(long id);
+
+        //Get Products
+        ResultModel GetProducts(List<ParamType> basicParamType);
+
+        //Get Product Type By GroupID
+        ResultModel GetProductTypeByGroupID(long id);
+
+        //Get Search Product
+        ResultModel SearchProduct(List<ParamType> basicParamType);
     }
 }

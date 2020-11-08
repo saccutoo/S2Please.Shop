@@ -1,24 +1,15 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
-using S2Please.Database;
 using S2Please.Models;
 using Newtonsoft.Json;
-using System.Text.RegularExpressions;
 using SHOP.COMMON;
 using S2Please.Controllers;
-using S2Please.Helper;
-using System.Web.Security;
 using System;
-using System.Web;
 using S2Please.Areas.ADMIN.ViewModel;
-using System.Configuration;
-using S2Please.ParramType;
-using System.Data.SqlClient;
 using System.Data;
 using S2Please.ViewModel;
 using Repository;
-using SHOP.COMMON.Helpers;
 
 namespace S2Please.Areas.ADMIN.Controllers
 {

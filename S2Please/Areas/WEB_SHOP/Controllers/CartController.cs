@@ -1,17 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
-using S2Please.Database;
 using S2Please.Models;
 using S2Please.Areas.WEB_SHOP.ViewModel;
 using Newtonsoft.Json;
-using System.Data.Sql;
-using System.Data.SqlClient;
 using System.Configuration;
 using System.Data;
-using System.Reflection;
 using SHOP.COMMON.Helpers;
 using S2Please.ParramType;
 using S2Please.Helper;
@@ -24,9 +19,6 @@ namespace S2Please.Areas.WEB_SHOP.Controllers
     public class CartController : S2Please.Controllers.BaseController
     {
         // GET: WEB_SHOP/Home
-        private ado _db = new ado();
-        private string _connection = ConfigurationManager.AppSettings["DBConnection"];
-
         private ISystemRepository _systemRepository;
         private IProductRepository _productRepository;
         private ICustomerRepository _customerRepository;

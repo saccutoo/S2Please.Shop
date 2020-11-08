@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
 using Autofac;
 using Autofac.Integration.Mvc;
 using Repository;
@@ -39,6 +36,11 @@ namespace S2Please
             //controllers web
             builder.RegisterType<S2Please.Areas.WEB_SHOP.Controllers.AuthenController>();
             builder.RegisterType<S2Please.Areas.WEB_SHOP.Controllers.CartController>();
+            builder.RegisterType<S2Please.Areas.WEB_SHOP.Controllers.HomeController>();
+            builder.RegisterType<S2Please.Areas.WEB_SHOP.Controllers.MenuController>();
+            builder.RegisterType<S2Please.Areas.WEB_SHOP.Controllers.ProductController>();
+            builder.RegisterType<S2Please.Areas.WEB_SHOP.Controllers.SearchController>();
+            builder.RegisterType<S2Please.Areas.WEB_SHOP.Controllers.UserController>();
 
             //build all
             Container = builder.Build();

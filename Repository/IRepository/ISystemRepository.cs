@@ -41,5 +41,20 @@ namespace Repository
 
         //GetCommunity By Code District
         ResultModel GetCommunityByCodeDistrict(long districtCode);
+
+        //Broken
+        ResultModel Broken();
+
+        //Get Language
+        ResultModel GetLanguage();
+
+        //Get Gender
+        ResultModel GetGender();
+
+        //Get Status Order
+        ResultModel GetStatusOrder();
+
+        //Get Status pay
+        ResultModel GetStatusPay();
     }
 }

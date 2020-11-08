@@ -3,27 +3,29 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using S2Please.Database;
 using S2Please.Models;
 using S2Please.Areas.WEB_SHOP.ViewModel;
 using Newtonsoft.Json;
-using System.Data.Sql;
 using System.Data.SqlClient;
-using System.Configuration;
 using System.Data;
-using System.Reflection;
 using SHOP.COMMON.Helpers;
 using S2Please.Helper;
 using S2Please.ParramType;
 using SHOP.COMMON;
+using Repository;
 
 namespace S2Please.Areas.WEB_SHOP.Controllers
 {
     public class ProductController : S2Please.Controllers.BaseController
     {
         // GET: WEB_SHOP/Home
-        private ado _db=new ado();
-        private string _connection = ConfigurationManager.AppSettings["DBConnection"];
+        private ISystemRepository _systemRepository;
+        private IProductRepository _productRepository;
+        public ProductController(ISystemRepository systemRepository, IProductRepository productRepository)
+        {
+            this._systemRepository = systemRepository;
+            this._productRepository = productRepository;
+        }
 
         //PRODUCT_DETAIL
         public ActionResult Detail(string toDecrypt)
@@ -32,9 +34,7 @@ namespace S2Please.Areas.WEB_SHOP.Controllers
             var id = FunctionHelpers.ConvertKey(toDecrypt, FunctionHelpers.KeyEncrypt);
 
             //Lấy sản phẩm ID sản phẩm
-            var param = new List<Param>();
-            param.Add(new Param { Key = "@ID", Value = id });
-            var responseProduct = ListProcedure<ProductModel>(new ProductModel(), "Product_Get_GetProductById", param);
+            var responseProduct = _productRepository.GetProductById(long.Parse(id));
             var resultProduct = JsonConvert.DeserializeObject<List<ProductModel>>(JsonConvert.SerializeObject(responseProduct.Results));
             if (resultProduct!=null && resultProduct.Count()>0)
             {
@@ -66,31 +66,25 @@ namespace S2Please.Areas.WEB_SHOP.Controllers
                 Security.ProductView(products, System.Web.HttpContext.Current);
             }
             //Lấy danh sách ảnh ID sản phẩm
-            var responseProductImgs = ListProcedure<ProductImgModel>(new ProductImgModel(), "Product_Get_GetProductImgByProductId", param);
+            var responseProductImgs = _productRepository.GetProductImgByProductId(long.Parse(id));
             vm.ProductImgs = JsonConvert.DeserializeObject<List<ProductImgModel>>(JsonConvert.SerializeObject(responseProductImgs.Results));
 
             //Lấy danh sách bonus ID sản phẩm
-            var responseNonus = ListProcedure<ProductBonusModel>(new ProductBonusModel(), "Product_Get_GetProductBonusByProductId", param);
+            var responseNonus = _productRepository.GetProductBonusByProductId(long.Parse(id));
             vm.ProductBonus = JsonConvert.DeserializeObject<List<ProductBonusModel>>(JsonConvert.SerializeObject(responseNonus.Results));
 
             //Lấy danh sách màu theo ID sản phẩm
-            var responseColors = ListProcedure<ProductColorModel>(new ProductColorModel(), "Product_Get_GetProductColorByProductId", param);
+            var responseColors = _productRepository.GetProductColorByProductId(long.Parse(id));
             vm.ProductColors = JsonConvert.DeserializeObject<List<ProductColorModel>>(JsonConvert.SerializeObject(responseColors.Results));
 
             //Lấy danh sách size theo ID sản phẩm
-            var responseSizes = ListProcedure<ProductSizeModel>(new ProductSizeModel(), "Product_Get_GetProductSizeByProductId", param);
+            var responseSizes = _productRepository.GetProductSizeByProductId(long.Parse(id));
             vm.ProductSizes = JsonConvert.DeserializeObject<List<ProductSizeModel>>(JsonConvert.SerializeObject(responseSizes.Results));
 
             //Lấy bản ghi mapper giữa size và color
-            param = new List<Param>();
-            var colorID = vm.ProductColors != null && vm.ProductColors.Count() > 0 && vm.ProductColors.Where(s => s.IS_MAIN == true).FirstOrDefault()!=null? vm.ProductColors.Where(s => s.IS_MAIN == true).FirstOrDefault().ID.ToString() : "0";
-            var sizeID = vm.ProductSizes != null && vm.ProductSizes.Count() > 0 && vm.ProductSizes.Where(s => s.IS_MAIN == true).FirstOrDefault() !=null? vm.ProductSizes.Where(s => s.IS_MAIN == true).FirstOrDefault().ID.ToString() : "0";
-            param.Add(new Param { Key = "@COLOR_ID", Value = colorID });
-            param.Add(new Param { Key = "@SIZE_ID", Value = sizeID });
-            param.Add(new Param { Key = "@PRODUCT_ID", Value = vm.Product.ID.ToString() });
-            param.Add(new Param { Key = "@IS_MAIN", Value = "1" });
-
-            var responseMapper = ListProcedure<ProductColorSizeMapperModel>(new ProductColorSizeMapperModel(), "Product_Get_GetProductColorSizeMapperByColorIdAndSizeId", param);
+            long colorID = vm.ProductColors != null && vm.ProductColors.Count() > 0 && vm.ProductColors.Where(s => s.IS_MAIN == true).FirstOrDefault()!=null? vm.ProductColors.Where(s => s.IS_MAIN == true).FirstOrDefault().ID : 0;
+            long sizeID = vm.ProductSizes != null && vm.ProductSizes.Count() > 0 && vm.ProductSizes.Where(s => s.IS_MAIN == true).FirstOrDefault() !=null? vm.ProductSizes.Where(s => s.IS_MAIN == true).FirstOrDefault().ID : 0;
+            var responseMapper = _productRepository.GetProductColorSizeMapperByColorIdAndSizeId(colorID, sizeID, vm.Product.ID, "1");
             var resultMapper = JsonConvert.DeserializeObject<List<ProductColorSizeMapperModel>>(JsonConvert.SerializeObject(responseMapper.Results));
             if (resultMapper!=null && resultMapper.Count()>0)
             {
@@ -98,9 +92,7 @@ namespace S2Please.Areas.WEB_SHOP.Controllers
             }
 
             //Lấy danh sách bản ghi mapper giữa size và color theo productid
-            param = new List<Param>();      
-            param.Add(new Param { Key = "@PRODUCT_ID", Value = vm.Product.ID.ToString() });
-            var responseMappers = ListProcedure<ProductColorSizeMapperModel>(new ProductColorSizeMapperModel(), "Product_Get_GetProductMapperProductId", param);
+            var responseMappers = _productRepository.GetProductMapperProductId(vm.Product.ID);
             vm.ProductMappers = JsonConvert.DeserializeObject<List<ProductColorSizeMapperModel>>(JsonConvert.SerializeObject(responseMappers.Results));
             return View(vm);
         }
@@ -108,13 +100,7 @@ namespace S2Please.Areas.WEB_SHOP.Controllers
         public ActionResult GetPrice(long colorID=0,long sizeID=0,long productId=0)
         {
             ProductPriceViewModel vm = new ProductPriceViewModel();
-            var param = new List<Param>();           
-            param.Add(new Param { Key = "@COLOR_ID", Value = colorID.ToString() });
-            param.Add(new Param { Key = "@SIZE_ID", Value = sizeID.ToString() });
-            param.Add(new Param { Key = "@PRODUCT_ID", Value = productId.ToString() });
-            param.Add(new Param { Key = "@IS_MAIN", Value = "0" });
-
-            var responseMapper = ListProcedure<ProductColorSizeMapperModel>(new ProductColorSizeMapperModel(), "Product_Get_GetProductColorSizeMapperByColorIdAndSizeId", param);
+            var responseMapper = _productRepository.GetProductColorSizeMapperByColorIdAndSizeId(colorID, sizeID,productId, "0");
             var resultMapper = JsonConvert.DeserializeObject<List<ProductColorSizeMapperModel>>(JsonConvert.SerializeObject(responseMapper.Results));
             if (resultMapper != null && resultMapper.Count() > 0)
             {
@@ -129,23 +115,15 @@ namespace S2Please.Areas.WEB_SHOP.Controllers
         {
             //Lấy danh sách sản phẩm
             var param = new List<Param>();
-            var basicParamype = new List<ParamType>();
+            var basicParam= new List<ParamType>();
             ParamType model = new ParamType();
             model.VALUE = viewModel.Value.ToString();
             model.PAGE_SIZE = viewModel.NumberProductGet;
             model.PAGE_NUMBER = 1;
-            basicParamype.Add(model);
-            param.Add(new Param
-            {
-                IsUserDefinedTableType = true,
-                paramUserDefinedTableType = new SqlParameter("@BasicParamType", SqlDbType.Structured)
-                {
-                    TypeName = "dbo.BasicParamType",
-                    Value = DataTableHelper.ConvertToUserDefinedDataTable(basicParamype)
-                }
-            });
+            basicParam.Add(model);
+            var basicParamType = MapperHelper.MapList<ParamType, Repository.Type.ParamType>(basicParam);
             //Lấy danh sách sản phẩm
-            var resultProductByGroups = ListProcedure<ProductModel>(new ProductModel(), viewModel.StoredProcedureName, param);
+            var resultProductByGroups = _productRepository.GetProductbyStoredProcedureName(basicParamType, viewModel.StoredProcedureName);
             viewModel.Products = JsonConvert.DeserializeObject<List<ProductModel>>(JsonConvert.SerializeObject(resultProductByGroups.Results));
             return View(viewModel);
         }
@@ -155,19 +133,10 @@ namespace S2Please.Areas.WEB_SHOP.Controllers
             ProductContentViewModel vm = new ProductContentViewModel();
             //Lấy danh sách sản phẩm
             var param = new List<Param>();
-            var basicParamype = new List<ParamType>();
-            basicParamype.Add(model);
-            param.Add(new Param
-            {
-                IsUserDefinedTableType = true,
-                paramUserDefinedTableType = new SqlParameter("@BasicParamType", SqlDbType.Structured)
-                {
-                    TypeName = "dbo.BasicParamType",
-                    Value = DataTableHelper.ConvertToUserDefinedDataTable(basicParamype)
-                }
-            });
-
-            var resultProductByGroups = ListProcedure<ProductModel>(new ProductModel(), "Product_Get_ProductByTypeId", param);
+            var basicParam = new List<ParamType>();
+            basicParam.Add(model);
+            var basicParamType = MapperHelper.MapList<ParamType, Repository.Type.ParamType>(basicParam);
+            var resultProductByGroups = _productRepository.GetProductByTypeId(basicParamType);
             vm.Products = JsonConvert.DeserializeObject<List<ProductModel>>(JsonConvert.SerializeObject(resultProductByGroups.Results));
             vm.Index = int.Parse(model.STRING_FILTER) + 2;
             vm.NumberInPage = 3;
@@ -182,7 +151,7 @@ namespace S2Please.Areas.WEB_SHOP.Controllers
         {
             //Lấy danh sách loại sản phẩm
             var modelProductType = new ProductTypeModel();
-            var resultProductTypes = ListProcedure<ProductTypeModel>(modelProductType, "ProductType_Get_ProductType", new List<Param>());
+            var resultProductTypes = _productRepository.GetProductType();
             viewModel.ProductTypes = JsonConvert.DeserializeObject<List<ProductTypeModel>>(JsonConvert.SerializeObject(resultProductTypes.Results));
             return View(viewModel);
         }
@@ -201,22 +170,11 @@ namespace S2Please.Areas.WEB_SHOP.Controllers
             }
             //Lấy danh sách sản phẩm
             var param = new List<Param>();
-            var basicParamype = new List<ParamType>();
-            basicParamype.Add(model);
-            param.Add(new Param
-            {
-                IsUserDefinedTableType = true,
-                paramUserDefinedTableType = new SqlParameter("@BasicParamType", SqlDbType.Structured)
-                {
-                    TypeName = "dbo.BasicParamType",
-                    Value = DataTableHelper.ConvertToUserDefinedDataTable(basicParamype)
-                }
-            });
-
-            var resultProductByGroups = ListProcedure<ProductModel>(new ProductModel(), "Product_Get_ProductRanDom", param);
+            var basicParam = new List<ParamType>();
+            basicParam.Add(model);           
+            var basicParamType = MapperHelper.MapList<ParamType, Repository.Type.ParamType>(basicParam);
+            var resultProductByGroups = _productRepository.GetProductRanDom(basicParamType);
             vm.Products = JsonConvert.DeserializeObject<List<ProductModel>>(JsonConvert.SerializeObject(resultProductByGroups.Results));
-
-
             var html = RenderViewToString(this.ControllerContext, "~/Areas/WEB_SHOP/Views/Product/_ListProductLi.cshtml", vm);
             return Json(html, JsonRequestBehavior.AllowGet);
 
@@ -233,11 +191,7 @@ namespace S2Please.Areas.WEB_SHOP.Controllers
                 if (typeID != "0")
                 {
                     vm.ProductTypes.Add(FunctionHelpers.ConvertKey(toDecryptProductType, FunctionHelpers.KeyEncrypt));
-
-                    //Lấy groupid theo danh mục sản phẩm
-
-                    param.Add(new Param { Key = "@ID", Value = FunctionHelpers.ConvertKey(toDecryptProductType, FunctionHelpers.KeyEncrypt) });
-                    var resultProductType = ListProcedure<ProductTypeModel>(new ProductTypeModel(), "ProductType_Get_ProductTypeByID", param);
+                    var resultProductType = _productRepository.GetProductTypeByID(long.Parse(FunctionHelpers.ConvertKey(toDecryptProductType, FunctionHelpers.KeyEncrypt)));
                     var query = JsonConvert.DeserializeObject<List<ProductTypeModel>>(JsonConvert.SerializeObject(resultProductType.Results));
                     if (query != null && query.Count() > 0)
                     {
@@ -275,22 +229,10 @@ namespace S2Please.Areas.WEB_SHOP.Controllers
             paramModel.PAGE_NUMBER = 1;
             paramModel.PAGE_SIZE = 9;
 
-            var basicParamType = new List<ParamType>();
-            basicParamType.Add(paramModel);
-
-            param = new List<Param>();
-            param.Add(new Param
-            {
-                IsUserDefinedTableType = true,
-                paramUserDefinedTableType = new SqlParameter("@BasicParamType", SqlDbType.Structured)
-                {
-                    TypeName = "dbo.BasicParamType",
-                    Value = DataTableHelper.ConvertToUserDefinedDataTable(basicParamType)
-                }
-            });
-            param.Add(new Param { Key = "@TotalRecord", Value = "0", IsOutPut = true, Type = "Int" });
-
-            var result = ListProcedure<ProductModel>(new ProductModel(), "Product_Get_Products", param);
+            var basicParam = new List<ParamType>();
+            basicParam.Add(paramModel);
+            var basicParamType = MapperHelper.MapList<ParamType, Repository.Type.ParamType>(basicParam);
+            var result = _productRepository.GetProducts(basicParamType);
             vm.Products = JsonConvert.DeserializeObject<List<ProductModel>>(JsonConvert.SerializeObject(result.Results));
             if (result.OutValue!=null && result.OutValue.Parameters.Count>0)
             {
@@ -307,8 +249,7 @@ namespace S2Please.Areas.WEB_SHOP.Controllers
             {
                 value = "0";
             }
-            param.Add(new Param { Key = "@ID", Value = value });
-            var resultProductTypes = ListProcedure<ProductTypeModel>(new ProductTypeModel(), "ProductType_Get_ProductTypeByGroupID", param);
+            var resultProductTypes = _productRepository.GetProductTypeByGroupID(long.Parse(value));
             vm.DataProductTypes = JsonConvert.DeserializeObject<List<ProductTypeModel>>(JsonConvert.SerializeObject(resultProductTypes.Results));
             return View(vm);
         }
@@ -331,22 +272,10 @@ namespace S2Please.Areas.WEB_SHOP.Controllers
             {
                 paramModel.STRING_FILTER += " AND M.PRICE <= " + toMoney;
             }
-            var basicParamType = new List<ParamType>();
-            basicParamType.Add(paramModel);
-
-            var param = new List<Param>();
-            param.Add(new Param { Key = "@TotalRecord", Value = "0", IsOutPut = true, Type = "Int" });
-            param.Add(new Param
-            {
-                IsUserDefinedTableType = true,
-                paramUserDefinedTableType = new SqlParameter("@BasicParamType", SqlDbType.Structured)
-                {
-                    TypeName = "dbo.BasicParamType",
-                    Value = DataTableHelper.ConvertToUserDefinedDataTable(basicParamType)
-                }
-            });
-
-            var result = ListProcedure<ProductModel>(new ProductModel(), "Product_Get_Products", param);
+            var basicParam = new List<ParamType>();
+            basicParam.Add(paramModel);
+            var basicParamType = MapperHelper.MapList<ParamType, Repository.Type.ParamType>(basicParam);
+            var result = _productRepository.GetProducts(basicParamType);
             vm.Products = JsonConvert.DeserializeObject<List<ProductModel>>(JsonConvert.SerializeObject(result.Results));
             vm.Total = Convert.ToInt32(result.OutValue.Parameters["@TotalRecord"].Value.ToString());
             vm.Parram = paramModel;

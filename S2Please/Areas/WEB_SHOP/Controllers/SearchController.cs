@@ -1,47 +1,38 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
-using S2Please.Database;
 using S2Please.Models;
-using S2Please.Areas.WEB_SHOP.ViewModel;
 using Newtonsoft.Json;
-using System.Data.Sql;
 using System.Data.SqlClient;
-using System.Configuration;
 using System.Data;
-using System.Reflection;
 using SHOP.COMMON.Helpers;
 using S2Please.ParramType;
 using S2Please.Helper;
-
+using Repository;
 namespace S2Please.Areas.WEB_SHOP.Controllers
 {
     public class SearchController : S2Please.Controllers.BaseController
     {
-        // GET: WEB_SHOP/Home
-        private ado _db=new ado();
-        private string _connection = ConfigurationManager.AppSettings["DBConnection"];
+        // GET: WEB_SHOP/Search
+        private ISystemRepository _systemRepository;
+        private IProductRepository _productRepository;
+        public SearchController(ISystemRepository systemRepository, IProductRepository productRepository)
+        {
+            this._systemRepository = systemRepository;
+            this._productRepository = productRepository;
+        }
         public ActionResult SearchProduct(string searchString)
         {
             //Lấy danh sách sản phẩm
             var param = new List<Param>();
-            var basicParamype = new List<ParamType>();
+            var basicParam = new List<ParamType>();
             ParamType model = new ParamType();
             model.STRING_FILTER = searchString;
-            basicParamype.Add(model);
-            param.Add(new Param
-            {
-                IsUserDefinedTableType = true,
-                paramUserDefinedTableType = new SqlParameter("@BasicParamType", SqlDbType.Structured)
-                {
-                    TypeName = "dbo.BasicParamType",
-                    Value = DataTableHelper.ConvertToUserDefinedDataTable(basicParamype)
-                }
-            });
+            basicParam.Add(model);
+            var basicParamType = MapperHelper.MapList<ParamType, Repository.Type.ParamType>(basicParam);
             //Lấy danh sách sản phẩm
-            var response= ListProcedure<ProductModel>(new ProductModel(), "Product_Get_SearchProduct", param);
+            var response = _productRepository.SearchProduct(basicParamType);
             var result = JsonConvert.DeserializeObject<List<ProductModel>>(JsonConvert.SerializeObject(response.Results));
             if (result!=null && result.Count()>0)
             {
@@ -61,7 +52,7 @@ namespace S2Please.Areas.WEB_SHOP.Controllers
 
         public ActionResult SearchCity(string value)
         {
-            var response = ListProcedure<CityModel>(new CityModel(), "City_Get_City", new List<Param>(),true,false);
+            var response = _systemRepository.GetCity();
             var result = JsonConvert.DeserializeObject<List<CityModel>>(JsonConvert.SerializeObject(response.Results));
             var datas = new List<CityModel>();
             if (value!=null && !String.IsNullOrEmpty(value))

@@ -93,5 +93,35 @@ namespace Repository
             param.Add(new Param { Key = "@CODE_DISTRICT", Value = districtCode.ToString() });
             return ListProcedure<CommunityModel>(new CommunityModel(), "Community_Get_CommunityByCodeDistrict", param, true);
         }
+
+        //Broken
+        public ResultModel Broken()
+        {
+            return ListProcedure<MULTI_LANGUAGE>(new MULTI_LANGUAGE(), "Broken", new List<Param>(),true);
+        }
+
+        //Get Language
+        public ResultModel GetLanguage()
+        {
+            return ListProcedure<LanguageModel>(new LanguageModel(), "Language_Get_Language", new List<Param>(),true);
+        }
+
+        //Get Gender
+        public ResultModel GetGender()
+        {
+            return ListProcedure<GenderModel>(new GenderModel(), "Gender_Get_Gender", new List<Param>(), true);
+        }
+
+        //Get Status Order
+        public ResultModel GetStatusOrder()
+        {
+            return ListProcedure<StatusOrderModel>(new StatusOrderModel(), "StatusOrder_Get_StatusOrder", new List<Param>(), true);
+        }
+
+        //Get Status pay
+        public ResultModel GetStatusPay()
+        {
+            return ListProcedure<StatusPayModel>(new StatusPayModel(), "StatusPay_Get_StatusPay", new List<Param>(), true);
+        }
     }
 }

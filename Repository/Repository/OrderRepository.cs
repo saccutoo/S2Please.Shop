@@ -82,5 +82,22 @@ namespace Repository
             });
             return ListProcedure<OrderModel>(new OrderModel(), "Order_Update_Order", param);
         }
+
+
+        //Get Order By Customer Id
+        public ResultModel GetOrderByCustomerId(long userId)
+        {
+            var param = new List<Param>();
+            param.Add(new Param { Key = "@ID", Value = userId.ToString() });
+            return ListProcedure<OrderModel>(new OrderModel(), "Order_Get_GetOrderByCustomerId", param);
+        }
+
+        //delete order
+        public ResultModel DeleteById(long id)
+        {
+            var param = new List<Param>();
+            param.Add(new Param { Key = "@ID", Value = id.ToString() });
+            return ListProcedure<OrderModel>(new OrderModel(), "Order_Delete_DeleteById", param);
+        }
     }
 }

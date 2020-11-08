@@ -68,9 +68,12 @@
     <Compile Include="Model\CustomerModel.cs" />
     <Compile Include="Model\DistrictModel.cs" />
     <Compile Include="Model\ErrorModel.cs" />
+    <Compile Include="Model\GenderModel.cs" />
     <Compile Include="Model\HistoryResetPassword.cs" />
+    <Compile Include="Model\LanguageModel.cs" />
     <Compile Include="Model\MethodPayModel.cs" />
     <Compile Include="Model\MultiLanguageModel.cs" />
+    <Compile Include="Model\MULTI_LANGUAGE.cs" />
     <Compile Include="Model\OrderDetailModel.cs" />
     <Compile Include="Model\OrderModel.cs" />
     <Compile Include="Model\Param.cs" />
@@ -86,6 +89,8 @@
     <Compile Include="IRepository\IProductRepository.cs" />
     <Compile Include="Model\SelectOptionModel.cs" />
     <Compile Include="Model\ShipFeeModel.cs" />
+    <Compile Include="Model\StatusOrderModel.cs" />
+    <Compile Include="Model\StatusPayModel.cs" />
     <Compile Include="Model\TableColumnModel.cs" />
     <Compile Include="Model\TableModel.cs" />
     <Compile Include="Model\TableUserConfigModel.cs" />

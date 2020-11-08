@@ -1,29 +1,32 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
-using S2Please.Database;
 using S2Please.Models;
 using S2Please.Areas.WEB_SHOP.ViewModel;
 using Newtonsoft.Json;
-using System.Data.Sql;
-using System.Data.SqlClient;
-using System.Configuration;
-using System.Data;
-using System.Reflection;
 using SHOP.COMMON.Helpers;
 using S2Please.Helper;
-using S2Please.ParramType;
 using SHOP.COMMON;
+using Repository;
 
 namespace S2Please.Areas.WEB_SHOP.Controllers
 {
     public class UserController : S2Please.Controllers.BaseController
     {
         // GET: WEB_SHOP/User
-        private ado _db = new ado();
-        private string _connection = ConfigurationManager.AppSettings["DBConnection"];
+        private ISystemRepository _systemRepository;
+        private IProductRepository _productRepository;
+        private IOrderRepository _orderRepository;
+        private ICustomerRepository _customerRepository;
+
+        public UserController(ISystemRepository systemRepository, IProductRepository productRepository, IOrderRepository orderRepository, ICustomerRepository customerRepository)
+        {
+            this._systemRepository = systemRepository;
+            this._productRepository = productRepository;
+            this._orderRepository = orderRepository;
+            this._customerRepository = customerRepository;
+        }
 
         //User
         public ActionResult Customer()
@@ -33,13 +36,11 @@ namespace S2Please.Areas.WEB_SHOP.Controllers
                 return RedirectToAction("Login", "Authen", new { Area = "WEB_SHOP" });
             }
             CustomerViewModel vm = new CustomerViewModel();
-            var param = new List<Param>();
-            var responseGender = ListProcedure<GenderModel>(new GenderModel(), "Gender_Get_Gender", param,true);
+            var responseGender = _systemRepository.GetGender();
             vm.Genders= responseGender.Results;
             if (CurrentUser.User.USER_ID != 0)
             {
-                param.Add(new Param { Key = "@USER_ID", Value = CurrentUser.User.USER_ID.ToString() });
-                var responseCustomer = ListProcedure<CustomerModel>(new CustomerModel(), "Customer_Get_GetCustomerById", param);
+                var responseCustomer = _customerRepository.GetCustomerById(CurrentUser.User.USER_ID);
                 var resultCustomer = JsonConvert.DeserializeObject<List<CustomerModel>>(JsonConvert.SerializeObject(responseCustomer.Results));
                 if (resultCustomer != null && resultCustomer.Count() > 0)
                 {
@@ -47,49 +48,38 @@ namespace S2Please.Areas.WEB_SHOP.Controllers
                 }
             }
 
-            var responseCity = ListProcedure<CityModel>(new CityModel(), "City_Get_City", new List<Param>(), true, false);
+            var responseCity = _systemRepository.GetCity();
             vm.Citys = responseCity.Results;
 
             if (vm.Customer.CITY != 0)
             {
-
-                param = new List<Param>();
-                param.Add(new Param { Key = "@CODE_CITY", Value = vm.Customer.CITY.ToString() });
-                var responseCommunity = ListProcedure<CommunityModel>(new CommunityModel(), "District_Get_DistrictByCodeCity", param, true, false);
+                var responseCommunity = _systemRepository.GetDistrictByCodeCity(vm.Customer.CITY);
                 vm.Districts = responseCommunity.Results;
-
             }
             if (vm.Customer.DISTRICT != 0)
             {
-                param = new List<Param>();
-                param.Add(new Param { Key = "@CODE_DISTRICT", Value = vm.Customer.DISTRICT.ToString() });
-                var response = ListProcedure<DistrictModel>(new DistrictModel(), "Community_Get_CommunityByCodeDistrict", param);
+                var response = _systemRepository.GetCommunityByCodeDistrict(vm.Customer.DISTRICT);
                 if (response != null && response.Results.Count() > 0)
                 {
                     vm.Communitys = response.Results;
-
                 }
             }
 
-            param = new List<Param>();
-            param.Add(new Param { Key = "@ID", Value = CurrentUser.User.USER_ID.ToString() });
-            var responseOrder = ListProcedure<OrderModel>(new OrderModel(), "Order_Get_GetOrderByCustomerId", param);
+            var responseOrder = _orderRepository.GetOrderByCustomerId(CurrentUser.User.USER_ID);
             var resultOrder = JsonConvert.DeserializeObject<List<OrderModel>>(JsonConvert.SerializeObject(responseOrder.Results));
             if (resultOrder!=null && resultOrder.Count()>0)
             {
                 vm.Orders = resultOrder;
             }
 
-            param = new List<Param>();
-            var responseStatusOrder = ListProcedure<StatusOrderModel>(new StatusOrderModel(), "StatusOrder_Get_StatusOrder", param,true);
+            var responseStatusOrder = _systemRepository.GetStatusOrder();
             var resultStatusOrder = JsonConvert.DeserializeObject<List<StatusOrderModel>>(JsonConvert.SerializeObject(responseStatusOrder.Results));
             if (resultStatusOrder != null && resultStatusOrder.Count() > 0)
             {
                 vm.StatusOrders = resultStatusOrder;
             }
 
-            param = new List<Param>();
-            var responseStatusPay = ListProcedure<StatusPayModel>(new StatusPayModel(), "StatusPay_Get_StatusPay", param, true);
+            var responseStatusPay = _systemRepository.GetStatusPay();
             var resultStatusPay = JsonConvert.DeserializeObject<List<StatusPayModel>>(JsonConvert.SerializeObject(responseStatusPay.Results));
             if (resultStatusPay != null && resultStatusPay.Count() > 0)
             {
@@ -100,22 +90,9 @@ namespace S2Please.Areas.WEB_SHOP.Controllers
 
         public ActionResult UpdateCustomer(CustomerModel model)
         {
-            var param = new List<Param>();
-            param.Add(new Param { Key = "@ID", Value = model.ID.ToString() });
-            param.Add(new Param { Key = "@FULL_NAME", Value = model.FULL_NAME });
-            param.Add(new Param { Key = "@PHONE", Value = model.PHONE });
-            param.Add(new Param { Key = "@EMAIL", Value = model.EMAIL });
-            param.Add(new Param { Key = "@GENDER", Value = model.GENDER.ToString() });
-            param.Add(new Param { Key = "@DATE_OF_BIRTH", Value = model.DATE_OF_BIRTH!=null? model.DATE_OF_BIRTH.Value.ToString("yyyy/MM/dd"):"" });
-            param.Add(new Param { Key = "@FAX", Value = model.FAX });
-            param.Add(new Param { Key = "@ADRESS_SPECIFIC", Value = model.ADRESS_SPECIFIC });
-            param.Add(new Param { Key = "@CITY", Value = model.CITY.ToString() });
-            param.Add(new Param { Key = "@DISTRICT", Value = model.DISTRICT.ToString() });
-            param.Add(new Param { Key = "@COMMUNITY", Value = model.COMMUNITY.ToString() });
-            param.Add(new Param { Key = "@IMAGE", Value = model.COMMUNITY.ToString() });
-
+            var customerInser = MapperHelper.Map<CustomerModel,Repository.Model.CustomerModel>(model);
             var data = new OrderModel();
-            var response = ListProcedure<CustomerModel>(new CustomerModel(), "Customer_Update_Customer", param);
+            var response = _customerRepository.UpdateCustomer(customerInser);
             var result = new ResultModel();
             if (response != null && response.Success == true)
             {
@@ -132,24 +109,20 @@ namespace S2Please.Areas.WEB_SHOP.Controllers
                 result.Message = FunctionHelpers.GetValueLanguage("Message.UpdateFail");
                 result.CacheName = FunctionHelpers.GetValueLanguage("Message.Error");
             }
-
             return Json(new { result = result, data = data }, JsonRequestBehavior.AllowGet);
         }
 
         public ActionResult ViewOrderDetail(long id)
         {
             OrderDetailViewModel vm = new OrderDetailViewModel();
-            var param = new List<Param>();
-            param.Add(new Param { Key = "@ORDER_ID", Value = id.ToString() });
-            var response = ListProcedure<OrderDetailModel>(new OrderDetailModel(), "OrderDetail_Get_GetOrderDetailByOrderId", param);
+            var response = _orderRepository.GetOrderDetailByOrderId(id);
             var result = JsonConvert.DeserializeObject<List<OrderDetailModel>>(JsonConvert.SerializeObject(response.Results));
             if (result!=null && result.Count()>0)
             {
                 vm.OrderDetails = result;
             }
-            param = new List<Param>();
-            param.Add(new Param { Key = "@ID", Value = id.ToString() });
-            var responseOrder = ListProcedure<OrderModel>(new OrderModel(), "Order_Get_GetOrderByID", param);
+
+            var responseOrder = _orderRepository.GetOrderById(id);
             var resultOrder = JsonConvert.DeserializeObject<List<OrderModel>>(JsonConvert.SerializeObject(responseOrder.Results));
             if (resultOrder != null && resultOrder.Count() > 0)
             {
@@ -162,9 +135,7 @@ namespace S2Please.Areas.WEB_SHOP.Controllers
         public ActionResult RemoveOrder(long id)
         {
             ResultModel resultModel = new ResultModel();
-            var param = new List<Param>();
-            param.Add(new Param { Key = "@ID", Value = id.ToString() });
-            var response = ListProcedure<OrderModel>(new OrderModel(), "Order_Delete_DeleteById", param);
+            var response = _orderRepository.DeleteById(id);
             var result = JsonConvert.DeserializeObject<List<OrderModel>>(JsonConvert.SerializeObject(response.Results));
             if (result != null && result.Count() > 0)
             {
@@ -186,46 +157,35 @@ namespace S2Please.Areas.WEB_SHOP.Controllers
         {
             UpdateOrderViewModel vm = new UpdateOrderViewModel();
             var id = FunctionHelpers.ConvertKey(toDecrypt, FunctionHelpers.KeyEncrypt);
-            var param = new List<Param>();
-            param.Add(new Param { Key = "@ORDER_ID", Value = id.ToString() });
-            var response = ListProcedure<OrderDetailModel>(new OrderDetailModel(), "OrderDetail_Get_GetOrderDetailByOrderId", param);
+            var response = _orderRepository.GetOrderDetailByOrderId(long.Parse(id));
             var result = JsonConvert.DeserializeObject<List<OrderDetailModel>>(JsonConvert.SerializeObject(response.Results));
             if (result != null && result.Count() > 0)
             {
                 vm.OrderDetails = result;
             }
-            param = new List<Param>();
-            param.Add(new Param { Key = "@ID", Value = id.ToString() });
-            var responseOrder = ListProcedure<OrderModel>(new OrderModel(), "Order_Get_GetOrderByID", param);
+
+            var responseOrder = _orderRepository.GetOrderById(long.Parse(id));
             var resultOrder = JsonConvert.DeserializeObject<List<OrderModel>>(JsonConvert.SerializeObject(responseOrder.Results));
             if (resultOrder != null && resultOrder.Count() > 0)
             {
                 vm.Order = resultOrder.FirstOrDefault();
             }
 
-
-            param = new List<Param>();
-            var responseCity = ListProcedure<CommunityModel>(new CommunityModel(), "City_Get_City", param, true, false);
+            var responseCity = _systemRepository.GetCity();
             vm.Citys = responseCity.Results;
 
-            param = new List<Param>();
-            param.Add(new Param { Key = "@CODE_CITY", Value = vm.Order.CITY.ToString() });
-            var responseDistrict = ListProcedure<DistrictModel>(new DistrictModel(), "District_Get_DistrictByCodeCity", param);
+            var responseDistrict = _systemRepository.GetDistrictByCodeCity(vm.Order.CITY);
             if (responseDistrict != null && responseDistrict.Results.Count() > 0)
             {
                 vm.Districts = responseDistrict.Results;
 
             }
 
-             param = new List<Param>();
-            param.Add(new Param { Key = "@CODE_DISTRICT", Value = vm.Order.DISTRICT.ToString() });
-            var responseCommunity = ListProcedure<DistrictModel>(new DistrictModel(), "Community_Get_CommunityByCodeDistrict", param);
+            var responseCommunity = _systemRepository.GetCommunityByCodeDistrict(vm.Order.DISTRICT);
             if (responseCommunity != null && responseCommunity.Results.Count() > 0)
             {
                 vm.Communitys = responseCommunity.Results;
-
             }
-
             return View(vm);
 
         }
@@ -254,13 +214,7 @@ namespace S2Please.Areas.WEB_SHOP.Controllers
                     }
                     else
                     {
-                        param = new List<Param>();
-                        param.Add(new Param { Key = "@COLOR_ID", Value = item.COLOR_ID.ToString() });
-                        param.Add(new Param { Key = "@SIZE_ID", Value = item.SIZE_ID.ToString() });
-                        param.Add(new Param { Key = "@PRODUCT_ID", Value = item.PRODUCT_ID.ToString() });
-                        param.Add(new Param { Key = "@IS_MAIN", Value = "0" });
-
-                        var responseMapper = ListProcedure<ProductColorSizeMapperModel>(new ProductColorSizeMapperModel(), "Product_Get_GetProductColorSizeMapperByColorIdAndSizeId", param);
+                        var responseMapper = _productRepository.GetProductColorSizeMapperByColorIdAndSizeId(item.COLOR_ID, item.SIZE_ID, item.PRODUCT_ID,"0");
                         var resultMapper = JsonConvert.DeserializeObject<List<ProductColorSizeMapperModel>>(JsonConvert.SerializeObject(responseMapper.Results));
                         if (resultMapper != null && resultMapper.Count() > 0)
                         {
@@ -284,41 +238,10 @@ namespace S2Please.Areas.WEB_SHOP.Controllers
                 return Json(new { Result = validations, Invalid = true }, JsonRequestBehavior.AllowGet);
             }
 
-            param = new List<Param>();
-            param.Add(new Param { Key = "@ID", Value = model.ID.ToString() });
-            param.Add(new Param { Key = "@ORDER_CODE", Value = new Random().Next(1000000, 9999999).ToString() });
-            param.Add(new Param { Key = "@CUSTOMER_ID", Value = model.CUSTOMER_ID.ToString() });
-            param.Add(new Param { Key = "@STATUS", Value = model.STATUS.ToString() });
-            param.Add(new Param { Key = "@STATUS_PAY", Value = model.STATUS_PAY.ToString() });
-            param.Add(new Param { Key = "@METHOD_PAY", Value = model.METHOD_PAY.ToString() });
-            param.Add(new Param { Key = "@FEE_SHIP", Value = model.FEE_SHIP.ToString() });
-            param.Add(new Param { Key = "@BONUS_ID", Value = model.BONUS_ID });
-            param.Add(new Param { Key = "@DECRIPTION", Value = model.DECRIPTION });
+            var odelInser = MapperHelper.Map<OrderModel,Repository.Model.OrderModel>(model);
+            var type = MapperHelper.MapList<OrderDetailModel, Repository.Type.OrderDetailType>(orderDetail);
 
-            param.Add(new Param { Key = "@FULL_NAME", Value = model.FULL_NAME });
-            param.Add(new Param { Key = "@PHONE", Value = model.PHONE });
-            param.Add(new Param { Key = "@EMAIL", Value = model.EMAIL });
-            param.Add(new Param { Key = "@FAX", Value = model.FAX });
-            param.Add(new Param { Key = "@ADRESS_SPECIFIC", Value = model.ADRESS_SPECIFIC });
-            param.Add(new Param { Key = "@CITY", Value = model.CITY.ToString() });
-            param.Add(new Param { Key = "@DISTRICT", Value = model.DISTRICT.ToString() });
-            param.Add(new Param { Key = "@COMMUNITY", Value = model.COMMUNITY.ToString() });
-
-            var type= MapperHelper.MapList<OrderDetailModel, OrderDetailType >(orderDetail);
-
-
-            param.Add(new Param
-            {
-                IsUserDefinedTableType = true,
-                paramUserDefinedTableType = new SqlParameter("@OrderDetailType", SqlDbType.Structured)
-                {
-                    TypeName = "dbo.OrderDetailType",
-                    Value = DataTableHelper.ConvertToUserDefinedDataTable(type)
-                }
-            });
-
-
-            var responseOrder = ListProcedure<OrderModel>(new OrderModel(), "Order_Update_Order", param);
+            var responseOrder = _orderRepository.UpdateOrder(odelInser, type);
             var result = new ResultModel();
             if (responseOrder != null && responseOrder.Success == true)
             {

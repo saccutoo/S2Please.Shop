@@ -23,5 +23,11 @@ namespace Repository
 
         //Get Update_Order
         ResultModel UpdateOrder(OrderModel model, List<OrderDetailType> orderDetails);
+
+        //Get Order By Customer Id
+        ResultModel GetOrderByCustomerId(long userId);
+
+        //delete order
+        ResultModel DeleteById(long id);
     }
 }
