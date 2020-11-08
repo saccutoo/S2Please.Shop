@@ -57,5 +57,41 @@ namespace Repository
             });
             return ListProcedure<ImportCountryType>(new ImportCountryType(), "ImportCountry", param);
         }
+
+        //Get Get Method Pay
+        public ResultModel GetMethodPay()
+        {
+            //danh sách phương thức thanh toán
+           return ListProcedure<MethodPayModel>(new MethodPayModel(), "MethodPay_Get_MethodPay", new List<Param>(), true);
+        }
+
+        //Get Get Method Pay
+        public ResultModel GetShipFee()
+        {
+            //danh sách phương thức thanh toán
+            return ListProcedure<ShipFeeModel>(new ShipFeeModel(), "ShipFee_Get_GetShipFee", new List<Param>(), true);
+        }
+
+        //Get City
+        public ResultModel GetCity()
+        {
+            return ListProcedure<CityModel>(new CityModel(), "City_Get_City", new List<Param>(), true);
+        }
+
+        //Get District By Code City
+        public ResultModel GetDistrictByCodeCity(long cityCode)
+        {
+            var param = new List<Param>();
+            param.Add(new Param { Key = "@CODE_CITY", Value = cityCode.ToString() });
+            return ListProcedure<DistrictModel>(new DistrictModel(), "District_Get_DistrictByCodeCity", param, true);
+        }
+
+        //GetCommunity By Code District
+        public ResultModel GetCommunityByCodeDistrict(long districtCode)
+        {
+            var param = new List<Param>();
+            param.Add(new Param { Key = "@CODE_DISTRICT", Value = districtCode.ToString() });
+            return ListProcedure<CommunityModel>(new CommunityModel(), "Community_Get_CommunityByCodeDistrict", param, true);
+        }
     }
 }

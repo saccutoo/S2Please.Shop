@@ -23,5 +23,14 @@ namespace Repository
 
         //Get_History_Reset_Pass
         ResultModel ChangePasswordEmployees(string pass, string email);
+
+        //check exits usernam and email
+        ResultModel CheckUserNameEmail(string userName, string email);
+
+        //update pass word user
+        ResultModel UpdateUser(string userName, string password, string email);
+
+        //update change pass word customer
+        ResultModel ChangePasswordCustomer(string pass, string email);
     }
 }

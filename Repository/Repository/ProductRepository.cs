@@ -178,5 +178,24 @@ namespace Repository
             param.Add(new Param { Key = "@IS_NEW", Value = model.IS_NEW.ToString() });
             return ListProcedure<ProductModel>(new ProductModel(), "Product_Update_SaveProduct", param, false, true);
         }
+
+        //Get Product Color Size Mapper By ColorId AndSize Id
+        public ResultModel GetProductColorSizeMapperByColorIdAndSizeId(long colorId,long sizeId,long productId,string isMain)
+        {
+            var param = new List<Param>();
+            param.Add(new Param { Key = "@COLOR_ID", Value = colorId.ToString() });
+            param.Add(new Param { Key = "@SIZE_ID", Value = sizeId.ToString() });
+            param.Add(new Param { Key = "@PRODUCT_ID", Value = productId.ToString() });
+            param.Add(new Param { Key = "@IS_MAIN", Value = isMain });
+            return ListProcedure<ProductColorSizeMapperModel>(new ProductColorSizeMapperModel(), "Product_Get_GetProductColorSizeMapperByColorIdAndSizeId", param);
+        }
+
+        //Get Product Bonus By Product Id
+        public ResultModel GetProductBonusByProductId(long id)
+        {
+            var param = new List<Param>();
+            param.Add(new Param { Key = "@ID", Value = id.ToString() });
+            return ListProcedure<ProductBonusModel>(new ProductBonusModel(), "Product_Get_GetProductBonusByProductId", param);
+        }
     }
 }

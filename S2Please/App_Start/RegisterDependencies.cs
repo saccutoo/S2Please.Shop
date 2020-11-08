@@ -23,6 +23,7 @@ namespace S2Please
             builder.RegisterType<SystemRepository>().As<ISystemRepository>().InstancePerLifetimeScope();
             builder.RegisterType<AuthenRepository>().As<IAuthenRepository>().InstancePerLifetimeScope();
             builder.RegisterType<DashboardRepository>().As<IDashboardRepository>().InstancePerLifetimeScope();
+            builder.RegisterType<CustomerRepository>().As<ICustomerRepository>().InstancePerLifetimeScope();
 
             //controller base
             builder.RegisterType<S2Please.Controllers.BaseController>();
@@ -34,6 +35,10 @@ namespace S2Please
             builder.RegisterType<S2Please.Areas.ADMIN.Controllers.DashboardController>();
             builder.RegisterType<S2Please.Areas.ADMIN.Controllers.ExecController>();
             builder.RegisterType<S2Please.Areas.ADMIN.Controllers.FilterController>();
+
+            //controllers web
+            builder.RegisterType<S2Please.Areas.WEB_SHOP.Controllers.AuthenController>();
+            builder.RegisterType<S2Please.Areas.WEB_SHOP.Controllers.CartController>();
 
             //build all
             Container = builder.Build();

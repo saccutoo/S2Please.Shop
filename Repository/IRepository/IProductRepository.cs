@@ -46,5 +46,11 @@ namespace Repository
 
         //SaveProduct
         ResultModel SaveProduct(ProductModel model, ParamType paramType, List<ColorType> colorTypes, List<SizeType> sizeTypes, List<ProductImgType> productImgs, List<ColorSizeMapperType> colorSizeMapType);
+
+        //Get Product Color Size Mapper By ColorId AndSize Id
+        ResultModel GetProductColorSizeMapperByColorIdAndSizeId(long colorId, long sizeId, long productId, string isMain);
+
+        //Get Product Bonus By Product Id
+        ResultModel GetProductBonusByProductId(long id);
     }
 }

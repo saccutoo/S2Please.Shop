@@ -41,13 +41,41 @@ namespace Repository
             return ListProcedure<HistoryResetPassword>(new HistoryResetPassword(), "Get_History_Reset_Pass", param);
         }
 
-        //Get_History_Reset_Pass
+        //update change pass word employees
         public ResultModel ChangePasswordEmployees(string pass,string email )
         {
             var param = new List<Param>();
             param.Add(new Param { Key = "@PASS_WORD", Value = pass });
             param.Add(new Param { Key = "@EMAIL", Value = email });
             return ListProcedure<UserModel>(new UserModel(), "User_Update_ChangePasswordEmployees", param);
+        }
+
+        //check exits usernam and email
+        public ResultModel CheckUserNameEmail(string userName, string email)
+        {
+            var param = new List<Param>();
+            param.Add(new Param { Key = "@USER_NAME", Value = userName });
+            param.Add(new Param { Key = "@EMAIL", Value = email });
+            return ListProcedure<CheckUserNameEmail>(new CheckUserNameEmail(), "User_Get_CheckUserNameEmail", param);
+        }
+
+        //update pass word user
+        public ResultModel UpdateUser(string userName,string password, string email)
+        {
+            var param = new List<Param>();
+            param.Add(new Param { Key = "@USER_NAME", Value = userName });
+            param.Add(new Param { Key = "@PASS_WORD", Value = password });
+            param.Add(new Param { Key = "@EMAIL", Value = email });
+            return ListProcedure<UserModel>(new UserModel(), "User_Update_User", param);
+        }
+
+        //update change pass word customer
+        public ResultModel ChangePasswordCustomer(string pass, string email)
+        {
+            var param = new List<Param>();
+            param.Add(new Param { Key = "@PASS_WORD", Value = pass });
+            param.Add(new Param { Key = "@EMAIL", Value = email });
+            return ListProcedure<UserModel>(new UserModel(), "User_Update_ChangePassword", param);
         }
     }
 }

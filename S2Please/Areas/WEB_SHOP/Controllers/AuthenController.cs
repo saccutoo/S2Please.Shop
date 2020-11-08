@@ -13,11 +13,16 @@ using System;
 using System.Web;
 using S2Please.Areas.WEB_SHOP.ViewModel;
 using System.Configuration;
-
+using Repository;
 namespace S2Please.Areas.WEB_SHOP.Controllers
 {
     public class AuthenController : BaseController
     {
+        private IAuthenRepository _authenRepository;
+        public AuthenController(IAuthenRepository authenRepository)
+        {
+            this._authenRepository = authenRepository;
+        }
         // GET: WEB_SHOP/Authen
         private ado _ado = new ado();
         [HttpGet]
@@ -46,11 +51,7 @@ namespace S2Please.Areas.WEB_SHOP.Controllers
             }
             if (vm.Success==true)
             {
-                var param = new List<Param>();
-                param.Add(new Param { Key = "@USER_NAME", Value = user.USER_NAME });
-                param.Add(new Param { Key = "@PASS_WORD", Value = Security.EncryptKey(user.PASS_WORD) });
-                param.Add(new Param { Key = "@IS_EMPLOYEE", Value = "0" });
-                var responseUser = ListProcedure<UserModel>(new UserModel(), "User_Get_User", param);
+                var responseUser = _authenRepository.GetUser(user.USER_NAME, Security.EncryptKey(user.PASS_WORD),"0");
                 var resultUser = JsonConvert.DeserializeObject<List<UserModel>>(JsonConvert.SerializeObject(responseUser.Results));
                 if (resultUser != null && resultUser.Count() > 0)
                 {
@@ -58,7 +59,6 @@ namespace S2Please.Areas.WEB_SHOP.Controllers
                     if (Session["UrlConTroller"]!=null && Session["UrlView"] != null)
                     {
                         return RedirectToAction(Session["UrlView"].ToString(), Session["UrlConTroller"].ToString(), new { Area = "WEB_SHOP" });
-
                     }
                     return RedirectToAction("Index", "Home",new { Area = "WEB_SHOP" });
                 }
@@ -122,11 +122,7 @@ namespace S2Please.Areas.WEB_SHOP.Controllers
                 }
             }
 
-            var param = new List<Param>();
-            param.Add(new Param { Key = "@USER_NAME", Value = user.USER_NAME });
-            param.Add(new Param { Key = "@EMAIL", Value = user.EMAIL });
-
-            var responseUser = ListProcedure<CheckUserNameEmail>(new CheckUserNameEmail(), "User_Get_CheckUserNameEmail", param);
+            var responseUser = _authenRepository.CheckUserNameEmail(user.USER_NAME,user.EMAIL);
             var resultUser = JsonConvert.DeserializeObject<List<CheckUserNameEmail>>(JsonConvert.SerializeObject(responseUser.Results));
             if (resultUser != null && resultUser.Count() > 0)
             {
@@ -144,9 +140,7 @@ namespace S2Please.Areas.WEB_SHOP.Controllers
 
             if (vm.Success)
             {
-                var model = new UserModel();
-                param.Add(new Param { Key = "@PASS_WORD", Value = Security.EncryptKey(user.PASS_WORD) });
-                var response = ListProcedure<UserModel>(model, "User_Update_User", param);
+                var response = _authenRepository.UpdateUser(user.USER_NAME,Security.EncryptKey(user.PASS_WORD), user.EMAIL);
                 var result = JsonConvert.DeserializeObject<List<ProductModel>>(JsonConvert.SerializeObject(response.Results));
                 if (result != null && result.Count() > 0)
                 {
@@ -200,11 +194,7 @@ namespace S2Please.Areas.WEB_SHOP.Controllers
             }
             if (vm.Success == true)
             {
-                var param = new List<Param>();
-                param.Add(new Param { Key = "@USER_NAME", Value = user.USER_NAME });
-                param.Add(new Param { Key = "@PASS_WORD", Value = Security.EncryptKey(user.PASS_WORD) });
-                param.Add(new Param { Key = "@IS_EMPLOYEE", Value = "0" });
-                var responseUser = ListProcedure<UserModel>(new UserModel(), "User_Get_User", param);
+                var responseUser = _authenRepository.GetUser(user.USER_NAME, Security.EncryptKey(user.PASS_WORD),"0");
                 var resultUser = JsonConvert.DeserializeObject<List<UserModel>>(JsonConvert.SerializeObject(responseUser.Results));
                 if (resultUser != null && resultUser.Count() > 0)
                 {
@@ -228,9 +218,7 @@ namespace S2Please.Areas.WEB_SHOP.Controllers
             if (vm.Code!=null && vm.Is_Confirm && vm.Email!=null)
             {
                 vm.Success = false;
-                var param = new List<Param>();
-                param.Add(new Param { Key = "@CODE", Value = vm.Code });
-                var response = ListProcedure<HistoryResetPassword>(new HistoryResetPassword(), "Get_History_Reset_Pass", param);
+                var response = _authenRepository.GetHistoryResetPass(vm.Code);
                 var result = JsonConvert.DeserializeObject<List<HistoryResetPassword>>(JsonConvert.SerializeObject(response.Results));
                 if (result != null && result.Count() > 0)
                 {
@@ -284,9 +272,7 @@ namespace S2Please.Areas.WEB_SHOP.Controllers
                 {
                     if (vm.Code != null && vm.Is_Confirm && vm.Email != null)
                     {
-                        var param = new List<Param>();
-                        param.Add(new Param { Key = "@CODE", Value = vm.Code });
-                        var response = ListProcedure<HistoryResetPassword>(new HistoryResetPassword(), "Get_History_Reset_Pass", param);
+                        var response = _authenRepository.GetHistoryResetPass(vm.Code);
                         var result = JsonConvert.DeserializeObject<List<HistoryResetPassword>>(JsonConvert.SerializeObject(response.Results));
                         if (result != null && result.Count() > 0)
                         {
@@ -301,9 +287,7 @@ namespace S2Please.Areas.WEB_SHOP.Controllers
                 else
                 {
 
-                    var param = new List<Param>();
-                    param.Add(new Param { Key = "@CODE", Value = vm.Code });
-                    var response = ListProcedure<HistoryResetPassword>(new HistoryResetPassword(), "Get_History_Reset_Pass", param);
+                    var response = _authenRepository.GetHistoryResetPass(vm.Code);
                     var result = JsonConvert.DeserializeObject<List<HistoryResetPassword>>(JsonConvert.SerializeObject(response.Results));
                     if (result != null && result.Count() > 0)
                     {
@@ -315,10 +299,7 @@ namespace S2Please.Areas.WEB_SHOP.Controllers
                         }
                         else
                         {
-                            param = new List<Param>();
-                            param.Add(new Param { Key = "@PASS_WORD", Value = Security.EncryptKey(user.PASS_WORD) });
-                            param.Add(new Param { Key = "@EMAIL", Value = user.EMAIL });
-                            var responseS = ListProcedure<UserModel>(new UserModel(), "User_Update_ChangePassword", param);
+                            var responseS = _authenRepository.ChangePasswordCustomer(Security.EncryptKey(user.PASS_WORD), user.EMAIL);
                             var resultS = JsonConvert.DeserializeObject<List<UserModel>>(JsonConvert.SerializeObject(responseS.Results));
                             if (resultS != null && resultS.Count() > 0)
                             {
@@ -352,12 +333,7 @@ namespace S2Please.Areas.WEB_SHOP.Controllers
                 {
                     Guid guid = Guid.NewGuid();
                     var code = guid.ToString();
-                    var param = new List<Param>();
-                    param.Add(new Param { Key = "@EMAIL", Value = user.EMAIL });
-                    param.Add(new Param { Key = "@CODE", Value = code });
-                    param.Add(new Param { Key = "@IS_EMPLOYEE", Value = "0" });
-                    param.Add(new Param { Key = "@DATE_TIME", Value = DateTime.Now.AddMinutes(15).ToString() });
-                    var responseUser = ListProcedure<UserModel>(new UserModel(), "User_Get_UserByEmail", param);
+                    var responseUser = _authenRepository.GetUserByEmail(user.EMAIL,code,"0");
                     var resultUser = JsonConvert.DeserializeObject<List<UserModel>>(JsonConvert.SerializeObject(responseUser.Results));
                     if (resultUser != null && resultUser.Count() > 0)
                     {

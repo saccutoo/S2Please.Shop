@@ -26,5 +26,20 @@ namespace Repository
 
         //Get import  adrress
         ResultModel ImportCountry(List<ImportCountryType> datas, string isCity, string isDistrict, string isCommunity);
+
+        //Get Get Method Pay
+        ResultModel GetMethodPay();
+
+        //Get Get Method Pay
+        ResultModel GetShipFee();
+
+        //Get City
+        ResultModel GetCity();
+
+        //Get District By Code City
+        ResultModel GetDistrictByCodeCity(long cityCode);
+
+        //GetCommunity By Code District
+        ResultModel GetCommunityByCodeDistrict(long districtCode);
     }
 }

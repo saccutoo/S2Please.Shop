@@ -20,5 +20,8 @@ namespace Repository
 
         //Get list order from admin
         ResultModel GetOrderFromAdmin(ParamType paramType);
+
+        //Get Update_Order
+        ResultModel UpdateOrder(OrderModel model, List<OrderDetailType> orderDetails);
     }
 }

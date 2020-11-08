@@ -18,7 +18,7 @@ using S2Please.Helper;
 using S2Please.Areas.WEB_SHOP.Models;
 using SHOP.COMMON;
 using S2Please.ViewModel;
-
+using Repository;
 namespace S2Please.Areas.WEB_SHOP.Controllers
 {
     public class CartController : S2Please.Controllers.BaseController
@@ -27,19 +27,25 @@ namespace S2Please.Areas.WEB_SHOP.Controllers
         private ado _db = new ado();
         private string _connection = ConfigurationManager.AppSettings["DBConnection"];
 
+        private ISystemRepository _systemRepository;
+        private IProductRepository _productRepository;
+        private ICustomerRepository _customerRepository;
+        private IOrderRepository _orderRepository;
+        public CartController(ISystemRepository systemRepository, IProductRepository productRepository, ICustomerRepository customerRepository, IOrderRepository orderRepository)
+        {
+            this._systemRepository = systemRepository;
+            this._productRepository = productRepository;
+            this._customerRepository = customerRepository;
+            this._orderRepository = orderRepository;
+        }
+
         public ActionResult AddCart(CartModel cart)
         {
             var result = new ResultModel();
             var listCart = new List<CartModel>();
             ProductColorSizeMapperModel data = new ProductColorSizeMapperModel();
             var message = string.Empty;
-            var param = new List<Param>();
-            param.Add(new Param { Key = "@COLOR_ID", Value = cart.COLOR_ID.ToString() });
-            param.Add(new Param { Key = "@SIZE_ID", Value = cart.SIZE_ID.ToString() });
-            param.Add(new Param { Key = "@PRODUCT_ID", Value = cart.PRODUCT_ID.ToString() });
-            param.Add(new Param { Key = "@IS_MAIN", Value = "0" });
-
-            var responseMapper = ListProcedure<ProductColorSizeMapperModel>(new ProductColorSizeMapperModel(), "Product_Get_GetProductColorSizeMapperByColorIdAndSizeId", param);
+            var responseMapper = _productRepository.GetProductColorSizeMapperByColorIdAndSizeId(cart.COLOR_ID, cart.SIZE_ID, cart.PRODUCT_ID,"0");
             var resultMapper = JsonConvert.DeserializeObject<List<ProductColorSizeMapperModel>>(JsonConvert.SerializeObject(responseMapper.Results));
             if (resultMapper != null && resultMapper.Count() > 0)
             {
@@ -72,9 +78,7 @@ namespace S2Please.Areas.WEB_SHOP.Controllers
 
 
             //Lấy sản phẩm bởi ID sản phẩm
-            param = new List<Param>();
-            param.Add(new Param { Key = "@ID", Value = cart.PRODUCT_ID.ToString() });
-            var responseProduct = ListProcedure<ProductModel>(new ProductModel(), "Product_Get_GetProductById", param);
+            var responseProduct = _productRepository.GetProductById(cart.PRODUCT_ID);
             var resultProduct = JsonConvert.DeserializeObject<List<ProductModel>>(JsonConvert.SerializeObject(responseProduct.Results));
             var product = new ProductModel();
             if (resultProduct != null && resultProduct.Count() > 0)
@@ -84,7 +88,7 @@ namespace S2Please.Areas.WEB_SHOP.Controllers
 
 
             //Lấy danh sách bonus ID sản phẩm
-            var responseNonus = ListProcedure<ProductBonusModel>(new ProductBonusModel(), "Product_Get_GetProductBonusByProductId", param);
+            var responseNonus = _productRepository.GetProductBonusByProductId(cart.PRODUCT_ID);
             var resultProductBonus = JsonConvert.DeserializeObject<List<ProductBonusModel>>(JsonConvert.SerializeObject(responseNonus.Results));
             if (resultProductBonus != null && resultProductBonus.Count() > 0)
             {
@@ -162,13 +166,7 @@ namespace S2Please.Areas.WEB_SHOP.Controllers
             {
                 foreach (var item in model)
                 {
-                    var param = new List<Param>();
-                    param.Add(new Param { Key = "@COLOR_ID", Value = item.COLOR_ID.ToString() });
-                    param.Add(new Param { Key = "@SIZE_ID", Value = item.SIZE_ID.ToString() });
-                    param.Add(new Param { Key = "@PRODUCT_ID", Value = item.PRODUCT_ID.ToString() });
-                    param.Add(new Param { Key = "@IS_MAIN", Value = "0" });
-
-                    var responseMapper = ListProcedure<ProductColorSizeMapperModel>(new ProductColorSizeMapperModel(), "Product_Get_GetProductColorSizeMapperByColorIdAndSizeId", param);
+                    var responseMapper = _productRepository.GetProductColorSizeMapperByColorIdAndSizeId(item.COLOR_ID, item.SIZE_ID, item.PRODUCT_ID,"0");
                     var resultMapper = JsonConvert.DeserializeObject<List<ProductColorSizeMapperModel>>(JsonConvert.SerializeObject(responseMapper.Results));
                     if (resultMapper != null && resultMapper.Count() > 0)
                     {
@@ -224,14 +222,14 @@ namespace S2Please.Areas.WEB_SHOP.Controllers
             var param = new List<Param>();
 
             //danh sách phương thức thanh toán
-            var responseStatusPay = ListProcedure<MethodPayModel>(new MethodPayModel(), "MethodPay_Get_MethodPay", new List<Param>(),true);
+            var responseStatusPay = _systemRepository.GetMethodPay();
             var resultStatusPay= JsonConvert.DeserializeObject<List<MethodPayModel>>(JsonConvert.SerializeObject(responseStatusPay.Results));
             if (resultStatusPay != null && resultStatusPay.Count() > 0)
             {
                 vm.MethodPays = resultStatusPay;
             }
 
-            var responseShipFee = ListProcedure<ShipFeeModel>(new ShipFeeModel(), "ShipFee_Get_GetShipFee", new List<Param>(), true);
+            var responseShipFee = _systemRepository.GetShipFee();
             var resultShipFee = JsonConvert.DeserializeObject<List<ShipFeeModel>>(JsonConvert.SerializeObject(responseShipFee.Results));
             if (resultShipFee != null && resultShipFee.Count() > 0)
             {
@@ -240,8 +238,7 @@ namespace S2Please.Areas.WEB_SHOP.Controllers
 
             if (CurrentUser.User.USER_ID!=0)
             {
-                param.Add(new Param { Key = "@USER_ID", Value = CurrentUser.User.USER_ID.ToString() });
-                var responseCustomer = ListProcedure<CustomerModel>(new CustomerModel(), "Customer_Get_GetCustomerById", param);
+                var responseCustomer = _customerRepository.GetCustomerById(CurrentUser.User.USER_ID);
                 var resultCustomer = JsonConvert.DeserializeObject<List<CustomerModel>>(JsonConvert.SerializeObject(responseCustomer.Results));
                 if (resultCustomer != null && resultCustomer.Count() > 0)
                 {
@@ -249,23 +246,17 @@ namespace S2Please.Areas.WEB_SHOP.Controllers
                 }
             }
 
-            var responseCity = ListProcedure<CityModel>(new CityModel(), "City_Get_City", new List<Param>(), true, false);
+            var responseCity = _systemRepository.GetCity();
             vm.Citys = responseCity.Results;
 
             if (vm.Customer.CITY!=0)
             {
-
-                param = new List<Param>();
-                param.Add(new Param { Key = "@CODE_CITY", Value = vm.Customer.CITY.ToString() });
-                var responseCommunity = ListProcedure<CommunityModel>(new CommunityModel(), "District_Get_DistrictByCodeCity", param, true, false);
+                var responseCommunity = _systemRepository.GetDistrictByCodeCity(vm.Customer.CITY);
                 vm.Districts = responseCommunity.Results;
-
             }
             if (vm.Customer.DISTRICT != 0)
             {
-                param = new List<Param>();
-                param.Add(new Param { Key = "@CODE_DISTRICT", Value = vm.Customer.DISTRICT.ToString() });
-                var response = ListProcedure<DistrictModel>(new DistrictModel(), "Community_Get_CommunityByCodeDistrict", param);
+                var response = _systemRepository.GetCommunityByCodeDistrict(vm.Customer.DISTRICT);
                 if (response != null && response.Results.Count() > 0)
                 {
                     vm.Communitys = response.Results;
@@ -288,13 +279,10 @@ namespace S2Please.Areas.WEB_SHOP.Controllers
         public ActionResult ReloadDistrict(long codeCity)
         {
             SelectModel vm = new SelectModel();
-            var param = new List<Param>();
-            param.Add(new Param { Key = "@CODE_CITY", Value = codeCity.ToString() });
-            var response= ListProcedure<DistrictModel>(new DistrictModel(), "District_Get_DistrictByCodeCity", param);
+            var response = _systemRepository.GetDistrictByCodeCity(codeCity);
             if (response != null && response.Results.Count() > 0)
             {
                 vm.Datas = response.Results;
-
             }
             vm.Id = "DISTRICT";
             vm.Name = "model.DISTRICT";
@@ -319,7 +307,6 @@ namespace S2Please.Areas.WEB_SHOP.Controllers
             List<string> listHtml = new List<string>();
             listHtml.Add(html);
             listHtml.Add(html1);
-
             return Json(listHtml, JsonRequestBehavior.AllowGet);
 
         }
@@ -327,9 +314,7 @@ namespace S2Please.Areas.WEB_SHOP.Controllers
         public ActionResult ReloadCommunity(long codeDistrict)
         {
             SelectModel vm = new SelectModel();
-            var param = new List<Param>();
-            param.Add(new Param { Key = "@CODE_DISTRICT", Value = codeDistrict.ToString() });
-            var response = ListProcedure<DistrictModel>(new DistrictModel(), "Community_Get_CommunityByCodeDistrict", param);
+            var response = _systemRepository.GetCommunityByCodeDistrict(codeDistrict);
             if (response != null && response.Results.Count() > 0)
             {
                 vm.Datas = response.Results;
@@ -358,26 +343,7 @@ namespace S2Please.Areas.WEB_SHOP.Controllers
                     return Json(new { Result = validations, Invalid = true }, JsonRequestBehavior.AllowGet);
                 }
             }
-            var param = new List<Param>();
-            param.Add(new Param { Key = "@ID", Value = model.ID.ToString() });
-            param.Add(new Param { Key = "@ORDER_CODE", Value = new Random().Next(1000000,9999999).ToString() });
-            param.Add(new Param { Key = "@CUSTOMER_ID", Value = model.CUSTOMER_ID.ToString() });
-            param.Add(new Param { Key = "@STATUS", Value = model.STATUS.ToString() });
-            param.Add(new Param { Key = "@STATUS_PAY", Value = model.STATUS_PAY.ToString() });
-            param.Add(new Param { Key = "@METHOD_PAY", Value = model.METHOD_PAY.ToString() });
-            param.Add(new Param { Key = "@FEE_SHIP", Value = model.FEE_SHIP.ToString() });
-            param.Add(new Param { Key = "@BONUS_ID", Value = model.BONUS_ID });
-            param.Add(new Param { Key = "@DECRIPTION", Value = model.DECRIPTION });
-
-            param.Add(new Param { Key = "@FULL_NAME", Value = model.FULL_NAME });
-            param.Add(new Param { Key = "@PHONE", Value = model.PHONE });
-            param.Add(new Param { Key = "@EMAIL", Value = model.EMAIL });
-            param.Add(new Param { Key = "@FAX", Value = model.FAX });
-            param.Add(new Param { Key = "@ADRESS_SPECIFIC", Value = model.ADRESS_SPECIFIC });
-            param.Add(new Param { Key = "@CITY", Value = model.CITY.ToString() });
-            param.Add(new Param { Key = "@DISTRICT", Value = model.DISTRICT.ToString() });
-            param.Add(new Param { Key = "@COMMUNITY", Value = model.COMMUNITY.ToString() });
-
+           
             List<OrderDetailType> orderDetails = new List<OrderDetailType>();
             if (Session["Products"] !=null)
             {
@@ -398,19 +364,11 @@ namespace S2Please.Areas.WEB_SHOP.Controllers
                 }
 
             }
-            param.Add(new Param
-            {
-                IsUserDefinedTableType = true,
-                paramUserDefinedTableType = new SqlParameter("@OrderDetailType", SqlDbType.Structured)
-                {
-                    TypeName = "dbo.OrderDetailType",
-                    Value = DataTableHelper.ConvertToUserDefinedDataTable(orderDetails)
-                }
-            });
-
-
+          
+            var modelInser = MapperHelper.Map<OrderModel,Repository.Model.OrderModel>(model);
+            var orderDetailInserts = MapperHelper.MapList<OrderDetailType, Repository.Type.OrderDetailType>(orderDetails);
             var data = new OrderModel();
-            var responseOrder = ListProcedure<OrderModel>(new OrderModel(), "Order_Update_Order", param);
+            var responseOrder = _orderRepository.UpdateOrder(modelInser, orderDetailInserts);
             var result = new ResultModel();
             if (responseOrder != null && responseOrder.Success == true)
             {
@@ -436,14 +394,10 @@ namespace S2Please.Areas.WEB_SHOP.Controllers
         {
             OrderInformationViewModel vm  = new OrderInformationViewModel();
             var id = FunctionHelpers.ConvertKey(toDecrypt, FunctionHelpers.KeyEncrypt);
-
-
-            var param = new List<Param>();
-            param.Add(new Param { Key = "@ID", Value = id });
-            var responseOrder = ListProcedure<OrderModel>(new OrderModel(), "Order_Get_GetOrderByID", param);
+            var responseOrder = _orderRepository.GetOrderById(long.Parse(id));
             var resultOrder = JsonConvert.DeserializeObject<List<OrderModel>>(JsonConvert.SerializeObject(responseOrder.Results));
 
-            var responseShipFee = ListProcedure<ShipFeeModel>(new ShipFeeModel(), "ShipFee_Get_GetShipFee", new List<Param>(), true);
+            var responseShipFee = _systemRepository.GetShipFee();
             var resultShipFee = JsonConvert.DeserializeObject<List<ShipFeeModel>>(JsonConvert.SerializeObject(responseShipFee.Results));
             if (resultShipFee != null && resultShipFee.Count() > 0)
             {
