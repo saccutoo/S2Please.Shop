@@ -23,11 +23,15 @@ namespace S2Please.Areas.ADMIN.Controllers
 
         private ITableRepository _tableRepository;
         private IOrderRepository _orderRepository;
-        public OrderController(ITableRepository tableRepository, IOrderRepository orderRepository)
+        private ISystemRepository _systemRepository;
+        public OrderController(ITableRepository tableRepository, IOrderRepository orderRepository, ISystemRepository systemRepository)
         {
             this._tableRepository = tableRepository;
             this._orderRepository = orderRepository;
+            this._systemRepository = systemRepository;
+
         }
+
         public ActionResult Index()
         {
 
@@ -86,6 +90,22 @@ namespace S2Please.Areas.ADMIN.Controllers
             {
                 html
             }));
+        }
+
+        //public ActionResult ShowFormAddOrderCustomer()
+        //{
+        //    BaseModel model = new BaseModel();
+        //    var html = RenderViewToString(this.ControllerContext, "~/Areas/ADMIN/Views/Order/_FormAddOrderCustomer.cshtml", model);
+        //    return Json(html, JsonRequestBehavior.AllowGet);
+        //}
+
+        public ActionResult OrderSave(long id)
+        {
+            OrderSaveViewModel vm = new OrderSaveViewModel();
+            vm.ID = id;
+            var responseCity = _systemRepository.GetCity();
+            vm.Citys = responseCity.Results;
+            return View(vm);
         }
 
         #region RenderTable

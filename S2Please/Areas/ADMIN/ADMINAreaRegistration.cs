@@ -55,7 +55,11 @@ namespace S2Please.Areas.ADMIN
            url: "admin/order",
            defaults: new { controller = "Order", action = "Index", id = UrlParameter.Optional }
        );
-
+            context.MapRoute(
+         name: "admin/order-save/{id}",
+         url: "admin/order-save/{id}",
+         defaults: new { controller = "Order", action = "OrderSave", id = UrlParameter.Optional }
+     );
             context.MapRoute(
                 "ADMIN_default",
                 "ADMIN/{controller}/{action}/{id}",

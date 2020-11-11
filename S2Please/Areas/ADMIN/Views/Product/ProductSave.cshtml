@@ -112,11 +112,12 @@ else
 }
 <div class="section__content section__content--p30">
     <div class="container-fluid">
-        <div class="row">
+        <div class="row">         
+            <div class="col-md-12"> <h3 class="title-5 m-b-35">Thêm sản phẩm</h3></div>
             <div class="col-md-12">
                 <form id="form-product">
                     <div id="accordion">
-                        <div class="card" >
+                        <div class="card">
                             <div class="card-header" id="card-headingOne">
                                 <h5 class="mb-0">
                                     <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
@@ -124,20 +125,20 @@ else
                                     </button>
                                 </h5>
                             </div>
-                            <input type="text" value="@Model.Product.ID" id="product_id" name="model.ID" hidden/>
+                            <input type="text" value="@Model.Product.ID" id="product_id" name="model.ID" hidden />
                             <div id="collapseOne" class="collapse show" aria-labelledby="headingOne">
                                 <div class="card-body">
                                     <div class="row form-group">
                                         <div class="col col-md-6">
-                                            @Html.Partial("~/Areas/ADMIN/Views/Template/Form/_Input.cshtml", new InputModel() { Type = "text", Id = "NAME", Class = "", Name = "model.NAME", LabelName = "Product.ProductName", Value = Model.Product.NAME,IsRequied=true })
+                                            @Html.Partial("~/Areas/ADMIN/Views/Template/Form/_Input.cshtml", new InputModel() { Type = "text", Id = "NAME", Class = "", Name = "model.NAME", LabelName = "Product.ProductName", Value = Model.Product.NAME, IsRequied = true })
                                         </div>
                                         <div class="col col-md-6">
-                                            @Html.Partial("~/Areas/ADMIN/Views/Template/Form/_Textarea.cshtml", new InputModel() { Type = "text", Id = "DECRIPTION", Class = "", Name = "model.DECRIPTION", LabelName = "Product.Decription", Value = Model.Product.DECRIPTION,Style= "height:38px;" })
+                                            @Html.Partial("~/Areas/ADMIN/Views/Template/Form/_Textarea.cshtml", new InputModel() { Type = "text", Id = "DECRIPTION", Class = "", Name = "model.DECRIPTION", LabelName = "Product.Decription", Value = Model.Product.DECRIPTION, Style = "height:38px;" })
                                         </div>
                                     </div>
                                     <div class="row form-group">
                                         <div class="col col-md-6">
-                                            @Html.Partial("~/Areas/ADMIN/Views/Template/Form/_Select.cshtml", new SelectModel() { Id = "PRODUCT_TYPE_ID", Name = "model.PRODUCT_TYPE_ID", Datas = Model.Types, LabelName = "Product.Type", IsRequied = true, Value = Model.Product.PRODUCT_TYPE_ID.ToString(), FieldId = "ID", FieldName = "NAME",IsShowTitle=true })
+                                            @Html.Partial("~/Areas/ADMIN/Views/Template/Form/_Select.cshtml", new SelectModel() { Id = "PRODUCT_TYPE_ID", Name = "model.PRODUCT_TYPE_ID", Datas = Model.Types, LabelName = "Product.Type", IsRequied = true, Value = Model.Product.PRODUCT_TYPE_ID.ToString(), FieldId = "ID", FieldName = "NAME", IsShowTitle = true })
                                         </div>
                                         <div class="col col-md-6">
                                             @Html.Partial("~/Areas/ADMIN/Views/Template/Form/_Select.cshtml", new SelectModel() { Id = "PRODUCT_GROUP_ID", Name = "model.PRODUCT_GROUP_ID", Datas = Model.Groups, LabelName = "Product.Group", IsRequied = true, Value = Model.Product.PRODUCT_GROUP_ID.ToString(), FieldId = "ID", FieldName = "GROUP_NAME", IsShowTitle = true })
@@ -155,19 +156,19 @@ else
 
                                     <div class="row form-group">
                                         <div class="col col-md-6">
-                                            @{ 
-                                                var check = string.Empty ;
+                                            @{
+                                                var check = string.Empty;
                                                 if (Model.Product.IS_NEW)
                                                 {
                                                     check = "checked";
                                                 }
                                             }
-                                            @Html.Partial("~/Areas/ADMIN/Views/Template/Form/_Switch.cshtml", new InputModel() {  Id = "IS_NEW", Class = "", Name = "model.IS_NEW", LabelName = "Product.New", Value ="true" ,Attribute= check })
+                                            @Html.Partial("~/Areas/ADMIN/Views/Template/Form/_Switch.cshtml", new InputModel() { Id = "IS_NEW", Class = "", Name = "model.IS_NEW", LabelName = "Product.New", Value = "true", Attribute = check })
                                         </div>
                                         <div class="col col-md-6">
                                             @{
                                                 check = "checked";
-                                                if (Model.Product.IS_SHOW!=null && !Model.Product.IS_SHOW.Value)
+                                                if (Model.Product.IS_SHOW != null && !Model.Product.IS_SHOW.Value)
                                                 {
                                                     check = string.Empty;
                                                 }
@@ -179,7 +180,7 @@ else
                             </div>
                         </div>
 
-                        <div class="card" >
+                        <div class="card">
                             <div class="card-header" id="card-headingTwo">
                                 <h5 class="mb-0">
                                     <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
@@ -192,9 +193,9 @@ else
                                 <div class="card-body">
                                     <div class="row form-group">
                                         <div class="col col-md-6">
-                                            @{ 
+                                            @{
                                                 var value = string.Empty;
-                                                if (Model.ProductColors!=null && Model.ProductColors.Count()>0)
+                                                if (Model.ProductColors != null && Model.ProductColors.Count() > 0)
                                                 {
                                                     foreach (var item in Model.ProductColors)
                                                     {
@@ -252,7 +253,7 @@ else
                             </div>
                         </div>
 
-                        <div class="card" >
+                        <div class="card">
                             <div class="card-header" id="card-headingThree">
                                 <h5 class="mb-0">
                                     <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
@@ -265,7 +266,7 @@ else
                                 <div class="card-body">
                                     <div class="row table-responsive table-responsive-data2">
                                         <table class="table table-data2 ">
-                                            <thead >
+                                            <thead>
                                                 <tr>
                                                     <th>@FunctionHelpers.GetValueLanguage("TableTitle.IsMain")</th>
                                                     <th>@FunctionHelpers.GetValueLanguage("Product.ProductColor")</th>
@@ -278,32 +279,32 @@ else
                                                 </tr>
                                             </thead>
                                             <tbody id="body-color-size-map">
-                                               @if (Model.ProductMapp!=null && Model.ProductMapp.Count()>0)
-                                               {
-                                                   RowTableColorAndSizeViewModel vm = new RowTableColorAndSizeViewModel();
-                                                   List<ProductColorSizeMapperModel> ColorSizeMaps = new List<ProductColorSizeMapperModel>();
-                                                   foreach (var item in Model.ProductMapp)
-                                                   {
-                                                       ColorSizeMaps.Add(new ProductColorSizeMapperModel()
-                                                       {
-                                                           COLOR = item.COLOR,
-                                                           SIZE = item.SIZE,
-                                                           ID=item.ID,
-                                                           AMOUNT=item.AMOUNT,
-                                                           RATE=item.RATE,
-                                                           IS_MAIN=item.IS_MAIN,
-                                                           PRICE=item.PRICE,
-                                                           IMG=item.IMG
-                                                       });
-                                                   }
-                                                   vm.ColorSizeMapper = ColorSizeMaps;
-                                                   @Html.Partial("~/Areas/ADMIN/Views/Product/_RowTableColorAndSize.cshtml", vm);
-                                               }       
-                                           </tbody>
+                                                @if (Model.ProductMapp != null && Model.ProductMapp.Count() > 0)
+                                                {
+                                                    RowTableColorAndSizeViewModel vm = new RowTableColorAndSizeViewModel();
+                                                    List<ProductColorSizeMapperModel> ColorSizeMaps = new List<ProductColorSizeMapperModel>();
+                                                    foreach (var item in Model.ProductMapp)
+                                                    {
+                                                        ColorSizeMaps.Add(new ProductColorSizeMapperModel()
+                                                        {
+                                                            COLOR = item.COLOR,
+                                                            SIZE = item.SIZE,
+                                                            ID = item.ID,
+                                                            AMOUNT = item.AMOUNT,
+                                                            RATE = item.RATE,
+                                                            IS_MAIN = item.IS_MAIN,
+                                                            PRICE = item.PRICE,
+                                                            IMG = item.IMG
+                                                        });
+                                                    }
+                                                    vm.ColorSizeMapper = ColorSizeMaps;
+                                                    @Html.Partial("~/Areas/ADMIN/Views/Product/_RowTableColorAndSize.cshtml", vm);
+                                                }
+                                            </tbody>
                                         </table>
                                     </div>
 
-                                    <button class="btn btn-info" type="button"  id="button-plus-row" onclick="plusRow()" style="margin-left:15px;margin-top:10px;display:none;">
+                                    <button class="btn btn-info" type="button" id="button-plus-row" onclick="plusRow()" style="margin-left:15px;margin-top:10px;display:none;">
                                         <i class="fa fa-plus"></i>
                                     </button>
                                 </div>
@@ -321,11 +322,11 @@ else
                                 }
 
                             }
-                            
+
                             <div class="card-header" id="card-headingFour">
                                 <h5 class="mb-0">
                                     <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
-                                       @FunctionHelpers.GetValueLanguage("Product.SileImage")
+                                        @FunctionHelpers.GetValueLanguage("Product.SileImage")
                                     </button>
                                     <label class="help-block message-error" id="message-error-slide-image" name="message-error-Card.SildeImage" style="color:red;font-size:unset;font-weight:normal"></label>
 
@@ -351,25 +352,25 @@ else
                         </div>
 
                         @*<div class="card">
-                            <div class="card-header" id="card-headingFive">
-                                <h5 class="mb-0">
-                                    <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
-                                        @FunctionHelpers.GetValueLanguage("Product.Video")
-                                    </button>
-                                    <label class="help-block message-error" id="message-error-video" name="message-error-video" style="color:red;font-size:unset;font-weight:normal"></label>
+                        <div class="card-header" id="card-headingFive">
+                            <h5 class="mb-0">
+                                <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
+                                    @FunctionHelpers.GetValueLanguage("Product.Video")
+                                </button>
+                                <label class="help-block message-error" id="message-error-video" name="message-error-video" style="color:red;font-size:unset;font-weight:normal"></label>
 
-                                    <span class="fa fa-times" id="remove-video" onclick="removeVideo()"></span>
-                                </h5>
-                            </div>
-                            <div id="collapseFive" class="collapse" aria-labelledby="headingFive">
-                                <div class="card-body">
-                                    <div class="video-upload">
-                                       <input type="file" id="file-video" onchange="changeVideo(this)"/> <br />
-                                     
-                                    </div>
+                                <span class="fa fa-times" id="remove-video" onclick="removeVideo()"></span>
+                            </h5>
+                        </div>
+                        <div id="collapseFive" class="collapse" aria-labelledby="headingFive">
+                            <div class="card-body">
+                                <div class="video-upload">
+                                   <input type="file" id="file-video" onchange="changeVideo(this)"/> <br />
+
                                 </div>
                             </div>
-                        </div>*@
+                        </div>
+                    </div>*@
                     </div>
                     <div style="margin:auto">
                         <center>
@@ -381,11 +382,11 @@ else
                                 <button type="button" onclick="saveProduct()" class="btn btn-success">
                                     @FunctionHelpers.GetValueLanguage("Button.Save")
                                 </button>
-                            }                   
+                            }
                         </center>
-                       
+
                     </div>
-                   
+
                 </form>
             </div>
         </div>

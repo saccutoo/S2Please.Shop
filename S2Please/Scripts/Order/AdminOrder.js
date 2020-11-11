@@ -22,7 +22,6 @@ function viewDetail(id) {
     });
 }
 
-
 function deleteProduct(id) {
     loadingBody.Show();
     $.ajax({
@@ -41,6 +40,28 @@ function deleteProduct(id) {
             alert("Error try again");
         }
     });
+}
+
+//function clickAdd() {
+//    loadingBody.Show();
+//    $.ajax({
+//        type: "POST",
+//        url: "/ADMIN/Product/ShowFormAddOrderCustomer",
+//        dataType: "json",
+//        success: function (response) {
+//            $("#modal-content-center").html(response);
+//            $("#modal-center").modal("show");
+//            loadingBody.Hide();
+//        },
+//        error: function (response, status, error) {
+//            alert("Error try again");
+//        }
+//    });
+//}
+
+function clickAdd() {
+    loadingBody.Show();
+    window.location.href = "/admin/order-save/0";
 }
 
 
