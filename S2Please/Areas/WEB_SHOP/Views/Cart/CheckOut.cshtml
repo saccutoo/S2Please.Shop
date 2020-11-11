@@ -13,24 +13,30 @@
     CultureInfo cul = CultureInfo.GetCultureInfo("vi-VN");   // try with "en-U
     float total = 0;
     float amount = 0;
+    var timeVersion = FunctionHelpers.GetTimeVersion();
 }
 <style>
-    .star-color{
-        color:red;
+    .star-color {
+        color: red;
     }
-    .message-error{
-        color:red;
+
+    .message-error {
+        color: red;
     }
-    .message-error-username{
-        display:none;
+
+    .message-error-username {
+        display: none;
     }
-    .message-error-password{
-        display:none;
+
+    .message-error-password {
+        display: none;
     }
-    .message-error-password1{
-        display:none;
+
+    .message-error-password1 {
+        display: none;
     }
-        .content-cart {
+
+    .content-cart {
         text-align: center;
     }
 
@@ -48,8 +54,9 @@
         width: 50px;
         height: 50px;
     }
-    .input-hidden{
-        display:none;
+
+    .input-hidden {
+        display: none;
     }
 </style>
 
@@ -121,7 +128,7 @@
                     }
 
                     <form id="form-order">
-                        <div class="accordion-group" >
+                        <div class="accordion-group">
                             <div class="accordion-heading" id="group-account-billing-details">
                                 <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseTwo">@FunctionHelpers.GetValueLanguage("Cart.AccountAndBillingDetails").ToUpper()</a>
                             </div>
@@ -129,13 +136,13 @@
                                 <div class="accordion-inner">
                                     <div class="row-fluid">
                                         <div class="span6">
-                                           <div class="input-hidden">
-                                               <input type="text" value="@Model.Customer.ID" name="model.CUSTOMER_ID" class="hidden" />
-                                               <input type="text" id="fee_ship" name="model.FEE_SHIP" class="hidden" />
-                                           </div>
+                                            <div class="input-hidden">
+                                                <input type="text" value="@Model.Customer.ID" name="model.CUSTOMER_ID" class="hidden" />
+                                                <input type="text" id="fee_ship" name="model.FEE_SHIP" class="hidden" />
+                                            </div>
                                             <h4>@FunctionHelpers.GetValueLanguage("Cart.YourPersonalDetails")</h4>
                                             <div class="control-group">
-                                                @Html.Partial("~/Views/Template/_Input.cshtml", new InputModel() { Type = "text", Id = "FULL_NAME", Class = "input-xlarge", Name = "model.FULL_NAME", LabelName = "Cart.FullName", IsRequied = true ,Value=Model.Customer.FULL_NAME})
+                                                @Html.Partial("~/Views/Template/_Input.cshtml", new InputModel() { Type = "text", Id = "FULL_NAME", Class = "input-xlarge", Name = "model.FULL_NAME", LabelName = "Cart.FullName", IsRequied = true, Value = Model.Customer.FULL_NAME })
                                             </div>
                                             <div class="control-group">
                                                 @Html.Partial("~/Views/Template/_Input.cshtml", new InputModel() { Type = "text", Id = "EMAIL", Class = "input-xlarge", Name = "model.EMAIL", LabelName = "Authen.EmailAddress", IsRequied = true, Value = Model.Customer.EMAIL })
@@ -151,13 +158,13 @@
                                             <h4>@FunctionHelpers.GetValueLanguage("Cart.YourAddress")</h4>
 
                                             <div class="control-group">
-                                                @Html.Partial("~/Views/Template/_Select.cshtml", new SelectModel() { Id = "CITY", Name = "model.CITY", Datas =Model.Citys, Class = "input-xlarge", IsSearchAjax = false, Url = "/WEB_SHOP/Search/SearchCity", LabelName = "Cart.City", IsRequied = true, Value = Model.Customer.CITY.ToString(),FieldId="CODE",FieldName="NAME_VN" })
+                                                @Html.Partial("~/Views/Template/_Select.cshtml", new SelectModel() { Id = "CITY", Name = "model.CITY", Datas = Model.Citys, Class = "input-xlarge", IsSearchAjax = false, Url = "/WEB_SHOP/Search/SearchCity", LabelName = "Cart.City", IsRequied = true, Value = Model.Customer.CITY.ToString(), FieldId = "CODE", FieldName = "NAME_VN" })
                                             </div>
                                             <div class="control-group" id="select2-district">
                                                 @Html.Partial("~/Views/Template/_Select.cshtml", new SelectModel() { Id = "DISTRICT", Name = "model.DISTRICT", Datas = Model.Districts, Class = "input-xlarge", LabelName = "Cart.District", IsRequied = true, Value = Model.Customer.DISTRICT.ToString(), FieldId = "CODE", FieldName = "NAME_VN" })
                                             </div>
                                             <div class="control-group" id="select2-community">
-                                                @Html.Partial("~/Views/Template/_Select.cshtml", new SelectModel() { Id = "COMMUNITY", Name = "model.COMMUNITY", Datas = Model.Communitys, Class = "input-xlarge", LabelName = "Cart.Community", IsRequied = true,Value=Model.Customer.COMMUNITY.ToString(), FieldId = "CODE", FieldName = "NAME_VN" })
+                                                @Html.Partial("~/Views/Template/_Select.cshtml", new SelectModel() { Id = "COMMUNITY", Name = "model.COMMUNITY", Datas = Model.Communitys, Class = "input-xlarge", LabelName = "Cart.Community", IsRequied = true, Value = Model.Customer.COMMUNITY.ToString(), FieldId = "CODE", FieldName = "NAME_VN" })
                                             </div>
                                             <div class="control-group">
                                                 @Html.Partial("~/Views/Template/_Input.cshtml", new InputModel() { Type = "text", Id = "ADRESS_SPECIFIC", Class = "input-xlarge", Name = "model.ADRESS_SPECIFIC", LabelName = "Cart.Hamlet", IsRequied = true, Value = Model.Customer.ADRESS_SPECIFIC })
@@ -188,7 +195,7 @@
                                                        Attribute = item.ID == 2 ? "checked='checked'" : "",
                                                        Value = item.ID.ToString()
                                                         })
-                                                    }
+                                                }
                                             }
                                         </div>
                                     </div>
@@ -215,7 +222,7 @@
                                             <tbody>
                                                 @foreach (var item in Model.Carts)
                                                 {
-                                                    <tr>                                                     
+                                                    <tr>
                                                         <td>
                                                             <a href="/Product-Detail/@FunctionHelpers.Encrypt(item.PRODUCT_ID.ToString(),FunctionHelpers.KeyEncrypt)">
                                                                 <img src="~/Image/@item.ProductColorSizeMapper.IMG" alt="" />
@@ -258,35 +265,35 @@
                                                             <strong>@intoMoney.ToString("#,###", cul.NumberFormat) </strong> <span style="color:red">₫</span>
                                                         </td>
                                                     </tr>
-                                                     total += intoMoney;
-                                                     amount += int.Parse(item.AMOUNT.ToString());
-                                              }                                              
+                                                    total += intoMoney;
+                                                    amount += int.Parse(item.AMOUNT.ToString());
+                                                }
                                             </tbody>
                                         </table>
                                     </div>
-                                     <div class="row-fluid">
-                                         <input type="text" value="@total" id="input-total"  class="hidden"/>
-                                         <input type="text"  id="fee_ship" name="model.FEE_SHIP" class="hidden" />
+                                    <div class="row-fluid">
+                                        <input type="text" value="@total" id="input-total" class="hidden" />
+                                        <input type="text" id="fee_ship" name="model.FEE_SHIP" class="hidden" />
 
-                                         <div class="pull-right">
-                                             @FunctionHelpers.GetValueLanguage("Cart.TotalAmount"): <strong>@amount</strong><br />
-                                             @FunctionHelpers.GetValueLanguage("Cart.ShipFee"): <strong id="fee-ship"> </strong><span style="color:red"> ₫</span><br />
-                                             @FunctionHelpers.GetValueLanguage("Cart.TotalMoney"): <strong id="total"></strong> <span style="color:red"> ₫</span>
-                                         </div>
-                                        
+                                        <div class="pull-right">
+                                            @FunctionHelpers.GetValueLanguage("Cart.TotalAmount"): <strong>@amount</strong><br />
+                                            @FunctionHelpers.GetValueLanguage("Cart.ShipFee"): <strong id="fee-ship"> </strong><span style="color:red"> ₫</span><br />
+                                            @FunctionHelpers.GetValueLanguage("Cart.TotalMoney"): <strong id="total"></strong> <span style="color:red"> ₫</span>
+                                        </div>
+
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        
-                        
+
+
                     </form>
                     <div class="button-order">
                         <center>
                             <button id="btn-button-order" class="btn btn-inverse" type="button" onclick="backToCart()">@FunctionHelpers.GetValueLanguage("Cart.YourCart")</button>
                             <button id="btn-button-order" class="btn btn-inverse" type="button" onclick="order()">@FunctionHelpers.GetValueLanguage("Cart.Order")</button>
                         </center>
-                    </div>                 
+                    </div>
                 </div>
 
             </div>
@@ -317,7 +324,7 @@ else
         var data = $.grep(shipFees, function (element, index) {
             return element.CODE_CITY != 0;
         });
-        debugger
+
         if (customerId!='0' && cityId==data[0].CODE_CITY) {
             $("#fee-ship").text(parseFloat(data[0].PRICE, 10).toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, "$1,").toString());
             var total = $("#input-total").val();
@@ -336,5 +343,5 @@ else
 
         }
     </script>
-    <script src="~/Scripts/Cart/CheckOut.js"></script>
+    <script src="@Url.Content("~/Scripts/Cart/CheckOut.js?v=" + timeVersion)" type="text/javascript"></script>
 }

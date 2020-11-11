@@ -1,4 +1,5 @@
 ﻿@using S2Please.Helper;
+@using SHOP.COMMON;
 @{
     ViewBag.Title = "";
     Layout = null;
@@ -130,21 +131,21 @@
                     <div class="account-wrap">
                         <div class="account-item clearfix js-item-menu">
                             <div class="image">
-                                <img src="~/LayoutAdmin/images/icon/avatar-01.jpg" alt="@FunctionHelpers.GetCurrentUserAdmin().FULL_NAME" />
+                                <img src="~/LayoutAdmin/images/icon/avatar-01.jpg" alt="@CurrentUser.UserAdmin.FULL_NAME" />
                             </div>
                             <div class="content">
-                                <a class="js-acc-btn" href="#">@FunctionHelpers.GetCurrentUserAdmin().FULL_NAME</a>
+                                <a class="js-acc-btn" href="#">@CurrentUser.UserAdmin.FULL_NAME</a>
                             </div>
                             <div class="account-dropdown js-dropdown">
                                 <div class="info clearfix">
                                     <div class="image">
                                         <a href="#">
-                                            <img src="~/LayoutAdmin/images/icon/avatar-01.jpg" alt="@FunctionHelpers.GetCurrentUserAdmin().FULL_NAME" />
+                                            <img src="~/LayoutAdmin/images/icon/avatar-01.jpg" alt="@CurrentUser.UserAdmin.FULL_NAME" />
                                         </a>
                                     </div>
                                     <div class="content">
                                         <h5 class="name">
-                                            <a href="#">@FunctionHelpers.GetCurrentUserAdmin().FULL_NAME</a>
+                                            <a href="#">@CurrentUser.UserAdmin.FULL_NAME</a>
                                         </h5>
                                         <span class="email">johndoe@example.com</span>
                                     </div>

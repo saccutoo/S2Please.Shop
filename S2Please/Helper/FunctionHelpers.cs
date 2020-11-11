@@ -127,6 +127,7 @@ namespace S2Please.Helper
             }
             return key;
         }
+
         public static string GetValueLocalizationClass(long dataId, string dataType)
         {
             //Lấy danh sách đa ngôn ngữ
@@ -153,10 +154,19 @@ namespace S2Please.Helper
             return commonRepository.CheckPermission(menuName, action,CurrentUser.UserAdmin.USER_ID);
         }
 
-        public static UserModel GetCurrentUserAdmin()
+        public static string GetTimeVersion()
         {
-            var user = JsonConvert.DeserializeObject<UserModel>(JsonConvert.SerializeObject(CurrentUser.UserAdmin));
-            return user;
+            //Lấy danh sách đa ngôn ngữ
+            int timeVersion = 0;
+            var param = new List<Param>();
+            var paramType = MapperHelper.MapList<Param, Repository.Model.Param>(param);
+            var response = commonRepository.ListProcedure<TimeVersion>(new TimeVersion(), "TimeVersion_Get_TimeVersion", paramType);
+            var result = JsonConvert.DeserializeObject<List<TimeVersion>>(JsonConvert.SerializeObject(response.Results));
+            if (result!=null && result.Count()>0)
+            {
+                timeVersion = result.FirstOrDefault().TIME_VERSION;
+            }
+            return timeVersion.ToString();
         }
     }
 }

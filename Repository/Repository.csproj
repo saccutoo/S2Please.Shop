@@ -94,6 +94,7 @@
     <Compile Include="Model\TableColumnModel.cs" />
     <Compile Include="Model\TableModel.cs" />
     <Compile Include="Model\TableUserConfigModel.cs" />
+    <Compile Include="Model\TimeVersion.cs" />
     <Compile Include="Model\UserModel.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

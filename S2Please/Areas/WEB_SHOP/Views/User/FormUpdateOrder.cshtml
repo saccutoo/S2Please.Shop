@@ -9,6 +9,7 @@
 @{
     Layout = "~/Areas/WEB_SHOP/Views/Shared/_Layout.cshtml";
     CultureInfo cul = CultureInfo.GetCultureInfo("vi-VN");   // try with "en-U
+    var timeVersion = FunctionHelpers.GetTimeVersion();
 }
 
 <form id="form-update-order">
@@ -71,12 +72,12 @@
             <tbody>
                 @if (Model != null && Model.OrderDetails != null && Model.OrderDetails.Count() > 0)
                 {
-                    int index=0;
+                    int index = 0;
                     foreach (var item in Model.OrderDetails)
                     {
                         <tr>
                             <td>
-                                <input class="display-none" name="orderDetail[@index].ID" value="@item.ID"/>
+                                <input class="display-none" name="orderDetail[@index].ID" value="@item.ID" />
                                 <input class="display-none" name="orderDetail[@index].COLOR_ID" value="@item.COLOR_ID" />
                                 <input class="display-none" name="orderDetail[@index].SIZE_ID" value="@item.SIZE_ID" />
                                 <input class="display-none" name="orderDetail[@index].PRODUCT_ID" value="@item.PRODUCT_ID" />
@@ -92,7 +93,7 @@
                                 <span>@item.SIZE_NAME</span>
                             </td>
                             <td>
-                                @Html.Partial("~/Views/Template/_Input.cshtml", new InputModel() { Type = "number", Id = "AMOUNT", Class = "input-xlarge", Name ="orderDetail["+index+"].AMOUNT", Value = item.AMOUNT.ToString() ,Style= "width:50px" })
+                                @Html.Partial("~/Views/Template/_Input.cshtml", new InputModel() { Type = "number", Id = "AMOUNT", Class = "input-xlarge", Name = "orderDetail[" + index + "].AMOUNT", Value = item.AMOUNT.ToString(), Style = "width:50px" })
                             </td>
                             <td>
                                 <span>@item.PRICE.ToString("#,###", cul.NumberFormat)</span>
@@ -113,10 +114,10 @@
     <button id="btn-button-comback" class="btn btn-inverse" type="button" onclick="comeBack()">@FunctionHelpers.GetValueLanguage("Button.ComeBack")</button>
 </div>
 @section scripts
-{  
-     <script>
+{
+    <script>
         var shipFees = [];
     </script>
-    <script src="~/Scripts/Cart/CheckOut.js"></script>
-    <script src="~/Scripts/Customer/Customer.js"></script>
+    <script src="@Url.Content("~/Scripts/Cart/CheckOut.js?v=" + timeVersion)" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/Customer/Customer.js?v=" + timeVersion)" type="text/javascript"></script>
 }

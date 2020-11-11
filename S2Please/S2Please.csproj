@@ -400,6 +400,7 @@
     <Compile Include="Models\SelectOptionModel.cs" />
     <Compile Include="Models\TableColumnModel.cs" />
     <Compile Include="Models\ListColumnFilterModel.cs" />
+    <Compile Include="Models\TimeVersion.cs" />
     <Compile Include="Models\UserModel.cs" />
     <Compile Include="Models\ColumnValidationModel.cs" />
     <Compile Include="Models\ValidationModel.cs" />

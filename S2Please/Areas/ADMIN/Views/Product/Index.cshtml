@@ -2,7 +2,7 @@
 @using S2Please.Helper
 @{
     Layout = "~/Areas/ADMIN/Views/Shared/_Layout.cshtml";
-
+    var timeVersion = FunctionHelpers.GetTimeVersion();
 }
 
 <!DOCTYPE html>
@@ -19,4 +19,4 @@
         </div>
     </div>
 </div>
-<script src="~/Scripts/Product/AdminProduct.js"></script>
+<script src="@Url.Content("~/Scripts/Product/AdminProduct.js?v=" + timeVersion)" type="text/javascript"></script>

@@ -535,7 +535,7 @@
 }
 <script>
     ControlModel[@Html.Raw(Json.Encode(Model.TABLE_NAME))] = @Html.Raw(Json.Encode(Model));
-    ControlModel[@Html.Raw(Json.Encode(Model.TABLE_NAME))].DATA = @Html.Raw(JsonConvert.SerializeObject(Model.DATA));
+    //ControlModel[@Html.Raw(Json.Encode(Model.TABLE_NAME))].DATA = @Html.Raw(JsonConvert.SerializeObject(Model.DATA));
     // Select 2
     $(document).ready(function () {
         try {
