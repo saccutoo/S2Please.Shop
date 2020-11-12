@@ -16,7 +16,7 @@ namespace Repository
         ResultModel GetProductById(long id);
 
         //Get danh sách sản phẩm từ view admin
-        ResultModel ProductFromAdmin(ParamType paramType);
+        ResultModel ProductFromAdmin(ParamType paramType, bool isCheckPermission = true);
 
         //Get product by product id
         ResultModel GetProductImgByProductId(long id);

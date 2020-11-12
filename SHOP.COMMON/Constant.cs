@@ -42,6 +42,7 @@ namespace SHOP.COMMON
     {
         public static string Product = "Product";
         public static string Order = "Order";
+        public static string ProductOrder = "Product-Order";
 
     }
 
@@ -49,6 +50,7 @@ namespace SHOP.COMMON
     {
         public static string Product = "Product";
         public static string Order = "Order";
+        public static string ProductOrder = "Product-Order";
 
     }
 
@@ -56,18 +58,20 @@ namespace SHOP.COMMON
     {
         public static string Product = "/ADMIN/Product/ReloadTable";
         public static string Order = "/ADMIN/Order/ReloadTable";
+        public static string ProductOrder = "/ADMIN/Order/ReloadTable";
 
     }
     public static class TableExportUrl
     {
         public static string Product = "/ADMIN/Product/Export";
         public static string Order = "/ADMIN/Order/Export";
-
+        public static string ProductOrder = "/ADMIN/Order/Export";
     }
     public static class TableSesionExportUrl
     {
         public static string Product = "/ADMIN/Product/SesionExport";
         public static string Order = "/ADMIN/Order/SesionExport";
+        public static string ProductOrder = "/ADMIN/Order/SesionExport";
 
     }
 }

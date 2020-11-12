@@ -956,13 +956,12 @@ namespace S2Please.Areas.ADMIN.Controllers
             return tableData;
         }
 
-        public ActionResult SesionExport(string TABLE_NAME, ParamType paramType)
+        public ActionResult SesionExport(TableViewModel tableData, ParamType paramType)
         {
             if (String.IsNullOrEmpty(paramType.STRING_FILTER))
             {
                 paramType.STRING_FILTER = string.Empty;
             }
-            TableViewModel tableData = new TableViewModel();
             paramType.LANGUAGE_ID = CurrentUser.LANGUAGE_ID;
             paramType.USER_ID = CurrentUser.UserAdmin.USER_ID;
             paramType.ROLE_ID = CurrentUser.UserAdmin.ROLE_ID;

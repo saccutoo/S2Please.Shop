@@ -33,3 +33,11 @@
  .form-group{
      margin-bottom:0px !important;
  }
+
+#modal-center{
+    pointer-events:none;
+}
+
+#modal-right {
+    pointer-events: none;
+}

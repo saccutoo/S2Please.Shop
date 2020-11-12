@@ -21,7 +21,7 @@ namespace Repository
         }
 
         //Get danh sách sản phẩm từ view admin
-        public ResultModel ProductFromAdmin(ParamType paramType)
+        public ResultModel ProductFromAdmin(ParamType paramType,bool isCheckPermission=true)
         {
             var param = new List<Param>();
             var basicParamype = new List<ParamType>();
@@ -36,9 +36,8 @@ namespace Repository
                 }
             });
             param.Add(new Param { Key = "@TotalRecord", Value = "0", IsOutPut = true, Type = "Int" });
-            return ListProcedure<ProductModel>(new ProductModel(), "Product_Get_ProductFromAdmin", param, false, true);
+            return ListProcedure<ProductModel>(new ProductModel(), "Product_Get_ProductFromAdmin", param, false, isCheckPermission);
         }
-
         //Get product by product id
         public ResultModel GetProductImgByProductId(long id)
         {

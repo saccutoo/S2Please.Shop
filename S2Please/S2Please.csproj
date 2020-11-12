@@ -258,6 +258,7 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Areas\ADMIN\ADMINAreaRegistration.cs" />
+    <Compile Include="Areas\ADMIN\Controllers\SystemController.cs" />
     <Compile Include="Areas\ADMIN\Controllers\FilterController.cs" />
     <Compile Include="Areas\ADMIN\Controllers\OrderController.cs" />
     <Compile Include="Areas\ADMIN\Controllers\ProductController.cs" />

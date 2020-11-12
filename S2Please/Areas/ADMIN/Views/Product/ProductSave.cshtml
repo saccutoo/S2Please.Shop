@@ -112,8 +112,15 @@ else
 }
 <div class="section__content section__content--p30">
     <div class="container-fluid">
-        <div class="row">         
-            <div class="col-md-12"> <h3 class="title-5 m-b-35">Thêm sản phẩm</h3></div>
+        <div class="row">
+            @if (Model.Product.ID == 0)
+            {
+                <div class="col-md-12"> <h3 class="title-5 m-b-35">@FunctionHelpers.GetValueLanguage("Product.Title.AddProduct")</h3></div>
+            }
+            else
+            {
+                <div class="col-md-12"> <h3 class="title-5 m-b-35">@FunctionHelpers.GetValueLanguage("Product.Title.UpdateProduct")</h3></div>
+            }
             <div class="col-md-12">
                 <form id="form-product">
                     <div id="accordion">

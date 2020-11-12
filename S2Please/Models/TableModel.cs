@@ -82,6 +82,7 @@ namespace S2Please.Models
         public string ACTION_NAME { get; set; }
         public List<Action> DROPDOWN { get; set; }
         public string FUNTION_NAME { get; set; }
+        public bool IS_CHECK { get; set; } = true;
     }
 
     public class PresentationData

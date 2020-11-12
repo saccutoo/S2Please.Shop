@@ -32,6 +32,7 @@ namespace S2Please
             builder.RegisterType<S2Please.Areas.ADMIN.Controllers.DashboardController>();
             builder.RegisterType<S2Please.Areas.ADMIN.Controllers.ExecController>();
             builder.RegisterType<S2Please.Areas.ADMIN.Controllers.FilterController>();
+            builder.RegisterType<S2Please.Areas.ADMIN.Controllers.SystemController>();
 
             //controllers web
             builder.RegisterType<S2Please.Areas.WEB_SHOP.Controllers.AuthenController>();

@@ -28,7 +28,7 @@ else
                             <div class="card-header" id="card-headingOne">
                                 <h5 class="mb-0">
                                     <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                                        @FunctionHelpers.GetValueLanguage("OrderDetail.Customer");
+                                        @FunctionHelpers.GetValueLanguage("OrderDetail.Customer")
                                     </button>
                                 </h5>
                             </div>
@@ -44,7 +44,6 @@ else
                                     </div>
                                     <div class="row form-group">
                                         <div class="col col-md-6">
-                                            @*@Html.Partial("~/Areas/ADMIN/Views/Template/Form/_Select.cshtml", new SelectModel() { Id = "PRODUCT_TYPE_ID", Name = "model.PRODUCT_TYPE_ID", Datas = Model.Types, LabelName = "Product.Type", IsRequied = true, Value = Model.Product.PRODUCT_TYPE_ID.ToString(), FieldId = "ID", FieldName = "NAME", IsShowTitle = true })*@
                                             @Html.Partial("~/Areas/ADMIN/Views/Template/Form/_InputMask.cshtml", new InputModel() { Type = "text", Id = "PHONE", Class = "", Name = "model.PHONE", LabelName = "OrderDetail.Email", Value = Model.Customer.PHONE, IsRequied = true, Style = "", TypeInputMask = "numeric" })
                                         </div>
                                         <div class="col col-md-6">
@@ -54,20 +53,47 @@ else
 
                                     <div class="row form-group">
                                         <div class="col col-md-6">
-                                            @Html.Partial("~/Areas/ADMIN/Views/Template/Form/_Select.cshtml", new SelectModel() { Id = "CITY", Name = "model.CITY", Datas = Model.Citys, LabelName = "Cart.City", IsRequied = true, Value = Model.Customer.CITY.ToString(), FieldId = "ID", FieldName = "NAME", IsShowTitle = true })
+                                            @Html.Partial("~/Areas/ADMIN/Views/Template/Form/_Select.cshtml", new SelectModel() { Id = "CITY", Name = "model.CITY", Datas = Model.Citys, LabelName = "Cart.City", IsRequied = true, Value = Model.Customer.CITY.ToString(), FieldId = "CODE", FieldName = "NAME_VN", IsShowTitle = true })
                                         </div>
-                                        <div class="col col-md-6">
+                                        <div class="col col-md-6" id="select2-district">
 
-                                            @Html.Partial("~/Areas/ADMIN/Views/Template/Form/_Select.cshtml", new SelectModel() { Id = "DISTRICT", Name = "model.DISTRICT", Datas = new List<dynamic>(), LabelName = "Cart.District", IsRequied = true, Value = Model.Customer.DISTRICT.ToString(), FieldId = "ID", FieldName = "NAME", IsShowTitle = true })
+                                            @Html.Partial("~/Areas/ADMIN/Views/Template/Form/_Select.cshtml", new SelectModel() { Id = "DISTRICT", Name = "model.DISTRICT", Datas = new List<dynamic>(), LabelName = "Cart.District", IsRequied = true, Value = Model.Customer.DISTRICT.ToString(), FieldId = "CODE", FieldName = "NAME_VN", IsShowTitle = true })
                                         </div>
                                     </div>
 
                                     <div class="row form-group">
-                                        <div class="col col-md-6">
-                                            @Html.Partial("~/Areas/ADMIN/Views/Template/Form/_Select.cshtml", new SelectModel() { Id = "COMMUNITY", Name = "model.COMMUNITY", Datas = new List<dynamic>(), LabelName = "Cart.Community", IsRequied = true, Value = Model.Customer.COMMUNITY.ToString(), FieldId = "ID", FieldName = "NAME", IsShowTitle = true })
+                                        <div class="col col-md-6" id="select2-community">
+                                            @Html.Partial("~/Areas/ADMIN/Views/Template/Form/_Select.cshtml", new SelectModel() { Id = "COMMUNITY", Name = "model.COMMUNITY", Datas = new List<dynamic>(), LabelName = "Cart.Community", IsRequied = true, Value = Model.Customer.COMMUNITY.ToString(), FieldId = "ID", FieldName = "NAME_VN", IsShowTitle = true })
                                         </div>
                                         <div class="col col-md-6">
                                             @Html.Partial("~/Areas/ADMIN/Views/Template/Form/_Input.cshtml", new InputModel() { Type = "text", Id = "ADRESS_SPECIFIC", Class = "", Name = "model.ADRESS_SPECIFIC", LabelName = "Cart.Hamlet", Value = Model.Customer.ADRESS_SPECIFIC, IsRequied = true, Style = "" })
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <div class="card-header" id="cardTwo">
+                                <h5 class="mb-0">
+                                    <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
+                                        @FunctionHelpers.GetValueLanguage("Product.Products")
+                                    </button>
+                                </h5>
+                            </div>
+                            <div id="collapseTwo" class="collapse" aria-labelledby="cardTwo">
+                                <div class="card-body">
+                                    <div class="row form-group">
+                                        <div class="col col-md-6">
+                                            @if (Model.Table != null)
+                                            {
+                                                <!-- DATA TABLE -->
+                                                @Html.Partial("~/Areas/ADMIN/Views/Template/_Table.cshtml", Model.Table)
+                                                <!-- END DATA TABLE -->
+                                            }
+                                        </div>
+                                        <div class="col col-md-6">
+                                           
                                         </div>
                                     </div>
                                 </div>
@@ -86,9 +112,7 @@ else
                                 </button>
                             }
                         </center>
-
                     </div>
-
                 </form>
             </div>
         </div>

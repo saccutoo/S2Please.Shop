@@ -1,4 +1,5 @@
 ﻿
+
 //thay đổi ngon ngữ hiển thị
 function changeLanguage() {
     $.ajax({
@@ -131,6 +132,28 @@ function remove(id, link) {
     });
 }
 
+function viewDetail(id) {
+    loadingBody.Show();
+    $.ajax({
+        type: "POST",
+        url: "/ADMIN/Product/Detail",
+        data: {
+            id: id
+        },
+        dataType: "json",
+        success: function (response) {
+            $("#modal-content-center").html(response.html);
+            $("#modal-center").modal("show");
+            loadingBody.Hide();
+        },
+        error: function (response, status, error) {
+            alert("Error try again");
+            loadingBody.Hide();
+
+        }
+    });
+}
+
 //khởi tạo loading body html
 var loadingBody = {};
 
@@ -203,7 +226,6 @@ function showPopupColumn(type, tableName) {
     });
 }
 
-
 function columnCheck(columnID) {
     if ($("#cb-filter-column-" + columnID).is(":checked")) {
         $("#filter-column-config-" + columnID).removeAttr("hidden");
@@ -212,5 +234,37 @@ function columnCheck(columnID) {
         $("#filter-column-config-" + columnID).attr("hidden", "hidden");
     }
 }
+
+$(document).ready(function () {
+
+    $(document).on("change", "#city", function (e) {
+        $.ajax(
+            {
+                type: "POST",
+                url: "/ADMIN/System/ReloadDistrict",
+                data: {
+                    codeCity: $('#city').val(),
+                },
+                success: function (response) {
+                    $("#select2-district").html(response[0]);
+                    $("#select2-community").html(response[1]);
+                }
+            });
+    });
+
+    $(document).on("change", "#district", function (e) {
+        $.ajax(
+            {
+                type: "POST",
+                url: "/ADMIN/System/ReloadCommunity",
+                data: {
+                    codeDistrict: $('#district').val(),
+                },
+                success: function (response) {
+                    $("#select2-community").html(response);
+                }
+            });
+    });
+})
 
 

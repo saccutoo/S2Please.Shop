@@ -37,10 +37,10 @@
                 </select>
                 <div class="dropDownSelect2"></div>
             </div>*@
-        <button class="au-btn-filter" onclick="showPopupColumn('1','@Model.TABLE_NAME')">
+        <button class="au-btn-filter" onclick="showPopupColumn('1','@Model.TABLE_NAME')" type="button">
             <i class="fa fa-filter"></i>@FunctionHelpers.GetValueLanguage("Button.Filter")
         </button>
-        <button class="au-btn-filter" onclick="showPopupColumn('0','@Model.TABLE_NAME')">
+        <button class="au-btn-filter" onclick="showPopupColumn('0','@Model.TABLE_NAME')" type="button">
             <i class="fa fa-unsorted"></i>@FunctionHelpers.GetValueLanguage("Button.Sort")
         </button>
         @if (Model.BULK_ACTION != null && Model.BULK_ACTION.Count() > 0)
@@ -86,7 +86,7 @@
                     {
 
 
-                        <button class="au-btn-filter" data-toggle="dropdown" title="@FunctionHelpers.GetValueLanguage(action.BUTTON_NAME)" onclick="@funtionNameButon" type="button" data-placement="top">
+                        <button class="au-btn-filter" data-toggle="dropdown" title="@FunctionHelpers.GetValueLanguage(action.BUTTON_NAME)" onclick="@funtionNameButon" type="button" data-placement="top" >
                             <i class=""></i>@FunctionHelpers.GetValueLanguage(action.BUTTON_NAME)
                         </button>
 
@@ -138,18 +138,18 @@
     <div class="table-data__tool-right">
         @if (FunctionHelpers.CheckPermission(Model.MENU_NAME, "Update"))
         {
-            <button class="au-btn au-btn-icon au-btn--green au-btn--small" onclick="clickAdd()">
+            <button class="au-btn au-btn-icon au-btn--green au-btn--small" onclick="clickAdd()" type="button">
                 <i class="zmdi zmdi-plus"></i>@FunctionHelpers.GetValueLanguage("Btn_Add")
             </button>
         }
         @if (FunctionHelpers.CheckPermission(Model.MENU_NAME, "Export"))
         {
-            <button class="au-btn au-btn-icon au-btn--green au-btn--small color-button-blue" onclick="exportExcel('@Model.TABLE_NAME')">
+            <button class="au-btn au-btn-icon au-btn--green au-btn--small color-button-blue" onclick="exportExcel('@Model.TABLE_NAME')" type="button">
                 <i class="fa fa-download"></i>@FunctionHelpers.GetValueLanguage("Btn_Export")
             </button>
         }@if (FunctionHelpers.CheckPermission(Model.MENU_NAME, "Import"))
         {
-            <button class="au-btn au-btn-icon au-btn--green au-btn--small color-button-blue">
+            <button class="au-btn au-btn-icon au-btn--green au-btn--small color-button-blue" type="button">
                 <i class="fa fa-upload"></i>@FunctionHelpers.GetValueLanguage("Btn_Import")
             </button>
         }

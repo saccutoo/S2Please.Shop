@@ -24,12 +24,13 @@ namespace S2Please.Areas.ADMIN.Controllers
         private ITableRepository _tableRepository;
         private IOrderRepository _orderRepository;
         private ISystemRepository _systemRepository;
-        public OrderController(ITableRepository tableRepository, IOrderRepository orderRepository, ISystemRepository systemRepository)
+        private IProductRepository _productRepository;
+        public OrderController(ITableRepository tableRepository, IOrderRepository orderRepository, ISystemRepository systemRepository, IProductRepository productRepository)
         {
             this._tableRepository = tableRepository;
             this._orderRepository = orderRepository;
             this._systemRepository = systemRepository;
-
+            this._productRepository = productRepository;
         }
 
         public ActionResult Index()
@@ -105,6 +106,30 @@ namespace S2Please.Areas.ADMIN.Controllers
             vm.ID = id;
             var responseCity = _systemRepository.GetCity();
             vm.Citys = responseCity.Results;
+
+
+            var responseTableUser = _tableRepository.GetTableUserConfig(TableName.ProductOrder, CurrentUser.UserAdmin.USER_ID);
+            var resultTableUser = JsonConvert.DeserializeObject<List<TableModel>>(JsonConvert.SerializeObject(responseTableUser.Results));
+            if (resultTableUser != null && resultTableUser.Count() > 0)
+            {
+                vm.Table = JsonConvert.DeserializeObject<TableViewModel>(resultTableUser.FirstOrDefault().TABLE_CONTENT);
+            }
+            else
+            {
+                var responseOrder = _tableRepository.GetTableByTableName(TableName.ProductOrder);
+                var resultOrder = JsonConvert.DeserializeObject<List<TableModel>>(JsonConvert.SerializeObject(responseOrder.Results));
+                if (resultOrder != null && resultOrder.Count() > 0)
+                {
+                    vm.Table = JsonConvert.DeserializeObject<TableViewModel>(resultOrder.FirstOrDefault().TABLE_CONTENT);
+                }
+            }
+
+            ParamType paramType = new ParamType();
+            paramType.PAGE_SIZE = vm.Table.PAGE_SIZE == 0 ? 1 : vm.Table.PAGE_SIZE;
+            paramType.PAGE_NUMBER = vm.Table.PAGE_INDEX == 0 ? 1 : vm.Table.PAGE_INDEX;
+            vm.Table.TABLE_NAME = TableName.ProductOrder;
+            vm.Table.TITLE_TABLE_NAME = "";
+            vm.Table = RenderTable(vm.Table, paramType);
             return View(vm);
         }
 
@@ -112,12 +137,13 @@ namespace S2Please.Areas.ADMIN.Controllers
         public ActionResult ReloadTable(TableViewModel tableData, ParamType param)
         {
             var paramType = new List<Param>();
+            var tableName = tableData.TABLE_NAME;
             if (param.STRING_FILTER == null)
             {
                 param.STRING_FILTER = string.Empty;
             }
 
-            var responseTableUser = _tableRepository.GetTableUserConfig(TableName.Order, CurrentUser.UserAdmin.USER_ID);
+            var responseTableUser = _tableRepository.GetTableUserConfig(tableData.TABLE_NAME, CurrentUser.UserAdmin.USER_ID);
             var resultTableUser = JsonConvert.DeserializeObject<List<TableModel>>(JsonConvert.SerializeObject(responseTableUser.Results));
             if (resultTableUser != null && resultTableUser.Count() > 0)
             {
@@ -125,7 +151,7 @@ namespace S2Please.Areas.ADMIN.Controllers
             }
             else
             {
-                var responseOrder = _tableRepository.GetTableByTableName(TableName.Order);
+                var responseOrder = _tableRepository.GetTableByTableName(tableData.TABLE_NAME);
                 var resultOrder = JsonConvert.DeserializeObject<List<TableModel>>(JsonConvert.SerializeObject(responseOrder.Results));
                 if (resultOrder != null && resultOrder.Count() > 0)
                 {
@@ -133,8 +159,11 @@ namespace S2Please.Areas.ADMIN.Controllers
                 }
             }
 
-            tableData.TABLE_NAME = TableName.Order;
-            tableData.TITLE_TABLE_NAME = FunctionHelpers.GetValueLanguage("Table.Title.Order");
+            tableData.TABLE_NAME = tableName;
+            if (tableName==TableName.Product)
+            {
+                tableData.TITLE_TABLE_NAME = FunctionHelpers.GetValueLanguage("Table.Title.Order");
+            }
             tableData = RenderTable(tableData, param);
 
             if (!tableData.IS_PERMISSION)
@@ -155,8 +184,6 @@ namespace S2Please.Areas.ADMIN.Controllers
             //Gọi hàm lấy thông tin 
 
             tableData = GetData(tableData, paramType);
-            tableData.TABLE_URL = TableUrl.Order;
-            tableData.MENU_NAME = MenuName.Order;
             tableData.PAGE_SIZE = paramType.PAGE_SIZE;
             tableData.PAGE_INDEX = paramType.PAGE_NUMBER;
             tableData.PAGE_SIZE = paramType.PAGE_SIZE;
@@ -164,8 +191,20 @@ namespace S2Please.Areas.ADMIN.Controllers
             tableData.TABLE_COLUMN_FIELD = tableData.TABLE_COLUMN_FIELD.Where(s => s.IS_SHOW == true).OrderBy(s => s.POSITION).ToList();
             tableData.VALUE_DYNAMIC = paramType.VALUE;
             tableData.STRING_FILTER = paramType.STRING_FILTER;
-            tableData.TABLE_EXPORT_URL = TableExportUrl.Order;
-            tableData.TABLE_SESION_EXPORT_URL = TableSesionExportUrl.Order;
+            if (tableData.TABLE_NAME==TableName.ProductOrder)
+            {
+                tableData.TABLE_URL = TableUrl.ProductOrder;
+                tableData.MENU_NAME = MenuName.ProductOrder;
+                tableData.TABLE_EXPORT_URL = TableExportUrl.ProductOrder;
+                tableData.TABLE_SESION_EXPORT_URL = TableSesionExportUrl.ProductOrder;
+            }
+            if (tableData.TABLE_NAME == TableName.Order)
+            {
+                tableData.TABLE_URL = TableUrl.Order;
+                tableData.MENU_NAME = MenuName.Order;
+                tableData.TABLE_EXPORT_URL = TableExportUrl.Order;
+                tableData.TABLE_SESION_EXPORT_URL = TableSesionExportUrl.Order;
+            }         
 
             if (tableData.TABLE_COLUMN == null || tableData.TABLE_COLUMN.Count() == 0)
             {
@@ -202,30 +241,49 @@ namespace S2Please.Areas.ADMIN.Controllers
         public TableViewModel GetData(TableViewModel tableData, ParamType paramType)
         {
             var type = MapperHelper.Map<ParamType, Repository.Type.ParamType>(paramType);
-            var response = _orderRepository.GetOrderFromAdmin(type);
-            if (response != null)
+            if (tableData.TABLE_NAME==TableName.Order)
             {
-                if (response.Success == false && CheckPermision(response.StatusCode) == false)
+                var response = _orderRepository.GetOrderFromAdmin(type);
+                if (response != null)
                 {
+                    if (response.Success == false && CheckPermision(response.StatusCode) == false)
+                    {
 
-                    tableData.IS_PERMISSION = false;
+                        tableData.IS_PERMISSION = false;
+                    }
+                    else
+                    {
+                        tableData.DATA = response.Results;
+                        tableData.TOTAL = Convert.ToInt32(response.OutValue.Parameters["@TotalRecord"].Value.ToString());
+                    }
                 }
-                else
+            }
+            else if (tableData.TABLE_NAME == TableName.ProductOrder)
+            {
+                var response = _productRepository.ProductFromAdmin(type,false);
+                if (response != null)
                 {
-                    tableData.DATA = response.Results;
-                    tableData.TOTAL = Convert.ToInt32(response.OutValue.Parameters["@TotalRecord"].Value.ToString());
+                    if (response.Success == false && CheckPermision(response.StatusCode) == false)
+                    {
+
+                        tableData.IS_PERMISSION = false;
+                    }
+                    else
+                    {
+                        tableData.DATA = response.Results;
+                        tableData.TOTAL = Convert.ToInt32(response.OutValue.Parameters["@TotalRecord"].Value.ToString());
+                    }
                 }
             }
             return tableData;
         }
 
-        public ActionResult SesionExport(string TABLE_NAME, ParamType paramType)
+        public ActionResult SesionExport(TableViewModel tableData, ParamType paramType)
         {
             if (String.IsNullOrEmpty(paramType.STRING_FILTER))
             {
                 paramType.STRING_FILTER = string.Empty;
             }
-            TableViewModel tableData = new TableViewModel();
             paramType.LANGUAGE_ID = CurrentUser.LANGUAGE_ID;
             paramType.USER_ID = CurrentUser.UserAdmin.USER_ID;
             paramType.ROLE_ID = CurrentUser.UserAdmin.ROLE_ID;

@@ -33,7 +33,7 @@ namespace S2Please.Controllers
     public class BaseController : Controller
     {
         // GET: Home
-
+   
         //private string _connection = ConfigurationManager.AppSettings["DBConnection"];
 
         public bool CheckPermision(int status)
@@ -265,7 +265,6 @@ namespace S2Please.Controllers
             return Json(new { Success = check }, JsonRequestBehavior.AllowGet);
         }
 
-      
     }
     public class Dynamic{
         public long ID { get; set; }

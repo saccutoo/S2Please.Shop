@@ -12,6 +12,8 @@ namespace S2Please.Areas.ADMIN.ViewModel
     {
         public CustomerModel Customer { get; set; } = new CustomerModel();
         public List<dynamic> Citys { get; set; } = new List<dynamic>();
+        public TableViewModel Table { get; set; } = new TableViewModel();
+
     }
 
 }
