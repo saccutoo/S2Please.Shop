@@ -67,7 +67,7 @@ namespace S2Please.Areas.ADMIN.Controllers
             return View(product);
         }
 
-        public ActionResult Detail(long id)
+        public ActionResult Detail(long id=0)
         {
             ProductDetailViewModel vm = new ProductDetailViewModel();
 
@@ -102,7 +102,7 @@ namespace S2Please.Areas.ADMIN.Controllers
             }));
         }
 
-        public ActionResult showFormDelete(long id)
+        public ActionResult showFormDelete(long id=0)
         {
             BaseModel model = new BaseModel();
             model.ID = id;
@@ -110,7 +110,7 @@ namespace S2Please.Areas.ADMIN.Controllers
             return Json(html, JsonRequestBehavior.AllowGet);
         }
 
-        public ActionResult Delete(long id)
+        public ActionResult Delete(long id=0)
         {
             var result = new ResultModel();
             var response = _productRepository.DeleteProductByID(id, CurrentUser.UserAdmin.USER_ID);

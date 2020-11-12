@@ -66,7 +66,7 @@ namespace S2Please.Areas.ADMIN.Controllers
             return View(order);
         }
 
-        public ActionResult Detail(long id)
+        public ActionResult Detail(long id=0)
         {
             OrderDetailViewModel vm = new OrderDetailViewModel();
             //Lấy sản phẩm ID sản phẩm
@@ -99,7 +99,7 @@ namespace S2Please.Areas.ADMIN.Controllers
         //    return Json(html, JsonRequestBehavior.AllowGet);
         //}
 
-        public ActionResult OrderSave(long id)
+        public ActionResult OrderSave(long id=0)
         {
             OrderSaveViewModel vm = new OrderSaveViewModel();
             vm.ID = id;
