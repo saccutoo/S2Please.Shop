@@ -39,7 +39,6 @@ namespace S2Please.Areas.WEB_SHOP.Controllers
             if (resultProduct!=null && resultProduct.Count()>0)
             {
                 vm.Product = resultProduct.FirstOrDefault();
-
             }
 
             //Lưu vào danh sách đã xem

@@ -133,6 +133,11 @@ namespace S2Please.Areas.ADMIN.Controllers
 
         public ActionResult ProductSave(long id = 0)
         {
+            bool checkPermission = FunctionHelpers.CheckPermission(TableName.Product,Permission.Update);
+            if (!checkPermission)
+            {
+                return RedirectToRoute(new { action = "/Page404", controller = "Base", area = "" });
+            }
             if (id==0)
             {
                 if (Session["SLIDE-IMG"] != null)

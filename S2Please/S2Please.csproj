@@ -271,6 +271,7 @@
     <Compile Include="Areas\ADMIN\ViewModel\OrderViewModel.cs" />
     <Compile Include="Areas\ADMIN\ViewModel\OrderDetailViewModel.cs" />
     <Compile Include="Areas\ADMIN\ViewModel\OrderSaveViewModel.cs" />
+    <Compile Include="Areas\ADMIN\ViewModel\ProductPriceViewModel.cs" />
     <Compile Include="Areas\ADMIN\ViewModel\SlideImgViewModel.cs" />
     <Compile Include="Areas\ADMIN\ViewModel\ProductDetailViewModel.cs" />
     <Compile Include="Areas\ADMIN\ViewModel\ProductSaveViewModel.cs" />
@@ -1111,6 +1112,8 @@
     <Content Include="libman.json" />
     <Content Include="Areas\ADMIN\Views\Order\_FormAddOrderCustomer.cshtml" />
     <Content Include="Areas\ADMIN\Views\Order\OrderSave.cshtml" />
+    <Content Include="Areas\ADMIN\Views\Order\_FormAddProductToCart.cshtml" />
+    <Content Include="Areas\ADMIN\Views\Order\_PriceDetail.cshtml" />
     <None Include="Properties\PublishProfiles\shop.pubxml" />
     <Content Include="Scripts\bootstrap-select-1.13.14\dist\css\bootstrap-select.css.map" />
     <Content Include="Scripts\bootstrap-select-1.13.14\dist\js\bootstrap-select.js.map" />

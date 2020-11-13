@@ -72,6 +72,13 @@ namespace SHOP.COMMON
         public static string Product = "/ADMIN/Product/SesionExport";
         public static string Order = "/ADMIN/Order/SesionExport";
         public static string ProductOrder = "/ADMIN/Order/SesionExport";
-
+    }
+    public static class Permission
+    {
+        public static string Update = "Update";
+        public static string Get = "Get";
+        public static string Delete = "Delete";
+        public static string Export = "Export";
+        public static string Import = "Import";
     }
 }

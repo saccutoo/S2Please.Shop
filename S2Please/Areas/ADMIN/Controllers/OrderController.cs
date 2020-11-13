@@ -93,6 +93,23 @@ namespace S2Please.Areas.ADMIN.Controllers
             }));
         }
 
+        public ActionResult ViewPriceDetail(long colorId=0, long sizeId=0, long productId=0)
+        {
+
+            ProductPriceViewModel vm = new ProductPriceViewModel();
+            var responseMapper = _productRepository.GetProductColorSizeMapperByColorIdAndSizeId(colorId, sizeId, productId, "0");
+            var resultMapper = JsonConvert.DeserializeObject<List<ProductColorSizeMapperModel>>(JsonConvert.SerializeObject(responseMapper.Results));
+            if (resultMapper != null && resultMapper.Count() > 0)
+            {
+                vm.ProductMapper = resultMapper.FirstOrDefault();
+            }
+            var html = RenderViewToString(this.ControllerContext, "~/Areas/ADMIN/Views/Order/_PriceDetail.cshtml", vm);
+            return Content(JsonConvert.SerializeObject(new
+            {
+                html
+            }));
+        }
+
         //public ActionResult ShowFormAddOrderCustomer()
         //{
         //    BaseModel model = new BaseModel();
@@ -102,11 +119,16 @@ namespace S2Please.Areas.ADMIN.Controllers
 
         public ActionResult OrderSave(long id=0)
         {
+            bool checkPermission = FunctionHelpers.CheckPermission(TableName.Product, Permission.Update);
+            if (!checkPermission)
+            {
+                return RedirectToRoute(new { action = "/Page404", controller = "Base", area = "" });
+            }
+
             OrderSaveViewModel vm = new OrderSaveViewModel();
             vm.ID = id;
             var responseCity = _systemRepository.GetCity();
             vm.Citys = responseCity.Results;
-
 
             var responseTableUser = _tableRepository.GetTableUserConfig(TableName.ProductOrder, CurrentUser.UserAdmin.USER_ID);
             var resultTableUser = JsonConvert.DeserializeObject<List<TableModel>>(JsonConvert.SerializeObject(responseTableUser.Results));
@@ -131,6 +153,46 @@ namespace S2Please.Areas.ADMIN.Controllers
             vm.Table.TITLE_TABLE_NAME = "";
             vm.Table = RenderTable(vm.Table, paramType);
             return View(vm);
+        }
+
+        public ActionResult ShowFormAddProductToCart(long productId=0)
+        {
+            OrderSaveViewModel vm = new OrderSaveViewModel();
+            //Lấy sản phẩm ID sản phẩm
+            var responseProduct = _productRepository.GetProductById(productId);
+            var resultProduct = JsonConvert.DeserializeObject<List<ProductModel>>(JsonConvert.SerializeObject(responseProduct.Results));
+            if (resultProduct != null && resultProduct.Count() > 0)
+            {
+                vm.Product = resultProduct.FirstOrDefault();
+            }
+
+            //Lấy danh sách ảnh ID sản phẩm
+            var responseProductImgs = _productRepository.GetProductImgByProductId(productId);
+            vm.ProductImgs = JsonConvert.DeserializeObject<List<ProductImgModel>>(JsonConvert.SerializeObject(responseProductImgs.Results));
+
+            //Lấy danh sách màu theo ID sản phẩm
+            var responseColors = _productRepository.GetProductColorByProductId(productId);
+            vm.ProductColors = JsonConvert.DeserializeObject<List<ProductColorModel>>(JsonConvert.SerializeObject(responseColors.Results));
+
+            //Lấy danh sách size theo ID sản phẩm
+            var responseSizes = _productRepository.GetProductSizeByProductId(productId);
+            vm.ProductSizes = JsonConvert.DeserializeObject<List<ProductSizeModel>>(JsonConvert.SerializeObject(responseSizes.Results));
+
+            //Lấy bản ghi mapper giữa size và color
+            long colorID = vm.ProductColors != null && vm.ProductColors.Count() > 0 && vm.ProductColors.Where(s => s.IS_MAIN == true).FirstOrDefault() != null ? vm.ProductColors.Where(s => s.IS_MAIN == true).FirstOrDefault().ID : 0;
+            long sizeID = vm.ProductSizes != null && vm.ProductSizes.Count() > 0 && vm.ProductSizes.Where(s => s.IS_MAIN == true).FirstOrDefault() != null ? vm.ProductSizes.Where(s => s.IS_MAIN == true).FirstOrDefault().ID : 0;
+            var responseMapper = _productRepository.GetProductColorSizeMapperByColorIdAndSizeId(colorID, sizeID, vm.Product.ID, "1");
+            var resultMapper = JsonConvert.DeserializeObject<List<ProductColorSizeMapperModel>>(JsonConvert.SerializeObject(responseMapper.Results));
+            if (resultMapper != null && resultMapper.Count() > 0)
+            {
+                vm.ProductMapper = resultMapper.FirstOrDefault();
+            }
+
+            var html = RenderViewToString(this.ControllerContext, "~/Areas/ADMIN/Views/Order/_FormAddProductToCart.cshtml", vm);
+            return Content(JsonConvert.SerializeObject(new
+            {
+                html
+            }));
         }
 
         #region RenderTable

@@ -9,85 +9,94 @@
 }
 
 <style>
-    .card{
-      margin-bottom: 5px;
+    .card {
+        margin-bottom: 5px;
     }
-    .table-data2 thead{
 
+    .table-data2 thead {
         background: #333;
     }
-     .table-data2 thead th{
 
-       color:white !important;
+        .table-data2 thead th {
+            color: white !important;
+        }
+
+    .table-responsive-data2 {
+        padding-left: 30px;
     }
-     .table-responsive-data2{
-         padding-left:30px;
-     }
-     .div-input-image{
+
+    .div-input-image {
         border: 1px dotted;
         height: 150px;
-        margin-left:10px;
-        margin-bottom:10px;
-        float:left
-     }
-     .div-input-image span{
-         line-height: 140px;
-        cursor: pointer;
-        text-align: center;
-        height: 100%;
-        width: 150px;
-        font-size: 45px;
-        cursor:pointer;
-     }
-     .div-input-image img{
-         height:100% !important;
-         width:150px !important;
-     }
+        margin-left: 10px;
+        margin-bottom: 10px;
+        float: left
+    }
 
-     .div-input-image .img-thumbnail{
-         max-width:150px !important;
-     }
-     #remove-list-image{
-         display:none;
-         color: red;
-         cursor: pointer;
-         display: none;
-         float:right;
-         line-height:40px;
-     }
-     #remove-video{
-         display:none;
-         color: red;
-         cursor: pointer;
-         display: none;
-         float:right;
-         line-height:40px;
-     }
-     .row-img-slide{
-       position: absolute;
-       margin-left: -10px;
-       margin-top: -10px;
-       cursor: pointer !important;
-       font-size: 20px;
-       color: red !important;
-     }
-     .row-img-by-color{
+        .div-input-image span {
+            line-height: 140px;
+            cursor: pointer;
+            text-align: center;
+            height: 100%;
+            width: 150px;
+            font-size: 45px;
+            cursor: pointer;
+        }
+
+        .div-input-image img {
+            height: 100% !important;
+            width: 150px !important;
+        }
+
+        .div-input-image .img-thumbnail {
+            max-width: 150px !important;
+        }
+
+    #remove-list-image {
+        display: none;
+        color: red;
+        cursor: pointer;
+        display: none;
+        float: right;
+        line-height: 40px;
+    }
+
+    #remove-video {
+        display: none;
+        color: red;
+        cursor: pointer;
+        display: none;
+        float: right;
+        line-height: 40px;
+    }
+
+    .row-img-slide {
+        position: absolute;
+        margin-left: -10px;
+        margin-top: -10px;
+        cursor: pointer !important;
+        font-size: 20px;
+        color: red !important;
+    }
+
+    .row-img-by-color {
         width: 50px;
         height: 50px;
         border: 1px solid dotted;
         border: 1px dotted;
         margin-top: 10px;
         margin-left: 10px;
-        text-align:center;
-        line-height:50px;
-        font-size:20px;
-        float:left;
-        cursor:pointer !important;
-     }
-     .img-by-color{
-         width:100%;
-         height:100%;
-     }
+        text-align: center;
+        line-height: 50px;
+        font-size: 20px;
+        float: left;
+        cursor: pointer !important;
+    }
+
+    .img-by-color {
+        width: 100%;
+        height: 100%;
+    }
 </style>
 <!DOCTYPE html>
 <script>
@@ -359,25 +368,25 @@ else
                         </div>
 
                         @*<div class="card">
-                        <div class="card-header" id="card-headingFive">
-                            <h5 class="mb-0">
-                                <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
-                                    @FunctionHelpers.GetValueLanguage("Product.Video")
-                                </button>
-                                <label class="help-block message-error" id="message-error-video" name="message-error-video" style="color:red;font-size:unset;font-weight:normal"></label>
+                                <div class="card-header" id="card-headingFive">
+                                    <h5 class="mb-0">
+                                        <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
+                                            @FunctionHelpers.GetValueLanguage("Product.Video")
+                                        </button>
+                                        <label class="help-block message-error" id="message-error-video" name="message-error-video" style="color:red;font-size:unset;font-weight:normal"></label>
 
-                                <span class="fa fa-times" id="remove-video" onclick="removeVideo()"></span>
-                            </h5>
-                        </div>
-                        <div id="collapseFive" class="collapse" aria-labelledby="headingFive">
-                            <div class="card-body">
-                                <div class="video-upload">
-                                   <input type="file" id="file-video" onchange="changeVideo(this)"/> <br />
-
+                                        <span class="fa fa-times" id="remove-video" onclick="removeVideo()"></span>
+                                    </h5>
                                 </div>
-                            </div>
-                        </div>
-                    </div>*@
+                                <div id="collapseFive" class="collapse" aria-labelledby="headingFive">
+                                    <div class="card-body">
+                                        <div class="video-upload">
+                                           <input type="file" id="file-video" onchange="changeVideo(this)"/> <br />
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>*@
                     </div>
                     <div style="margin:auto">
                         <center>
@@ -410,4 +419,7 @@ else
         errorVideoFormat = decodeEntities(errorVideoFormat);
     })
 </script>
-<script src="@Url.Content("~/Scripts/Product/AdminProduct.js?v=" + timeVersion)" type="text/javascript"></script>
+@section scripts
+{
+    <script src="@Url.Content("~/Scripts/Product/AdminProduct.js?v=" + timeVersion)" type="text/javascript"></script>
+}

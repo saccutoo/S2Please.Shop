@@ -1,0 +1,32 @@
+﻿@using System.Globalization
+@model S2Please.Areas.ADMIN.ViewModel.ProductPriceViewModel
+@using S2Please.Helper
+@{
+    Layout = null;
+    CultureInfo cul = CultureInfo.GetCultureInfo("vi-VN");   // try with "en-U
+}
+<style>
+    .price-text{
+        color:red
+    }
+</style>
+@{
+    float pricerat = Model.ProductMapper.PRICE;
+    if (Model.ProductMapper.DISCOUNT_RATE > 0)
+    {
+        pricerat = Model.ProductMapper.PRICE - (Model.ProductMapper.PRICE) * (float.Parse(Model.ProductMapper.DISCOUNT_RATE.ToString()) / 100);
+    }
+}
+<strong>@FunctionHelpers.GetValueLanguage("Product.ProductPrice"): <span class="price-text">@pricerat.ToString("#,###", cul.NumberFormat) ₫</span></strong><br />
+
+@if (Model.ProductMapper.DISCOUNT_RATE > 0)
+{
+    var lineThrough = "text-decoration: line-through";
+    string rate = Model.ProductMapper.DISCOUNT_RATE.ToString() + "%";
+
+    <strong class="line-through">
+        <span style="@lineThrough" class="price-text">@Model.ProductMapper.PRICE.ToString("#,###", cul.NumberFormat) ₫</span>
+        <span>-@rate</span>
+    </strong>
+}
+

@@ -166,7 +166,7 @@
                     <div class="span5">
                         <address>
                             <strong>@FunctionHelpers.GetValueLanguage("Product.ProductName"):</strong> <span>@Model.Product.NAME</span><br>
-                            <strong>@FunctionHelpers.GetValueLanguage("Product.ProductCode"):</strong> <span>@Model.Product.PRODUCT_CODE</span><br>
+                            @*<strong>@FunctionHelpers.GetValueLanguage("Product.ProductCode"):</strong> <span>@Model.Product.PRODUCT_CODE</span><br>*@
                             @if (Model.Product.PRODUCT_ORIGIN != null && Model.Product.PRODUCT_ORIGIN != "")
                             {
                                 <strong>@FunctionHelpers.GetValueLanguage("Product.ProductOrigin"):</strong> <span>@Model.Product.PRODUCT_ORIGIN</span><br>

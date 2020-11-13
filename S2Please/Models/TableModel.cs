@@ -36,21 +36,16 @@ namespace S2Please.Models
         public string MENU_NAME{ get; set; } //Check quyền với menu name
         public long TOTAL { get; set; }
         public List<TableColumnModel> TABLE_COLUMN { get; set; }
-
         public List<dynamic> DATA { get; set; }
-
         public bool IS_PERMISSION { get; set; } = true;
-
         public bool IS_SHOW_FOOTER { get; set; } = true;
-
         public string VALUE_DYNAMIC { get; set; } = string.Empty;
-
         public string STRING_FILTER { get; set; }
-
         public string TABLE_EXPORT_URL { get; set; }
         public string TABLE_SESION_EXPORT_URL { get; set; }
-
-
+        public bool IS_ADD_NEW { get; set; } = true;
+        public bool IS_EXPORT_EXCEL { get; set; } = true;
+        public bool IS_IMPORT_EXCEL { get; set; } = true;
         //end setting code
     }
 
