@@ -41,10 +41,10 @@
                 </select>
                 <div class="dropDownSelect2"></div>
             </div>*@
-        <button class="au-btn-filter" onclick="showPopupColumn('1','@Model.TABLE_NAME')" type="button">
+        <button class="au-btn-filter button-border" onclick="showPopupColumn('1','@Model.TABLE_NAME')" type="button">
             <i class="fa fa-filter"></i>@FunctionHelpers.GetValueLanguage("Button.Filter")
         </button>
-        <button class="au-btn-filter" onclick="showPopupColumn('0','@Model.TABLE_NAME')" type="button">
+        <button class="au-btn-filter button-border" onclick="showPopupColumn('0','@Model.TABLE_NAME')" type="button">
             <i class="fa fa-unsorted"></i>@FunctionHelpers.GetValueLanguage("Button.Sort")
         </button>
         @if (Model.BULK_ACTION != null && Model.BULK_ACTION.Count() > 0)

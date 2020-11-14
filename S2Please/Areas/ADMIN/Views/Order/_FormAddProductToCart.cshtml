@@ -48,15 +48,15 @@
 <div class="modal-body">
     <div class="row">
         <div class="row col-md-12">
-            <input value="@Model.Product.ID" id="product-id" hidden/>
+            <input value="@Model.Product.ID" id="product-id" name="model.ID" hidden/>
             <div class="col-md-12">
                 <span>@FunctionHelpers.GetValueLanguage("Product.ProductName"):</span> <span class="font-bold">@Model.Product.NAME</span><br>
             </div>
             <div class="col-md-12">
                 <span>@FunctionHelpers.GetValueLanguage("Product.ProductCode"):</span> <span class="font-bold">@Model.Product.PRODUCT_CODE</span><br>
             </div>
-            <div class="col-md-12">
-                <span>@FunctionHelpers.GetValueLanguage("Product.ProductAmount"):</span> <span class="font-bold">
+            <div class="col-md-12" >
+                <span>@FunctionHelpers.GetValueLanguage("Product.ProductAmount"):</span> <span class="font-bold" id="product-amount">
                     @Model.ProductMapper.AMOUNT
                 </span>
                 <br>
@@ -116,6 +116,6 @@
     
 </div>
 <div class="modal-footer">
-    <button type="button" title="@FunctionHelpers.GetValueLanguage("Btn_Add")" class="btn btn-success" onclick="addToCart()">@FunctionHelpers.GetValueLanguage("Btn_Add")</button>
+    <button type="button" title="@FunctionHelpers.GetValueLanguage("Btn_Add")" class="btn btn-success" onclick="addToCart('@Model.Product.ID')">@FunctionHelpers.GetValueLanguage("Btn_Add")</button>
     <button type="button" title="@FunctionHelpers.GetValueLanguage("Button.Title.Close")" class="btn btn-secondary" data-dismiss="modal">@FunctionHelpers.GetValueLanguage("Button.Title.Close")</button>
 </div>

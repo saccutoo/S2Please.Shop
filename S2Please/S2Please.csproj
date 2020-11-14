@@ -266,6 +266,7 @@
     <Compile Include="Areas\ADMIN\Controllers\DashboardController.cs" />
     <Compile Include="Areas\ADMIN\Controllers\ExecController.cs" />
     <Compile Include="Areas\ADMIN\Controllers\ImportController.cs" />
+    <Compile Include="Areas\ADMIN\Models\CartModel.cs" />
     <Compile Include="Areas\ADMIN\Models\ImportCountry.cs" />
     <Compile Include="Areas\ADMIN\ViewModel\FilterViewModel.cs" />
     <Compile Include="Areas\ADMIN\ViewModel\OrderViewModel.cs" />
@@ -1114,6 +1115,7 @@
     <Content Include="Areas\ADMIN\Views\Order\OrderSave.cshtml" />
     <Content Include="Areas\ADMIN\Views\Order\_FormAddProductToCart.cshtml" />
     <Content Include="Areas\ADMIN\Views\Order\_PriceDetail.cshtml" />
+    <Content Include="Areas\ADMIN\Views\Order\_ContentCart.cshtml" />
     <None Include="Properties\PublishProfiles\shop.pubxml" />
     <Content Include="Scripts\bootstrap-select-1.13.14\dist\css\bootstrap-select.css.map" />
     <Content Include="Scripts\bootstrap-select-1.13.14\dist\js\bootstrap-select.js.map" />

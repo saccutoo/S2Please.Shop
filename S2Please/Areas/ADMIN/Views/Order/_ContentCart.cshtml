@@ -1,0 +1,69 @@
+﻿@model S2Please.Areas.ADMIN.ViewModel.OrderSaveViewModel
+@using SHOP.COMMON;
+@using S2Please.Helper;
+@using S2Please.ViewModel;
+@using System.Globalization
+
+@{
+    Layout = null;
+    CultureInfo cul = CultureInfo.GetCultureInfo("vi-VN");   // try with "en-U
+    int index = 0;
+    float totalMoney = 0;
+    float totalAmount = 0;
+}
+@if (Model.Carts != null && Model.Carts.Count() > 0)
+{
+    foreach (var item in Model.Carts)
+    {
+        <tr>
+            <td>
+                <input type="text" name="model[@index].PRODUCT_ID" value="@item.PRODUCT_ID" hidden />
+                <input type="text" name="model[@index].SIZE_ID" value="@item.SIZE_ID" hidden />
+                <input type="text" name="model[@index].COLOR_ID" value="@item.COLOR_ID" hidden />
+                <input type="text" name="model[@index].ID" value="@item.ID" hidden />
+                <input type="checkbox"  name="model[@index].IS_CHECK" value="true" />
+            </td>
+            <td>
+                <span>@item.NAME</span>
+            </td>
+            <td>
+                <span>@item.ProductColorSizeMapper.COLOR</span>
+            </td>
+            <td>
+                <span>@item.ProductColorSizeMapper.SIZE_NAME</span>
+            </td>
+            <td>
+                <input  type="number" id="cart-ammount-@item.ID" name="model[@index].AMOUNT" value="@item.AMOUNT" class="form-control" style="width:100px"/>
+            </td>
+            <td>
+                <span style="color:red">@item.ProductColorSizeMapper.PRICE.ToString("#,###", cul.NumberFormat) ₫</span>
+            </td>
+             <td>
+                <span style="color:red">@item.ProductColorSizeMapper.DISCOUNT_RATE %</span>
+            </td>
+            <td>
+                <span style="color:red">
+                    @{
+                        float value = 0;
+                        value = item.AMOUNT * item.ProductColorSizeMapper.PRICE;
+                        if (item.ProductColorSizeMapper.DISCOUNT_RATE > 0)
+                        {
+                            value = value - (value) * (float.Parse(item.ProductColorSizeMapper.DISCOUNT_RATE.ToString()) / 100);
+                        }
+                        totalMoney += value;
+                    }
+                    @value.ToString("#,###", cul.NumberFormat) ₫
+                </span>
+            </td>
+        </tr>
+        totalAmount+=item.AMOUNT;
+        index++;
+    }
+    <tr>
+        <td colspan="8" style="text-align:right">
+            <span>Tổng số lượng: <strong>@totalAmount</strong></span><br />
+            <span>Tổng tiền: <strong style="color:red">@totalMoney.ToString("#,###", cul.NumberFormat) ₫</strong></span><br />
+        </td>
+    </tr>
+}
+    

@@ -63,3 +63,6 @@
     -o-transition: all .2s ease-in-out;
     transition: all .2s ease-in-out;
 }
+.button-border{
+    border:1px solid #ccc
+}

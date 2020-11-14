@@ -14,6 +14,7 @@ using SHOP.COMMON.Helpers;
 using ClosedXML.Excel;
 using System.IO;
 using Repository;
+using S2Please.Areas.ADMIN.Models;
 
 namespace S2Please.Areas.ADMIN.Controllers
 {
@@ -95,7 +96,6 @@ namespace S2Please.Areas.ADMIN.Controllers
 
         public ActionResult ViewPriceDetail(long colorId=0, long sizeId=0, long productId=0)
         {
-
             ProductPriceViewModel vm = new ProductPriceViewModel();
             var responseMapper = _productRepository.GetProductColorSizeMapperByColorIdAndSizeId(colorId, sizeId, productId, "0");
             var resultMapper = JsonConvert.DeserializeObject<List<ProductColorSizeMapperModel>>(JsonConvert.SerializeObject(responseMapper.Results));
@@ -106,7 +106,8 @@ namespace S2Please.Areas.ADMIN.Controllers
             var html = RenderViewToString(this.ControllerContext, "~/Areas/ADMIN/Views/Order/_PriceDetail.cshtml", vm);
             return Content(JsonConvert.SerializeObject(new
             {
-                html
+                html,
+                vm.ProductMapper.AMOUNT
             }));
         }
 
@@ -119,6 +120,10 @@ namespace S2Please.Areas.ADMIN.Controllers
 
         public ActionResult OrderSave(long id=0)
         {
+            if (Session["CART_ORDER"]!=null)
+            {
+                Session["CART_ORDER"] = null;
+            }
             bool checkPermission = FunctionHelpers.CheckPermission(TableName.Product, Permission.Update);
             if (!checkPermission)
             {
@@ -195,6 +200,149 @@ namespace S2Please.Areas.ADMIN.Controllers
             }));
         }
 
+        public ActionResult AddProductToCart(long colorId = 0, long sizeId = 0, long productId = 0)
+        {
+            OrderSaveViewModel vm = new OrderSaveViewModel();
+            ResultModel result = new ResultModel();
+            if (Session["CART_ORDER"] != null)
+            {
+                vm.Carts = Session["CART_ORDER"] as List<CartModel>;
+            }
+
+            if (colorId == 0 || sizeId == 0 || productId == 0)
+            {
+                result.Success = false;
+                result.Message = "Thông tin trên form chưa đầy đủ vui lòng chọn lại.";
+                return Content(JsonConvert.SerializeObject(new
+                {
+                    result
+                }));
+            }
+
+            //Lấy sản phẩm ID sản phẩm
+            var responseProduct = _productRepository.GetProductById(productId);
+            var resultProduct = JsonConvert.DeserializeObject<List<ProductModel>>(JsonConvert.SerializeObject(responseProduct.Results));
+
+            //Lấy bản ghi mapper giữa size và color
+            var responseMapper = _productRepository.GetProductColorSizeMapperByColorIdAndSizeId(colorId, sizeId, productId, "0");
+            var resultMapper = JsonConvert.DeserializeObject<List<ProductColorSizeMapperModel>>(JsonConvert.SerializeObject(responseMapper.Results));
+            if (resultMapper != null && resultMapper.Count()>0)
+            {
+                if (vm.Carts != null && vm.Carts.Count()>0)
+                {
+                    var product = vm.Carts.Where(s => s.PRODUCT_ID == productId && s.COLOR_ID == colorId && sizeId == s.SIZE_ID).FirstOrDefault();
+                    if (product!=null)
+                    {
+                        if ((product.AMOUNT+1)> resultMapper.FirstOrDefault().AMOUNT)
+                        {
+                             result.Success = false;
+                            var message = FunctionHelpers.GetValueLanguage("Message.Error.UpdateCartAmountMinus");
+                            result.Message = string.Format(message, product.NAME, resultMapper.FirstOrDefault().SIZE_NAME, resultMapper.FirstOrDefault().COLOR, resultMapper.FirstOrDefault().AMOUNT);
+                            result.CacheName = FunctionHelpers.GetValueLanguage("Message.Error");
+                            return Content(JsonConvert.SerializeObject(new
+                            {
+                                result
+                            }));
+                        }
+                        else
+                        {
+                            vm.Carts.Where(s => s.PRODUCT_ID == productId && s.COLOR_ID == colorId && sizeId == s.SIZE_ID).FirstOrDefault().AMOUNT+=1;
+                        }
+                       
+                    }
+                    else
+                    {
+                        CartModel cart = new CartModel();
+                        cart.ProductColorSizeMapper = resultMapper.FirstOrDefault();
+                        cart.Cart(resultProduct.FirstOrDefault());
+                        vm.Carts.Add(cart);
+                    }
+                }
+                else
+                {
+                    CartModel cart = new CartModel();
+                    cart.ProductColorSizeMapper = resultMapper.FirstOrDefault();
+                    cart.Cart(resultProduct.FirstOrDefault());
+                    vm.Carts.Add(cart);
+                }
+            }
+            Session["CART_ORDER"] = vm.Carts;
+            var html = RenderViewToString(this.ControllerContext, "~/Areas/ADMIN/Views/Order/_ContentCart.cshtml", vm);
+            result.Html = html;
+            result.Success = true;
+            return Content(JsonConvert.SerializeObject(new
+            {
+                result
+            }));
+        }
+
+        public ActionResult UpdateCartAll(List<CartModel> model)
+        {
+            OrderSaveViewModel vm = new OrderSaveViewModel();
+            ResultModel result = new ResultModel();
+            var html = string.Empty;
+            if (Session["CART_ORDER"] != null)
+            {
+                vm.Carts = Session["CART_ORDER"] as List<CartModel>;
+            }
+            if (model!=null && model.Count()>0)
+            {
+                foreach (var item in model)
+                {
+                    var product = vm.Carts.Where(s => s.PRODUCT_ID == item.PRODUCT_ID && s.COLOR_ID == item.COLOR_ID && item.SIZE_ID == s.SIZE_ID).FirstOrDefault();
+                    if (item.IS_CHECK)
+                    {
+                        vm.Carts.Remove(product);
+                        continue;
+                    }                    
+                    else if (product!=null)
+                    {
+                        //Lấy bản ghi mapper giữa size và color
+                        var responseMapper = _productRepository.GetProductColorSizeMapperByColorIdAndSizeId(item.COLOR_ID, item.SIZE_ID, item.PRODUCT_ID, "0");
+                        var resultMapper = JsonConvert.DeserializeObject<List<ProductColorSizeMapperModel>>(JsonConvert.SerializeObject(responseMapper.Results));
+                        if (item.AMOUNT> resultMapper.FirstOrDefault().AMOUNT)
+                        {
+                            var message = FunctionHelpers.GetValueLanguage("Message.Error.UpdateCartAmountMinus");
+                            result.Success = false;
+                            result.CacheName = FunctionHelpers.GetValueLanguage("Message.Error");
+                            result.Message = string.Format(message, product.NAME, resultMapper.FirstOrDefault().SIZE_NAME, resultMapper.FirstOrDefault().COLOR, resultMapper.FirstOrDefault().AMOUNT);
+                            html = RenderViewToString(this.ControllerContext, "~/Areas/ADMIN/Views/Order/_ContentCart.cshtml", vm);
+                            result.Html = html;
+                            return Content(JsonConvert.SerializeObject(new
+                            {
+                                result
+                            }));
+                        }
+                        else
+                        {
+                            vm.Carts.Where(s => s.PRODUCT_ID == item.PRODUCT_ID && s.COLOR_ID == item.COLOR_ID && item.SIZE_ID == s.SIZE_ID).FirstOrDefault().AMOUNT=item.AMOUNT;
+                        }
+                    }
+                }
+            }
+            else if (vm.Carts==null || vm.Carts.Count==0 || model==null || model.Count==0)
+            {
+                html = RenderViewToString(this.ControllerContext, "~/Areas/ADMIN/Views/Order/_ContentCart.cshtml", vm);
+                result.Html = html;
+                result.Success = false;
+                result.CacheName = FunctionHelpers.GetValueLanguage("Message.Error");
+                result.Message = FunctionHelpers.GetValueLanguage("Message.UpdateAllCart.Error");
+                return Content(JsonConvert.SerializeObject(new
+                {
+                    result
+                }));
+            }
+            Session["CART_ORDER"] = vm.Carts;
+            html = RenderViewToString(this.ControllerContext, "~/Areas/ADMIN/Views/Order/_ContentCart.cshtml", vm);
+            result.Success = true;
+            result.CacheName = FunctionHelpers.GetValueLanguage("Message.Success");
+            result.Message = FunctionHelpers.GetValueLanguage("Message.UpdateProduct.Success");
+            result.Html = html;
+            return Content(JsonConvert.SerializeObject(new
+            {
+                result
+            }));
+        }
         #region RenderTable
         public ActionResult ReloadTable(TableViewModel tableData, ParamType param)
         {

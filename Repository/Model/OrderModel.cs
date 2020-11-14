@@ -25,7 +25,6 @@ namespace Repository.Model
         public string BONUS_ID { get; set; } = string.Empty;
         public string DECRIPTION { get; set; } = string.Empty;
         public string ToDecrypt { get; set; } = string.Empty;
-
         public string STATUS_NAME { get; set; } = string.Empty;
         public string STATUS_PAY_NAME { get; set; } = string.Empty;
         public string METHOD_PAY_NAME { get; set; } = string.Empty;
@@ -33,9 +32,9 @@ namespace Repository.Model
         public string CITY_NAME { get; set; } = string.Empty;
         public string DISTRICT_NAME { get; set; } = string.Empty;
         public string COMMUNITY_NAME { get; set; } = string.Empty;
-
         public float PRICE_FEE_SHIP { get; set; }
         public float TOTAL_PRICE { get; set; }
+        public bool IS_ORDER { get; set; }
 
     }
 }

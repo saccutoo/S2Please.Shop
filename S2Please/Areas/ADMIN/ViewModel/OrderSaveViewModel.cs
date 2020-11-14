@@ -5,6 +5,7 @@ using System.Web;
 using S2Please.Models;
 using S2Please.Database;
 using S2Please.Helper;
+using S2Please.Areas.ADMIN.Models;
 
 namespace S2Please.Areas.ADMIN.ViewModel
 {
@@ -18,6 +19,7 @@ namespace S2Please.Areas.ADMIN.ViewModel
         public List<ProductSizeModel> ProductSizes { get; set; } = new List<ProductSizeModel>();
         public List<ProductColorModel> ProductColors { get; set; } = new List<ProductColorModel>();
         public ProductColorSizeMapperModel ProductMapper { get; set; } = new ProductColorSizeMapperModel();
+        public List<CartModel> Carts { get; set; } = new List<CartModel>();
 
     }
 
