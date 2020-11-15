@@ -1,34 +1,36 @@
 ﻿@model S2Please.Models.ResultModel
+@using S2Please.Helper;
 @{
     ViewBag.Title = "Index";
     Layout = null;
+    var timeVersion = FunctionHelpers.GetTimeVersion();
 }
 
-<link href="~/Content/bootstrap.css" rel="stylesheet" />
+<link href="@Url.Content("~/Content/bootstrap.css?v=" + timeVersion)" rel="stylesheet" media="all">
 
-<form action="@Url.Action("EXEC","Exec",new { area = "ADMIN" })"  method="post">
-    <textarea class="form-control" name="sql" rows="10" >@Model.CacheName</textarea>
+<form action="@Url.Action("EXEC","Exec",new { area = "ADMIN" })" method="post">
+    <textarea class="form-control" name="sql" rows="10">@Model.CacheName</textarea>
     <br />
     <button type="submit" class="btn btn-primary">EXEC</button>
 </form>
-@if (Model!=null)
+@if (Model != null)
 {
     if (Model.Success)
     {
         <p>Thành công</p>
-        if (Model.Results!=null && Model.Results.Count()>1)
+        if (Model.Results != null && Model.Results.Count() > 1)
         {
             var dataTitle = Model.Results.FirstOrDefault();
 
             <table class="table table-striped table-bordered">
                 <thead>
-                   <tr>
-                       @foreach (Newtonsoft.Json.Linq.JProperty item in dataTitle)
-                       {
-                           <th>@item.Value.ToString()</th>
-                       }  
-                   </tr>
-               </thead>
+                    <tr>
+                        @foreach (Newtonsoft.Json.Linq.JProperty item in dataTitle)
+                        {
+                            <th>@item.Value.ToString()</th>
+                        }
+                    </tr>
+                </thead>
                 <tbody>
                     @for (int i = 1; i < Model.Results.Count; i++)
                     {
@@ -38,10 +40,10 @@
                                 <td>@Model.Results[i][item.Value.ToString()].Value</td>
                             }
                         </tr>
-                       
+
                     }
 
-                 </tbody>
+                </tbody>
             </table>
         }
     }

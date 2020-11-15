@@ -30,8 +30,14 @@ namespace Repository
         //Get Get Method Pay
         ResultModel GetMethodPay();
 
+        //Get Get Method Pay all
+        ResultModel GetMethodPayAll();
+
         //Get Get Method Pay
         ResultModel GetShipFee();
+
+        //Get all ship fee
+        ResultModel GetAllShipFee();
 
         //Get City
         ResultModel GetCity();

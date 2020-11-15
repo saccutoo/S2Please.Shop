@@ -12,6 +12,9 @@
 @using System.Web.Security;
 @using S2Please.ViewModel;
 @using SHOP.COMMON
+@{
+    var timeVersion = FunctionHelpers.GetTimeVersion();
+}
 <!DOCTYPE html>
 <html>
 <head>
@@ -21,75 +24,61 @@
     <meta name="description" content="">
     <!--[if ie]><meta content='IE=8' http-equiv='X-UA-Compatible'/><![endif]-->
     <!-- bootstrap -->
-    <link href="~/Layout/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-    <link href="~/Layout/bootstrap/css/bootstrap-responsive.min.css" rel="stylesheet">
 
-    <link href="~/Layout/themes/css/bootstrappage.css" rel="stylesheet" />
+    <link href="@Url.Content("~/Layout/bootstrap/css/bootstrap.min.css?v=" + timeVersion)" rel="stylesheet">
+    <link href="@Url.Content("~/Layout/bootstrap/css/bootstrap-responsive.min.css?v=" + timeVersion)" rel="stylesheet">
+    <link href="@Url.Content("~/Layout/themes/css/bootstrappage.css?v=" + timeVersion)" rel="stylesheet">
+    <link href="@Url.Content("~/Scripts/slick/slick.css?v=" + timeVersion)" rel="stylesheet">
+    <link href="@Url.Content("~/Scripts/slick/slick-theme.css?v=" + timeVersion)" rel="stylesheet">
+    <link href="@Url.Content("~/Content/all.css?v=" + timeVersion)" rel="stylesheet">
 
-    <link href="~/Scripts/slick/slick.css" rel="stylesheet" />
-    <link href="~/Scripts/slick/slick-theme.css" rel="stylesheet" />
-    <link href="~/Content/all.css" rel="stylesheet" />
-   
     <!--CSS COMMON-->
-    <link href="~/Content/common.css" rel="stylesheet" />
+    <link href="@Url.Content("~/Content/common.css?v=" + timeVersion)" rel="stylesheet">
 
     <!-- global styles -->
-    <link href="~/Layout/themes/css/flexslider.css" rel="stylesheet" />
-    <link href="~/Layout/themes/css/main.css" rel="stylesheet" />
+
+    <link href="@Url.Content("~/Layout/themes/css/flexslider.css?v=" + timeVersion)" rel="stylesheet">
+    <link href="@Url.Content("~/Layout/themes/css/main.css?v=" + timeVersion)" rel="stylesheet">
 
     <!-- scripts -->
-    <script src="~/Layout/themes/js/jquery-1.7.2.min.js"></script>
-    <script src="~/Layout/bootstrap/js/bootstrap.js"></script>
-    @*<script src="~/Layout/bootstrap/js/bootstrap.min.js"></script>*@
-    <script src="~/Layout/themes/js/superfish.js"></script>
-    <script src="~/Layout/themes/js/jquery.scrolltotop.js"></script>
-    <script src="~/Scripts/all.js"></script>
-    <script src="~/Scripts/jquery-ui.js"></script>
+
+    <script src="@Url.Content("~/Layout/themes/js/jquery-1.7.2.min.js?v=" + timeVersion)" type="text/javascript"></script>
+    <script src="@Url.Content("~/Layout/bootstrap/js/bootstrap.js?v=" + timeVersion)" type="text/javascript"></script>
+    <script src="@Url.Content("~/Layout/themes/js/superfish.js?v=" + timeVersion)" type="text/javascript"></script>
+    <script src="@Url.Content("~/Layout/themes/js/jquery.scrolltotop.js?v=" + timeVersion)" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/all.js?v=" + timeVersion)" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/jquery-ui.js?v=" + timeVersion)" type="text/javascript"></script>
 
     <!-- jquery loader -->
-    <script src="~/Scripts/jquery-loading-overlay-master/dist/loadingoverlay.min.js"></script>
+    <script src="@Url.Content("~/Scripts/jquery-loading-overlay-master/dist/loadingoverlay.min.js?v=" + timeVersion)" type="text/javascript"></script>
     <!--end jquery loader -->
-
     <!-- jquery select2 -->
-    <link href="~/Scripts/Select2/dist/css/select2.css" rel="stylesheet" />
-    <script src="~/Scripts/Select2/dist/js/select2.js"></script>
+    <link href="@Url.Content("~/Scripts/Select2/dist/css/select2.css?v=" + timeVersion)" rel="stylesheet">
+    <script src="@Url.Content("~/Scripts/Select2/dist/js/select2.js?v=" + timeVersion)" type="text/javascript"></script>
     <!--end jquery select2 -->
-
-
     <!-- jquery Autocomplete -->
-
-    @*<link href="~/Scripts/Autocomplete/content/styles.css" rel="stylesheet" />
-    <script src="~/Scripts/Autocomplete/dist/jquery.autocomplete.min.js"></script>*@
-    <link href="~/Scripts/Kraamen/autocomplete.min.css" rel="stylesheet" />
-    <script src="~/Scripts/Kraamen/autocomplete.min.js"></script>
+    <link href="@Url.Content("~/Scripts/Kraamen/autocomplete.min.css?v=" + timeVersion)" rel="stylesheet">
+    <script src="@Url.Content("~/Scripts/Kraamen/autocomplete.min.js?v=" + timeVersion)" type="text/javascript"></script>
     <!--end jquery Autocomplete -->
-
-
     <!-- jquery Toastr -->
-    <link href="~/Scripts/Toastr/dist/toastr.min.css" rel="stylesheet" />
-    <script src="~/Scripts/Toastr/dist/toastr.min.js"></script>
+    <link href="@Url.Content("~/Scripts/Toastr/dist/toastr.min.css?v=" + timeVersion)" rel="stylesheet">
+    <script src="@Url.Content("~/Scripts/Toastr/dist/toastr.min.js?v=" + timeVersion)" type="text/javascript"></script>
     <!--end jquery Toastr -->
-
     <!-- bootstrap-datetimepicker-master -->
-    <link href="~/Scripts/bootstrap-datetimepicker-master/css/bootstrap-datetimepicker.min.css" rel="stylesheet" />
-    <script src="~/Scripts/bootstrap-datetimepicker-master/js/bootstrap-datetimepicker.min.js"></script>
+    <link href="@Url.Content("~/Scripts/bootstrap-datetimepicker-master/css/bootstrap-datetimepicker.min.css?v=" + timeVersion)" rel="stylesheet">
+    <script src="@Url.Content("~/Scripts/bootstrap-datetimepicker-master/js/bootstrap-datetimepicker.min.js?v=" + timeVersion)" type="text/javascript"></script>
     <!--end bootstrap-datetimepicker-master -->
-
     <!--bootstrap-select-1.13.14-->
-    <link href="~/Scripts/bootstrap-select-1.13.14/dist/css/bootstrap-select.min.css" rel="stylesheet" />
-    <script src="~/Scripts/bootstrap-select-1.13.14/dist/js/bootstrap-select.min.js"></script>
+    <link href="@Url.Content("~/Scripts/bootstrap-select-1.13.14/dist/css/bootstrap-select.min.css?v=" + timeVersion)" rel="stylesheet">
+    <script src="@Url.Content("~/Scripts/bootstrap-select-1.13.14/dist/js/bootstrap-select.min.js?v=" + timeVersion)" type="text/javascript"></script>
     <!--end bootstrap-select-1.13.14-->
 
-    <!--flag-icon-css-master-->
-    @*<link href="./Content/flag-icon-css-master/css/flag-icon.css" rel="stylesheet" />
-    <link href="~/Content/flag-icon-css-master/css/flag-icon.min.css" rel="stylesheet" />*@
-    <!--end flag-icon-css-master-->
     <script>
         var ControlModel = [];
     </script>
     <style>
-        .select2-search__field{
-            height:30px !important;
+        .select2-search__field {
+            height: 30px !important;
         }
     </style>
 </head>
@@ -97,12 +86,12 @@
     <div id="top-bar" class="container">
         <div class="row">
             <div class="span4">
-                 <div class="col-md-8">
-                     <form method="POST" class="search_form">
-                         @*<select type="text" id="autocomplete-search" class="input-block-level search-query" Placeholder="@FunctionHelpers.GetValueLanguage("Input.SearchProduct")" style="border-radius:0px;color:black" onkeyup="searchProduct($(this).val())"></select>*@
-                         <input type="text" id="autocomplete-search" class="input-block-level search-query" Placeholder="@FunctionHelpers.GetValueLanguage("Input.SearchProduct")" style="border-radius:0px;color:black" onkeyup="searchProduct($(this).val()) " />
-                     </form>
-                  </div>           
+                <div class="col-md-8">
+                    <form method="POST" class="search_form">
+                        @*<select type="text" id="autocomplete-search" class="input-block-level search-query" Placeholder="@FunctionHelpers.GetValueLanguage("Input.SearchProduct")" style="border-radius:0px;color:black" onkeyup="searchProduct($(this).val())"></select>*@
+                        <input type="text" id="autocomplete-search" class="input-block-level search-query" Placeholder="@FunctionHelpers.GetValueLanguage("Input.SearchProduct")" style="border-radius:0px;color:black" onkeyup="searchProduct($(this).val()) " />
+                    </form>
+                </div>
             </div>
             <div class="col-md-4">
                 <div class="account">
@@ -119,7 +108,8 @@
 
                         }
                         <li>
-                            <a href="/cart">@FunctionHelpers.GetValueLanguage("Cart.YourCart")                                
+                            <a href="/cart">
+                                @FunctionHelpers.GetValueLanguage("Cart.YourCart")
                                 @Html.Action("GetTotalCart", "Cart", new { area = "WEB_SHOP" })
                             </a>
                         </li>
@@ -141,8 +131,8 @@
         </div>
     </div>
     <div id="wrapper" class="container">
-  
-            
+
+
         @Html.Action("Index", "Menu", new { area = "WEB_SHOP" })
 
 
@@ -162,7 +152,7 @@
         </section>
 
         @RenderSection("OurClient", required: false)
-    
+
 
         <section id="footer-bar">
             <div class="row">
@@ -182,54 +172,52 @@
                     </ul>
                 </div>
                 @*<div class="span3">
-                    <h4>@FunctionHelpers.GetValueLanguage("Labled.SupportFooter")</h4>
-                    <ul class="nav">
-                        <li><a href="/Customer">@FunctionHelpers.GetValueLanguage("Authen.UserName")</a></li>
-                        <li><a href="/checkout">@FunctionHelpers.GetValueLanguage("Cart.Pay")</a></li>
-                    </ul>
-                </div>*@
+                        <h4>@FunctionHelpers.GetValueLanguage("Labled.SupportFooter")</h4>
+                        <ul class="nav">
+                            <li><a href="/Customer">@FunctionHelpers.GetValueLanguage("Authen.UserName")</a></li>
+                            <li><a href="/checkout">@FunctionHelpers.GetValueLanguage("Cart.Pay")</a></li>
+                        </ul>
+                    </div>*@
                 @*<div class="span5">
-                    <p class="logo"><img src="~/Layout/themes/images/logo.png" class="site_logo" alt=""></p>
-                    <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. the  Lorem Ipsum has been the industry's standard dummy text ever since the you.</p>
-                    <br />
-                    <span class="social_icons">
-                        <a class="facebook fab fa-facebook-f" href="https://www.facebook.com/s2please">Facebook</a>
-                    </span>
-                </div>*@
+                        <p class="logo"><img src="~/Layout/themes/images/logo.png" class="site_logo" alt=""></p>
+                        <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. the  Lorem Ipsum has been the industry's standard dummy text ever since the you.</p>
+                        <br />
+                        <span class="social_icons">
+                            <a class="facebook fab fa-facebook-f" href="https://www.facebook.com/s2please">Facebook</a>
+                        </span>
+                    </div>*@
             </div>
         </section>
 
         @*<section id="copyright">
-            <span>Copyright 2013 bootstrappage template  All right reserved.</span>
-        </section>*@
+                <span>Copyright 2013 bootstrappage template  All right reserved.</span>
+            </section>*@
     </div>
 
     <div class="modal fade" id="my-modal-center" tabindex="-1" role="dialog" style="display:none">
         <div class="modal-dialog" role="document">
             <div class="modal-content" id="my-modal-content-center">
-               
+
             </div>
         </div>
     </div>
 
 </body>
-    
-
 
 </html>
-<script src="~/Layout/themes/js/common.js"></script>
-<script src="~/Layout/themes/js/jquery.flexslider-min.js"></script>
+<script src="@Url.Content("~/Layout/themes/js/jquery.flexslider-min.js?v=" + timeVersion)" type="text/javascript"></script>
+<script src="@Url.Content("~/Layout/themes/js/common.js?v=" + timeVersion)" type="text/javascript"></script>
 
- <!-- slick plugin-->
-<script src="~/Scripts/slick/slick.min.js"></script>
-<script src="~/Scripts/slick/slick.js"></script>
+<!-- slick plugin-->
+<script src="@Url.Content("~/Scripts/slick/slick.min.js?v=" + timeVersion)" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/slick/slick.js?v=" + timeVersion)" type="text/javascript"></script>
 
-     <!-- signalR-->
-<script src="~/Scripts/jquery.signalR-2.1.2.min.js"></script>
-<script src="~/signalr/hubs"></script>
+<!-- signalR-->
+<script src="@Url.Content("~/Scripts/jquery.signalR-2.1.2.min.js?v=" + timeVersion)" type="text/javascript"></script>
+<script src="@Url.Content("~/signalr/hubs?v=" + timeVersion)" type="text/javascript"></script>
 
 <script type="text/javascript">
-   
+
     $(function () {
         $(document).ready(function () {
             $('.flexslider').flexslider({
@@ -245,25 +233,23 @@
     });
 </script>
 
-<script src="~/Scripts/Common/Common.js"></script>
+<script src="@Url.Content("~/Scripts/Common/Common.js?v=" + timeVersion)" type="text/javascript"></script>
 @RenderSection("scripts", required: false)
 
 <script>
 
     $('#district').on('select2:selecting', function (e) {
         $.ajax(
-         {
-             type: "POST",
-             url: "/WEB_SHOP/Cart/ReloadCommunity",
-             data: {
-                 codeDistrict: $(e.currentTarget).val(),
-             },
-             success: function (response) {
-                 $("#select2-community").html(response);
-             }
-         });
+            {
+                type: "POST",
+                url: "/WEB_SHOP/Cart/ReloadCommunity",
+                data: {
+                    codeDistrict: $(e.currentTarget).val(),
+                },
+                success: function (response) {
+                    $("#select2-community").html(response);
+                }
+            });
     });
 
 </script>
-
-@*<script src="~/Scripts/jquery.validate.min.js"></script>*@

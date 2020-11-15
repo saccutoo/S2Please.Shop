@@ -173,3 +173,80 @@ function updateCartAll() {
     });
 }
 
+function saveOrder() {
+    loadingBody.Show();
+    $("#form-order label[name*='message-error-']").text("");
+
+    $.ajax({
+        type: "POST",
+        url: "/ADMIN/Order/Order",
+        data: $('#form-order').serializeArray(),
+        dataType: 'json',
+        success: function (response) {
+            if (response.Invalid) {
+                var validations = response.Result;
+                renderError(validations, "form-order");
+                var checkCustomer = false;
+                var checkCart= false;
+                var statusOrder= false;
+
+                for (var i = 0; i < validations.length; i++) {
+                    if (validations[i].ColumnName.indexOf('.FULL_NAME') > -1 ||
+                        validations[i].ColumnName.indexOf('.PHONE') > -1) {
+                        checkCustomer = true;
+                    }
+                    else if (validations[i].ColumnName.indexOf('.STATUS') > -1 ||
+                        validations[i].ColumnName.indexOf('.STATUS_PAY') > -1 ||
+                        validations[i].ColumnName.indexOf('.METHOD_PAY') > -1 || 
+                        validations[i].ColumnName.indexOf('.FEE_SHIP') > -1) {
+                        statusOrder = true;
+                    }
+                    else if (validations[i].ColumnName.indexOf('listCard') > -1) {
+                        checkCart = true;
+                    }
+                }
+
+                if (checkCustomer) {
+                    $("#cardOne").animate({
+                        'background-color': 'red',
+                    });
+                    $("#cardOne").animate({
+                        'background-color': 'rgba(0,0,0,.03)',
+                    });
+                } 
+
+                if (checkCart) {
+                    $("#cardTwo").animate({
+                        'background-color': 'red',
+                    });
+                    $("#cardTwo").animate({
+                        'background-color': 'rgba(0,0,0,.03)',
+                    });
+                }
+
+                if (statusOrder) {
+                    $("#cardThree").animate({
+                        'background-color': 'red',
+                    });
+                    $("#cardThree").animate({
+                        'background-color': 'rgba(0,0,0,.03)',
+                    });
+                }
+               loadingBody.Hide();
+                return;
+            }
+            else if (response.result.Success) {
+                loadingBody.Hide();
+                toastr["success"](response.result.Message, response.result.CacheName);
+                setTimeout(function () { window.location.href = "/admin/order" }, 2000);
+            }
+           
+        }
+    });
+}
+
+function comeBackOrder() {
+    loadingBody.Show();
+    window.location.href = "/admin/order";
+}
+

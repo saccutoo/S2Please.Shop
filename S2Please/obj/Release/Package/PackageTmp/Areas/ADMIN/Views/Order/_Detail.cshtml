@@ -9,6 +9,8 @@
 @{
     Layout = null;
     CultureInfo cul = CultureInfo.GetCultureInfo("vi-VN");   // try with "en-U
+    float totalMoney = 0;
+    long totalAmount = 0;
 }
 <style>
     .modal-body{
@@ -50,6 +52,7 @@
                     <th>@FunctionHelpers.GetValueLanguage("Product.Size")</th>
                     <th>@FunctionHelpers.GetValueLanguage("Product.ProductAmount")</th>
                     <th>@FunctionHelpers.GetValueLanguage("Product.ProductPrice")</th>
+                    <th>@FunctionHelpers.GetValueLanguage("Product.Rate")</th>
                     <th>@FunctionHelpers.GetValueLanguage("Cart.IntoMoney")</th>
                 </tr>
             </thead>
@@ -74,20 +77,43 @@
                                     <span>@item.AMOUNT</span>
                                 </td>
                                 <td>
-                                    <span>@item.PRICE.ToString("#,###", cul.NumberFormat)</span>
+                                    <span>@item.PRICE.ToString("#,###", cul.NumberFormat) <span style="color:red">₫</span></span>
+                                </td>
+                                 <td>
+                                    <span>@item.RATE %</span>
                                 </td>
                                 <td>
                                     @{
-                                        float total = item.PRICE;
+                                        float total = item.PRICE * item.AMOUNT;
                                         if (item.RATE != 0)
                                         {
-                                            total = item.PRICE - ((item.RATE / 100) * item.PRICE);
+                                            total = total - ((item.RATE / 100) * total);
                                         }
+                                        totalMoney += total;
                                     }
                                     <span>@total.ToString("#,###", cul.NumberFormat) <span style="color:red">₫</span></span>
                                 </td>
                             </tr>
-                      }
+                            totalAmount+=item.AMOUNT;
+                    }
+                    <tr>
+                        <td colspan="7" style="text-align:right">
+                            <span>@FunctionHelpers.GetValueLanguage("Cart.TotalAmount") : <strong>@totalAmount</strong></span><br />
+                            <span>@FunctionHelpers.GetValueLanguage("Cart.ShipFee") : 
+                                    <strong  span style="color:red">
+                                        @if (Model.Order.PRICE_FEE_SHIP!=0)
+                                        {
+                                            @Model.Order.PRICE_FEE_SHIP.ToString("#,###", cul.NumberFormat)
+                                        }
+                                        else
+                                        {
+                                            @Model.Order.PRICE_FEE_SHIP
+                                        }
+                                         ₫
+                                    </strong></span><br />
+                            <span>@FunctionHelpers.GetValueLanguage("Cart.TotalMoney") : <strong span style="color:red">@((totalMoney+ Model.Order.PRICE_FEE_SHIP).ToString("#,###", cul.NumberFormat)) ₫</strong></span>
+                        </td>
+                    </tr>
                 }
             </tbody>
         </table>

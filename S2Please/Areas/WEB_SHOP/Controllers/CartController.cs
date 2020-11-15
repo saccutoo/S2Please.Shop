@@ -10,7 +10,6 @@ using System.Data;
 using SHOP.COMMON.Helpers;
 using S2Please.ParramType;
 using S2Please.Helper;
-using S2Please.Areas.WEB_SHOP.Models;
 using SHOP.COMMON;
 using S2Please.ViewModel;
 using Repository;
@@ -356,7 +355,7 @@ namespace S2Please.Areas.WEB_SHOP.Controllers
                 }
 
             }
-          
+            model.IS_ORDER = true;
             var modelInser = MapperHelper.Map<OrderModel,Repository.Model.OrderModel>(model);
             var orderDetailInserts = MapperHelper.MapList<OrderDetailType, Repository.Type.OrderDetailType>(orderDetails);
             var data = new OrderModel();
@@ -405,7 +404,7 @@ namespace S2Please.Areas.WEB_SHOP.Controllers
             {
                 vm.Carts = Session["Products"] as List<CartModel>;
                 string subject = FunctionHelpers.GetValueLanguage("Email.SubjectOrder");
-                string body = RenderViewToString(this.ControllerContext, "~/Areas/WEB_SHOP/Views/Cart/_EmailOrder.cshtml", vm);
+                string body = RenderViewToString(this.ControllerContext, "~/Views/TemplateEmail/_EmailOrder.cshtml", vm);
                 List<string> toMail = new List<string>();
                 toMail.Add(vm.Order.EMAIL);
                 string from = ConfigurationManager.AppSettings["MailUserName"] + ";" + "S2Please";
@@ -413,7 +412,7 @@ namespace S2Please.Areas.WEB_SHOP.Controllers
                 int resultCode = SendMail(subject, body, toMail, new List<string>(), new List<string>(), from, replyTo, new List<AttachmentJs>());
                 if (resultCode != 200)
                 {
-
+                    //Error email
                 }
             }         
             Session["Products"] = null;

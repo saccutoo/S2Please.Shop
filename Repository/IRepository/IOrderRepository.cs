@@ -22,7 +22,7 @@ namespace Repository
         ResultModel GetOrderFromAdmin(ParamType paramType);
 
         //Get Update_Order
-        ResultModel UpdateOrder(OrderModel model, List<OrderDetailType> orderDetails);
+        ResultModel UpdateOrder(OrderModel model, List<OrderDetailType> orderDetails, bool isCheckPermission = false);
 
         //Get Order By Customer Id
         ResultModel GetOrderByCustomerId(long userId);

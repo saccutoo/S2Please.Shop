@@ -60,8 +60,6 @@ function clickNext(productTypeId, url) {
     }
 }
 
-
-
 //khởi tạo loading body html
 var loadingBody = {};
 
@@ -81,7 +79,27 @@ loadingBody.Hide = function () {
     $("#body").LoadingOverlay("hide");
 }
 
+function viewDetail(id) {
+    loadingBody.Show();
+    $.ajax({
+        type: "POST",
+        url: "/ADMIN/Product/Detail",
+        data: {
+            id: id
+        },
+        dataType: "json",
+        success: function (response) {
+            $("#modal-content-center").html(response.html);
+            $("#modal-center").modal("show");
+            loadingBody.Hide();
+        },
+        error: function (response, status, error) {
+            alert("Error try again");
+            loadingBody.Hide();
 
+        }
+    });
+}
 //search sản phẩm
 //$("#autocomplete-search").select2({
 //    ajax: {

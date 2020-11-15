@@ -253,16 +253,13 @@
                                                                 bool check = false;
                                                                 foreach (var dropdown in action.DROPDOWN)
                                                                 {
-                                                                    if (dropdown != null && FunctionHelpers.CheckPermission(Model.MENU_NAME, dropdown.ACTION_NAME))
+                                                                    if (dropdown != null && dropdown.IS_CHECK && FunctionHelpers.CheckPermission(Model.MENU_NAME, dropdown.ACTION_NAME))
                                                                     {
                                                                         check = true;
                                                                         break;
                                                                     }
                                                                 }
-                                                                if (true)
-                                                                {
 
-                                                                }
                                                                 if (check)
                                                                 {
                                                                     <button class="item" data-toggle="dropdown" title="@FunctionHelpers.GetValueLanguage(action.BUTTON_NAME)" onclick="@funtionNameButon" type="button" data-placement="top">
@@ -284,7 +281,12 @@
                                                                                     }
                                                                                 }
                                                                             }
-                                                                            if (dropdown != null && FunctionHelpers.CheckPermission(Model.MENU_NAME, dropdown.ACTION_NAME))
+                                                                            if (dropdown != null && dropdown.IS_CHECK && FunctionHelpers.CheckPermission(Model.MENU_NAME, dropdown.ACTION_NAME))
+                                                                            {
+                                                                                <a class="dropdown-item cusor" onclick="@funtionNameButon">@FunctionHelpers.GetValueLanguage(dropdown.BUTTON_NAME)</a>
+                                                                            }
+
+                                                                            if (dropdown != null && !dropdown.IS_CHECK)
                                                                             {
                                                                                 <a class="dropdown-item cusor" onclick="@funtionNameButon">@FunctionHelpers.GetValueLanguage(dropdown.BUTTON_NAME)</a>
                                                                             }
@@ -295,13 +297,19 @@
                                                             }
                                                             else
                                                             {
-                                                                if (action != null && FunctionHelpers.CheckPermission(Model.MENU_NAME, action.ACTION_NAME))
+                                                                if (action != null && action.IS_CHECK && FunctionHelpers.CheckPermission(Model.MENU_NAME, action.ACTION_NAME))
                                                                 {
                                                                     <button class="item" data-toggle="tooltip" data-placement="top" title="@FunctionHelpers.GetValueLanguage(action.BUTTON_NAME)" onclick="@funtionNameButon" type="button">
                                                                         <i class="@action.CLASS"></i>
                                                                     </button>
                                                                 }
 
+                                                                if (action != null && !action.IS_CHECK)
+                                                                {
+                                                                    <button class="item" data-toggle="tooltip" data-placement="top" title="@FunctionHelpers.GetValueLanguage(action.BUTTON_NAME)" onclick="@funtionNameButon" type="button">
+                                                                        <i class="@action.CLASS"></i>
+                                                                    </button>
+                                                                }
                                                             }
 
                                                         }
@@ -362,7 +370,14 @@
                                             }
                                             <td style="@item.CSS;@width;color:red" class="@item.CLASS">
                                                 <span>
-                                                    @Convert.ToDouble(value).ToString("#,###", cul.NumberFormat) đ
+                                                    @if (!string.IsNullOrEmpty(value) && value!="0")
+                                                    {
+                                                        @Convert.ToDouble(value).ToString("#,###", cul.NumberFormat) <span> đ</span>
+                                                    }
+                                                    else
+                                                    {
+                                                        @value <span> đ</span>
+                                                    }
                                                 </span>
                                             </td>
                                         }
@@ -535,7 +550,7 @@
 }
 <script>
     ControlModel[@Html.Raw(Json.Encode(Model.TABLE_NAME))] = @Html.Raw(Json.Encode(Model));
-    ControlModel[@Html.Raw(Json.Encode(Model.TABLE_NAME))].DATA = @Html.Raw(JsonConvert.SerializeObject(Model.DATA));
+    //ControlModel[@Html.Raw(Json.Encode(Model.TABLE_NAME))].DATA = @Html.Raw(JsonConvert.SerializeObject(Model.DATA));
     // Select 2
     $(document).ready(function () {
         try {

@@ -15,6 +15,9 @@ using ClosedXML.Excel;
 using System.IO;
 using Repository;
 using S2Please.Areas.ADMIN.Models;
+using System.Text.RegularExpressions;
+using S2Please.ViewModel;
+using System.Configuration;
 
 namespace S2Please.Areas.ADMIN.Controllers
 {
@@ -68,7 +71,7 @@ namespace S2Please.Areas.ADMIN.Controllers
             return View(order);
         }
 
-        public ActionResult Detail(long id=0)
+        public ActionResult Detail(long id = 0)
         {
             OrderDetailViewModel vm = new OrderDetailViewModel();
             //Lấy sản phẩm ID sản phẩm
@@ -94,7 +97,7 @@ namespace S2Please.Areas.ADMIN.Controllers
             }));
         }
 
-        public ActionResult ViewPriceDetail(long colorId=0, long sizeId=0, long productId=0)
+        public ActionResult ViewPriceDetail(long colorId = 0, long sizeId = 0, long productId = 0)
         {
             ProductPriceViewModel vm = new ProductPriceViewModel();
             var responseMapper = _productRepository.GetProductColorSizeMapperByColorIdAndSizeId(colorId, sizeId, productId, "0");
@@ -118,9 +121,9 @@ namespace S2Please.Areas.ADMIN.Controllers
         //    return Json(html, JsonRequestBehavior.AllowGet);
         //}
 
-        public ActionResult OrderSave(long id=0)
+        public ActionResult OrderSave(long id = 0)
         {
-            if (Session["CART_ORDER"]!=null)
+            if (Session["CART_ORDER"] != null)
             {
                 Session["CART_ORDER"] = null;
             }
@@ -157,10 +160,25 @@ namespace S2Please.Areas.ADMIN.Controllers
             vm.Table.TABLE_NAME = TableName.ProductOrder;
             vm.Table.TITLE_TABLE_NAME = "";
             vm.Table = RenderTable(vm.Table, paramType);
+
+            var responseStatusOrder = _systemRepository.GetStatusOrder();
+            vm.StatusOrders = responseStatusOrder.Results;
+
+            var responseStatusPay = _systemRepository.GetStatusPay();
+            vm.StatusPays = responseStatusPay.Results;
+
+            var responseMethodPay = _systemRepository.GetMethodPayAll();
+            vm.MethodPays = responseMethodPay.Results;
+
+            var responseShipFee = _systemRepository.GetAllShipFee();
+            vm.ShipFees = responseShipFee.Results;
+
+            var resultStatusMethodPay = JsonConvert.DeserializeObject<List<MethodPayModel>>(JsonConvert.SerializeObject(responseMethodPay.Results));
+
             return View(vm);
         }
 
-        public ActionResult ShowFormAddProductToCart(long productId=0)
+        public ActionResult ShowFormAddProductToCart(long productId = 0)
         {
             OrderSaveViewModel vm = new OrderSaveViewModel();
             //Lấy sản phẩm ID sản phẩm
@@ -226,16 +244,16 @@ namespace S2Please.Areas.ADMIN.Controllers
             //Lấy bản ghi mapper giữa size và color
             var responseMapper = _productRepository.GetProductColorSizeMapperByColorIdAndSizeId(colorId, sizeId, productId, "0");
             var resultMapper = JsonConvert.DeserializeObject<List<ProductColorSizeMapperModel>>(JsonConvert.SerializeObject(responseMapper.Results));
-            if (resultMapper != null && resultMapper.Count()>0)
+            if (resultMapper != null && resultMapper.Count() > 0)
             {
-                if (vm.Carts != null && vm.Carts.Count()>0)
+                if (vm.Carts != null && vm.Carts.Count() > 0)
                 {
                     var product = vm.Carts.Where(s => s.PRODUCT_ID == productId && s.COLOR_ID == colorId && sizeId == s.SIZE_ID).FirstOrDefault();
-                    if (product!=null)
+                    if (product != null)
                     {
-                        if ((product.AMOUNT+1)> resultMapper.FirstOrDefault().AMOUNT)
+                        if ((product.AMOUNT + 1) > resultMapper.FirstOrDefault().AMOUNT)
                         {
-                             result.Success = false;
+                            result.Success = false;
                             var message = FunctionHelpers.GetValueLanguage("Message.Error.UpdateCartAmountMinus");
                             result.Message = string.Format(message, product.NAME, resultMapper.FirstOrDefault().SIZE_NAME, resultMapper.FirstOrDefault().COLOR, resultMapper.FirstOrDefault().AMOUNT);
                             result.CacheName = FunctionHelpers.GetValueLanguage("Message.Error");
@@ -246,9 +264,9 @@ namespace S2Please.Areas.ADMIN.Controllers
                         }
                         else
                         {
-                            vm.Carts.Where(s => s.PRODUCT_ID == productId && s.COLOR_ID == colorId && sizeId == s.SIZE_ID).FirstOrDefault().AMOUNT+=1;
+                            vm.Carts.Where(s => s.PRODUCT_ID == productId && s.COLOR_ID == colorId && sizeId == s.SIZE_ID).FirstOrDefault().AMOUNT += 1;
                         }
-                       
+
                     }
                     else
                     {
@@ -276,7 +294,152 @@ namespace S2Please.Areas.ADMIN.Controllers
             }));
         }
 
-        public ActionResult UpdateCartAll(List<CartModel> model)
+        public ActionResult Order(OrderModel model)
+        {
+            ResultModel result = new ResultModel();
+            var validations = new List<ValidationModel>();
+            if (string.IsNullOrEmpty(model.FULL_NAME))
+            {
+                ValidationModel validaton = new ValidationModel();
+                validaton.ColumnName = "model.FULL_NAME";
+                validaton.IsError = false;
+                validaton.ErrorMessage = FunctionHelpers.GetValueLanguage("Error.Required");
+                validations.Add(validaton);
+            }
+            if (string.IsNullOrEmpty(model.PHONE))
+            {
+                ValidationModel validaton = new ValidationModel();
+                validaton.ColumnName = "model.PHONE";
+                validaton.IsError = false;
+                validaton.ErrorMessage = FunctionHelpers.GetValueLanguage("Error.Required");
+                validations.Add(validaton);
+            }
+            if (!string.IsNullOrEmpty(model.PHONE))
+            {
+                var phoneReg = @"^\d{9,15}$";
+                if (!Regex.IsMatch(model.PHONE, phoneReg))
+                {
+                    ValidationModel validaton = new ValidationModel();
+                    validaton.ColumnName = "model.PHONE";
+                    validaton.IsError = false;
+                    validaton.ErrorMessage = FunctionHelpers.GetValueLanguage("Error.PhoneFormat");
+                    validations.Add(validaton);
+                }
+
+            }
+            if (model.STATUS == 0)
+            {
+                ValidationModel validaton = new ValidationModel();
+                validaton.ColumnName = "model.STATUS";
+                validaton.IsError = false;
+                validaton.ErrorMessage = FunctionHelpers.GetValueLanguage("Error.Required");
+                validations.Add(validaton);
+            }
+            if (model.STATUS_PAY == 0)
+            {
+                ValidationModel validaton = new ValidationModel();
+                validaton.ColumnName = "model.STATUS_PAY";
+                validaton.IsError = false;
+                validaton.ErrorMessage = FunctionHelpers.GetValueLanguage("Error.Required");
+                validations.Add(validaton);
+            }
+            if (model.METHOD_PAY == 0)
+            {
+                ValidationModel validaton = new ValidationModel();
+                validaton.ColumnName = "model.METHOD_PAY";
+                validaton.IsError = false;
+                validaton.ErrorMessage = FunctionHelpers.GetValueLanguage("Error.Required");
+                validations.Add(validaton);
+            }
+            if (model.FEE_SHIP == 0)
+            {
+                ValidationModel validaton = new ValidationModel();
+                validaton.ColumnName = "model.FEE_SHIP";
+                validaton.IsError = false;
+                validaton.ErrorMessage = FunctionHelpers.GetValueLanguage("Error.Required");
+                validations.Add(validaton);
+            }
+            if (Session["CART_ORDER"] == null)
+            {
+                ValidationModel validaton = new ValidationModel();
+                validaton.ColumnName = "listCard";
+                validaton.IsError = false;
+                validaton.ErrorMessage = FunctionHelpers.GetValueLanguage("Message.UpdateAllCart.Error");
+                validations.Add(validaton);
+            }
+            if (validations != null && validations.Count() > 0)
+            {
+                return Json(new { Result = validations, Invalid = true }, JsonRequestBehavior.AllowGet);
+            }
+
+            List<CartModel> carts = Session["CART_ORDER"] as List<CartModel>;
+            List<OrderDetailType> orderDetails = new List<OrderDetailType>();
+            foreach (var item in carts)
+            {
+                orderDetails.Add(new OrderDetailType()
+                {
+                    ID = 0,
+                    ORDER_ID = 0,
+                    PRODUCT_ID = item.PRODUCT_ID,
+                    SIZE_ID = item.SIZE_ID,
+                    COLOR_ID = item.COLOR_ID,
+                    AMOUNT = item.AMOUNT
+                });
+            }
+            model.IS_ORDER = false;
+            var modelInser = MapperHelper.Map<OrderModel, Repository.Model.OrderModel>(model);
+            var orderDetailInserts = MapperHelper.MapList<OrderDetailType, Repository.Type.OrderDetailType>(orderDetails);
+
+            var data = new OrderModel();
+            var responseOrder = _orderRepository.UpdateOrder(modelInser, orderDetailInserts,true);
+            if (responseOrder != null && responseOrder.Success == true)
+            {
+                result.Success = true;
+                result.Message = FunctionHelpers.GetValueLanguage("Order.AddOrder");
+                result.CacheName = FunctionHelpers.GetValueLanguage("Message.Success");
+                result.Results = responseOrder.Results;
+                data = JsonConvert.DeserializeObject<List<OrderModel>>(JsonConvert.SerializeObject(result.Results)).FirstOrDefault();
+                if (!string.IsNullOrEmpty(model.EMAIL))
+                {
+                    OrderInformationViewModel vm = new OrderInformationViewModel();
+                    vm.Carts = Session["CART_ORDER"] as List<CartModel>;
+                    var response = _orderRepository.GetOrderById(data.ID);
+                    var resultOrder = JsonConvert.DeserializeObject<List<OrderModel>>(JsonConvert.SerializeObject(response.Results));
+
+                    var responseShipFee = _systemRepository.GetAllShipFee();
+                    var resultShipFee = JsonConvert.DeserializeObject<List<ShipFeeModel>>(JsonConvert.SerializeObject(responseShipFee.Results));
+                    if (resultShipFee != null && resultShipFee.Count() > 0)
+                    {
+                        vm.ShipFees = resultShipFee;
+                    }
+
+                    if (resultOrder != null && resultOrder.Count() > 0)
+                    {
+                        vm.Order = resultOrder.FirstOrDefault();
+                    }
+
+                    string subject = FunctionHelpers.GetValueLanguage("Email.SubjectOrder");
+                    string body = RenderViewToString(this.ControllerContext, "~/Views/TemplateEmail/_EmailOrder.cshtml", vm);
+                    List<string> toMail = new List<string>();
+                    toMail.Add(vm.Order.EMAIL);
+                    string from = ConfigurationManager.AppSettings["MailUserName"] + ";" + "S2Please";
+                    string replyTo = ConfigurationManager.AppSettings["MailUserName"];
+                    int resultCode = SendMail(subject, body, toMail, new List<string>(), new List<string>(), from, replyTo, new List<AttachmentJs>());
+                    if (resultCode != 200)
+                    {
+                        //Error email
+                    }
+                }
+                Session["CART_ORDER"] = null;
+
+            }
+            return Content(JsonConvert.SerializeObject(new
+            {
+                result
+            }));
+        }
+
+        public ActionResult UpdateCartAll(List<CartModel> listCard)
         {
             OrderSaveViewModel vm = new OrderSaveViewModel();
             ResultModel result = new ResultModel();
@@ -285,22 +448,22 @@ namespace S2Please.Areas.ADMIN.Controllers
             {
                 vm.Carts = Session["CART_ORDER"] as List<CartModel>;
             }
-            if (model!=null && model.Count()>0)
+            if (listCard != null && listCard.Count() > 0)
             {
-                foreach (var item in model)
+                foreach (var item in listCard)
                 {
                     var product = vm.Carts.Where(s => s.PRODUCT_ID == item.PRODUCT_ID && s.COLOR_ID == item.COLOR_ID && item.SIZE_ID == s.SIZE_ID).FirstOrDefault();
                     if (item.IS_CHECK)
                     {
                         vm.Carts.Remove(product);
                         continue;
-                    }                    
-                    else if (product!=null)
+                    }
+                    else if (product != null)
                     {
                         //Lấy bản ghi mapper giữa size và color
                         var responseMapper = _productRepository.GetProductColorSizeMapperByColorIdAndSizeId(item.COLOR_ID, item.SIZE_ID, item.PRODUCT_ID, "0");
                         var resultMapper = JsonConvert.DeserializeObject<List<ProductColorSizeMapperModel>>(JsonConvert.SerializeObject(responseMapper.Results));
-                        if (item.AMOUNT> resultMapper.FirstOrDefault().AMOUNT)
+                        if (item.AMOUNT > resultMapper.FirstOrDefault().AMOUNT)
                         {
                             var message = FunctionHelpers.GetValueLanguage("Message.Error.UpdateCartAmountMinus");
                             result.Success = false;
@@ -315,12 +478,12 @@ namespace S2Please.Areas.ADMIN.Controllers
                         }
                         else
                         {
-                            vm.Carts.Where(s => s.PRODUCT_ID == item.PRODUCT_ID && s.COLOR_ID == item.COLOR_ID && item.SIZE_ID == s.SIZE_ID).FirstOrDefault().AMOUNT=item.AMOUNT;
+                            vm.Carts.Where(s => s.PRODUCT_ID == item.PRODUCT_ID && s.COLOR_ID == item.COLOR_ID && item.SIZE_ID == s.SIZE_ID).FirstOrDefault().AMOUNT = item.AMOUNT;
                         }
                     }
                 }
             }
-            else if (vm.Carts==null || vm.Carts.Count==0 || model==null || model.Count==0)
+            else if (vm.Carts == null || vm.Carts.Count == 0 || listCard == null || listCard.Count == 0)
             {
                 html = RenderViewToString(this.ControllerContext, "~/Areas/ADMIN/Views/Order/_ContentCart.cshtml", vm);
                 result.Html = html;
@@ -370,7 +533,7 @@ namespace S2Please.Areas.ADMIN.Controllers
             }
 
             tableData.TABLE_NAME = tableName;
-            if (tableName==TableName.Product)
+            if (tableName == TableName.Product)
             {
                 tableData.TITLE_TABLE_NAME = FunctionHelpers.GetValueLanguage("Table.Title.Order");
             }
@@ -401,7 +564,7 @@ namespace S2Please.Areas.ADMIN.Controllers
             tableData.TABLE_COLUMN_FIELD = tableData.TABLE_COLUMN_FIELD.Where(s => s.IS_SHOW == true).OrderBy(s => s.POSITION).ToList();
             tableData.VALUE_DYNAMIC = paramType.VALUE;
             tableData.STRING_FILTER = paramType.STRING_FILTER;
-            if (tableData.TABLE_NAME==TableName.ProductOrder)
+            if (tableData.TABLE_NAME == TableName.ProductOrder)
             {
                 tableData.TABLE_URL = TableUrl.ProductOrder;
                 tableData.MENU_NAME = MenuName.ProductOrder;
@@ -414,7 +577,7 @@ namespace S2Please.Areas.ADMIN.Controllers
                 tableData.MENU_NAME = MenuName.Order;
                 tableData.TABLE_EXPORT_URL = TableExportUrl.Order;
                 tableData.TABLE_SESION_EXPORT_URL = TableSesionExportUrl.Order;
-            }         
+            }
 
             if (tableData.TABLE_COLUMN == null || tableData.TABLE_COLUMN.Count() == 0)
             {
@@ -451,7 +614,7 @@ namespace S2Please.Areas.ADMIN.Controllers
         public TableViewModel GetData(TableViewModel tableData, ParamType paramType)
         {
             var type = MapperHelper.Map<ParamType, Repository.Type.ParamType>(paramType);
-            if (tableData.TABLE_NAME==TableName.Order)
+            if (tableData.TABLE_NAME == TableName.Order)
             {
                 var response = _orderRepository.GetOrderFromAdmin(type);
                 if (response != null)
@@ -470,7 +633,7 @@ namespace S2Please.Areas.ADMIN.Controllers
             }
             else if (tableData.TABLE_NAME == TableName.ProductOrder)
             {
-                var response = _productRepository.ProductFromAdmin(type,false);
+                var response = _productRepository.ProductFromAdmin(type, false);
                 if (response != null)
                 {
                     if (response.Success == false && CheckPermision(response.StatusCode) == false)
@@ -593,5 +756,5 @@ namespace S2Please.Areas.ADMIN.Controllers
         }
         #endregion
     }
-    
+
 }

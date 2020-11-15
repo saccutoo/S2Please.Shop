@@ -2,6 +2,7 @@
 @using S2Please.Helper
 @{ 
     Layout = null;
+    var timeVersion = FunctionHelpers.GetTimeVersion();
 }
 
 <!DOCTYPE html>
@@ -13,25 +14,25 @@
     <!-- Title Page-->
     <title>@FunctionHelpers.GetValueLanguage("Authen.Login")</title>
     <!-- Fontfaces CSS-->
-    <link href="~/LayoutAdmin/css/font-face.css" rel="stylesheet" media="all">
-    <link href="~/LayoutAdmin/vendor/font-awesome-4.7/css/font-awesome.min.css" rel="stylesheet" media="all">
-    <link href="~/LayoutAdmin/vendor/font-awesome-5/css/fontawesome-all.min.css" rel="stylesheet" media="all">
-    <link href="~/LayoutAdmin/vendor/mdi-font/css/material-design-iconic-font.min.css" rel="stylesheet" media="all">
+    <link href="@Url.Content("~/LayoutAdmin/css/font-face.css?v=" + timeVersion)" rel="stylesheet" media="all">
+    <link href="@Url.Content("~/LayoutAdmin/vendor/font-awesome-4.7/css/font-awesome.min.css?v=" + timeVersion)" rel="stylesheet" media="all">
+    <link href="@Url.Content("~/LayoutAdmin/vendor/font-awesome-5/css/fontawesome-all.min.css?v=" + timeVersion)" rel="stylesheet" media="all">
+    <link href="@Url.Content("~/LayoutAdmin/vendor/mdi-font/css/material-design-iconic-font.min.css?v=" + timeVersion)" rel="stylesheet" media="all">
     <!-- Bootstrap CSS-->
-    <link href="~/LayoutAdmin/vendor/bootstrap-4.1/bootstrap.min.css" rel="stylesheet" media="all">
+    <link href="@Url.Content("~/LayoutAdmin/vendor/bootstrap-4.1/bootstrap.min.css?v=" + timeVersion)" rel="stylesheet" media="all">
     <!-- ~/LayoutAdmin/vendor CSS-->
-    <link href="~/LayoutAdmin/vendor/animsition/animsition.min.css" rel="stylesheet" media="all">
-    <link href="~/LayoutAdmin/vendor/bootstrap-progressbar/bootstrap-progressbar-3.3.4.min.css" rel="stylesheet" media="all">
-    <link href="~/LayoutAdmin/vendor/wow/animate.css" rel="stylesheet" media="all">
-    <link href="~/LayoutAdmin/vendor/css-hamburgers/hamburgers.min.css" rel="stylesheet" media="all">
-    <link href="~/LayoutAdmin/vendor/slick/slick.css" rel="stylesheet" media="all">
-    <link href="~/LayoutAdmin/vendor/select2/select2.min.css" rel="stylesheet" media="all">
-    <link href="~/LayoutAdmin/vendor/perfect-scrollbar/perfect-scrollbar.css" rel="stylesheet" media="all">
+    <link href="@Url.Content("~/LayoutAdmin/vendor/animsition/animsition.min.css?v=" + timeVersion)" rel="stylesheet" media="all">
+    <link href="@Url.Content("~/LayoutAdmin/vendor/bootstrap-progressbar/bootstrap-progressbar-3.3.4.min.css?v=" + timeVersion)" rel="stylesheet" media="all">
+    <link href="@Url.Content("~/LayoutAdmin/vendor/wow/animate.css?v=" + timeVersion)" rel="stylesheet" media="all">
+    <link href="@Url.Content("~/LayoutAdmin/vendor/css-hamburgers/hamburgers.min.css?v=" + timeVersion)" rel="stylesheet" media="all">
+    <link href="@Url.Content("~/LayoutAdmin/vendor/slick/slick.css?v=" + timeVersion)" rel="stylesheet" media="all">
+    <link href="@Url.Content("~/LayoutAdmin/vendor/select2/select2.min.css?v=" + timeVersion)" rel="stylesheet" media="all">
+    <link href="@Url.Content("~/LayoutAdmin/vendor/perfect-scrollbar/perfect-scrollbar.css?v=" + timeVersion)" rel="stylesheet" media="all">
     <!-- Main CSS-->
-    <link href="~/LayoutAdmin/css/theme.css" rel="stylesheet" media="all">
+    <link href="@Url.Content("~/LayoutAdmin/css/theme.css?v=" + timeVersion)" rel="stylesheet" media="all">
     <style>
-        .requied{
-            color:red;
+        .requied {
+            color: red;
         }
     </style>
 </head>
@@ -49,7 +50,7 @@
                         <div class="login-form">
 
                             <form action="@Url.Action("Login","Authen",new { area = "ADMIN" })" method="post">
-                                @if (Model!=null && !Model.Success && !Model.Is_Login)
+                                @if (Model != null && !Model.Success && !Model.Is_Login)
                                 {
                                     <div class="form-group">
                                         <section>
@@ -61,24 +62,24 @@
                                     </div>
                                 }
                                 <div class="form-group">
-                                    @{ 
+                                    @{
                                         var userName = string.Empty;
-                                        if (Model!=null)
+                                        if (Model != null)
                                         {
                                             userName = Model.User.USER_NAME;
                                         }
                                     }
                                     <label>@FunctionHelpers.GetValueLanguage("Authen.UserName") <span class="requied">*</span></label>
                                     <input class="au-input au-input--full" type="text" value="@userName" name="USER_NAME" placeholder="@FunctionHelpers.GetValueLanguage("Authen.EnterUserName")">
-                                    @if (Model!=null && Model.Is_Error_User_Name_Required)
-	                                {
-		                                 <span class="requied">@FunctionHelpers.GetValueLanguage("Error.Required")</span>
-	                                }
+                                    @if (Model != null && Model.Is_Error_User_Name_Required)
+                                    {
+                                        <span class="requied">@FunctionHelpers.GetValueLanguage("Error.Required")</span>
+                                    }
                                 </div>
                                 <div class="form-group">
                                     <label>@FunctionHelpers.GetValueLanguage("Authen.Password") <span class="requied">*</span></label>
                                     <input class="au-input au-input--full" type="password" name="PASS_WORD" placeholder="@FunctionHelpers.GetValueLanguage("Authen.EnterPassWord")">
-                                    @if (Model !=null && Model.IS_Error_Password_Required)
+                                    @if (Model != null && Model.IS_Error_Password_Required)
                                     {
                                         <span class="requied">@FunctionHelpers.GetValueLanguage("Error.Required")</span>
                                     }
@@ -93,18 +94,18 @@
                                 </div>
                                 <button class="au-btn au-btn--block au-btn--green m-b-20" type="submit">@FunctionHelpers.GetValueLanguage("Authen.Login")</button>
                                 @*<div class="social-login-content">
-                                    <div class="social-button">
-                                        <button class="au-btn au-btn--block au-btn--blue m-b-20">sign in with facebook</button>
-                                        <button class="au-btn au-btn--block au-btn--blue2">sign in with twitter</button>
-                                    </div>
-                                </div>*@
+                                        <div class="social-button">
+                                            <button class="au-btn au-btn--block au-btn--blue m-b-20">sign in with facebook</button>
+                                            <button class="au-btn au-btn--block au-btn--blue2">sign in with twitter</button>
+                                        </div>
+                                    </div>*@
                             </form>
                             @*<div class="register-link">
-                                <p>
-                                    @FunctionHelpers.GetValueLanguage("Authen.NoHasAccount")
-                                    <a href="#">@FunctionHelpers.GetValueLanguage("Authen.SignUpHere")</a>
-                                </p>
-                            </div>*@
+                                    <p>
+                                        @FunctionHelpers.GetValueLanguage("Authen.NoHasAccount")
+                                        <a href="#">@FunctionHelpers.GetValueLanguage("Authen.SignUpHere")</a>
+                                    </p>
+                                </div>*@
                         </div>
                     </div>
                 </div>
@@ -112,27 +113,23 @@
         </div>
     </div>
     <!-- Jquery JS-->
-    <script src="~/LayoutAdmin/vendor/jquery-3.2.1.min.js"></script>
+    <script src="@Url.Content("~/LayoutAdmin/vendor/jquery-3.2.1.min.js?v=" + timeVersion)" type="text/javascript"></script>
     <!-- Bootstrap JS-->
-    <script src="~/LayoutAdmin/vendor/bootstrap-4.1/popper.min.js"></script>
-    <script src="~/LayoutAdmin/vendor/bootstrap-4.1/bootstrap.min.js"></script>
+    <script src="@Url.Content("~/LayoutAdmin/vendor/bootstrap-4.1/popper.min.js?v=" + timeVersion)" type="text/javascript"></script>
+    <script src="@Url.Content("~/LayoutAdmin/vendor/bootstrap-4.1/bootstrap.min.js?v=" + timeVersion)" type="text/javascript"></script>
     <!-- ~/LayoutAdmin/vendor JS       -->
-    <script src="~/LayoutAdmin/vendor/slick/slick.min.js">
-    </script>
-    <script src="~/LayoutAdmin/vendor/wow/wow.min.js"></script>
-    <script src="~/LayoutAdmin/vendor/animsition/animsition.min.js"></script>
-    <script src="~/LayoutAdmin/vendor/bootstrap-progressbar/bootstrap-progressbar.min.js">
-    </script>
-    <script src="~/LayoutAdmin/vendor/counter-up/jquery.waypoints.min.js"></script>
-    <script src="~/LayoutAdmin/vendor/counter-up/jquery.counterup.min.js">
-    </script>
-    <script src="~/LayoutAdmin/vendor/circle-progress/circle-progress.min.js"></script>
-    <script src="~/LayoutAdmin/vendor/perfect-scrollbar/perfect-scrollbar.js"></script>
-    <script src="~/LayoutAdmin/vendor/chartjs/Chart.bundle.min.js"></script>
-    <script src="~/LayoutAdmin/vendor/select2/select2.min.js">
-    </script>
+    <script src="@Url.Content("~/LayoutAdmin/vendor/slick/slick.min.js?v=" + timeVersion)" type="text/javascript"></script>
+    <script src="@Url.Content("~/LayoutAdmin/vendor/wow/wow.min.js?v=" + timeVersion)" type="text/javascript"></script>
+    <script src="@Url.Content("~/LayoutAdmin/vendor/animsition/animsition.min.js?v=" + timeVersion)" type="text/javascript"></script>
+    <script src="@Url.Content("~/LayoutAdmin/vendor/bootstrap-progressbar/bootstrap-progressbar.min.js?v=" + timeVersion)" type="text/javascript"></script>
+    <script src="@Url.Content("~/LayoutAdmin/vendor/counter-up/jquery.waypoints.min.js?v=" + timeVersion)" type="text/javascript"></script>
+    <script src="@Url.Content("~/LayoutAdmin/vendor/counter-up/jquery.counterup.min.js?v=" + timeVersion)" type="text/javascript"></script>
+    <script src="@Url.Content("~/LayoutAdmin/vendor/circle-progress/circle-progress.min.js?v=" + timeVersion)" type="text/javascript"></script>
+    <script src="@Url.Content("~/LayoutAdmin/vendor/perfect-scrollbar/perfect-scrollbar.js?v=" + timeVersion)" type="text/javascript"></script>
+    <script src="@Url.Content("~/LayoutAdmin/vendor/chartjs/Chart.bundle.min.js?v=" + timeVersion)" type="text/javascript"></script>
+    <script src="@Url.Content("~/LayoutAdmin/vendor/select2/select2.min.js?v=" + timeVersion)" type="text/javascript"></script>
     <!-- Main JS-->
-    <script src="~/LayoutAdmin/js/main.js"></script>
+    <script src="@Url.Content("~/LayoutAdmin/js/main.js?v=" + timeVersion)" type="text/javascript"></script>
 </body>
 </html>
 <!-- end document-->

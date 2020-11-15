@@ -9,24 +9,30 @@
 @{
     Layout = "~/Areas/WEB_SHOP/Views/Shared/_Layout.cshtml";
     CultureInfo cul = CultureInfo.GetCultureInfo("vi-VN");   // try with "en-U
+    var timeVersion = FunctionHelpers.GetTimeVersion();
 }
 <style>
-    .star-color{
-        color:red;
+    .star-color {
+        color: red;
     }
-    .message-error{
-        color:red;
+
+    .message-error {
+        color: red;
     }
-    .message-error-username{
-        display:none;
+
+    .message-error-username {
+        display: none;
     }
-    .message-error-password{
-        display:none;
+
+    .message-error-password {
+        display: none;
     }
-    .message-error-password1{
-        display:none;
+
+    .message-error-password1 {
+        display: none;
     }
-        .content-cart {
+
+    .content-cart {
         text-align: center;
     }
 
@@ -44,16 +50,19 @@
         width: 50px;
         height: 50px;
     }
-    .input-hidden{
-        display:none;
+
+    .input-hidden {
+        display: none;
     }
-    #btn-button-order{
-        margin-bottom:10px;
-        margin-right:20px;
+
+    #btn-button-order {
+        margin-bottom: 10px;
+        margin-right: 20px;
     }
-    .view-detail{
-        color:blue;
-        cursor:pointer !important;
+
+    .view-detail {
+        color: blue;
+        cursor: pointer !important;
     }
 </style>
 
@@ -62,91 +71,91 @@
     @Html.Partial("~/Areas/WEB_SHOP/Views/Shared/_Header_Img.cshtml", new HeaderImgViewModel { Image = "", KeyLanguage = "Customer.InfomationAndOrder" })
 }
 <section class="main-content">
-        <div class="row">
-            <div class="span12">
-                <div class="accordion" id="accordion2">
-                     
-                    <div class="accordion-group" >
-                            <div class="accordion-heading" id="group-account-billing-details">
-                                <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseTwo">@FunctionHelpers.GetValueLanguage("Cart.AccountAndBillingDetails").ToUpper()</a>
-                            </div>
-                            <div id="collapseTwo" class="accordion-body collapse">
-                                <div class="accordion-inner">
-                                     <form id="form-customer">
-                                    <div class="row-fluid">
-                                        <div class="span6">
-                                           <div class="input-hidden">
-                                               <input type="text" value="@Model.Customer.ID" name="model.ID" class="hidden" />
-                                           </div>
-                                            <h4>@FunctionHelpers.GetValueLanguage("Cart.YourPersonalDetails")</h4>
-                                            <div class="control-group">
-                                                @Html.Partial("~/Views/Template/_Input.cshtml", new InputModel() { Type = "text", Id = "FULL_NAME", Class = "input-xlarge", Name = "model.FULL_NAME", LabelName = "Cart.FullName",Value=Model.Customer.FULL_NAME})
-                                            </div>
-                                            <div class="control-group">
-                                                @Html.Partial("~/Views/Template/_Input.cshtml", new InputModel() { Type = "text", Id = "EMAIL", Class = "input-xlarge", Name = "model.EMAIL", LabelName = "Authen.EmailAddress", Value = Model.Customer.EMAIL,Readonly="readonly" })
-                                            </div>
-                                            <div class="control-group">
-                                                @Html.Partial("~/Views/Template/_Input.cshtml", new InputModel() { Type = "text", Id = "PHONE", Class = "input-xlarge", Name = "model.PHONE", LabelName = "Cart.TelePhone", Value = Model.Customer.PHONE })
-                                            </div>
-                                            <div class="control-group">
-                                                @Html.Partial("~/Views/Template/_Select.cshtml", new SelectModel() { Id = "GENDER", Name = "model.GENDER", Datas = Model.Genders, Class = "input-xlarge", IsSearchAjax = false, LabelName = "Customer.Gender", Value = Model.Customer.GENDER.ToString(), FieldId = "ID", IsMultiLanguage=true,DataType= "CL_GENDER",PropertyName= "NAME" ,Style= "" })
-                                            </div>
-                                            <div class="control-group">
-                                                @Html.Partial("~/Views/Template/_DateTimePicker.cshtml", new InputModel() { Type = "text", Id = "DATE_OF_BIRTH", Class = "input-xlarge", Name = "model.DATE_OF_BIRTH", LabelName = "Customer.BirthDay", Value = Model.Customer.DATE_OF_BIRTH!=null ? Model.Customer.DATE_OF_BIRTH.Value.ToString("dd/MM/yyyy") :"",Style= "width:240px !important;" })
-                                            </div>
-                                            <div class="control-group">
-                                                @Html.Partial("~/Views/Template/_Input.cshtml", new InputModel() { Type = "text", Id = "FAX", Class = "input-xlarge", Name = "model.FAX", LabelName = "Fax", Value = Model.Customer.FAX })
-                                            </div>
-                                        </div>
-                                        <div class="span6">
-                                            <h4>@FunctionHelpers.GetValueLanguage("Cart.YourAddress")</h4>
+    <div class="row">
+        <div class="span12">
+            <div class="accordion" id="accordion2">
 
-                                            <div class="control-group">
-                                                @Html.Partial("~/Views/Template/_Select.cshtml", new SelectModel() { Id = "CITY", Name = "model.CITY", Datas =Model.Citys, Class = "input-xlarge", IsSearchAjax = false, Url = "/WEB_SHOP/Search/SearchCity", LabelName = "Cart.City", Value = Model.Customer.CITY.ToString(),FieldId="CODE",FieldName="NAME_VN", })
-                                            </div>
-                                            <div class="control-group" id="select2-district">
-                                                @Html.Partial("~/Views/Template/_Select.cshtml", new SelectModel() { Id = "DISTRICT", Name = "model.DISTRICT", Datas = Model.Districts, Class = "input-xlarge", LabelName = "Cart.District", Value = Model.Customer.DISTRICT.ToString(), FieldId = "CODE", FieldName = "NAME_VN",  })
-                                            </div>
-                                            <div class="control-group" id="select2-community">
-                                                @Html.Partial("~/Views/Template/_Select.cshtml", new SelectModel() { Id = "COMMUNITY", Name = "model.COMMUNITY", Datas = Model.Communitys, Class = "input-xlarge", LabelName = "Cart.Community",Value=Model.Customer.COMMUNITY.ToString(), FieldId = "CODE", FieldName = "NAME_VN",  })
-                                            </div>
-                                            <div class="control-group">
-                                                @Html.Partial("~/Views/Template/_Input.cshtml", new InputModel() { Type = "text", Id = "ADRESS_SPECIFIC", Class = "input-xlarge", Name = "model.ADRESS_SPECIFIC", LabelName = "Cart.Hamlet", Value = Model.Customer.ADRESS_SPECIFIC })
-                                            </div>
+                <div class="accordion-group">
+                    <div class="accordion-heading" id="group-account-billing-details">
+                        <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseTwo">@FunctionHelpers.GetValueLanguage("Cart.AccountAndBillingDetails").ToUpper()</a>
+                    </div>
+                    <div id="collapseTwo" class="accordion-body collapse">
+                        <div class="accordion-inner">
+                            <form id="form-customer">
+                                <div class="row-fluid">
+                                    <div class="span6">
+                                        <div class="input-hidden">
+                                            <input type="text" value="@Model.Customer.ID" name="model.ID" class="hidden" />
+                                        </div>
+                                        <h4>@FunctionHelpers.GetValueLanguage("Cart.YourPersonalDetails")</h4>
+                                        <div class="control-group">
+                                            @Html.Partial("~/Views/Template/_Input.cshtml", new InputModel() { Type = "text", Id = "FULL_NAME", Class = "input-xlarge", Name = "model.FULL_NAME", LabelName = "Cart.FullName", Value = Model.Customer.FULL_NAME })
+                                        </div>
+                                        <div class="control-group">
+                                            @Html.Partial("~/Views/Template/_Input.cshtml", new InputModel() { Type = "text", Id = "EMAIL", Class = "input-xlarge", Name = "model.EMAIL", LabelName = "Authen.EmailAddress", Value = Model.Customer.EMAIL, Readonly = "readonly" })
+                                        </div>
+                                        <div class="control-group">
+                                            @Html.Partial("~/Views/Template/_Input.cshtml", new InputModel() { Type = "text", Id = "PHONE", Class = "input-xlarge", Name = "model.PHONE", LabelName = "Cart.TelePhone", Value = Model.Customer.PHONE })
+                                        </div>
+                                        <div class="control-group">
+                                            @Html.Partial("~/Views/Template/_Select.cshtml", new SelectModel() { Id = "GENDER", Name = "model.GENDER", Datas = Model.Genders, Class = "input-xlarge", IsSearchAjax = false, LabelName = "Customer.Gender", Value = Model.Customer.GENDER.ToString(), FieldId = "ID", IsMultiLanguage = true, DataType = "CL_GENDER", PropertyName = "NAME", Style = "" })
+                                        </div>
+                                        <div class="control-group">
+                                            @Html.Partial("~/Views/Template/_DateTimePicker.cshtml", new InputModel() { Type = "text", Id = "DATE_OF_BIRTH", Class = "input-xlarge", Name = "model.DATE_OF_BIRTH", LabelName = "Customer.BirthDay", Value = Model.Customer.DATE_OF_BIRTH != null ? Model.Customer.DATE_OF_BIRTH.Value.ToString("dd/MM/yyyy") : "", Style = "width:240px !important;" })
+                                        </div>
+                                        <div class="control-group">
+                                            @Html.Partial("~/Views/Template/_Input.cshtml", new InputModel() { Type = "text", Id = "FAX", Class = "input-xlarge", Name = "model.FAX", LabelName = "Fax", Value = Model.Customer.FAX })
                                         </div>
                                     </div>
-                                       </form>
+                                    <div class="span6">
+                                        <h4>@FunctionHelpers.GetValueLanguage("Cart.YourAddress")</h4>
+
+                                        <div class="control-group">
+                                            @Html.Partial("~/Views/Template/_Select.cshtml", new SelectModel() { Id = "CITY", Name = "model.CITY", Datas = Model.Citys, Class = "input-xlarge", IsSearchAjax = false, Url = "/WEB_SHOP/Search/SearchCity", LabelName = "Cart.City", Value = Model.Customer.CITY.ToString(), FieldId = "CODE", FieldName = "NAME_VN", })
+                                        </div>
+                                        <div class="control-group" id="select2-district">
+                                            @Html.Partial("~/Views/Template/_Select.cshtml", new SelectModel() { Id = "DISTRICT", Name = "model.DISTRICT", Datas = Model.Districts, Class = "input-xlarge", LabelName = "Cart.District", Value = Model.Customer.DISTRICT.ToString(), FieldId = "CODE", FieldName = "NAME_VN", })
+                                        </div>
+                                        <div class="control-group" id="select2-community">
+                                            @Html.Partial("~/Views/Template/_Select.cshtml", new SelectModel() { Id = "COMMUNITY", Name = "model.COMMUNITY", Datas = Model.Communitys, Class = "input-xlarge", LabelName = "Cart.Community", Value = Model.Customer.COMMUNITY.ToString(), FieldId = "CODE", FieldName = "NAME_VN", })
+                                        </div>
+                                        <div class="control-group">
+                                            @Html.Partial("~/Views/Template/_Input.cshtml", new InputModel() { Type = "text", Id = "ADRESS_SPECIFIC", Class = "input-xlarge", Name = "model.ADRESS_SPECIFIC", LabelName = "Cart.Hamlet", Value = Model.Customer.ADRESS_SPECIFIC })
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="button-order pull-right">
-                                    <button id="btn-button-order" class="btn btn-inverse" type="button" onclick="updateCustomer()">@FunctionHelpers.GetValueLanguage("Cart.Update")</button>
-                                </div>
-                            </div>
-                        </div>                                              
-                    
-                    
-                    <div class="accordion-group">
-                        <div class="accordion-heading" id="group-account-billing-details">
-                            <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapse3">@FunctionHelpers.GetValueLanguage("Customer.ListOrders").ToUpper()</a>
+                            </form>
                         </div>
-                        <div id="collapse3" class="accordion-body collapse">
-                            <div class="accordion-inner">
-                                <div class="row-fluid">
-                                   <table class="table table-striped table-responsive table-custom">
-                                       <thead>
-                                           <tr>
-                                               <th>@FunctionHelpers.GetValueLanguage("Order.Code")</th>
-                                               <th>@FunctionHelpers.GetValueLanguage("Customer.OrderDate")</th>
-                                               <th>@FunctionHelpers.GetValueLanguage("OrderDetail.OrderStauts")</th>
-                                               <th>@FunctionHelpers.GetValueLanguage("OrderDetail.StautsPay")</th>
-                                               <th>@FunctionHelpers.GetValueLanguage("OrderDetail.FeeShip")</th>
-                                               <th>@FunctionHelpers.GetValueLanguage("Cart.TotalMoney")</th>
-                                           </tr>
-                                       </thead>
-                                       <tbody>
-                                           @if (Model != null && Model.Orders != null && Model.Orders.Count() > 0)
-                                           {
-                                               foreach (var item in Model.Orders)
-                                               {
+                        <div class="button-order pull-right">
+                            <button id="btn-button-order" class="btn btn-inverse" type="button" onclick="updateCustomer()">@FunctionHelpers.GetValueLanguage("Cart.Update")</button>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="accordion-group">
+                    <div class="accordion-heading" id="group-account-billing-details">
+                        <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapse3">@FunctionHelpers.GetValueLanguage("Customer.ListOrders").ToUpper()</a>
+                    </div>
+                    <div id="collapse3" class="accordion-body collapse">
+                        <div class="accordion-inner">
+                            <div class="row-fluid">
+                                <table class="table table-striped table-responsive table-custom">
+                                    <thead>
+                                        <tr>
+                                            <th>@FunctionHelpers.GetValueLanguage("Order.Code")</th>
+                                            <th>@FunctionHelpers.GetValueLanguage("Customer.OrderDate")</th>
+                                            <th>@FunctionHelpers.GetValueLanguage("OrderDetail.OrderStauts")</th>
+                                            <th>@FunctionHelpers.GetValueLanguage("OrderDetail.StautsPay")</th>
+                                            <th>@FunctionHelpers.GetValueLanguage("OrderDetail.FeeShip")</th>
+                                            <th>@FunctionHelpers.GetValueLanguage("Cart.TotalMoney")</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @if (Model != null && Model.Orders != null && Model.Orders.Count() > 0)
+                                        {
+                                            foreach (var item in Model.Orders)
+                                            {
                                                 <tr>
                                                     <td>
                                                         <span>
@@ -164,7 +173,7 @@
                                                         }
                                                         <span class="label @dataStatusOrder.CLASS_COLOR">@FunctionHelpers.GetValueLocalization(item.STATUS, "CL_STATUS_ORDER", "NAME")</span>
                                                     </td>
-                                                    <td>                                                       
+                                                    <td>
                                                         @{
                                                             var dataStatusPay = Model.StatusPays.Where(s => s.ID == item.STATUS_PAY).FirstOrDefault();
                                                         }
@@ -174,8 +183,8 @@
                                                         <span>@item.PRICE_FEE_SHIP.ToString("#,###", cul.NumberFormat) <span style="color:red">₫</span></span>
                                                     </td>
                                                     <td>
-                                                        @{ 
-                                                            float total = item.TOTAL_PRICE +item.PRICE_FEE_SHIP;
+                                                        @{
+                                                            float total = item.TOTAL_PRICE + item.PRICE_FEE_SHIP;
                                                         }
                                                         <span>@total.ToString("#,###", cul.NumberFormat) <span style="color:red">₫</span></span>
                                                     </td>
@@ -187,21 +196,21 @@
                                                         }
                                                     </td>
                                                 </tr>
-                                               }
-                                           }
-                                       </tbody>
-                                   </table>
-                                </div>
+                                            }
+                                        }
+                                    </tbody>
+                                </table>
                             </div>
-                           
                         </div>
 
-                    </div>               
-                </div>
+                    </div>
 
+                </div>
             </div>
+
         </div>
-    </section>
+    </div>
+</section>
 
 
 @section scripts
@@ -209,6 +218,6 @@
     <script>
         var shipFees = [];
     </script>
-    <script src="~/Scripts/Cart/CheckOut.js"></script>
-    <script src="~/Scripts/Customer/Customer.js"></script>
+    <script src="@Url.Content("~/Scripts/Cart/CheckOut.js?v=" + timeVersion)" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/Customer/Customer.js?v=" + timeVersion)" type="text/javascript"></script>
 }

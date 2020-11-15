@@ -49,7 +49,7 @@ namespace Repository
         }
 
         //Get Update_Order
-        public ResultModel UpdateOrder(OrderModel model, List<OrderDetailType> orderDetails)
+        public ResultModel UpdateOrder(OrderModel model, List<OrderDetailType> orderDetails,bool isCheckPermission=false)
         {
             var param = new List<Param>();
             param.Add(new Param { Key = "@ID", Value = model.ID.ToString() });
@@ -61,12 +61,13 @@ namespace Repository
             param.Add(new Param { Key = "@FEE_SHIP", Value = model.FEE_SHIP.ToString() });
             param.Add(new Param { Key = "@BONUS_ID", Value = model.BONUS_ID });
             param.Add(new Param { Key = "@DECRIPTION", Value = model.DECRIPTION });
+            param.Add(new Param { Key = "@IS_ORDER", Value = model.IS_ORDER.ToString() });
 
-            param.Add(new Param { Key = "@FULL_NAME", Value = model.FULL_NAME });
-            param.Add(new Param { Key = "@PHONE", Value = model.PHONE });
-            param.Add(new Param { Key = "@EMAIL", Value = model.EMAIL });
-            param.Add(new Param { Key = "@FAX", Value = model.FAX });
-            param.Add(new Param { Key = "@ADRESS_SPECIFIC", Value = model.ADRESS_SPECIFIC });
+            param.Add(new Param { Key = "@FULL_NAME", Value = model.FULL_NAME ==null ? " " :model.FULL_NAME });
+            param.Add(new Param { Key = "@PHONE", Value = model.PHONE ==null? " " : model.PHONE });
+            param.Add(new Param { Key = "@EMAIL", Value = model.EMAIL ==null ? " " : model.EMAIL });
+            param.Add(new Param { Key = "@FAX", Value = model.FAX ==null? " " : model.FAX });
+            param.Add(new Param { Key = "@ADRESS_SPECIFIC", Value = model.ADRESS_SPECIFIC==null ? " " : model.ADRESS_SPECIFIC });
             param.Add(new Param { Key = "@CITY", Value = model.CITY.ToString() });
             param.Add(new Param { Key = "@DISTRICT", Value = model.DISTRICT.ToString() });
             param.Add(new Param { Key = "@COMMUNITY", Value = model.COMMUNITY.ToString() });
@@ -80,7 +81,7 @@ namespace Repository
                     Value = DataTableHelper.ConvertToUserDefinedDataTable(orderDetails)
                 }
             });
-            return ListProcedure<OrderModel>(new OrderModel(), "Order_Update_Order", param);
+            return ListProcedure<OrderModel>(new OrderModel(), "Order_Update_Order", param,false, isCheckPermission);
         }
 
 

@@ -370,9 +370,13 @@
                                             }
                                             <td style="@item.CSS;@width;color:red" class="@item.CLASS">
                                                 <span>
-                                                    @if (!string.IsNullOrEmpty(value))
+                                                    @if (!string.IsNullOrEmpty(value) && value!="0")
                                                     {
                                                         @Convert.ToDouble(value).ToString("#,###", cul.NumberFormat) <span> đ</span>
+                                                    }
+                                                    else
+                                                    {
+                                                        @value <span> đ</span>
                                                     }
                                                 </span>
                                             </td>

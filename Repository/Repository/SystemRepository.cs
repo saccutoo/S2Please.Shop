@@ -65,13 +65,27 @@ namespace Repository
            return ListProcedure<MethodPayModel>(new MethodPayModel(), "MethodPay_Get_MethodPay", new List<Param>(), true);
         }
 
-        //Get Get Method Pay
+        //Get Get Method Pay all
+        public ResultModel GetMethodPayAll()
+        {
+            //danh sách phương thức thanh toán
+            return ListProcedure<MethodPayModel>(new MethodPayModel(), "MethodPay_Get_MethodPayGetAll", new List<Param>(), true);
+        }
+ 
+        //Get ship fee
         public ResultModel GetShipFee()
         {
             //danh sách phương thức thanh toán
             return ListProcedure<ShipFeeModel>(new ShipFeeModel(), "ShipFee_Get_GetShipFee", new List<Param>(), true);
         }
 
+
+        //Get all ship fee
+        public ResultModel GetAllShipFee()
+        {
+            //danh sách phương thức thanh toán
+            return ListProcedure<ShipFeeModel>(new ShipFeeModel(), "ShipFee_Get_GetAllShipFee", new List<Param>(), true);
+        }
         //Get City
         public ResultModel GetCity()
         {

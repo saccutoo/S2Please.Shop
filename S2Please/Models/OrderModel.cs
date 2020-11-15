@@ -33,7 +33,7 @@ namespace S2Please.Models
         public string COMMUNITY_NAME { get; set; } = string.Empty;
         public float PRICE_FEE_SHIP { get; set; }
         public float TOTAL_PRICE { get; set; }
-        public bool IS_ORDER { get; set; }
+        public bool? IS_ORDER { get; set; }
 
     }
 }

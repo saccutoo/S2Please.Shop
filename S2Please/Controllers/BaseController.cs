@@ -19,7 +19,6 @@ using System.Web.UI;
 using System.Web.Caching;
 using SHOP.COMMON;
 using System.Collections;
-using S2Please.Areas.WEB_SHOP.Models;
 using System.Threading.Tasks;
 using System.Net.Mail;
 using S2Please.ViewModel;

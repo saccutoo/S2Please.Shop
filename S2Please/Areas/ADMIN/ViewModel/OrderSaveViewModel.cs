@@ -20,7 +20,10 @@ namespace S2Please.Areas.ADMIN.ViewModel
         public List<ProductColorModel> ProductColors { get; set; } = new List<ProductColorModel>();
         public ProductColorSizeMapperModel ProductMapper { get; set; } = new ProductColorSizeMapperModel();
         public List<CartModel> Carts { get; set; } = new List<CartModel>();
-
+        public List<dynamic> StatusOrders { get; set; }=new List<dynamic>();
+        public List<dynamic> StatusPays{ get; set; } = new List<dynamic>();
+        public List<dynamic> MethodPays { get; set; } = new List<dynamic>();
+        public List<dynamic> ShipFees { get; set; } = new List<dynamic>();
     }
 
 }

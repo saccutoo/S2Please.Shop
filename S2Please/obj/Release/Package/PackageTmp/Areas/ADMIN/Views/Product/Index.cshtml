@@ -2,7 +2,7 @@
 @using S2Please.Helper
 @{
     Layout = "~/Areas/ADMIN/Views/Shared/_Layout.cshtml";
-
+    var timeVersion = FunctionHelpers.GetTimeVersion();
 }
 
 <!DOCTYPE html>
@@ -13,10 +13,13 @@
         <div class="row">
             <div class="col-md-12">
                 <!-- DATA TABLE -->
-                @Html.Partial("~/Areas/ADMIN/Views/Template/_Table.cshtml",Model.Table)
+                @Html.Partial("~/Areas/ADMIN/Views/Template/_Table.cshtml", Model.Table)
                 <!-- END DATA TABLE -->
             </div>
         </div>
     </div>
 </div>
-<script src="~/Scripts/Product/AdminProduct.js"></script>
+@section scripts
+{
+    <script src="@Url.Content("~/Scripts/Product/AdminProduct.js?v=" + timeVersion)" type="text/javascript"></script>
+}

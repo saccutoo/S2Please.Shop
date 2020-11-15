@@ -3,7 +3,7 @@
 @using SHOP.COMMON;
 @{
     Layout = "~/Areas/ADMIN/Views/Shared/_Layout.cshtml";
-
+    var timeVersion = FunctionHelpers.GetTimeVersion();
 }
 
 <!DOCTYPE html>
@@ -20,4 +20,7 @@
         </div>
     </div>
 </div>
-<script src="~/Scripts/Order/AdminOrder.js"></script>
+@section scripts
+{
+    <script src="@Url.Content("~/Scripts/Order/AdminOrder.js?v=" + timeVersion)" type="text/javascript"></script>
+}

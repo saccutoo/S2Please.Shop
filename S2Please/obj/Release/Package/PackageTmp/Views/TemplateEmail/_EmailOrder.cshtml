@@ -1,4 +1,4 @@
-﻿@model S2Please.Areas.WEB_SHOP.ViewModel.OrderInformationViewModel
+﻿@model S2Please.ViewModel.OrderInformationViewModel
 @using System.Web.Mvc.Html
 @using S2Please.Areas.WEB_SHOP.ViewModel
 @using System.Globalization
@@ -15,37 +15,61 @@
     float amount = 0;
 
 }
-<section class="main-content">
+<style>
+</style>
+<section class="main-content" style="width:100%">
     <div class="row">
         <form id="cart-form">
             <div class="span12">
-                <h4 class="title"><span class="text"><strong>@FunctionHelpers.GetValueLanguage("OrderDetail.Order")</strong> </span></h4>               
-                <table class="table table-striped">
+                <h4 class="title"><span class="text"><strong>@FunctionHelpers.GetValueLanguage("OrderDetail.Order")</strong> </span></h4>
+                <table class="table table-striped" border="1" style="width:100%">
                     <tr>
-                        <td>@FunctionHelpers.GetValueLanguage("OrderDetail.OrderCode")</td>
-                        <td>@Model.Order.ORDER_CODE</td>
+                        <td style=""><span style="margin-left:10px">@FunctionHelpers.GetValueLanguage("OrderDetail.OrderCode")</span></td>
+                        <td>
+                            <span style="margin-left:10px">@Model.Order.ORDER_CODE</span>
+                        </td>
                     </tr>
                     <tr>
-                        <td>@FunctionHelpers.GetValueLanguage("OrderDetail.OrderStauts")</td>
-                        <td>@Model.Order.STATUS_NAME</td>
+                        <td>
+                            <span style="margin-left:10px">@FunctionHelpers.GetValueLanguage("OrderDetail.OrderStauts")</span>
+                        </td>
+                        <td>
+                            <span style="margin-left:10px">@Model.Order.STATUS_NAME</span>
+                        </td>
                     </tr>
                     <tr>
-                        <td>@FunctionHelpers.GetValueLanguage("OrderDetail.StautsPay")</td>
-                        <td>@Model.Order.STATUS_PAY_NAME</td>
+                        <td>
+                            <span style="margin-left:10px">@FunctionHelpers.GetValueLanguage("OrderDetail.StautsPay")</span>
+                        </td>
+                        <td>
+                            <span style="margin-left:10px">@Model.Order.STATUS_PAY_NAME</span>
+                        </td>
                     </tr>
                     <tr>
-                        <td>@FunctionHelpers.GetValueLanguage("OrderDetail.MethodPay")</td>
-                        <td>@Model.Order.METHOD_PAY_NAME</td>
+                        <td>
+                            <span style="margin-left:10px">@FunctionHelpers.GetValueLanguage("OrderDetail.MethodPay")</span>
+                        </td>
+                        <td>
+                            <span style="margin-left:10px">@Model.Order.METHOD_PAY_NAME</span>
+                        </td>
                     </tr>
                     <tr>
-                        <td>@FunctionHelpers.GetValueLanguage("OrderDetail.FeeShip")</td>
-                        <td>@Model.Order.FEE_SHIP_NAME</td>
+                        <td>
+                            <span style="margin-left:10px">@FunctionHelpers.GetValueLanguage("OrderDetail.FeeShip")</span>
+                        </td>
+                        <td>
+                            <span style="margin-left:10px">@Model.Order.PRICE_FEE_SHIP</span>
+                        </td>
                     </tr>
                     @if (Model.Order.DECRIPTION != null)
                     {
                         <tr>
-                            <td>@FunctionHelpers.GetValueLanguage("OrderDetail.Note")</td>
-                            <td>@Model.Order.DECRIPTION</td>
+                            <td>
+                                <span style="margin-left:10px">@FunctionHelpers.GetValueLanguage("OrderDetail.Note")</span>
+                            </td>
+                            <td>
+                                <span style="margin-left:10px">@Model.Order.DECRIPTION</span>
+                            </td>
                         </tr>
                     }
                 </table>
@@ -53,116 +77,175 @@
 
             <div class="span12">
                 <h4 class="title"><span class="text"><strong>@FunctionHelpers.GetValueLanguage("OrderDetail.Customer")</strong> </span></h4>
-                <table class="table table-striped">
+                <table class="table table-striped" border="1" style="width:100%">
                     <tr>
-                        <td>@FunctionHelpers.GetValueLanguage("OrderDetail.FullName")</td>
-                        <td>@Model.Order.FULL_NAME</td>
+                        <td>
+                            <span style="margin-left:10px">@FunctionHelpers.GetValueLanguage("OrderDetail.FullName")</span>
+                        </td>
+                        <td>
+                            <span style="margin-left:10px">@Model.Order.FULL_NAME</span>
+                        </td>
                     </tr>
                     <tr>
-                        <td>@FunctionHelpers.GetValueLanguage("OrderDetail.Phone")</td>
-                        <td>@Model.Order.PHONE</td>
+                        <td>
+                            <span style="margin-left:10px">@FunctionHelpers.GetValueLanguage("OrderDetail.Phone")</span>
+                        </td>
+                        <td>
+                            <span style="margin-left:10px">@Model.Order.PHONE</span>
+                        </td>
                     </tr>
                     <tr>
-                        <td>@FunctionHelpers.GetValueLanguage("OrderDetail.Email")</td>
-                        <td>@Model.Order.EMAIL</td>
+                        <td>
+                            <span style="margin-left:10px">@FunctionHelpers.GetValueLanguage("OrderDetail.Email")</span>
+                        </td>
+                        <td>
+                            <span style="margin-left:10px">@Model.Order.EMAIL</span>
+                        </td>
                     </tr>
                     <tr>
-                        <td>@FunctionHelpers.GetValueLanguage("Cart.City")</td>
-                        <td>@Model.Order.CITY_NAME</td>
+                        <td>
+                            <span style="margin-left:10px">@FunctionHelpers.GetValueLanguage("Cart.City")</span>
+                        </td>
+                        <td>
+                            <span style="margin-left:10px">@Model.Order.CITY_NAME</span>
+                        </td>
                     </tr>
                     <tr>
-                        <td>@FunctionHelpers.GetValueLanguage("Cart.District")</td>
-                        <td>@Model.Order.DISTRICT_NAME</td>
+                        <td>
+                            <span style="margin-left:10px">@FunctionHelpers.GetValueLanguage("Cart.District")</span>
+                        </td>
+                        <td>
+                            <span style="margin-left:10px">@Model.Order.DISTRICT_NAME</span>
+                        </td>
+
                     </tr>
                     <tr>
-                        <td>@FunctionHelpers.GetValueLanguage("Cart.Community")</td>
-                        <td>@Model.Order.COMMUNITY_NAME</td>
+                        <td>
+                            <span style="margin-left:10px">@FunctionHelpers.GetValueLanguage("Cart.Community")</span>
+                        </td>
+                        <td>
+                            <span style="margin-left:10px">@Model.Order.COMMUNITY_NAME</span>
+                        </td>
                     </tr>
                     <tr>
-                        <td>@FunctionHelpers.GetValueLanguage("Cart.Hamlet")</td>
-                        <td>@Model.Order.ADRESS_SPECIFIC</td>
+                        <td>
+                            <span style="margin-left:10px">@FunctionHelpers.GetValueLanguage("Cart.Hamlet")</span>
+                        </td>
+                        <td>
+                            <span style="margin-left:10px">@Model.Order.ADRESS_SPECIFIC</span>
+                        </td>
                     </tr>
                     <tr>
-                        <td>@FunctionHelpers.GetValueLanguage("OrderDetail.FAX")</td>
-                        <td>@Model.Order.FAX</td>
+                        <td>
+                            <span style="margin-left:10px">@FunctionHelpers.GetValueLanguage("OrderDetail.Fax")</span>
+                        </td>
+                        <td>
+                            <span style="margin-left:10px">@Model.Order.FAX</span>
+                        </td>
                     </tr>
                 </table>
             </div>
 
             <div class="span12">
                 <h4 class="title"><span class="text"><strong>@FunctionHelpers.GetValueLanguage("OrderDetail.OrderDetail")</strong> </span></h4>
-               <table class="table table-striped">
-                        <thead>
+                <table class="table table-striped" border="1" style="width:100%">
+                    <thead>
+                        <tr>
+                            <th>@FunctionHelpers.GetValueLanguage("Cart.Image")</th>
+                            <th>@FunctionHelpers.GetValueLanguage("Cart.ProductName")</th>
+                            <th>@FunctionHelpers.GetValueLanguage("Cart.Amount")</th>
+                            <th>@FunctionHelpers.GetValueLanguage("Cart.Price")</th>
+                            <th>@FunctionHelpers.GetValueLanguage("Cart.IntoMoney")</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.Carts)
+                        {
                             <tr>
-                                <th>@FunctionHelpers.GetValueLanguage("Cart.Image")</th>
-                                <th>@FunctionHelpers.GetValueLanguage("Cart.ProductName")</th>
-                                <th>@FunctionHelpers.GetValueLanguage("Cart.Amount")</th>
-                                <th>@FunctionHelpers.GetValueLanguage("Cart.Price")</th>
-                                <th>@FunctionHelpers.GetValueLanguage("Cart.IntoMoney")</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach (var item in Model.Carts)
-                            {                               
-                                <tr>                                   
-                                    <td>
-                                        
-                                        <a href="/Product-Detail/@FunctionHelpers.Encrypt(item.PRODUCT_ID.ToString(),FunctionHelpers.KeyEncrypt)">
-                                            <img src="data:image/jpeg;base64,@item.ProductColorSizeMapper.IMG" alt="" style="width:50px;"/>
-                                        </a>
-                                    </td>
-                                    <td>
-                                        @item.NAME <br />
-                                        @FunctionHelpers.GetValueLanguage("Product.GroupColor"):@item.ProductColorSizeMapper.COLOR<br />
-                                        @FunctionHelpers.GetValueLanguage("Product.Size"): @item.ProductColorSizeMapper.SIZE_NAME <br />
-                                    </td>
-                                    <td>
-                                        @item.AMOUNT
-                                    </td>
-                                    <td>
-                                        @{
-                                            float pricerat = item.ProductColorSizeMapper.PRICE;
-                                            if (item.ProductColorSizeMapper.DISCOUNT_RATE > 0)
-                                            {
-                                                pricerat = item.ProductColorSizeMapper.PRICE - (item.ProductColorSizeMapper.PRICE) * (float.Parse(item.ProductColorSizeMapper.DISCOUNT_RATE.ToString()) / 100);
-                                            }
-                                        }
-                                        <strong>@pricerat.ToString("#,###", cul.NumberFormat)</strong> <span style="color:red">₫</span>
-                                        @if (item.ProductColorSizeMapper.DISCOUNT_RATE > 0)
+                                <td style="text-align: center;">
+                                    @{
+                                        var toDecrypt = string.Empty;
+                                        toDecrypt = FunctionHelpers.Encrypt(item.PRODUCT_ID.ToString(), FunctionHelpers.KeyEncrypt);
+                                    }
+                                    <a href="http://s2please.net//Product-Detail/@toDecrypt">
+                                        <img src="http://s2please.net//Image/@item.ProductColorSizeMapper.IMG" alt="" style="width:50px;" />
+                                    </a>
+                                </td>
+                                <td>
+                                    <span style="margin-left:10px">@item.NAME </span><br />
+                                    <span style="margin-left:10px">@FunctionHelpers.GetValueLanguage("Product.GroupColor"):@item.ProductColorSizeMapper.COLOR</span><br />
+                                    <span style="margin-left:10px">@FunctionHelpers.GetValueLanguage("Product.Size"): @item.ProductColorSizeMapper.SIZE_NAME</span>
+                                </td>
+                                <td style="text-align:center">
+                                    @item.AMOUNT
+                                </td>
+                                <td style="text-align:center">
+                                    @{
+                                        float pricerat = item.ProductColorSizeMapper.PRICE;
+                                        if (item.ProductColorSizeMapper.DISCOUNT_RATE > 0)
                                         {
-                                            var lineThrough = "text-decoration: line-through";
-                                            string rate = item.ProductColorSizeMapper.DISCOUNT_RATE.ToString() + "%";
-                                            <p class="price" style="font-size:12px;font-size:15px;padding:0;">
-                                                <span style="@lineThrough"><strong>@item.ProductColorSizeMapper.PRICE.ToString("#,###", cul.NumberFormat)</strong> <span style="color:red">₫</span></span>
-                                                <span>-@rate</span>
-                                            </p>
-                                           
+                                            pricerat = item.ProductColorSizeMapper.PRICE - (item.ProductColorSizeMapper.PRICE) * (float.Parse(item.ProductColorSizeMapper.DISCOUNT_RATE.ToString()) / 100);
                                         }
-                                      
-                                    </td>
-                                    <td>
-                                        @{
-                                            float intoMoney = pricerat * item.AMOUNT;
-                                        }
-                                        <strong>@intoMoney.ToString("#,###", cul.NumberFormat) </strong> <span style="color:red">₫</span>
-                                    </td>
-                                </tr>
-                               total += intoMoney;
-                               amount += int.Parse(item.AMOUNT.ToString());
-                                           
-                              }
-                          
-                        </tbody>
-                    </table>
-                    @{ 
-                        var data = Model.ShipFees.Where(s => s.ID == Model.Order.FEE_SHIP).ToList().FirstOrDefault();
+                                    }
+                                    <strong>@pricerat.ToString("#,###", cul.NumberFormat)</strong> <span style="color:red">₫</span>
+                                    @if (item.ProductColorSizeMapper.DISCOUNT_RATE > 0)
+                                    {
+                                        var lineThrough = "text-decoration: line-through";
+                                        string rate = item.ProductColorSizeMapper.DISCOUNT_RATE.ToString() + "%";
+                                        <p class="price">
+                                            <span style="@lineThrough"><strong>@item.ProductColorSizeMapper.PRICE.ToString("#,###", cul.NumberFormat)</strong> <span style="color:red">₫</span></span>
+                                            <span>-@rate</span>
+                                        </p>
+
+                                    }
+
+                                </td>
+                                <td style="text-align:center">
+                                    @{
+                                        float intoMoney = pricerat * item.AMOUNT;
+                                    }
+                                    <strong>@intoMoney.ToString("#,###", cul.NumberFormat) </strong> <span style="color:red">₫</span>
+                                </td>
+                            </tr>
+                            total += intoMoney;
+                            amount += int.Parse(item.AMOUNT.ToString());
+
+                        }
+
+                    </tbody>
+                </table>
+                @{
+                    var data = Model.ShipFees.Where(s => s.ID == Model.Order.FEE_SHIP).ToList().FirstOrDefault();
+                    if (data != null)
+                    {
                         total += data.PRICE;
+
                     }
-                    <div class="pull-right">
-                        @FunctionHelpers.GetValueLanguage("Cart.TotalAmount"): <strong>@amount</strong><br />
-                        @FunctionHelpers.GetValueLanguage("Cart.ShipFee"): <strong id="fee-ship">@data.PRICE.ToString("#,###", cul.NumberFormat) </strong> <span style="color:red"> ₫</span><br />
-                        @FunctionHelpers.GetValueLanguage("Cart.TotalMoney"): <strong id="total">@total.ToString("#,###", cul.NumberFormat)</strong> <span style="color:red"> ₫</span>
-                    </div>
+                }
+                <div class="pull-right" style="margin-top:10px">
+                    @FunctionHelpers.GetValueLanguage("Cart.TotalAmount"): <strong>@amount</strong><br />
+                    @if (true)
+                    {
+                        /**/
+                    }
+                    @FunctionHelpers.GetValueLanguage("Cart.ShipFee"): 
+                        <strong id="fee-ship" style="color:red">
+                            @if (data.PRICE!=0)
+                            {
+                                @data.PRICE.ToString("#,###", cul.NumberFormat)
+                            }
+                            else
+                            {
+                                @data.PRICE
+                            }
+                         </strong> <span style="color:red"> ₫</span><br />
+                    @FunctionHelpers.GetValueLanguage("Cart.TotalMoney"): <strong id="total" style="color:red">@total.ToString("#,###", cul.NumberFormat)</strong> <span > ₫</span>
+                </div>
+            </div>
+
+            <div class="span12">
+                <p>@FunctionHelpers.GetValueLanguage("Email.Message")</p>
+                <p><a href="http://s2please.net/">@FunctionHelpers.GetValueLanguage("Email.Continue")</a></p>
             </div>
         </form>
     </div>

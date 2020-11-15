@@ -266,7 +266,6 @@
     <Compile Include="Areas\ADMIN\Controllers\DashboardController.cs" />
     <Compile Include="Areas\ADMIN\Controllers\ExecController.cs" />
     <Compile Include="Areas\ADMIN\Controllers\ImportController.cs" />
-    <Compile Include="Areas\ADMIN\Models\CartModel.cs" />
     <Compile Include="Areas\ADMIN\Models\ImportCountry.cs" />
     <Compile Include="Areas\ADMIN\ViewModel\FilterViewModel.cs" />
     <Compile Include="Areas\ADMIN\ViewModel\OrderViewModel.cs" />
@@ -314,11 +313,9 @@
     <Compile Include="Areas\WEB_SHOP\Controllers\HomeController.cs" />
     <Compile Include="Areas\WEB_SHOP\Controllers\MenuController.cs" />
     <Compile Include="Areas\WEB_SHOP\Controllers\ProductController.cs" />
-    <Compile Include="Areas\WEB_SHOP\Models\CartModel.cs" />
     <Compile Include="Areas\WEB_SHOP\ViewModel\CustomerViewModel.cs" />
     <Compile Include="Areas\WEB_SHOP\ViewModel\UpdateOrderViewModel.cs" />
     <Compile Include="Areas\WEB_SHOP\ViewModel\OrderDetailViewModel.cs" />
-    <Compile Include="Areas\WEB_SHOP\ViewModel\OrderInformationViewModel.cs" />
     <Compile Include="Areas\WEB_SHOP\ViewModel\CheckOutViewModel.cs" />
     <Compile Include="Areas\WEB_SHOP\ViewModel\HeaderImgViewModel.cs" />
     <Compile Include="Areas\WEB_SHOP\ViewModel\LanguageViewModel.cs" />
@@ -365,6 +362,7 @@
     <Compile Include="Models\AccountBindingModels.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\AttachmentJs.cs" />
+    <Compile Include="Models\CartModel.cs" />
     <Compile Include="Models\HistoryResetPassword.cs" />
     <Compile Include="Models\BaseModel.cs" />
     <Compile Include="Models\CustomerModel.cs" />
@@ -420,6 +418,7 @@
     <Compile Include="Results\ChallengeResult.cs" />
     <Compile Include="SignalR\TesHub.cs" />
     <Compile Include="Startup.cs" />
+    <Compile Include="ViewModel\OrderInformationViewModel.cs" />
     <Compile Include="ViewModel\RemoveViewModel.cs" />
     <Compile Include="ViewModel\ButtonModel.cs" />
     <Compile Include="ViewModel\SelectModel.cs" />
@@ -1328,6 +1327,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Areas\WEB_SHOP\Models\" />
     <Folder Include="Layout\themes\js\images\" />
     <Folder Include="Layout\themes\js\js\" />
     <Folder Include="Scripts\jquery-loading-overlay-master\typings\" />

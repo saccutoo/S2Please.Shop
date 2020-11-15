@@ -1,8 +1,9 @@
 ﻿@model S2Please.Models.TableViewModel
 @using S2Please.Helper
-
+@using SHOP.COMMON
 @{
     Layout = null;
+    var timeVersion = FunctionHelpers.GetTimeVersion();
 }
 <style>
     .table-data2 thead {
@@ -17,7 +18,11 @@
         background-color: #4066f0 !important;
     }
 </style>
-<h3 class="title-5 m-b-35">@Model.TITLE_TABLE_NAME</h3>
+@if (!string.IsNullOrEmpty(Model.TITLE_TABLE_NAME))
+{
+    <h3 class="title-5 m-b-35">@Model.TITLE_TABLE_NAME</h3>
+}
+
 <div class="table-data__tool">
     <div class="table-data__tool-left">
         @*<div class="rs-select2--light rs-select2--md">
@@ -36,10 +41,10 @@
                 </select>
                 <div class="dropDownSelect2"></div>
             </div>*@
-        <button class="au-btn-filter" onclick="showPopupColumn('1','@Model.TABLE_NAME')">
+        <button class="au-btn-filter button-border" onclick="showPopupColumn('1','@Model.TABLE_NAME')" type="button">
             <i class="fa fa-filter"></i>@FunctionHelpers.GetValueLanguage("Button.Filter")
         </button>
-        <button class="au-btn-filter" onclick="showPopupColumn('0','@Model.TABLE_NAME')">
+        <button class="au-btn-filter button-border" onclick="showPopupColumn('0','@Model.TABLE_NAME')" type="button">
             <i class="fa fa-unsorted"></i>@FunctionHelpers.GetValueLanguage("Button.Sort")
         </button>
         @if (Model.BULK_ACTION != null && Model.BULK_ACTION.Count() > 0)
@@ -83,7 +88,7 @@
                     }
                     if (check)
                     {
-                        
+
 
                         <button class="au-btn-filter" data-toggle="dropdown" title="@FunctionHelpers.GetValueLanguage(action.BUTTON_NAME)" onclick="@funtionNameButon" type="button" data-placement="top">
                             <i class=""></i>@FunctionHelpers.GetValueLanguage(action.BUTTON_NAME)
@@ -135,20 +140,20 @@
         }
     </div>
     <div class="table-data__tool-right">
-        @if (FunctionHelpers.CheckPermission(Model.MENU_NAME, "Update"))
+        @if (FunctionHelpers.CheckPermission(Model.MENU_NAME, Permission.Update) && Model.IS_ADD_NEW)
         {
-            <button class="au-btn au-btn-icon au-btn--green au-btn--small" onclick="clickAdd()">
+            <button class="au-btn au-btn-icon au-btn--green au-btn--small" onclick="clickAdd()" type="button">
                 <i class="zmdi zmdi-plus"></i>@FunctionHelpers.GetValueLanguage("Btn_Add")
             </button>
         }
-        @if (FunctionHelpers.CheckPermission(Model.MENU_NAME, "Export"))
+        @if (FunctionHelpers.CheckPermission(Model.MENU_NAME, Permission.Export) && Model.IS_EXPORT_EXCEL)
         {
-            <button class="au-btn au-btn-icon au-btn--green au-btn--small color-button-blue" onclick="exportExcel('@Model.TABLE_NAME')">
+            <button class="au-btn au-btn-icon au-btn--green au-btn--small color-button-blue" onclick="exportExcel('@Model.TABLE_NAME')" type="button">
                 <i class="fa fa-download"></i>@FunctionHelpers.GetValueLanguage("Btn_Export")
             </button>
-        }@if (FunctionHelpers.CheckPermission(Model.MENU_NAME, "Import"))
+        }@if (FunctionHelpers.CheckPermission(Model.MENU_NAME, Permission.Import) && Model.IS_IMPORT_EXCEL)
         {
-            <button class="au-btn au-btn-icon au-btn--green au-btn--small color-button-blue">
+            <button class="au-btn au-btn-icon au-btn--green au-btn--small color-button-blue" type="button">
                 <i class="fa fa-upload"></i>@FunctionHelpers.GetValueLanguage("Btn_Import")
             </button>
         }
@@ -166,4 +171,4 @@
     @Html.Partial("~/Areas/ADMIN/Views/Template/_TableContent.cshtml", Model)
 </div>
 
-<script src="~/Scripts/Common/Table.js"></script>
+<script src="@Url.Content("~/Scripts/Common/Table.js?v=" + timeVersion)" type="text/javascript"></script>

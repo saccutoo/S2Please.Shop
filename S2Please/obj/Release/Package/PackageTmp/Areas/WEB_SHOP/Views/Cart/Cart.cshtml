@@ -14,25 +14,28 @@
     int index = 0;
     float total = 0;
     int amount = 0;
-
+    var timeVersion = FunctionHelpers.GetTimeVersion();
 }
 
 <style>
-    .content-cart{
-        text-align:center;
+    .content-cart {
+        text-align: center;
     }
-    .content-cart h3{
-        color:red;
-        margin:0px;
-        margin-top:10px;
+
+        .content-cart h3 {
+            color: red;
+            margin: 0px;
+            margin-top: 10px;
+        }
+
+        .content-cart i {
+            cursor: pointer;
+        }
+
+    .table img {
+        width: 50px;
+        height: 50px;
     }
-    .content-cart i{
-        cursor:pointer;
-    }
-    .table img{
-        width:50px;
-        height:50px;
-    }   
 </style>
 
 
@@ -43,9 +46,9 @@
         @Html.Partial("~/Areas/WEB_SHOP/Views/Shared/_Header_Img.cshtml", new HeaderImgViewModel { Image = "", KeyLanguage = "Cart.YourCart" })
     }
     <section class="main-content">
-            <div class="row">
-                <form id="cart-form">
-                    <div class="span12">
+        <div class="row">
+            <form id="cart-form">
+                <div class="span12">
 
                     <h4 class="title"><span class="text"><strong></strong> </span></h4>
 
@@ -62,9 +65,9 @@
                         </thead>
                         <tbody>
                             @foreach (var item in Model.Carts)
-                            {                               
+                            {
                                 <tr>
-                                    <td > 
+                                    <td>
                                         <div style="display:none;">
                                             <input class="input-mini hidden" type="text" value="@item.PRODUCT_ID" name="model[@index].PRODUCT_ID" />
                                             <input class="input-mini hidden" type="text" value="@item.COLOR_ID" name="model[@index].COLOR_ID" />
@@ -76,7 +79,7 @@
                                         <input type="checkbox" value="@item.ID" name="model[@index].CHECK_ID">
                                     </td>
                                     <td>
-                                        
+
                                         <a href="/Product-Detail/@FunctionHelpers.Encrypt(item.PRODUCT_ID.ToString(),FunctionHelpers.KeyEncrypt)">
                                             <img src="~/Image/@item.ProductColorSizeMapper.IMG" alt="" />
                                         </a>
@@ -86,15 +89,15 @@
                                         @FunctionHelpers.GetValueLanguage("Product.GroupColor"):@item.ProductColorSizeMapper.COLOR<br />
                                         @FunctionHelpers.GetValueLanguage("Product.Size"): @item.ProductColorSizeMapper.SIZE_NAME <br />
                                         @*@if (item.ProductBonus != null && item.ProductBonus.Count() > 0)
-                                        {
-                                            <span>@FunctionHelpers.GetValueLanguage("Product.Bonus"): </span>
-                                            <ul>
-                                                @foreach (var bonus in item.ProductBonus)
-                                                {
-                                                    <li>@bonus.BONUS_NAME</li>
-                                                }
-                                            </ul>
-                                        }*@
+                                            {
+                                                <span>@FunctionHelpers.GetValueLanguage("Product.Bonus"): </span>
+                                                <ul>
+                                                    @foreach (var bonus in item.ProductBonus)
+                                                    {
+                                                        <li>@bonus.BONUS_NAME</li>
+                                                    }
+                                                </ul>
+                                            }*@
                                     </td>
                                     <td>
                                         <input type="text" value="@item.AMOUNT" class="input-mini input-amount" name="model[@index].AMOUNT">
@@ -116,9 +119,9 @@
                                                 <span style="@lineThrough"><strong>@item.ProductColorSizeMapper.PRICE.ToString("#,###", cul.NumberFormat)</strong> <span style="color:red">₫</span></span>
                                                 <span>-@rate</span>
                                             </p>
-                                           
+
                                         }
-                                      
+
                                     </td>
                                     <td>
                                         @{
@@ -127,11 +130,11 @@
                                         <strong>@intoMoney.ToString("#,###", cul.NumberFormat) </strong> <span style="color:red">₫</span>
                                     </td>
                                 </tr>
-                               total += intoMoney;
-                               amount += int.Parse(item.AMOUNT.ToString());
-                               index++;
-                                           
-                              }
+                                total += intoMoney;
+                                amount += int.Parse(item.AMOUNT.ToString());
+                                index++;
+
+                            }
                             <tr>
                                 <td>&nbsp;</td>
                                 <td>&nbsp;</td>
@@ -145,33 +148,33 @@
 
 
                     @*<h4>What would you like to do next?</h4>
-                    <p>Choose if you have a discount code or reward points you want to use or would like to estimate your delivery cost.</p>
-                    <label class="radio">
-                        <input type="radio" name="optionsRadios" id="optionsRadios1" value="option1" checked="">
-                        Use Coupon Code
-                    </label>
-                    <label class="radio">
-                        <input type="radio" name="optionsRadios" id="optionsRadios2" value="option2">
-                        Estimate Shipping &amp; Taxes
-                    </label>
-                    <hr>
-                    <p class="cart-total right">
-                        <strong>Sub-Total</strong>:	$100.00<br>
-                        <strong>Eco Tax (-2.00)</strong>: $2.00<br>
-                        <strong>VAT (17.5%)</strong>: $17.50<br>
-                        <strong>Total</strong>: $119.50<br>
-                    </p>*@
+                        <p>Choose if you have a discount code or reward points you want to use or would like to estimate your delivery cost.</p>
+                        <label class="radio">
+                            <input type="radio" name="optionsRadios" id="optionsRadios1" value="option1" checked="">
+                            Use Coupon Code
+                        </label>
+                        <label class="radio">
+                            <input type="radio" name="optionsRadios" id="optionsRadios2" value="option2">
+                            Estimate Shipping &amp; Taxes
+                        </label>
+                        <hr>
+                        <p class="cart-total right">
+                            <strong>Sub-Total</strong>:	$100.00<br>
+                            <strong>Eco Tax (-2.00)</strong>: $2.00<br>
+                            <strong>VAT (17.5%)</strong>: $17.50<br>
+                            <strong>Total</strong>: $119.50<br>
+                        </p>*@
                     <hr />
                     <p class="buttons center">
                         <button class="btn" type="button" onclick="updateCart()">@FunctionHelpers.GetValueLanguage("Cart.Update")</button>
                         <button class="btn" type="button" onclick="continueShopping()">@FunctionHelpers.GetValueLanguage("Cart.Continue")</button>
-                        <button class="btn btn-inverse" type="button" id="checkout" >@FunctionHelpers.GetValueLanguage("Cart.Pay")</button>
+                        <button class="btn btn-inverse" type="button" id="checkout">@FunctionHelpers.GetValueLanguage("Cart.Pay")</button>
                     </p>
                 </div>
-                </form>
-            </div>
-     </section>
-    
+            </form>
+        </div>
+    </section>
+
 }
 else
 {
@@ -181,7 +184,7 @@ else
                 <div class="content-cart">
                     <h3>@FunctionHelpers.GetValueLanguage("Cart.NoHasProduct")</h3><br />
                     <a href="/home-page"><i class="fas fa-cart-plus" style="font-size: 111px;"></i></a>
-                </div>         
+                </div>
             </div>
         </div>
     </section>
@@ -189,5 +192,5 @@ else
 
 @section scripts
 {
-    <script src="~/Scripts/Cart/Cart.js"></script>
+    <script src="@Url.Content("~/Scripts/Cart/Cart.js?v=" + timeVersion)" type="text/javascript"></script>
 }

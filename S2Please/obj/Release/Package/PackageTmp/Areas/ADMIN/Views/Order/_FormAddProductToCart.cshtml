@@ -1,0 +1,121 @@
+﻿@model S2Please.Areas.ADMIN.ViewModel.OrderSaveViewModel
+@using System.Web.Mvc.Html
+@using S2Please.Areas.ADMIN.ViewModel
+@using System.Collections.Generic
+@using S2Please.ViewModel
+@using S2Please.Helper
+@using System.Globalization
+
+@{
+    Layout = null;
+    CultureInfo cul = CultureInfo.GetCultureInfo("vi-VN");   // try with "en-U
+}
+<style>
+    .modal-body{
+        padding:20px;
+    }
+    .group-color ul{
+        list-style:none;
+    }
+    .group-color ul li{
+       float:left;
+       margin-left:10px;
+       cursor:pointer !important;
+    }
+     .group-color ul li.active{
+        border:1px solid red;
+    }
+    .group-size ul{
+        list-style:none;
+    }
+    .group-size ul li{
+        float:left;
+        margin-left:10px;
+        width: 30px;
+        text-align: center;
+         cursor:pointer !important;
+    }
+        .group-size ul li.active {
+            border: 1px solid red;
+        }
+</style>
+<div class="modal-header">
+    <h5 class="modal-title">@FunctionHelpers.GetValueLanguage("Product.ProductDetail").ToUpper()</h5>
+    @*<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>*@
+</div>
+<div class="modal-body">
+    <div class="row">
+        <div class="row col-md-12">
+            <input value="@Model.Product.ID" id="product-id" name="model.ID" hidden/>
+            <div class="col-md-12">
+                <span>@FunctionHelpers.GetValueLanguage("Product.ProductName"):</span> <span class="font-bold">@Model.Product.NAME</span><br>
+            </div>
+            <div class="col-md-12">
+                <span>@FunctionHelpers.GetValueLanguage("Product.ProductCode"):</span> <span class="font-bold">@Model.Product.PRODUCT_CODE</span><br>
+            </div>
+            <div class="col-md-12" >
+                <span>@FunctionHelpers.GetValueLanguage("Product.ProductAmount"):</span> <span class="font-bold" id="product-amount">
+                    @Model.ProductMapper.AMOUNT
+                </span>
+                <br>
+            </div>
+           
+            <div class="col-md-12">
+                <span>@FunctionHelpers.GetValueLanguage("Product.GroupColor"):</span> <span class="font-bold" id="color-name"> @Model.ProductColors.Where(s => s.ID == Model.ProductMapper.COLOR_ID).FirstOrDefault().COLOR</span><br>
+                <div class="group-color">
+                    @if (Model.ProductImgs != null && Model.ProductImgs.Count() > 0)
+                    {
+                        <ul>
+                            @foreach (var item in Model.ProductColors)
+                            {
+                                var active = string.Empty;
+                                if (Model.ProductMapper.COLOR_ID == item.ID)
+                                {
+                                    active = "active";
+                                }
+                                <li class="thumbnail img-color @active" title="@item.COLOR" color-id="@item.ID" onclick="clickImgColor('@item.ID','@item.COLOR','@item.IMG',this)">
+                                    <img src="~/Image/@item.IMG" class="img-color-img" alt="" width="100" height="100">
+                                </li>
+                            }
+                        </ul>
+                    }
+                </div>
+            </div>
+            <div class="col-md-12">
+                <span>@FunctionHelpers.GetValueLanguage("Product.Size"):</span> <span class="font-bold" id="size-name"> @Model.ProductSizes.Where(s => s.ID == Model.ProductMapper.SIZE_ID).FirstOrDefault().SIZE_NAME</span><br>
+                <div class="group-size">
+                    @if (Model.ProductSizes != null && Model.ProductSizes.Count() > 0)
+                    {
+                        <ul>
+                            @foreach (var item in Model.ProductSizes)
+                            {
+                                var active = string.Empty;
+                                if (Model.ProductMapper.SIZE_ID == item.ID)
+                                {
+                                    active = "active";
+                                }
+                                <li class="thumbnail thumbnail-size @active" size-id="@item.ID" onclick="clickSize('@item.ID','@item.SIZE_NAME',this)">
+                                    @item.SIZE_NAME
+                                </li>
+                            }
+                        </ul>
+                    }
+                </div>
+            </div>
+
+            <div class="col-md-12 margin-top-10" id="price-detail">
+                @Html.Partial("~/Areas/ADMIN/Views/Order/_PriceDetail.cshtml", new ProductPriceViewModel() { ProductMapper = Model.ProductMapper })
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        
+    </div>
+    
+</div>
+<div class="modal-footer">
+    <button type="button" title="@FunctionHelpers.GetValueLanguage("Btn_Add")" class="btn btn-success" onclick="addToCart('@Model.Product.ID')">@FunctionHelpers.GetValueLanguage("Btn_Add")</button>
+    <button type="button" title="@FunctionHelpers.GetValueLanguage("Button.Title.Close")" class="btn btn-secondary" data-dismiss="modal">@FunctionHelpers.GetValueLanguage("Button.Title.Close")</button>
+</div>
