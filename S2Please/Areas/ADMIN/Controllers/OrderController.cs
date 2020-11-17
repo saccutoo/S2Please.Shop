@@ -439,6 +439,98 @@ namespace S2Please.Areas.ADMIN.Controllers
             }));
         }
 
+        public ActionResult CheckStatus(long id=0)
+        {
+            ResultModel result = new ResultModel();
+            result.Success = true;
+            var responseOrder= _orderRepository.GetOrderById(id);
+            var resultOrder = JsonConvert.DeserializeObject<List<OrderModel>>(JsonConvert.SerializeObject(responseOrder.Results));
+            if (resultOrder.FirstOrDefault().STATUS!=StatusOrder.Pending)
+            {
+                result.Success = false;
+                var message = FunctionHelpers.GetValueLanguage("Message.Error.CheckStatusOrder");
+                var statusName = FunctionHelpers.GetValueLocalization(resultOrder.FirstOrDefault().STATUS, DataType.CL_STATUS_ORDER, "NAME");
+                result.CacheName = string.Empty;
+                result.Message = string.Format(message, statusName.ToLower());
+            }
+            else if (resultOrder.FirstOrDefault().STATUS_PAY == StatusPay.IsPay)
+            {
+                result.Success = false;
+                result.CacheName = string.Empty;
+                result.Message = FunctionHelpers.GetValueLanguage("Message.Error.CheckStatusPay");
+            }
+            return Content(JsonConvert.SerializeObject(new
+            {
+                result
+            }));
+        }
+
+        public ActionResult UpdateOrder(long id = 0)
+        {
+            bool checkPermission = FunctionHelpers.CheckPermission(TableName.Product, Permission.Update);
+            if (!checkPermission)
+            {
+                return RedirectToRoute(new { action = "/Page404", controller = "Base", area = "" });
+            }
+            OrderSaveViewModel vm = new OrderSaveViewModel();
+            vm.ID = id;
+
+            var responseOrder = _orderRepository.GetOrderById(id,true);
+            if (responseOrder.Success == false && CheckPermision(responseOrder.StatusCode) == false)
+            {
+                return RedirectToRoute(new { action = "/Page404", controller = "Base", area = "" });
+            }
+            var resultOrder = JsonConvert.DeserializeObject<List<OrderModel>>(JsonConvert.SerializeObject(responseOrder.Results));
+            if (resultOrder != null && resultOrder.Count() > 0)
+            {
+                vm.Order = resultOrder.FirstOrDefault();
+            }
+
+            var responseOrderDetail = _orderRepository.GetOrderDetailByOrderId(id);
+            var resultOrderDetail = JsonConvert.DeserializeObject<List<OrderDetailModel>>(JsonConvert.SerializeObject(responseOrder.Results));
+            if (resultOrderDetail != null && resultOrderDetail.Count() > 0)
+            {
+                vm.OrderDetails = resultOrderDetail;
+            }
+
+            var responseCity = _systemRepository.GetCity();
+            vm.Citys = responseCity.Results;
+
+            if (vm.Order.CITY!=0)
+            {
+                var responseDistrict= _systemRepository.GetDistrictByCodeCity(vm.Order.CITY);
+                if (responseDistrict != null && responseDistrict.Results.Count() > 0)
+                {
+                    vm.Districts = responseDistrict.Results;
+                }
+            }
+
+            if (vm.Order.DISTRICT != 0)
+            {
+                var responseCommunity = _systemRepository.GetCommunityByCodeDistrict(vm.Order.DISTRICT);
+                if (responseCommunity != null && responseCommunity.Results.Count() > 0)
+                {
+                    vm.Communitys = responseCommunity.Results;
+                }
+            }
+
+            var responseStatusOrder = _systemRepository.GetStatusOrder();
+            vm.StatusOrders = responseStatusOrder.Results;
+
+            var responseStatusPay = _systemRepository.GetStatusPay();
+            vm.StatusPays = responseStatusPay.Results;
+
+            var responseMethodPay = _systemRepository.GetMethodPayAll();
+            vm.MethodPays = responseMethodPay.Results;
+
+            var responseShipFee = _systemRepository.GetAllShipFee();
+            vm.ShipFees = responseShipFee.Results;
+
+            var resultStatusMethodPay = JsonConvert.DeserializeObject<List<MethodPayModel>>(JsonConvert.SerializeObject(responseMethodPay.Results));
+
+            return View(vm);
+        }
+
         public ActionResult UpdateCartAll(List<CartModel> listCard)
         {
             OrderSaveViewModel vm = new OrderSaveViewModel();

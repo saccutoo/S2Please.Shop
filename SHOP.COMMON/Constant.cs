@@ -81,4 +81,25 @@ namespace SHOP.COMMON
         public static string Export = "Export";
         public static string Import = "Import";
     }
+
+    public static class StatusOrder
+    {
+        public static long Pending = 1;//Chờ duyệt
+        public static long NoApproval = 2;//Không duyệt
+        public static long Sending = 3;//Đang giao hàng
+        public static long Received = 4;//Đã nhận hàng
+        public static long Cancelled = 5;//Đã hủy
+    }
+
+    public static class StatusPay
+    {
+        public static long IsPay =1;//Đã thanh toán
+        public static long NoPay = 2;//chưa thanh toán
+    }
+
+    public static class DataType
+    {
+        public static string CL_STATUS_ORDER = "CL_STATUS_ORDER";//
+        public static string CL_STATUS_PAY = "CL_STATUS_PAY";//
+    }
 }

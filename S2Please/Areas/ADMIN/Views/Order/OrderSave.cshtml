@@ -35,7 +35,7 @@
                                             @Html.Partial("~/Areas/ADMIN/Views/Template/Form/_Input.cshtml", new InputModel() { Type = "text", Id = "FULL_NAME", Class = "", Name = "model.FULL_NAME", LabelName = "Cart.FullName", Value = Model.Customer.FULL_NAME, IsRequied = true })
                                         </div>
                                         <div class="col col-md-6">
-                                            
+
                                             @Html.Partial("~/Areas/ADMIN/Views/Template/Form/_Input.cshtml", new InputModel() { Type = "text", Id = "PHONE", Class = "", Name = "model.PHONE", LabelName = "Cart.TelePhone", Value = Model.Customer.PHONE, IsRequied = true, Style = "text-align:left !important", TypeInputMask = "numeric" })
                                         </div>
                                     </div>
@@ -60,10 +60,38 @@
 
                                     <div class="row form-group">
                                         <div class="col col-md-6" id="select2-community">
-                                            @Html.Partial("~/Areas/ADMIN/Views/Template/Form/_Select.cshtml", new SelectModel() { Id = "COMMUNITY", Name = "model.COMMUNITY", Datas = new List<dynamic>(), LabelName = "Cart.Community", IsRequied = false, Value = Model.Customer.COMMUNITY.ToString(), FieldId = "ID", FieldName = "NAME_VN", IsShowTitle = true })
+                                            @Html.Partial("~/Areas/ADMIN/Views/Template/Form/_Select.cshtml", new SelectModel() { Id = "COMMUNITY", Name = "model.COMMUNITY", Datas = new List<dynamic>(), LabelName = "Cart.Community", IsRequied = false, Value = Model.Customer.COMMUNITY.ToString(), FieldId = "CODE", FieldName = "NAME_VN", IsShowTitle = true })
                                         </div>
                                         <div class="col col-md-6">
                                             @Html.Partial("~/Areas/ADMIN/Views/Template/Form/_Input.cshtml", new InputModel() { Type = "text", Id = "ADRESS_SPECIFIC", Class = "", Name = "model.ADRESS_SPECIFIC", LabelName = "Cart.Hamlet", Value = Model.Customer.ADRESS_SPECIFIC, IsRequied = false, Style = "" })
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <div class="card-header" id="cardThree">
+                                <h5 class="mb-0">
+                                    <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseThree" aria-expanded="true" aria-controls="collapseThree">
+                                        @FunctionHelpers.GetValueLanguage("OrderDetail.StautsPayOrder")
+                                    </button>
+                                </h5>
+                            </div>
+                            <div id="collapseThree" class="collapse" aria-labelledby="cardThree">
+                                <div class="card-body">
+                                    <div class="row form-group">
+                                        <div class="col col-md-6">
+                                            @Html.Partial("~/Areas/ADMIN/Views/Template/Form/_Select.cshtml", new SelectModel() { Id = "STATUS", Name = "model.STATUS", Datas = Model.StatusOrders, LabelName = "OrderDetail.OrderStauts", IsRequied = true, Value = "4", FieldId = "ID", FieldName = "NAME", IsShowTitle = true })
+                                        </div>
+                                        <div class="col col-md-6">
+                                            @Html.Partial("~/Areas/ADMIN/Views/Template/Form/_Select.cshtml", new SelectModel() { Id = "STATUS_PAY", Name = "model.STATUS_PAY", Datas = Model.StatusPays, LabelName = "OrderDetail.StautsPay", IsRequied = true, Value = "1", FieldId = "ID", FieldName = "NAME", IsShowTitle = true })
+                                        </div>
+                                        <div class="col col-md-6">
+                                            @Html.Partial("~/Areas/ADMIN/Views/Template/Form/_Select.cshtml", new SelectModel() { Id = "METHOD_PAY", Name = "model.METHOD_PAY", Datas = Model.MethodPays, LabelName = "Cart.MethodPay", IsRequied = true, Value = "3", FieldId = "ID", FieldName = "NAME", IsShowTitle = true })
+                                        </div>
+                                        <div class="col col-md-6">
+                                            @Html.Partial("~/Areas/ADMIN/Views/Template/Form/_Select.cshtml", new SelectModel() { Id = "FEE_SHIP", Name = "model.FEE_SHIP", Datas = Model.ShipFees, LabelName = "Cart.ShipFee", IsRequied = true, Value = "3", FieldId = "ID", FieldName = "NAME", IsShowTitle = true })
                                         </div>
                                     </div>
                                 </div>
@@ -117,34 +145,6 @@
                                                     </tbody>
                                                 </table>
                                             </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="card">
-                            <div class="card-header" id="cardThree">
-                                <h5 class="mb-0">
-                                    <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseThree" aria-expanded="true" aria-controls="collapseThree">
-                                       @FunctionHelpers.GetValueLanguage("OrderDetail.StautsPayOrder")
-                                    </button>
-                                </h5>
-                            </div>
-                            <div id="collapseThree" class="collapse" aria-labelledby="cardThree">
-                                <div class="card-body">
-                                    <div class="row form-group">
-                                        <div class="col col-md-6">
-                                            @Html.Partial("~/Areas/ADMIN/Views/Template/Form/_Select.cshtml", new SelectModel() { Id = "STATUS", Name = "model.STATUS", Datas = Model.StatusOrders, LabelName = "OrderDetail.OrderStauts", IsRequied = true, Value = "4", FieldId = "ID", FieldName = "NAME", IsShowTitle = true })
-                                        </div>
-                                        <div class="col col-md-6">
-                                            @Html.Partial("~/Areas/ADMIN/Views/Template/Form/_Select.cshtml", new SelectModel() { Id = "STATUS_PAY", Name = "model.STATUS_PAY", Datas = Model.StatusPays, LabelName = "OrderDetail.StautsPay", IsRequied = true, Value = "1", FieldId = "ID", FieldName = "NAME", IsShowTitle = true })
-                                        </div>
-                                        <div class="col col-md-6">
-                                            @Html.Partial("~/Areas/ADMIN/Views/Template/Form/_Select.cshtml", new SelectModel() { Id = "METHOD_PAY", Name = "model.METHOD_PAY", Datas = Model.MethodPays, LabelName = "Cart.MethodPay", IsRequied = true, Value = "3", FieldId = "ID", FieldName = "NAME", IsShowTitle = true })
-                                        </div>
-                                        <div class="col col-md-6">
-                                            @Html.Partial("~/Areas/ADMIN/Views/Template/Form/_Select.cshtml", new SelectModel() { Id = "FEE_SHIP", Name = "model.FEE_SHIP", Datas = Model.ShipFees, LabelName = "Cart.ShipFee", IsRequied = true, Value = "3", FieldId = "ID", FieldName = "NAME", IsShowTitle = true })
                                         </div>
                                     </div>
                                 </div>

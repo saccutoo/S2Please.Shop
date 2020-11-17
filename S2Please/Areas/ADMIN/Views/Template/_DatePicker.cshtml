@@ -36,13 +36,13 @@
     if (checkSetDate=='True') {
         $('#' + '@Model.Id.ToLower()').datepicker({
             autoclose: true,
-            format: "dd/mm/yyyy"
+            dateFormat: "dd/mm/yy"
         }).datepicker('setDate', 'today');
     }
     else {
         $('#' + '@Model.Id.ToLower()').datepicker({
             autoclose: true,
-            format: "dd/mm/yyyy"
+            dateFormat: "dd/mm/yy"
         })
     }
 </script>

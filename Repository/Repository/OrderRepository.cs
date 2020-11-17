@@ -22,11 +22,11 @@ namespace Repository
         }
 
         //Get order by order id
-        public ResultModel GetOrderById(long id)
+        public ResultModel GetOrderById(long id,bool isCheckPermission=false)
         {
             var param = new List<Param>();
             param.Add(new Param { Key = "@ID", Value = id.ToString() });
-            return ListProcedure<OrderModel>(new OrderModel(), "Order_Get_GetOrderByID", param);
+            return ListProcedure<OrderModel>(new OrderModel(), "Order_Get_GetOrderByID", param,false, isCheckPermission);
         }
 
         //Get list order from admin

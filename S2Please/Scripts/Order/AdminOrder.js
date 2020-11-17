@@ -250,3 +250,23 @@ function comeBackOrder() {
     window.location.href = "/admin/order";
 }
 
+function Update(id) {
+    $.ajax({
+        type: "POST",
+        url: "/ADMIN/Order/CheckStatus",
+        data: {
+            id: id
+        },
+        dataType: 'json',
+        success: function (response) {
+            if (response.result.Success) {
+                loadingBody.Show();
+                window.location.href = "/admin/update-order/" + id;
+            }
+            else if (!response.result.Success) {
+                toastr["error"](response.result.Message, response.result.CacheName);
+            }
+
+        }
+    });
+}

@@ -16,7 +16,7 @@ namespace Repository
         ResultModel GetOrderDetailByOrderId(long id);
 
         //Get order by order id
-        ResultModel GetOrderById(long id);
+        ResultModel GetOrderById(long id, bool isCheckPermission = false);
 
         //Get list order from admin
         ResultModel GetOrderFromAdmin(ParamType paramType);

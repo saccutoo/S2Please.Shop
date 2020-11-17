@@ -189,7 +189,6 @@ namespace S2Please.Areas.WEB_SHOP.Controllers
             return View(vm);
 
         }
-
         public ActionResult UpdateOrder(OrderModel model,List<OrderDetailModel> orderDetail)
         {
             var param = new List<Param>();
@@ -238,12 +237,22 @@ namespace S2Please.Areas.WEB_SHOP.Controllers
                 return Json(new { Result = validations, Invalid = true }, JsonRequestBehavior.AllowGet);
             }
 
-            var odelInser = MapperHelper.Map<OrderModel,Repository.Model.OrderModel>(model);
+            var responseOrder= _orderRepository.GetOrderById(model.ID);
+            var resultOrder =  JsonConvert.DeserializeObject<List<OrderModel>>(JsonConvert.SerializeObject(responseOrder.Results));
+            if (resultOrder != null && resultOrder.Count()>0)
+            {
+                model.STATUS = resultOrder.FirstOrDefault().STATUS;
+                model.METHOD_PAY = resultOrder.FirstOrDefault().STATUS;
+                model.STATUS_PAY = resultOrder.FirstOrDefault().STATUS;
+                model.FEE_SHIP = resultOrder.FirstOrDefault().FEE_SHIP;
+            }
+
+            var modelInser = MapperHelper.Map<OrderModel,Repository.Model.OrderModel>(model);
             var type = MapperHelper.MapList<OrderDetailModel, Repository.Type.OrderDetailType>(orderDetail);
 
-            var responseOrder = _orderRepository.UpdateOrder(odelInser, type);
+            var responseOrderSave = _orderRepository.UpdateOrder(modelInser, type);
             var result = new ResultModel();
-            if (responseOrder != null && responseOrder.Success == true)
+            if (responseOrderSave != null && responseOrderSave.Success == true)
             {
                 result.Success = true;
                 result.Message = FunctionHelpers.GetValueLanguage("Message.Order.UpdateSuccess");

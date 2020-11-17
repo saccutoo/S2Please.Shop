@@ -1115,6 +1115,7 @@
     <Content Include="Areas\ADMIN\Views\Order\_FormAddProductToCart.cshtml" />
     <Content Include="Areas\ADMIN\Views\Order\_PriceDetail.cshtml" />
     <Content Include="Areas\ADMIN\Views\Order\_ContentCart.cshtml" />
+    <Content Include="Areas\ADMIN\Views\Order\UpdateOrder.cshtml" />
     <None Include="Properties\PublishProfiles\shop.pubxml" />
     <Content Include="Scripts\bootstrap-select-1.13.14\dist\css\bootstrap-select.css.map" />
     <Content Include="Scripts\bootstrap-select-1.13.14\dist\js\bootstrap-select.js.map" />

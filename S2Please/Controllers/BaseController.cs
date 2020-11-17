@@ -164,7 +164,6 @@ namespace S2Please.Controllers
         public List<FileModel> SaveFile(IEnumerable<HttpPostedFileBase> attachment)
         {
             // The Name of the Upload component is "files"
-            LogHelper.LogError("CHECK 1 " + attachment.Count().ToString(), "") ;
             List<FileModel> listFile = new List<FileModel>();          
             try
             {
@@ -209,7 +208,7 @@ namespace S2Please.Controllers
             }
             catch (Exception ex)
             {
-                LogHelper.LogError(ex.Message, "");
+                LogHelper.LogError(ex.Message, "SAVE_FILE_ERROR");
                 return new List<FileModel>();
             }
             return new List<FileModel>(); 

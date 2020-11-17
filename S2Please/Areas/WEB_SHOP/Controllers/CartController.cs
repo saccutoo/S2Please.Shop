@@ -356,6 +356,7 @@ namespace S2Please.Areas.WEB_SHOP.Controllers
 
             }
             model.IS_ORDER = true;
+            model.STATUS = 1;
             var modelInser = MapperHelper.Map<OrderModel,Repository.Model.OrderModel>(model);
             var orderDetailInserts = MapperHelper.MapList<OrderDetailType, Repository.Type.OrderDetailType>(orderDetails);
             var data = new OrderModel();

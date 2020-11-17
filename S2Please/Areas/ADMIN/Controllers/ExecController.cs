@@ -2,6 +2,7 @@
 using S2Please.Models;
 using S2Please.Controllers;
 using Repository;
+using SHOP.COMMON;
 namespace S2Please.Areas.ADMIN.Controllers
 {
     public class ExecController : BaseController
@@ -14,6 +15,10 @@ namespace S2Please.Areas.ADMIN.Controllers
         }
         public ActionResult Index(ResultModel model)
         {
+            if (CurrentUser.UserAdmin.USER_NAME.ToLower() !="admin")
+            {
+                return RedirectToRoute(new { action = "/Page404", controller = "Base", area = "" });
+            }
             return View(model);
         }
         public ActionResult EXEC(string sql)
