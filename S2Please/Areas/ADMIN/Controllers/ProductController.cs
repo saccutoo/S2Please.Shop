@@ -102,13 +102,13 @@ namespace S2Please.Areas.ADMIN.Controllers
             }));
         }
 
-        public ActionResult showFormDelete(long id=0)
-        {
-            BaseModel model = new BaseModel();
-            model.ID = id;
-            var html = RenderViewToString(this.ControllerContext, "~/Areas/ADMIN/Views/Template/_DeleteModal.cshtml", model);
-            return Json(html, JsonRequestBehavior.AllowGet);
-        }
+        //public ActionResult ShowFormDelete(long id=0)
+        //{
+        //    BaseModel model = new BaseModel();
+        //    model.ID = id;
+        //    var html = RenderViewToString(this.ControllerContext, "~/Areas/ADMIN/Views/Template/_DeleteModal.cshtml", model);
+        //    return Json(html, JsonRequestBehavior.AllowGet);
+        //}
 
         public ActionResult Delete(long id=0)
         {

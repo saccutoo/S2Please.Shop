@@ -98,7 +98,12 @@ namespace SHOP.COMMON
 
     public static class DataType
     {
-        public static string CL_STATUS_ORDER = "CL_STATUS_ORDER";//
-        public static string CL_STATUS_PAY = "CL_STATUS_PAY";//
+        public static string CL_STATUS_ORDER = "CL_STATUS_ORDER";//CL_STATUS_ORDER
+        public static string CL_STATUS_PAY = "CL_STATUS_PAY";//CL_STATUS_PAY
+    }
+
+    public static class PropertyName
+    {
+        public static string Name = "NAME";//CL_STATUS_ORDER
     }
 }

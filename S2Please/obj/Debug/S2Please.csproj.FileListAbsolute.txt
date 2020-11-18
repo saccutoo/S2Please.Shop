@@ -330,3 +330,17 @@ C:\S2Please\S2Please\bin\Autofac.pdb
 C:\S2Please\S2Please\bin\Autofac.xml
 C:\S2Please\S2Please\bin\Autofac.Integration.Mvc.dll
 C:\S2Please\S2Please\bin\Autofac.Integration.Mvc.xml
+C:\S2Please\S2Please\bin\Hangfire.Core.dll
+C:\S2Please\S2Please\bin\Hangfire.SqlServer.dll
+C:\S2Please\S2Please\bin\Hangfire.Core.xml
+C:\S2Please\S2Please\bin\Hangfire.SqlServer.xml
+C:\S2Please\S2Please\bin\ca\Hangfire.Core.resources.dll
+C:\S2Please\S2Please\bin\es\Hangfire.Core.resources.dll
+C:\S2Please\S2Please\bin\fa\Hangfire.Core.resources.dll
+C:\S2Please\S2Please\bin\fr\Hangfire.Core.resources.dll
+C:\S2Please\S2Please\bin\nl\Hangfire.Core.resources.dll
+C:\S2Please\S2Please\bin\pt\Hangfire.Core.resources.dll
+C:\S2Please\S2Please\bin\pt-BR\Hangfire.Core.resources.dll
+C:\S2Please\S2Please\bin\pt-PT\Hangfire.Core.resources.dll
+C:\S2Please\S2Please\bin\zh\Hangfire.Core.resources.dll
+C:\S2Please\S2Please\bin\zh-TW\Hangfire.Core.resources.dll

@@ -535,7 +535,7 @@ namespace S2Please.Areas.ADMIN.Controllers
             return View(vm);
         }
 
-        public ActionResult SaveUpDateOrder(OrderModel model,List<OrderDetailModel> orderDetails)
+        public ActionResult SaveUpdateOrder(OrderModel model,List<OrderDetailModel> orderDetails)
         {
             ResultModel result = new ResultModel();
             var validations = new List<ValidationModel>();
@@ -743,7 +743,7 @@ namespace S2Please.Areas.ADMIN.Controllers
             var type = MapperHelper.MapList<BaseModel, Repository.Type.DataIdType>(listDatas);
             if (listDatas==null || listDatas.Count()==0)
             {
-                result.SetDataMessage(false, "Bạn chưa tích chọn đơn hàng nào.", FunctionHelpers.GetValueLanguage("Message.Error"),string.Empty);
+                result.SetDataMessage(false, FunctionHelpers.GetValueLanguage("Message.Error.CheckStatusOrder1"), FunctionHelpers.GetValueLanguage("Message.Error"),string.Empty);
             }
             else
             {
@@ -757,9 +757,100 @@ namespace S2Please.Areas.ADMIN.Controllers
                     var resultProduct = JsonConvert.DeserializeObject<List<OrderModel>>(JsonConvert.SerializeObject(response.Results));
                     if (resultProduct!=null && resultProduct.Count()>1)
                     {
-                        result.SetDataMessage(false, "Không thể chuyển đổi trạng thái của các đơn hàng có trạng thái khác nhau", FunctionHelpers.GetValueLanguage("Message.Error"), string.Empty);
+                        result.SetDataMessage(false, FunctionHelpers.GetValueLanguage("Message.Error.CheckStatusOrder2"), FunctionHelpers.GetValueLanguage("Message.Error"), string.Empty);
                     }
+                    else if (resultProduct != null && resultProduct.Count() ==1 && resultProduct.FirstOrDefault().ID==1)
+                    {
+                        result.SetDataMessage(false, FunctionHelpers.GetValueLanguage("Message.Error.CheckStatusOrder3"), FunctionHelpers.GetValueLanguage("Message.Error"), string.Empty);
+                    }
+                    else if (resultProduct != null && resultProduct.Count() == 1 && resultProduct.FirstOrDefault().ID == 2)
+                    {
+                        result.SetDataMessage(false, FunctionHelpers.GetValueLanguage("Message.Error.CheckStatusOrder4"), FunctionHelpers.GetValueLanguage("Message.Error"), string.Empty);
+                    }
+                    else if (resultProduct != null && resultProduct.Count() == 1 && resultProduct.FirstOrDefault().ID == 3)
+                    {
+                        result.SetDataMessage(false, FunctionHelpers.GetValueLanguage("Message.Error.CheckStatusOrder5"), FunctionHelpers.GetValueLanguage("Message.Error"), string.Empty);
+                    }
+                    else if (resultProduct != null && resultProduct.Count() == 1 && resultProduct.FirstOrDefault().ID == 4)
+                    {
+                        result.SetDataMessage(false, FunctionHelpers.GetValueLanguage("Message.Error.CheckStatusOrder6"), FunctionHelpers.GetValueLanguage("Message.Error"), string.Empty);
+                    }
+                    else if (resultProduct != null && resultProduct.Count() == 1 && resultProduct.FirstOrDefault().ID == 5)
+                    {
+                        var textStatus = FunctionHelpers.GetValueLocalization(status, DataType.CL_STATUS_ORDER, PropertyName.Name);
+                        var responseOrder = _orderRepository.GetOrderById(type.FirstOrDefault().ID);
+                        var resultOrder = JsonConvert.DeserializeObject<List<OrderModel>>(JsonConvert.SerializeObject(responseOrder.Results));              
+                        var textStatusCurrent = FunctionHelpers.GetValueLocalization(resultOrder.FirstOrDefault().STATUS, DataType.CL_STATUS_ORDER, PropertyName.Name);
+                        result.SetDataMessage(false, string.Format(FunctionHelpers.GetValueLanguage("Message.Error.CheckStatusOrder7"), textStatusCurrent, textStatus), FunctionHelpers.GetValueLanguage("Message.Error"), string.Empty);
+                    }
+                    else
+                    {
+                        result.SetDataMessage(true, FunctionHelpers.GetValueLanguage("Message.Order.UpdateSuccess"), FunctionHelpers.GetValueLanguage("Message.Success"));
+                    }
+                }
+            }
+            return Content(JsonConvert.SerializeObject(new
+            {
+                result
+            }));
+        }
 
+        public ActionResult Delete(long id=0)
+        {
+            ResultModel result = new ResultModel();
+            var response = _orderRepository.Delete(id, true);
+            if (response.Success == false && CheckPermision(response.StatusCode) == false)
+            {
+                result.SetUrl("/Base/Page404");
+            }
+            else
+            {
+                result.SetDataMessage(true, FunctionHelpers.GetValueLanguage("Message.Remove.Sucess"), FunctionHelpers.GetValueLanguage("Message.Success"));
+            }
+            return Content(JsonConvert.SerializeObject(new
+            {
+                result
+            }));
+        }
+
+        public ActionResult UpdateStatusPay(List<BaseModel> listDatas, long statusPay = 0)
+        {
+            ResultModel result = new ResultModel();
+            var type = MapperHelper.MapList<BaseModel, Repository.Type.DataIdType>(listDatas);
+            if (listDatas == null || listDatas.Count() == 0)
+            {
+                result.SetDataMessage(false, FunctionHelpers.GetValueLanguage("Message.Error.CheckStatusPay1"), FunctionHelpers.GetValueLanguage("Message.Error"), string.Empty);
+            }
+            else
+            {
+                var response = _orderRepository.UpdateStatusPay(type, statusPay, true);
+                if (response.Success == false && CheckPermision(response.StatusCode) == false)
+                {
+                    result.SetUrl("/Base/Page404");
+                }
+                else
+                {
+                    var resultProduct = JsonConvert.DeserializeObject<List<OrderModel>>(JsonConvert.SerializeObject(response.Results));
+                    if (resultProduct != null && resultProduct.Count() > 1)
+                    {
+                        result.SetDataMessage(false, FunctionHelpers.GetValueLanguage("Message.Error.CheckStatusPay2"), FunctionHelpers.GetValueLanguage("Message.Error"), string.Empty);
+                    }
+                    else if (resultProduct != null && resultProduct.Count() == 1 && resultProduct.FirstOrDefault().ID == 1)
+                    {
+                        result.SetDataMessage(false, FunctionHelpers.GetValueLanguage("Message.Error.CheckStatusPay3"), FunctionHelpers.GetValueLanguage("Message.Error"), string.Empty);
+                    }
+                    else if (resultProduct != null && resultProduct.Count() == 1 && resultProduct.FirstOrDefault().ID == 2)
+                    {
+                        var textStatus = FunctionHelpers.GetValueLocalization(statusPay, DataType.CL_STATUS_PAY, PropertyName.Name);
+                        var responseOrder = _orderRepository.GetOrderById(type.FirstOrDefault().ID);
+                        var resultOrder = JsonConvert.DeserializeObject<List<OrderModel>>(JsonConvert.SerializeObject(responseOrder.Results));
+                        var textStatusCurrent = FunctionHelpers.GetValueLocalization(resultOrder.FirstOrDefault().STATUS_PAY, DataType.CL_STATUS_PAY, PropertyName.Name);
+                        result.SetDataMessage(false, string.Format(FunctionHelpers.GetValueLanguage("Message.Error.CheckStatusPay4"), textStatusCurrent, textStatus), FunctionHelpers.GetValueLanguage("Message.Error"), string.Empty);
+                    }
+                    else
+                    {
+                        result.SetDataMessage(true, FunctionHelpers.GetValueLanguage("Message.Order.UpdateSuccess"), FunctionHelpers.GetValueLanguage("Message.Success"));
+                    }
                 }
             }
             return Content(JsonConvert.SerializeObject(new

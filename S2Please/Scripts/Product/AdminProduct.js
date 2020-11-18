@@ -1,10 +1,9 @@
 ﻿
-
 function deleteProduct(id) {
     loadingBody.Show();
     $.ajax({
         type: "POST",
-        url: "/ADMIN/Product/showFormDelete",
+        url: "/Base/ShowFormDelete",
         data: {
             id: id
         },
@@ -19,7 +18,6 @@ function deleteProduct(id) {
         }
     });
 }
-
 
 function saveDelete(id) {
     loadingBody.Show();
@@ -44,7 +42,6 @@ function saveDelete(id) {
         }
     });
 }
-
 
 function clickAdd() {
     window.location.href = "/admin/product-save/0";
@@ -86,7 +83,6 @@ function reloadTableColorAndSize() {
     }
 
 }
-
 
 function reloadIndex(rows) {
     for (var i = 0; i < rows.length; i++) {
@@ -356,8 +352,6 @@ function reloadImgByColor(colorRemove,removeImg) {
     }
 }
 
-
-
 function showButtonPlus() {
 
     var color = $("#color").val();
@@ -493,7 +487,6 @@ function readURL(input,value) {
 
     }
 }
-
 
 function removeRowImgByColor(color,id) {
     reloadImgByColor(color,1);
@@ -727,7 +720,6 @@ function clickRadioIsMain(element) {
     $(element).prop("checked", true);
 }
 
-
 function clickListFileImage() {
     $("#message-error-slide-image").text("");
     $("#file-slide-img").click();
@@ -770,7 +762,6 @@ function changeListFileImage(element) {
     }
 
 }
-
 
 function comeBackProduct() {
     window.location.href = "/admin/product";
@@ -843,7 +834,6 @@ function formatBytes(size) {
     return ((parseInt(size) / 1024) / 1024) //MB
 }
 
-
 function Update(id) {
     loadingBody.Show();
     window.location.href = "/admin/product-save/" + id;
@@ -907,7 +897,6 @@ function reloadIndexSlideImg() {
         }
     }
 }
-
 
 function test(base64StringFromURL)
 {

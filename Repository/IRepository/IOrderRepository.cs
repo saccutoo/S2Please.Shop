@@ -32,5 +32,11 @@ namespace Repository
 
         //Update status order by list id
         ResultModel UpdateStatusOrder(List<DataIdType> listDatas, long status, bool isCheckPermission = false);
+
+        //delete order
+        ResultModel Delete(long id, bool isCheckPermission = false);
+
+        //Update status pay by list id
+        ResultModel UpdateStatusPay(List<DataIdType> listDatas, long statusPay, bool isCheckPermission = false);
     }
 }

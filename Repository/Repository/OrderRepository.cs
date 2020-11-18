@@ -117,5 +117,30 @@ namespace Repository
             return ListProcedure<OrderModel>(new OrderModel(), "Order_Update_UpdateStatusOrder", param, false, isCheckPermission);
         }
 
+        //delete order
+        public ResultModel Delete(long id, bool isCheckPermission = false)
+        {
+            var param = new List<Param>();
+            param.Add(new Param { Key = "@ID", Value = id.ToString() });
+            return ListProcedure<OrderModel>(new OrderModel(), "Order_Delete_DeleteOrder", param, false, isCheckPermission);
+        }
+
+        //Update status pay by list id
+        public ResultModel UpdateStatusPay(List<DataIdType> listDatas, long statusPay, bool isCheckPermission = false)
+        {
+            var param = new List<Param>();
+            param.Add(new Param { Key = "@STATUS_PAY", Value = statusPay.ToString() });
+            param.Add(new Param
+            {
+                IsUserDefinedTableType = true,
+                paramUserDefinedTableType = new SqlParameter("@DataIdType", SqlDbType.Structured)
+                {
+                    TypeName = "dbo.DataIdType",
+                    Value = DataTableHelper.ConvertToUserDefinedDataTable(listDatas)
+                }
+            });
+            return ListProcedure<OrderModel>(new OrderModel(), "Order_Update_UpdateStatusPay", param, false, isCheckPermission);
+        }
+
     }
 }

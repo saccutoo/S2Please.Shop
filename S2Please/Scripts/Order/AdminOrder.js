@@ -149,7 +149,6 @@ function addToCart() {
     });
 }
 
-
 function updateCartAll() {
     $.ajax({
         type: "POST",
@@ -275,12 +274,13 @@ function Update(id) {
 }
 
 function updateOrder() {
+    debugger
     loadingBody.Show();
     $("#form-order label[name*='message-error-']").text("");
 
     $.ajax({
         type: "POST",
-        url: "/ADMIN/Order/Order",
+        url: "/ADMIN/Order/SaveUpdateOrder",
         data: $('#form-order').serializeArray(),
         dataType: 'json',
         success: function (response) {
@@ -368,12 +368,94 @@ function updateStatusOrder(status) {
         },
         dataType: 'json',
         success: function (response) {
+            loadingBody.Hide();
             if (!response.result.IsPermission) {
                 window.location.href = response.result.Url;
             }
             else if (response.result.Success) {
-                loadingBody.Show();
-                reaload("Order", 1, $("#Order-paging-items-per-page").val(), "")
+                reaload("Order", 1, $("#Order-paging-items-per-page").val(), "");
+                toastr["success"](response.result.Message, response.result.CacheName);
+            }
+            else if (!response.result.Success) {
+                toastr["error"](response.result.Message, response.result.CacheName);
+            }
+
+        }
+    });
+}
+
+function deleteOrder(id) {  
+    loadingBody.Show();
+    $.ajax({
+        type: "POST",
+        url: "/Base/ShowFormDelete",
+        data: {
+            id: id
+        },
+        dataType: "json",
+        success: function (response) {
+            $("#modal-content-center").html(response);
+            $("#modal-center").modal("show");
+            loadingBody.Hide();
+        },
+        error: function (response, status, error) {
+            alert("Error try again");
+        }
+    });
+}
+
+function saveDelete(id) {
+    $.ajax({
+        type: "POST",
+        url: "/ADMIN/Order/Delete",
+        data: {
+            id: id
+        },
+        dataType: 'json',
+        success: function (response) {
+            loadingBody.Hide();
+            if (!response.result.IsPermission) {
+                window.location.href = response.result.Url;
+            }
+            else if (response.result.Success) {
+                toastr["success"](response.result.Message, response.result.CacheName);
+                $("#modal-center").modal("hide");
+                reaload("Order", ControlModel["Order"].PAGE_INDEX, $('#Order-paging-items-per-page').val(), "");
+            }
+            else if (!response.result.Success) {
+                toastr["error"](response.result.Message, response.result.CacheName);
+            }
+
+        }
+    });
+}
+
+function updateStatusPay(statusPay) {
+    var listDatas = [];
+    var row = $('.row-checkbox');
+    if (row != null && row.length > 0) {
+        for (var i = 0; i < row.length; i++) {
+            if ($(row[i]).is(":checked") == true) {
+                listDatas.push({ "ID": $(row[i]).val() })
+            }
+        }
+    }
+    $.ajax({
+        type: "POST",
+        url: "/ADMIN/Order/UpdateStatusPay",
+        data: {
+            listDatas: listDatas,
+            statusPay: statusPay
+        },
+        dataType: 'json',
+        success: function (response) {
+            loadingBody.Hide();
+            if (!response.result.IsPermission) {
+                window.location.href = response.result.Url;
+            }
+            else if (response.result.Success) {
+                reaload("Order", 1, $("#Order-paging-items-per-page").val(), "");
+                toastr["success"](response.result.Message, response.result.CacheName);
             }
             else if (!response.result.Success) {
                 toastr["error"](response.result.Message, response.result.CacheName);
