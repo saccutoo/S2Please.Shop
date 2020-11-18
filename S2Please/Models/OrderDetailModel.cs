@@ -18,6 +18,7 @@ namespace S2Please.Models
         public string PRODUCT_NAME { get; set; }
         public string SIZE_NAME { get; set; }
         public string COLOR { get; set; }
-    
+        public bool IS_CHECK { get; set; }
+
     }
 }

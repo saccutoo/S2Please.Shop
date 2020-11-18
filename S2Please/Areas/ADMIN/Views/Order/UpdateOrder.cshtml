@@ -2,9 +2,13 @@
 @using SHOP.COMMON;
 @using S2Please.Helper;
 @using S2Please.ViewModel;
+@using System.Globalization;
 @{
     Layout = "~/Areas/ADMIN/Views/Shared/_Layout.cshtml";
     var timeVersion = FunctionHelpers.GetTimeVersion();
+    CultureInfo cul = CultureInfo.GetCultureInfo("vi-VN");   // try with "en-U
+    int index = 0;
+    float totalMoney = 0;
 }
 
 <style>
@@ -13,15 +17,18 @@
     }
 </style>
 
-<title>Cập nhập đơn hàng</title>
+<title>@FunctionHelpers.GetValueLanguage("Title.UpdateOrder")</title>
 
 <div class="section__content section__content--p30">
     <div class="container-fluid">
         <div class="row">
-            <div class="col-md-12"> <h3 class="title-5 m-b-35">Cập nhập đơn hàng</h3></div>
+            <div class="col-md-12"> <h3 class="title-5 m-b-35">@FunctionHelpers.GetValueLanguage("Title.UpdateOrder")</h3></div>
             <div class="col-md-12">
                 <form id="form-order">
                     <div id="accordion">
+                        <input type="text" name="model.CUSTOMER_ID" value="@Model.Order.CUSTOMER_ID" hidden />
+                        <input type="text" name="model.ID" value="@Model.Order.ID" hidden />
+
                         <div class="card">
                             <div class="card-header" id="cardOne">
                                 <h5 class="mb-0">
@@ -84,10 +91,10 @@
                                 <div class="card-body">
                                     <div class="row form-group">
                                         <div class="col col-md-6">
-                                            @Html.Partial("~/Areas/ADMIN/Views/Template/Form/_Select.cshtml", new SelectModel() { Id = "STATUS", Name = "model.STATUS", Datas = Model.StatusOrders, LabelName = "OrderDetail.OrderStauts", IsRequied = true, Value =Model.Order.STATUS.ToString(), FieldId = "ID", FieldName = "NAME", IsShowTitle = true })
+                                            @Html.Partial("~/Areas/ADMIN/Views/Template/Form/_Select.cshtml", new SelectModel() { Id = "STATUS", Name = "model.STATUS", Datas = Model.StatusOrders, LabelName = "OrderDetail.OrderStauts", IsRequied = true, Value = Model.Order.STATUS.ToString(), FieldId = "ID", FieldName = "NAME", IsShowTitle = true })
                                         </div>
                                         <div class="col col-md-6">
-                                            @Html.Partial("~/Areas/ADMIN/Views/Template/Form/_Select.cshtml", new SelectModel() { Id = "STATUS_PAY", Name = "model.STATUS_PAY", Datas = Model.StatusPays, LabelName = "OrderDetail.StautsPay", IsRequied = true, Value =Model.Order.STATUS_PAY.ToString(), FieldId = "ID", FieldName = "NAME", IsShowTitle = true })
+                                            @Html.Partial("~/Areas/ADMIN/Views/Template/Form/_Select.cshtml", new SelectModel() { Id = "STATUS_PAY", Name = "model.STATUS_PAY", Datas = Model.StatusPays, LabelName = "OrderDetail.StautsPay", IsRequied = true, Value = Model.Order.STATUS_PAY.ToString(), FieldId = "ID", FieldName = "NAME", IsShowTitle = true })
                                         </div>
                                         <div class="col col-md-6">
                                             @Html.Partial("~/Areas/ADMIN/Views/Template/Form/_Select.cshtml", new SelectModel() { Id = "METHOD_PAY", Name = "model.METHOD_PAY", Datas = Model.MethodPays, LabelName = "Cart.MethodPay", IsRequied = true, Value = Model.Order.METHOD_PAY.ToString(), FieldId = "ID", FieldName = "NAME", IsShowTitle = true })
@@ -104,30 +111,75 @@
                             <div class="card-header" id="cardTwo">
                                 <h5 class="mb-0">
                                     <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
-                                        Chi tiết đơn hàng
+                                        @FunctionHelpers.GetValueLanguage("OrderDetail.OrderDetail")
                                     </button>
-                                    <label class="help-block message-error" id="message-error-headingTwo" name="message-error-list.order.detail" style="color:red;font-size:unset;font-weight:normal"></label>
                                 </h5>
                             </div>
                             <div id="collapseTwo" class="collapse" aria-labelledby="cardTwo">
                                 <div class="card-body">
                                     <div class="row form-group">
-                                        <div class="table-data__tool">
-                                            @*<div class="table-data__tool-left">
-                                                <button class="au-btn-filter button-border" onclick="updateCartAll()" type="button">
-                                                    @FunctionHelpers.GetValueLanguage("Btn_UpdateAll")
-                                                </button>
-                                            </div>*@
-
-                                        </div>
                                         <div class="table-responsive table-responsive-data2">
                                             <table class="table table-data2">
                                                 <thead>
                                                     <tr>
-                                                        <td></td>
+                                                        <th>@FunctionHelpers.GetValueLanguage("Cart.Remove")</th>
+                                                        <th>@FunctionHelpers.GetValueLanguage("Product.ProductName")</th>
+                                                        <th>@FunctionHelpers.GetValueLanguage("Product.GroupColor")</th>
+                                                        <th>@FunctionHelpers.GetValueLanguage("Product.Size")</th>
+                                                        <th>@FunctionHelpers.GetValueLanguage("Product.ProductAmount")</th>
+                                                        <th>@FunctionHelpers.GetValueLanguage("Product.ProductPrice")</th>
+                                                        <th>@FunctionHelpers.GetValueLanguage("Product.Rate")</th>
+                                                        <th>@FunctionHelpers.GetValueLanguage("Cart.IntoMoney")</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody id="body-order-detail">
+                                                    @if (Model.OrderDetails != null && Model.OrderDetails.Count() > 0)
+                                                    {
+                                                        foreach (var item in Model.OrderDetails)
+                                                        {
+                                                            <tr>
+                                                                <td>
+                                                                    <input type="checkbox" name="orderDetails[@index].IS_CHECK" value="true" />
+                                                                    <input type="text" name="orderDetails[@index].ID" value="@item.ID" hidden />
+                                                                    <input type="text" name="orderDetails[@index].SIZE_ID" value="@item.SIZE_ID" hidden />
+                                                                    <input type="text" name="orderDetails[@index].COLOR_ID" value="@item.COLOR_ID" hidden />
+                                                                    <input type="text" name="orderDetails[@index].PRODUCT_ID" value="@item.PRODUCT_ID" hidden />
+                                                                </td>
+                                                                <td>
+                                                                    <span>@item.PRODUCT_NAME</span>
+                                                                </td>
+                                                                <td>
+                                                                    <span>@item.COLOR</span>
+                                                                </td>
+                                                                <td>
+                                                                    <span>@item.SIZE_NAME</span>
+                                                                </td>
+                                                                <td>
+                                                                    <input type="number" name="orderDetails[@index].AMOUNT" value="@item.AMOUNT" class="form-control" style="width:100px" />
+                                                                    <label class="help-block message-error" id="message-error-orderDetails[@index].AMOUNT" name="message-error-orderDetails[@index].AMOUNT" style="color:red;font-size:unset;font-weight:normal"></label>
+                                                                </td>
+                                                                <td>
+                                                                    <span style="color:red">@item.PRICE.ToString("#,###", cul.NumberFormat) <span>₫</span></span>
+                                                                </td>
+                                                                <td>
+                                                                    <span>@item.RATE %</span>
+                                                                </td>
+                                                                <td>
+                                                                    @{
+                                                                        float total = item.PRICE * item.AMOUNT;
+                                                                        if (item.RATE != 0)
+                                                                        {
+                                                                            total = total - ((item.RATE / 100) * total);
+                                                                        }
+                                                                        totalMoney += total;
+                                                                    }
+                                                                    <span style="color:red">@total.ToString("#,###", cul.NumberFormat) <span>₫</span></span>
+                                                                </td>
+                                                            </tr>
+                                                        }
+                                                    }
+                                                    <tr>
+                                                    </tr>
                                                 </tbody>
                                             </table>
                                         </div>
@@ -143,7 +195,7 @@
                             </button>
                             @if (FunctionHelpers.CheckPermission("Order", "Update"))
                             {
-                                <button type="button" onclick="saveOrder()" class="btn btn-success">
+                                <button type="button" onclick="updateOrder()" class="btn btn-success">
                                     @FunctionHelpers.GetValueLanguage("Button.Save")
                                 </button>
                             }

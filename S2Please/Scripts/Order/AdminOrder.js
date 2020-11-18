@@ -270,3 +270,87 @@ function Update(id) {
         }
     });
 }
+
+function updateOrder() {
+    loadingBody.Show();
+    $("#form-order label[name*='message-error-']").text("");
+
+    $.ajax({
+        type: "POST",
+        url: "/ADMIN/Order/Order",
+        data: $('#form-order').serializeArray(),
+        dataType: 'json',
+        success: function (response) {
+            if (response.Invalid) {
+                var validations = response.Result;
+                renderError(validations, "form-order");
+                var checkCustomer = false;
+                var checkOrderDetail = false;
+                var statusOrder = false;
+
+                for (var i = 0; i < validations.length; i++) {
+                    if (validations[i].ColumnName.indexOf('.FULL_NAME') > -1 ||
+                        validations[i].ColumnName.indexOf('.PHONE') > -1) {
+                        checkCustomer = true;
+                    }
+                    else if (validations[i].ColumnName.indexOf('.STATUS') > -1 ||
+                        validations[i].ColumnName.indexOf('.STATUS_PAY') > -1 ||
+                        validations[i].ColumnName.indexOf('.METHOD_PAY') > -1 ||
+                        validations[i].ColumnName.indexOf('.FEE_SHIP') > -1) {
+                        statusOrder = true;
+                    }
+                    else if (validations[i].ColumnName.indexOf('orderDetails') > -1) {
+                        checkOrderDetail = true;
+                    }
+                }
+
+                if (checkCustomer) {
+                    $("#cardOne").animate({
+                        'background-color': 'red',
+                    });
+                    $("#cardOne").animate({
+                        'background-color': 'rgba(0,0,0,.03)',
+                    });
+                }
+
+                if (checkOrderDetail) {
+                    $("#cardTwo").animate({
+                        'background-color': 'red',
+                    });
+                    $("#cardTwo").animate({
+                        'background-color': 'rgba(0,0,0,.03)',
+                    });
+                }
+
+                if (statusOrder) {
+                    $("#cardThree").animate({
+                        'background-color': 'red',
+                    });
+                    $("#cardThree").animate({
+                        'background-color': 'rgba(0,0,0,.03)',
+                    });
+                }
+                loadingBody.Hide();
+                return;
+            }
+            else if (response.result.Success) {
+                loadingBody.Hide();
+                toastr["success"](response.result.Message, response.result.CacheName);
+                setTimeout(function () { window.location.href = "/admin/order" }, 2000);
+            }
+
+        }
+    });
+}
+
+function updateStatusOrder(status) {
+    var row = $('.row-checkbox');
+    if (row != null && row.length > 0) {
+        for (var i = 0; i < row.length; i++) {
+            if ($(row[i]).is(":checked") == true) {
+                console.log($(row[i]).val())
+            }
+        }
+    }
+
+}

@@ -82,10 +82,10 @@
                                 <div class="card-body">
                                     <div class="row form-group">
                                         <div class="col col-md-6">
-                                            @Html.Partial("~/Areas/ADMIN/Views/Template/Form/_Select.cshtml", new SelectModel() { Id = "STATUS", Name = "model.STATUS", Datas = Model.StatusOrders, LabelName = "OrderDetail.OrderStauts", IsRequied = true, Value = "4", FieldId = "ID", FieldName = "NAME", IsShowTitle = true })
+                                            @Html.Partial("~/Areas/ADMIN/Views/Template/Form/_Select.cshtml", new SelectModel() { Id = "STATUS", Name = "model.STATUS", Datas = Model.StatusOrders, LabelName = "OrderDetail.OrderStauts", IsRequied = true, Value = StatusOrder.Pending.ToString(), FieldId = "ID", FieldName = "NAME", IsShowTitle = true })
                                         </div>
                                         <div class="col col-md-6">
-                                            @Html.Partial("~/Areas/ADMIN/Views/Template/Form/_Select.cshtml", new SelectModel() { Id = "STATUS_PAY", Name = "model.STATUS_PAY", Datas = Model.StatusPays, LabelName = "OrderDetail.StautsPay", IsRequied = true, Value = "1", FieldId = "ID", FieldName = "NAME", IsShowTitle = true })
+                                            @Html.Partial("~/Areas/ADMIN/Views/Template/Form/_Select.cshtml", new SelectModel() { Id = "STATUS_PAY", Name = "model.STATUS_PAY", Datas = Model.StatusPays, LabelName = "OrderDetail.StautsPay", IsRequied = true, Value = StatusPay.NoPay.ToString(), FieldId = "ID", FieldName = "NAME", IsShowTitle = true })
                                         </div>
                                         <div class="col col-md-6">
                                             @Html.Partial("~/Areas/ADMIN/Views/Template/Form/_Select.cshtml", new SelectModel() { Id = "METHOD_PAY", Name = "model.METHOD_PAY", Datas = Model.MethodPays, LabelName = "Cart.MethodPay", IsRequied = true, Value = "3", FieldId = "ID", FieldName = "NAME", IsShowTitle = true })

@@ -392,6 +392,10 @@ namespace S2Please.Areas.ADMIN.Controllers
 
             var data = new OrderModel();
             var responseOrder = _orderRepository.UpdateOrder(modelInser, orderDetailInserts,true);
+            if (responseOrder.Success == false && CheckPermision(responseOrder.StatusCode) == false)
+            {
+                return RedirectToRoute(new { action = "/Page404", controller = "Base", area = "" });
+            }
             if (responseOrder != null && responseOrder.Success == true)
             {
                 result.Success = true;
@@ -487,7 +491,7 @@ namespace S2Please.Areas.ADMIN.Controllers
             }
 
             var responseOrderDetail = _orderRepository.GetOrderDetailByOrderId(id);
-            var resultOrderDetail = JsonConvert.DeserializeObject<List<OrderDetailModel>>(JsonConvert.SerializeObject(responseOrder.Results));
+            var resultOrderDetail = JsonConvert.DeserializeObject<List<OrderDetailModel>>(JsonConvert.SerializeObject(responseOrderDetail.Results));
             if (resultOrderDetail != null && resultOrderDetail.Count() > 0)
             {
                 vm.OrderDetails = resultOrderDetail;
@@ -529,6 +533,140 @@ namespace S2Please.Areas.ADMIN.Controllers
             var resultStatusMethodPay = JsonConvert.DeserializeObject<List<MethodPayModel>>(JsonConvert.SerializeObject(responseMethodPay.Results));
 
             return View(vm);
+        }
+
+        public ActionResult SaveUpDateOrder(OrderModel model,List<OrderDetailModel> orderDetails)
+        {
+            ResultModel result = new ResultModel();
+            var validations = new List<ValidationModel>();
+            if (string.IsNullOrEmpty(model.FULL_NAME))
+            {
+                ValidationModel validaton = new ValidationModel();
+                validaton.ColumnName = "model.FULL_NAME";
+                validaton.IsError = false;
+                validaton.ErrorMessage = FunctionHelpers.GetValueLanguage("Error.Required");
+                validations.Add(validaton);
+            }
+            if (string.IsNullOrEmpty(model.PHONE))
+            {
+                ValidationModel validaton = new ValidationModel();
+                validaton.ColumnName = "model.PHONE";
+                validaton.IsError = false;
+                validaton.ErrorMessage = FunctionHelpers.GetValueLanguage("Error.Required");
+                validations.Add(validaton);
+            }
+            if (!string.IsNullOrEmpty(model.PHONE))
+            {
+                var phoneReg = @"^\d{9,15}$";
+                if (!Regex.IsMatch(model.PHONE, phoneReg))
+                {
+                    ValidationModel validaton = new ValidationModel();
+                    validaton.ColumnName = "model.PHONE";
+                    validaton.IsError = false;
+                    validaton.ErrorMessage = FunctionHelpers.GetValueLanguage("Error.PhoneFormat");
+                    validations.Add(validaton);
+                }
+
+            }
+            if (model.STATUS == 0)
+            {
+                ValidationModel validaton = new ValidationModel();
+                validaton.ColumnName = "model.STATUS";
+                validaton.IsError = false;
+                validaton.ErrorMessage = FunctionHelpers.GetValueLanguage("Error.Required");
+                validations.Add(validaton);
+            }
+            if (model.STATUS_PAY == 0)
+            {
+                ValidationModel validaton = new ValidationModel();
+                validaton.ColumnName = "model.STATUS_PAY";
+                validaton.IsError = false;
+                validaton.ErrorMessage = FunctionHelpers.GetValueLanguage("Error.Required");
+                validations.Add(validaton);
+            }
+            if (model.METHOD_PAY == 0)
+            {
+                ValidationModel validaton = new ValidationModel();
+                validaton.ColumnName = "model.METHOD_PAY";
+                validaton.IsError = false;
+                validaton.ErrorMessage = FunctionHelpers.GetValueLanguage("Error.Required");
+                validations.Add(validaton);
+            }
+            if (model.FEE_SHIP == 0)
+            {
+                ValidationModel validaton = new ValidationModel();
+                validaton.ColumnName = "model.FEE_SHIP";
+                validaton.IsError = false;
+                validaton.ErrorMessage = FunctionHelpers.GetValueLanguage("Error.Required");
+                validations.Add(validaton);
+            }
+
+            if (orderDetails !=null && orderDetails.Count()>0)
+            {
+                int index = 0;
+                foreach (var item in orderDetails)
+                {
+                    if (item.AMOUNT <= 0)
+                    {
+                        validations.Add(new ValidationModel()
+                        {
+                            IsError = true,
+                            ColumnName = "orderDetails[" + index + "].AMOUNT",
+                            ErrorMessage = FunctionHelpers.GetValueLanguage("Message.Error.Amount")
+                        });
+                    }
+                    else
+                    {
+                        var responseMapper = _productRepository.GetProductColorSizeMapperByColorIdAndSizeId(item.COLOR_ID, item.SIZE_ID, item.PRODUCT_ID, "0");
+                        var resultMapper = JsonConvert.DeserializeObject<List<ProductColorSizeMapperModel>>(JsonConvert.SerializeObject(responseMapper.Results));
+                        if (resultMapper != null && resultMapper.Count() > 0)
+                        {
+                            var orderDetail = resultMapper.FirstOrDefault();
+                            if (orderDetail.AMOUNT < item.AMOUNT)
+                            {
+                                validations.Add(new ValidationModel()
+                                {
+                                    IsError = true,
+                                    ColumnName = "orderDetails[" + index + "].AMOUNT",
+                                    ErrorMessage = String.Format(FunctionHelpers.GetValueLanguage("Message.Error.Amount1"), orderDetail.AMOUNT)
+                                });
+                            }
+                        }
+                    }
+                    index++;
+                }
+            }
+
+            if (validations != null && validations.Count() > 0)
+            {
+                return Json(new { Result = validations, Invalid = true }, JsonRequestBehavior.AllowGet);
+            }
+
+            orderDetails = orderDetails.Where(s => s.IS_CHECK == false).ToList();
+            if (orderDetails==null)
+            {
+                orderDetails = new List<OrderDetailModel>();
+            }
+            var modelUpdate = MapperHelper.Map<OrderModel, Repository.Model.OrderModel>(model);
+            var orderDetailUpdates = MapperHelper.MapList<OrderDetailModel, Repository.Type.OrderDetailType>(orderDetails);
+            var data = new OrderModel();
+            var responseOrder = _orderRepository.UpdateOrder(modelUpdate, orderDetailUpdates, true);
+            if (responseOrder.Success == false && CheckPermision(responseOrder.StatusCode) == false)
+            {
+                return RedirectToRoute(new { action = "/Page404", controller = "Base", area = "" });
+            }
+            if (responseOrder != null && responseOrder.Success == true)
+            {
+                result.Success = true;
+                result.Message = FunctionHelpers.GetValueLanguage("Message.Order.UpdateSuccess");
+                result.CacheName = FunctionHelpers.GetValueLanguage("Message.Success");
+                result.Results = responseOrder.Results;
+                data = JsonConvert.DeserializeObject<List<OrderModel>>(JsonConvert.SerializeObject(result.Results)).FirstOrDefault();              
+            }
+            return Content(JsonConvert.SerializeObject(new
+            {
+                result
+            }));
         }
 
         public ActionResult UpdateCartAll(List<CartModel> listCard)

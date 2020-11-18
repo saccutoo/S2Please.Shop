@@ -149,6 +149,7 @@
                                             <th>@FunctionHelpers.GetValueLanguage("OrderDetail.StautsPay")</th>
                                             <th>@FunctionHelpers.GetValueLanguage("OrderDetail.FeeShip")</th>
                                             <th>@FunctionHelpers.GetValueLanguage("Cart.TotalMoney")</th>
+
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -180,13 +181,13 @@
                                                         <span class="label @dataStatusPay.CLASS_COLOR">@FunctionHelpers.GetValueLocalization(item.STATUS_PAY, "CL_STATUS_PAY", "NAME")</span>
                                                     </td>
                                                     <td>
-                                                        <span>@item.PRICE_FEE_SHIP.ToString("#,###", cul.NumberFormat) <span style="color:red">₫</span></span>
+                                                        <span  style="color:red">@item.PRICE_FEE_SHIP.ToString("#,###", cul.NumberFormat) <span >₫</span></span>
                                                     </td>
                                                     <td>
                                                         @{
                                                             float total = item.TOTAL_PRICE + item.PRICE_FEE_SHIP;
                                                         }
-                                                        <span>@total.ToString("#,###", cul.NumberFormat) <span style="color:red">₫</span></span>
+                                                        <span  style="color:red">@total.ToString("#,###", cul.NumberFormat) <span>₫</span></span>
                                                     </td>
                                                     <td>
                                                         @if (item.STATUS == 1)

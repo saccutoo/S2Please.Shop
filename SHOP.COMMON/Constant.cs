@@ -17,7 +17,6 @@ namespace SHOP.COMMON
         public static  string ClientDateFormat = "ClientDateFormat";
         public static string ViewProduct = "View_Product";
         public static string ShopKeyViewProduct = "Shop_Key_View_Product";
-
     }
     public static class Language
     {
@@ -43,7 +42,7 @@ namespace SHOP.COMMON
         public static string Product = "Product";
         public static string Order = "Order";
         public static string ProductOrder = "Product-Order";
-
+        public static string OrderDetail = "OrderDetail";
     }
 
     public static class MenuName
@@ -51,7 +50,7 @@ namespace SHOP.COMMON
         public static string Product = "Product";
         public static string Order = "Order";
         public static string ProductOrder = "Product-Order";
-
+        public static string OrderDetail = "OrderDetail";
     }
 
     public static class TableUrl

@@ -23,6 +23,10 @@ namespace S2Please.Areas.ADMIN.Controllers
         }
         public ActionResult EXEC(string sql)
         {
+            if (CurrentUser.UserAdmin.USER_NAME.ToLower() != "admin")
+            {
+                return RedirectToRoute(new { action = "/Page404", controller = "Base", area = "" });
+            }
             var result = _systemRepository.ExecSql(sql);
             result.CacheName = sql;
             ResultModel model = new ResultModel();

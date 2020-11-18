@@ -1,14 +1,12 @@
 ﻿@model S2Please.Areas.WEB_SHOP.ViewModel.OrderDetailViewModel
-@using System.Web.Mvc.Html
-@using S2Please.Areas.WEB_SHOP.ViewModel
-@using System.Collections.Generic
-@using S2Please.ViewModel
 @using S2Please.Helper
 @using System.Globalization
 
 @{
     Layout = null;
     CultureInfo cul = CultureInfo.GetCultureInfo("vi-VN");   // try with "en-U
+    float totalMoney = 0;
+    long totalAmount = 0;
 }
 
 <div class="modal-header">
@@ -36,6 +34,7 @@
                     <th>@FunctionHelpers.GetValueLanguage("Product.Size")</th>
                     <th>@FunctionHelpers.GetValueLanguage("Product.ProductAmount")</th>
                     <th>@FunctionHelpers.GetValueLanguage("Product.ProductPrice")</th>
+                    <th>@FunctionHelpers.GetValueLanguage("Product.Rate")</th>
                     <th>@FunctionHelpers.GetValueLanguage("Cart.IntoMoney")</th>
                 </tr>
             </thead>
@@ -60,20 +59,35 @@
                                     <span>@item.AMOUNT</span>
                                 </td>
                                 <td>
-                                    <span>@item.PRICE.ToString("#,###", cul.NumberFormat)</span>
+                                    <span style="color:red">@item.PRICE.ToString("#,###", cul.NumberFormat) <span>₫</span></span> 
+                                </td>
+                                <td>
+                                    <span>@(item.RATE.ToString() == "0" ? "0" : item.RATE.ToString()) %</span>
                                 </td>
                                 <td>
                                     @{
-                                        float total = item.PRICE;
+                                        float total = item.PRICE * item.AMOUNT;
                                         if (item.RATE != 0)
                                         {
-                                            total = item.PRICE - ((item.RATE / 100) * item.PRICE);
+                                            total = total - ((item.RATE / 100) * total);
                                         }
                                     }
-                                    <span>@total.ToString("#,###", cul.NumberFormat) <span style="color:red">₫</span></span>
+                                    <span style="color:red">@total.ToString("#,###", cul.NumberFormat) <span>₫</span></span>
                                 </td>
                             </tr>
+                            totalMoney+=total;
+                            totalAmount+=item.AMOUNT;
                       }
+                      <tr>
+                          <td colspan="7" style="text-align:right">
+                              <span>@FunctionHelpers.GetValueLanguage("Cart.TotalAmount") : <strong>@totalAmount</strong></span><br />
+                              <span>@FunctionHelpers.GetValueLanguage("Cart.ShipFee") : <strong style="color:red">@Model.Order.PRICE_FEE_SHIP.ToString("#,###", cul.NumberFormat)</strong> <span>₫</span></span><br />
+                              @{
+                                  float value = totalMoney + Model.Order.PRICE_FEE_SHIP;
+                              }
+                              <span>@FunctionHelpers.GetValueLanguage("Cart.TotalMoney") : <strong style="color:red">@value.ToString("#,###", cul.NumberFormat) <span>₫</span></strong></span>
+                          </td>
+                      </tr>
                 }
             </tbody>
         </table>
