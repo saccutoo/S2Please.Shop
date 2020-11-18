@@ -84,7 +84,6 @@ namespace Repository
             return ListProcedure<OrderModel>(new OrderModel(), "Order_Update_Order", param,false, isCheckPermission);
         }
 
-
         //Get Order By Customer Id
         public ResultModel GetOrderByCustomerId(long userId)
         {
@@ -100,5 +99,23 @@ namespace Repository
             param.Add(new Param { Key = "@ID", Value = id.ToString() });
             return ListProcedure<OrderModel>(new OrderModel(), "Order_Delete_DeleteById", param);
         }
+
+        //Update status order by list id
+        public ResultModel UpdateStatusOrder(List<DataIdType> listDatas,long status, bool isCheckPermission = false)
+        {
+            var param = new List<Param>();
+            param.Add(new Param { Key = "@STATUS", Value = status.ToString() });
+            param.Add(new Param
+            {
+                IsUserDefinedTableType = true,
+                paramUserDefinedTableType = new SqlParameter("@DataIdType", SqlDbType.Structured)
+                {
+                    TypeName = "dbo.DataIdType",
+                    Value = DataTableHelper.ConvertToUserDefinedDataTable(listDatas)
+                }
+            });
+            return ListProcedure<OrderModel>(new OrderModel(), "Order_Update_UpdateStatusOrder", param, false, isCheckPermission);
+        }
+
     }
 }

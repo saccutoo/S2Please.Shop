@@ -468,7 +468,11 @@ namespace S2Please.Areas.ADMIN.Controllers
             {
                 if (response.Success == false && CheckPermision(response.StatusCode) == false)
                 {
-                    return RedirectToRoute(new { action = "/Page404", controller = "Base", area = "" });
+                    result.SetUrl("/Base/Page404");
+                    return Content(JsonConvert.SerializeObject(new
+                    {
+                        result
+                    }));
                 }
                 else
                 {

@@ -664,7 +664,10 @@ function saveProduct() {
                 data: data,
                 dataType: 'json',
                 success: function (response) {
-                    if (response.Success) {
+                    if (response.result !=null && !response.result.IsPermission) {
+                        window.location.href = response.result.Url;
+                    }
+                    else if (response.Success) {
                         toastr["success"](response.CacheName, response.Message);
                         loadingBody.Hide();
                         setTimeout(function () { window.location.href ="/admin/product" }, 2000);

@@ -29,5 +29,8 @@ namespace Repository
 
         //delete order
         ResultModel DeleteById(long id);
+
+        //Update status order by list id
+        ResultModel UpdateStatusOrder(List<DataIdType> listDatas, long status, bool isCheckPermission = false);
     }
 }

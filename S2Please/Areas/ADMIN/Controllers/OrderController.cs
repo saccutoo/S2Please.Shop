@@ -394,9 +394,9 @@ namespace S2Please.Areas.ADMIN.Controllers
             var responseOrder = _orderRepository.UpdateOrder(modelInser, orderDetailInserts,true);
             if (responseOrder.Success == false && CheckPermision(responseOrder.StatusCode) == false)
             {
-                return RedirectToRoute(new { action = "/Page404", controller = "Base", area = "" });
+                result.SetUrl("/Base/Page404");
             }
-            if (responseOrder != null && responseOrder.Success == true)
+            else if (responseOrder != null && responseOrder.Success == true)
             {
                 result.Success = true;
                 result.Message = FunctionHelpers.GetValueLanguage("Order.AddOrder");
@@ -653,9 +653,9 @@ namespace S2Please.Areas.ADMIN.Controllers
             var responseOrder = _orderRepository.UpdateOrder(modelUpdate, orderDetailUpdates, true);
             if (responseOrder.Success == false && CheckPermision(responseOrder.StatusCode) == false)
             {
-                return RedirectToRoute(new { action = "/Page404", controller = "Base", area = "" });
+                result.SetUrl("/Base/Page404");
             }
-            if (responseOrder != null && responseOrder.Success == true)
+            else if (responseOrder != null && responseOrder.Success == true)
             {
                 result.Success = true;
                 result.Message = FunctionHelpers.GetValueLanguage("Message.Order.UpdateSuccess");
@@ -736,6 +736,39 @@ namespace S2Please.Areas.ADMIN.Controllers
                 result
             }));
         }
+
+        public ActionResult UpdateStatusOrder(List<BaseModel> listDatas,long status=0)
+        {
+            ResultModel result = new ResultModel();
+            var type = MapperHelper.MapList<BaseModel, Repository.Type.DataIdType>(listDatas);
+            if (listDatas==null || listDatas.Count()==0)
+            {
+                result.SetDataMessage(false, "Bạn chưa tích chọn đơn hàng nào.", FunctionHelpers.GetValueLanguage("Message.Error"),string.Empty);
+            }
+            else
+            {
+                var response = _orderRepository.UpdateStatusOrder(type, status, true);
+                if (response.Success == false && CheckPermision(response.StatusCode) == false)
+                {
+                    result.SetUrl("/Base/Page404");
+                }
+                else
+                {
+                    var resultProduct = JsonConvert.DeserializeObject<List<OrderModel>>(JsonConvert.SerializeObject(response.Results));
+                    if (resultProduct!=null && resultProduct.Count()>1)
+                    {
+                        result.SetDataMessage(false, "Không thể chuyển đổi trạng thái của các đơn hàng có trạng thái khác nhau", FunctionHelpers.GetValueLanguage("Message.Error"), string.Empty);
+                    }
+
+                }
+            }
+            return Content(JsonConvert.SerializeObject(new
+            {
+                result
+            }));
+        }
+
+
         #region RenderTable
         public ActionResult ReloadTable(TableViewModel tableData, ParamType param)
         {

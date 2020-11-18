@@ -17,6 +17,19 @@ namespace S2Please.Models
         public string Message { get; set; }
         public int Total { get; set; }
         public string Html { get; set; }
-
+        public string Url { get; set; }
+        public bool IsPermission { get; set; }=true;
+        public void SetDataMessage(bool success,string message,string cacheName,string html)
+        {
+            Success = success;
+            Message = message;
+            CacheName = cacheName;
+            Html = html;
+        }
+        public void SetUrl(string url)
+        {
+            IsPermission = false;
+            Url = url;
+        }
     }
 }

@@ -235,6 +235,9 @@ function saveOrder() {
                loadingBody.Hide();
                 return;
             }
+            else if (!response.result.IsPermission) {
+                window.location.href = response.result.Url;
+            }
             else if (response.result.Success) {
                 loadingBody.Hide();
                 toastr["success"](response.result.Message, response.result.CacheName);
@@ -333,6 +336,9 @@ function updateOrder() {
                 loadingBody.Hide();
                 return;
             }
+            else if (!response.result.IsPermission){
+                window.location.href = response.result.Url;
+            }
             else if (response.result.Success) {
                 loadingBody.Hide();
                 toastr["success"](response.result.Message, response.result.CacheName);
@@ -344,13 +350,35 @@ function updateOrder() {
 }
 
 function updateStatusOrder(status) {
+    var listDatas = [];
     var row = $('.row-checkbox');
     if (row != null && row.length > 0) {
         for (var i = 0; i < row.length; i++) {
             if ($(row[i]).is(":checked") == true) {
-                console.log($(row[i]).val())
+                listDatas.push({ "ID": $(row[i]).val()})
             }
         }
     }
+    $.ajax({
+        type: "POST",
+        url: "/ADMIN/Order/UpdateStatusOrder",
+        data: {
+            listDatas: listDatas,
+            status: status
+        },
+        dataType: 'json',
+        success: function (response) {
+            if (!response.result.IsPermission) {
+                window.location.href = response.result.Url;
+            }
+            else if (response.result.Success) {
+                loadingBody.Show();
+                reaload("Order", 1, $("#Order-paging-items-per-page").val(), "")
+            }
+            else if (!response.result.Success) {
+                toastr["error"](response.result.Message, response.result.CacheName);
+            }
 
+        }
+    });
 }

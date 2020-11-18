@@ -107,6 +107,7 @@
     <Compile Include="Repository\TableRepository.cs" />
     <Compile Include="Repository\ProductRepository.cs" />
     <Compile Include="Type\ColorSizeMapperType.cs" />
+    <Compile Include="Type\DataIdType.cs" />
     <Compile Include="Type\ColorType.cs" />
     <Compile Include="Type\ImportCountryType.cs" />
     <Compile Include="Type\OrderDetailType.cs" />
