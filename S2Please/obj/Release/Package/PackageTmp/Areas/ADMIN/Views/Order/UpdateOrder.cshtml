@@ -1,0 +1,214 @@
+﻿@model S2Please.Areas.ADMIN.ViewModel.OrderSaveViewModel
+@using SHOP.COMMON;
+@using S2Please.Helper;
+@using S2Please.ViewModel;
+@using System.Globalization;
+@{
+    Layout = "~/Areas/ADMIN/Views/Shared/_Layout.cshtml";
+    var timeVersion = FunctionHelpers.GetTimeVersion();
+    CultureInfo cul = CultureInfo.GetCultureInfo("vi-VN");   // try with "en-U
+    int index = 0;
+    float totalMoney = 0;
+}
+
+<style>
+    .card {
+        margin-bottom: 5px;
+    }
+</style>
+
+<title>@FunctionHelpers.GetValueLanguage("Title.UpdateOrder")</title>
+
+<div class="section__content section__content--p30">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12"> <h3 class="title-5 m-b-35">@FunctionHelpers.GetValueLanguage("Title.UpdateOrder")</h3></div>
+            <div class="col-md-12">
+                <form id="form-order">
+                    <div id="accordion">
+                        <input type="text" name="model.CUSTOMER_ID" value="@Model.Order.CUSTOMER_ID" hidden />
+                        <input type="text" name="model.ID" value="@Model.Order.ID" hidden />
+
+                        <div class="card">
+                            <div class="card-header" id="cardOne">
+                                <h5 class="mb-0">
+                                    <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                        @FunctionHelpers.GetValueLanguage("OrderDetail.Customer")
+                                    </button>
+                                </h5>
+                            </div>
+                            <div id="collapseOne" class="collapse show" aria-labelledby="headingOne">
+                                <div class="card-body">
+                                    <div class="row form-group">
+                                        <div class="col col-md-6">
+                                            @Html.Partial("~/Areas/ADMIN/Views/Template/Form/_Input.cshtml", new InputModel() { Type = "text", Id = "FULL_NAME", Class = "", Name = "model.FULL_NAME", LabelName = "Cart.FullName", Value = Model.Order.FULL_NAME, IsRequied = true })
+                                        </div>
+                                        <div class="col col-md-6">
+
+                                            @Html.Partial("~/Areas/ADMIN/Views/Template/Form/_Input.cshtml", new InputModel() { Type = "text", Id = "PHONE", Class = "", Name = "model.PHONE", LabelName = "Cart.TelePhone", Value = Model.Order.PHONE, IsRequied = true, Style = "text-align:left !important", TypeInputMask = "numeric" })
+                                        </div>
+                                    </div>
+                                    <div class="row form-group">
+                                        <div class="col col-md-6">
+                                            @Html.Partial("~/Areas/ADMIN/Views/Template/Form/_Input.cshtml", new InputModel() { Type = "text", Id = "EMAIL", Class = "", Name = "model.EMAIL", LabelName = "OrderDetail.Email", Value = Model.Order.EMAIL, IsRequied = false, Style = "" })
+                                        </div>
+                                        <div class="col col-md-6">
+                                            @Html.Partial("~/Areas/ADMIN/Views/Template/Form/_Input.cshtml", new InputModel() { Type = "text", Id = "FAX", Class = "", Name = "model.FAX", LabelName = "OrderDetail.Fax", Value = Model.Order.FAX, IsRequied = false, Style = "text-align:left !important", TypeInputMask = "numeric" })
+                                        </div>
+                                    </div>
+
+                                    <div class="row form-group">
+                                        <div class="col col-md-6">
+                                            @Html.Partial("~/Areas/ADMIN/Views/Template/Form/_Select.cshtml", new SelectModel() { Id = "CITY", Name = "model.CITY", Datas = Model.Citys, LabelName = "Cart.City", IsRequied = false, Value = Model.Order.CITY.ToString(), FieldId = "CODE", FieldName = "NAME_VN", IsShowTitle = true })
+                                        </div>
+                                        <div class="col col-md-6" id="select2-district">
+
+                                            @Html.Partial("~/Areas/ADMIN/Views/Template/Form/_Select.cshtml", new SelectModel() { Id = "DISTRICT", Name = "model.DISTRICT", Datas = Model.Districts, LabelName = "Cart.District", IsRequied = false, Value = Model.Order.DISTRICT.ToString(), FieldId = "CODE", FieldName = "NAME_VN", IsShowTitle = true })
+                                        </div>
+                                    </div>
+
+                                    <div class="row form-group">
+                                        <div class="col col-md-6" id="select2-community">
+                                            @Html.Partial("~/Areas/ADMIN/Views/Template/Form/_Select.cshtml", new SelectModel() { Id = "COMMUNITY", Name = "model.COMMUNITY", Datas = Model.Communitys, LabelName = "Cart.Community", IsRequied = false, Value = Model.Order.COMMUNITY.ToString(), FieldId = "CODE", FieldName = "NAME_VN", IsShowTitle = true })
+                                        </div>
+                                        <div class="col col-md-6">
+                                            @Html.Partial("~/Areas/ADMIN/Views/Template/Form/_Input.cshtml", new InputModel() { Type = "text", Id = "ADRESS_SPECIFIC", Class = "", Name = "model.ADRESS_SPECIFIC", LabelName = "Cart.Hamlet", Value = Model.Order.ADRESS_SPECIFIC, IsRequied = false, Style = "" })
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <div class="card-header" id="cardThree">
+                                <h5 class="mb-0">
+                                    <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseThree" aria-expanded="true" aria-controls="collapseThree">
+                                        @FunctionHelpers.GetValueLanguage("OrderDetail.StautsPayOrder")
+                                    </button>
+                                </h5>
+                            </div>
+                            <div id="collapseThree" class="collapse" aria-labelledby="cardThree">
+                                <div class="card-body">
+                                    <div class="row form-group">
+                                        <div class="col col-md-6">
+                                            @Html.Partial("~/Areas/ADMIN/Views/Template/Form/_Select.cshtml", new SelectModel() { Id = "STATUS", Name = "model.STATUS", Datas = Model.StatusOrders, LabelName = "OrderDetail.OrderStauts", IsRequied = true, Value = Model.Order.STATUS.ToString(), FieldId = "ID", FieldName = "NAME", IsShowTitle = true })
+                                        </div>
+                                        <div class="col col-md-6">
+                                            @Html.Partial("~/Areas/ADMIN/Views/Template/Form/_Select.cshtml", new SelectModel() { Id = "STATUS_PAY", Name = "model.STATUS_PAY", Datas = Model.StatusPays, LabelName = "OrderDetail.StautsPay", IsRequied = true, Value = Model.Order.STATUS_PAY.ToString(), FieldId = "ID", FieldName = "NAME", IsShowTitle = true })
+                                        </div>
+                                        <div class="col col-md-6">
+                                            @Html.Partial("~/Areas/ADMIN/Views/Template/Form/_Select.cshtml", new SelectModel() { Id = "METHOD_PAY", Name = "model.METHOD_PAY", Datas = Model.MethodPays, LabelName = "Cart.MethodPay", IsRequied = true, Value = Model.Order.METHOD_PAY.ToString(), FieldId = "ID", FieldName = "NAME", IsShowTitle = true })
+                                        </div>
+                                        <div class="col col-md-6">
+                                            @Html.Partial("~/Areas/ADMIN/Views/Template/Form/_Select.cshtml", new SelectModel() { Id = "FEE_SHIP", Name = "model.FEE_SHIP", Datas = Model.ShipFees, LabelName = "Cart.ShipFee", IsRequied = true, Value = Model.Order.FEE_SHIP.ToString(), FieldId = "ID", FieldName = "NAME", IsShowTitle = true })
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <div class="card-header" id="cardTwo">
+                                <h5 class="mb-0">
+                                    <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
+                                        @FunctionHelpers.GetValueLanguage("OrderDetail.OrderDetail")
+                                    </button>
+                                </h5>
+                            </div>
+                            <div id="collapseTwo" class="collapse" aria-labelledby="cardTwo">
+                                <div class="card-body">
+                                    <div class="row form-group">
+                                        <div class="table-responsive table-responsive-data2">
+                                            <table class="table table-data2">
+                                                <thead>
+                                                    <tr>
+                                                        <th>@FunctionHelpers.GetValueLanguage("Cart.Remove")</th>
+                                                        <th>@FunctionHelpers.GetValueLanguage("Product.ProductName")</th>
+                                                        <th>@FunctionHelpers.GetValueLanguage("Product.GroupColor")</th>
+                                                        <th>@FunctionHelpers.GetValueLanguage("Product.Size")</th>
+                                                        <th>@FunctionHelpers.GetValueLanguage("Product.ProductAmount")</th>
+                                                        <th>@FunctionHelpers.GetValueLanguage("Product.ProductPrice")</th>
+                                                        <th>@FunctionHelpers.GetValueLanguage("Product.Rate")</th>
+                                                        <th>@FunctionHelpers.GetValueLanguage("Cart.IntoMoney")</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody id="body-order-detail">
+                                                    @if (Model.OrderDetails != null && Model.OrderDetails.Count() > 0)
+                                                    {
+                                                        foreach (var item in Model.OrderDetails)
+                                                        {
+                                                            <tr>
+                                                                <td>
+                                                                    <input type="checkbox" name="orderDetails[@index].IS_CHECK" value="true" />
+                                                                    <input type="text" name="orderDetails[@index].ID" value="@item.ID" hidden />
+                                                                    <input type="text" name="orderDetails[@index].SIZE_ID" value="@item.SIZE_ID" hidden />
+                                                                    <input type="text" name="orderDetails[@index].COLOR_ID" value="@item.COLOR_ID" hidden />
+                                                                    <input type="text" name="orderDetails[@index].PRODUCT_ID" value="@item.PRODUCT_ID" hidden />
+                                                                </td>
+                                                                <td>
+                                                                    <span>@item.PRODUCT_NAME</span>
+                                                                </td>
+                                                                <td>
+                                                                    <span>@item.COLOR</span>
+                                                                </td>
+                                                                <td>
+                                                                    <span>@item.SIZE_NAME</span>
+                                                                </td>
+                                                                <td>
+                                                                    <input type="number" name="orderDetails[@index].AMOUNT" value="@item.AMOUNT" class="form-control" style="width:100px" />
+                                                                    <label class="help-block message-error" id="message-error-orderDetails[@index].AMOUNT" name="message-error-orderDetails[@index].AMOUNT" style="color:red;font-size:unset;font-weight:normal"></label>
+                                                                </td>
+                                                                <td>
+                                                                    <span style="color:red">@item.PRICE.ToString("#,###", cul.NumberFormat) <span>₫</span></span>
+                                                                </td>
+                                                                <td>
+                                                                    <span>@item.RATE %</span>
+                                                                </td>
+                                                                <td>
+                                                                    @{
+                                                                        float total = item.PRICE * item.AMOUNT;
+                                                                        if (item.RATE != 0)
+                                                                        {
+                                                                            total = total - ((item.RATE / 100) * total);
+                                                                        }
+                                                                        totalMoney += total;
+                                                                    }
+                                                                    <span style="color:red">@total.ToString("#,###", cul.NumberFormat) <span>₫</span></span>
+                                                                </td>
+                                                            </tr>
+                                                        }
+                                                    }
+                                                    <tr>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="margin:auto">
+                        <center>
+                            <button type="button" onclick="comeBackOrder()" class="btn btn-primary">
+                                @FunctionHelpers.GetValueLanguage("Button.ComeBack")
+                            </button>
+                            @if (FunctionHelpers.CheckPermission("Order", "Update"))
+                            {
+                                <button type="button" onclick="updateOrder()" class="btn btn-success">
+                                    @FunctionHelpers.GetValueLanguage("Button.Save")
+                                </button>
+                            }
+                        </center>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+@section scripts
+{
+    <script src="@Url.Content("~/Scripts/Order/AdminOrder.js?v=" + timeVersion)" type="text/javascript"></script>
+}
+
+

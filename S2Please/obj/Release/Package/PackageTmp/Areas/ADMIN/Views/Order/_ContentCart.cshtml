@@ -61,8 +61,8 @@
     }
     <tr>
         <td colspan="8" style="text-align:right">
-            <span>Tổng số lượng: <strong>@totalAmount</strong></span><br />
-            <span>Tổng tiền: <strong style="color:red">@totalMoney.ToString("#,###", cul.NumberFormat) ₫</strong></span><br />
+            <span>@FunctionHelpers.GetValueLanguage("Cart.TotalAmount"): <strong>@totalAmount</strong></span><br />
+            <span>@FunctionHelpers.GetValueLanguage("Cart.TotalMoney"): <strong style="color:red">@totalMoney.ToString("#,###", cul.NumberFormat) ₫</strong></span><br />
         </td>
     </tr>
 }

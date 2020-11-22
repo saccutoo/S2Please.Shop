@@ -73,7 +73,7 @@ namespace S2Please.Controllers
             return View(model);
         }
 
-        public int SendMail(string subject, string body, List<string> toMail, List<string> cc, List<string> bcc, string from, string replyTo, List<AttachmentJs> attachments)
+        public int SendMail(string subject, string body, List<string> toMail, List<string> cc, List<string> bcc, string from, string replyTo, List<AttachmentJs> attachments,long dataId=0,string dataType="")
         {
 
             var lstAttach = new List<Attachment>();
@@ -89,7 +89,7 @@ namespace S2Please.Controllers
                     }
                 }
             }
-            var resultCode = EmailHelper.SendMail(subject, body, from, toMail, cc, bcc, lstAttach);
+            var resultCode = EmailHelper.SendMail(subject, body, from, toMail, cc, bcc, lstAttach, dataId, dataType);
             return resultCode;
         }
 

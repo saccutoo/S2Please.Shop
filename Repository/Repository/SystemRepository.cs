@@ -79,7 +79,6 @@ namespace Repository
             return ListProcedure<ShipFeeModel>(new ShipFeeModel(), "ShipFee_Get_GetShipFee", new List<Param>(), true);
         }
 
-
         //Get all ship fee
         public ResultModel GetAllShipFee()
         {

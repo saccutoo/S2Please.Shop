@@ -10,6 +10,8 @@
     Layout = "~/Areas/WEB_SHOP/Views/Shared/_Layout.cshtml";
     CultureInfo cul = CultureInfo.GetCultureInfo("vi-VN");   // try with "en-U
     var timeVersion = FunctionHelpers.GetTimeVersion();
+    float totalMoney = 0;
+    long totalAmount = 0;
 }
 
 <form id="form-update-order">
@@ -67,6 +69,7 @@
                     <th>@FunctionHelpers.GetValueLanguage("Product.ProductAmount")</th>
                     <th>@FunctionHelpers.GetValueLanguage("Product.ProductPrice")</th>
                     <th>@FunctionHelpers.GetValueLanguage("Product.Rate")</th>
+                    <th>@FunctionHelpers.GetValueLanguage("Cart.IntoMoney")</th>
                 </tr>
             </thead>
             <tbody>
@@ -96,14 +99,36 @@
                                 @Html.Partial("~/Views/Template/_Input.cshtml", new InputModel() { Type = "number", Id = "AMOUNT", Class = "input-xlarge", Name = "orderDetail[" + index + "].AMOUNT", Value = item.AMOUNT.ToString(), Style = "width:50px" })
                             </td>
                             <td>
-                                <span>@item.PRICE.ToString("#,###", cul.NumberFormat)</span>
+                                <span style="color:red">@item.PRICE.ToString("#,###", cul.NumberFormat) <span> ₫ </span></span>
                             </td>
                             <td>
                                 <span>@item.RATE %</span>
                             </td>
+                            <td>
+                                @{
+                                    float total = item.AMOUNT * item.PRICE;
+                                    if (item.RATE>0)
+                                    {
+                                        total = total - ((item.RATE / 100) * total);
+                                    }
+                                }
+                                <span>@total.ToString("#,###", cul.NumberFormat) <span> ₫ </span></span>
+                            </td>
                         </tr>
+                        totalMoney+=total;
+                        totalAmount+=item.AMOUNT;
                         index++;
                     }
+                    <tr>
+                        <td colspan="7" style="text-align:right">
+                            <span>@FunctionHelpers.GetValueLanguage("Cart.TotalAmount") : <strong>@totalAmount</strong></span><br />
+                            <span>@FunctionHelpers.GetValueLanguage("Cart.ShipFee") : <strong style="color:red">@Model.Order.PRICE_FEE_SHIP.ToString("#,###", cul.NumberFormat)</strong> <span>₫</span></span><br />
+                            @{ 
+                                float value = totalMoney + Model.Order.PRICE_FEE_SHIP;
+                            }
+                            <span>@FunctionHelpers.GetValueLanguage("Cart.TotalMoney") : <strong style="color:red">@value.ToString("#,###", cul.NumberFormat) <span>₫</span></strong></span>
+                        </td>
+                    </tr>
                 }
             </tbody>
         </table>

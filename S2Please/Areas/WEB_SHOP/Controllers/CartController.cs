@@ -404,23 +404,17 @@ namespace S2Please.Areas.WEB_SHOP.Controllers
             if (Session["Products"] != null)
             {
                 vm.Carts = Session["Products"] as List<CartModel>;
-                string subject = FunctionHelpers.GetValueLanguage("Email.SubjectOrder");
+                string subject = FunctionHelpers.GetValueLanguage("Email.SubjectNewOrder");
                 string body = RenderViewToString(this.ControllerContext, "~/Views/TemplateEmail/_EmailOrder.cshtml", vm);
                 List<string> toMail = new List<string>();
                 toMail.Add(vm.Order.EMAIL);
-                string from = ConfigurationManager.AppSettings["MailUserName"] + ";" + "S2Please";
+                string from = ConfigurationManager.AppSettings["MailUserName"] + ";" + "S2Please shop";
                 string replyTo = ConfigurationManager.AppSettings["MailUserName"];
-                int resultCode = SendMail(subject, body, toMail, new List<string>(), new List<string>(), from, replyTo, new List<AttachmentJs>());
-                if (resultCode != 200)
-                {
-                    //Error email
-                }
+                int resultCode = SendMail(subject, body, toMail, new List<string>(), new List<string>(), from, replyTo, new List<AttachmentJs>(), vm.Order.ID, DataType.Order);
             }         
             Session["Products"] = null;
             return View(vm);
         }
-
-
         
     }
 }

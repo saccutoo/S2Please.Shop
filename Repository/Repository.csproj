@@ -59,6 +59,7 @@
     <Compile Include="IRepository\IAuthenRepository.cs" />
     <Compile Include="IRepository\IDashboardRepository.cs" />
     <Compile Include="IRepository\ISystemRepository.cs" />
+    <Compile Include="IRepository\IMailQueueRepository.cs" />
     <Compile Include="IRepository\ITableRepository.cs" />
     <Compile Include="Model\BaseModel.cs" />
     <Compile Include="Model\CheckUserNameEmail.cs" />
@@ -71,6 +72,7 @@
     <Compile Include="Model\GenderModel.cs" />
     <Compile Include="Model\HistoryResetPassword.cs" />
     <Compile Include="Model\LanguageModel.cs" />
+    <Compile Include="Model\MailQueueModel.cs" />
     <Compile Include="Model\MethodPayModel.cs" />
     <Compile Include="Model\MultiLanguageModel.cs" />
     <Compile Include="Model\MULTI_LANGUAGE.cs" />
@@ -104,6 +106,7 @@
     <Compile Include="Repository\AuthenRepository.cs" />
     <Compile Include="Repository\DashboardRepository.cs" />
     <Compile Include="Repository\SystemRepository.cs" />
+    <Compile Include="Repository\MailQueueRepository.cs" />
     <Compile Include="Repository\TableRepository.cs" />
     <Compile Include="Repository\ProductRepository.cs" />
     <Compile Include="Type\ColorSizeMapperType.cs" />

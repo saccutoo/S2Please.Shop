@@ -5,8 +5,8 @@ using System.Configuration;
 using System.Linq;
 using System.Net;
 using System.Net.Mail;
-using System.Web;
-
+using Newtonsoft.Json;
+using SHOP.COMMON;
 namespace S2Please.Helper
 {
     public static class EmailHelper
@@ -23,7 +23,7 @@ namespace S2Please.Helper
                 MailPort = ConfigurationManager.AppSettings["MailPort"],
             };
         }
-        public static int SendMail(string subject, string body, string from, IEnumerable<string> to, IEnumerable<string> cc, IEnumerable<string> bcc, IEnumerable<Attachment> attachments)
+        public static int SendMail(string subject, string body, string from, IEnumerable<string> to, IEnumerable<string> cc, IEnumerable<string> bcc, IEnumerable<Attachment> attachments, long dataId = 0, string dataType = "")
         {
             var emailConfiguration = GetConfiguration();
 
@@ -56,32 +56,33 @@ namespace S2Please.Helper
                     }
 
                     MailMessage message = PrepareMailMessage(subject, body, to, cc, bcc, attachments, emailConfiguration);
-
                     smtpClient.Send(message);
+                    LogHelper.LogMailQueue(0, dataId, dataType, JsonConvert.SerializeObject(to), JsonConvert.SerializeObject(cc), JsonConvert.SerializeObject(bcc), subject, body, "Thành công", StatusMailQueue.Success,from);
                 }
 
                 return 200;
             }
             catch (Exception ex)
             {
+                LogHelper.LogMailQueue(0, dataId, dataType, JsonConvert.SerializeObject(to), JsonConvert.SerializeObject(cc), JsonConvert.SerializeObject(bcc), subject, body, "Thất bại - " + ex.Message, StatusMailQueue.False, from);
                 if (ex.ToString().Contains("5.7.0"))
                 {
-                    return 500;
+                    return 500;//Requested action not taken: mailbox unavailable
                 }
                 else
                 if (ex.ToString().Contains("5.5.1"))
                 {
-                    return 501;
+                    return 501;//<xxx@domain> User doesn’t exist: xxx@domain
                 }
                 else
-                    return 502;
+                    return 502;// 502 Bad Gateway
             }
         }
         private static MailMessage PrepareMailMessage(string subject, string body, IEnumerable<string> to, IEnumerable<string> cc, IEnumerable<string> bcc, IEnumerable<Attachment> attachments, EmailConfigModel emailConfiguration)
         {
             var message = new MailMessage();
             MailAddress fromAddress;
-            if (emailConfiguration.MailFrom.IndexOf(";")>-1)
+            if (emailConfiguration.MailFrom.IndexOf(";") > -1)
             {
                 var mailFrom = emailConfiguration.MailFrom.Split(';');
                 fromAddress = new MailAddress(mailFrom[0], mailFrom[1]);

@@ -31,7 +31,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>07/25/2020 00:10:55</publishTime>
     </File>
     <File Include="Areas/ADMIN/Views/Exec/Index.cshtml">
-      <publishTime>11/11/2020 21:42:53</publishTime>
+      <publishTime>11/17/2020 09:52:14</publishTime>
     </File>
     <File Include="Areas/ADMIN/Views/Import/Index.cshtml">
       <publishTime>08/01/2020 21:25:43</publishTime>
@@ -40,10 +40,13 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>11/13/2020 21:27:56</publishTime>
     </File>
     <File Include="Areas/ADMIN/Views/Order/OrderSave.cshtml">
-      <publishTime>11/15/2020 13:01:14</publishTime>
+      <publishTime>11/17/2020 21:15:09</publishTime>
+    </File>
+    <File Include="Areas/ADMIN/Views/Order/UpdateOrder.cshtml">
+      <publishTime>11/17/2020 22:36:19</publishTime>
     </File>
     <File Include="Areas/ADMIN/Views/Order/_ContentCart.cshtml">
-      <publishTime>11/15/2020 09:25:03</publishTime>
+      <publishTime>11/17/2020 22:01:57</publishTime>
     </File>
     <File Include="Areas/ADMIN/Views/Order/_Detail.cshtml">
       <publishTime>11/15/2020 13:20:30</publishTime>
@@ -106,10 +109,10 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>07/26/2020 21:37:54</publishTime>
     </File>
     <File Include="Areas/ADMIN/Views/Template/_DatePicker.cshtml">
-      <publishTime>07/27/2020 23:57:50</publishTime>
+      <publishTime>11/15/2020 14:16:58</publishTime>
     </File>
     <File Include="Areas/ADMIN/Views/Template/_DeleteModal.cshtml">
-      <publishTime>08/01/2020 16:02:12</publishTime>
+      <publishTime>11/18/2020 22:03:38</publishTime>
     </File>
     <File Include="Areas/ADMIN/Views/Template/_Input.cshtml">
       <publishTime>07/29/2020 00:29:57</publishTime>
@@ -127,7 +130,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>10/24/2020 20:18:06</publishTime>
     </File>
     <File Include="Areas/ADMIN/Views/Template/_Table.cshtml">
-      <publishTime>11/14/2020 20:09:37</publishTime>
+      <publishTime>11/18/2020 22:41:38</publishTime>
     </File>
     <File Include="Areas/ADMIN/Views/Template/_TableContent.cshtml">
       <publishTime>11/15/2020 13:17:00</publishTime>
@@ -277,13 +280,13 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>06/26/2020 00:59:12</publishTime>
     </File>
     <File Include="Areas/WEB_SHOP/Views/User/Customer.cshtml">
-      <publishTime>11/11/2020 21:21:29</publishTime>
+      <publishTime>11/17/2020 21:38:48</publishTime>
     </File>
     <File Include="Areas/WEB_SHOP/Views/User/FormUpdateOrder.cshtml">
-      <publishTime>11/11/2020 21:22:08</publishTime>
+      <publishTime>11/17/2020 21:36:17</publishTime>
     </File>
     <File Include="Areas/WEB_SHOP/Views/User/_OrderDetail.cshtml">
-      <publishTime>08/04/2020 08:57:29</publishTime>
+      <publishTime>11/17/2020 21:47:26</publishTime>
     </File>
     <File Include="Areas/WEB_SHOP/Views/web.config">
       <publishTime>11/07/2020 11:17:13</publishTime>
@@ -312,6 +315,9 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     <File Include="bin/AutoMapper.dll">
       <publishTime>02/24/2016 19:36:08</publishTime>
     </File>
+    <File Include="bin/ca/Hangfire.Core.resources.dll">
+      <publishTime>10/20/2020 15:35:24</publishTime>
+    </File>
     <File Include="bin/ClosedXML.dll">
       <publishTime>05/25/2020 10:43:46</publishTime>
     </File>
@@ -336,8 +342,23 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     <File Include="bin/EPPlus.dll">
       <publishTime>05/30/2018 20:27:38</publishTime>
     </File>
+    <File Include="bin/es/Hangfire.Core.resources.dll">
+      <publishTime>10/20/2020 15:35:24</publishTime>
+    </File>
     <File Include="bin/ExcelNumberFormat.dll">
       <publishTime>03/13/2020 09:36:50</publishTime>
+    </File>
+    <File Include="bin/fa/Hangfire.Core.resources.dll">
+      <publishTime>10/20/2020 15:35:24</publishTime>
+    </File>
+    <File Include="bin/fr/Hangfire.Core.resources.dll">
+      <publishTime>10/20/2020 15:35:24</publishTime>
+    </File>
+    <File Include="bin/Hangfire.Core.dll">
+      <publishTime>10/20/2020 15:35:54</publishTime>
+    </File>
+    <File Include="bin/Hangfire.SqlServer.dll">
+      <publishTime>10/20/2020 15:35:56</publishTime>
     </File>
     <File Include="bin/Microsoft.AI.Agent.Intercept.dll">
       <publishTime>12/07/2015 19:04:38</publishTime>
@@ -426,17 +447,29 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     <File Include="bin/Newtonsoft.Json.dll">
       <publishTime>04/22/2019 01:06:16</publishTime>
     </File>
+    <File Include="bin/nl/Hangfire.Core.resources.dll">
+      <publishTime>10/20/2020 15:35:24</publishTime>
+    </File>
     <File Include="bin/Owin.dll">
       <publishTime>11/27/2012 13:00:52</publishTime>
     </File>
+    <File Include="bin/pt-BR/Hangfire.Core.resources.dll">
+      <publishTime>10/20/2020 15:35:24</publishTime>
+    </File>
+    <File Include="bin/pt-PT/Hangfire.Core.resources.dll">
+      <publishTime>10/20/2020 15:35:24</publishTime>
+    </File>
+    <File Include="bin/pt/Hangfire.Core.resources.dll">
+      <publishTime>10/20/2020 15:35:24</publishTime>
+    </File>
     <File Include="bin/Repository.dll">
-      <publishTime>11/15/2020 13:33:06</publishTime>
+      <publishTime>11/18/2020 23:22:44</publishTime>
     </File>
     <File Include="bin/Repository.dll.config">
       <publishTime>11/07/2020 00:40:38</publishTime>
     </File>
     <File Include="bin/Repository.pdb">
-      <publishTime>11/15/2020 13:33:06</publishTime>
+      <publishTime>11/18/2020 23:22:44</publishTime>
     </File>
     <File Include="bin/roslyn/csc.exe">
       <publishTime>06/18/2015 20:19:46</publishTime>
@@ -475,13 +508,13 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>06/18/2015 20:19:46</publishTime>
     </File>
     <File Include="bin/S2Please.dll">
-      <publishTime>11/15/2020 13:33:11</publishTime>
+      <publishTime>11/18/2020 23:22:49</publishTime>
     </File>
     <File Include="bin/S2Please.pdb">
-      <publishTime>11/15/2020 13:33:11</publishTime>
+      <publishTime>11/18/2020 23:22:49</publishTime>
     </File>
     <File Include="bin/SHOP.COMMON.dll">
-      <publishTime>11/15/2020 13:33:06</publishTime>
+      <publishTime>11/18/2020 23:22:44</publishTime>
     </File>
     <File Include="bin/SHOP.COMMON.dll.config">
       <publishTime>10/18/2020 08:14:03</publishTime>
@@ -493,7 +526,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>10/18/2020 08:14:03</publishTime>
     </File>
     <File Include="bin/SHOP.COMMON.pdb">
-      <publishTime>11/15/2020 13:33:06</publishTime>
+      <publishTime>11/18/2020 23:22:44</publishTime>
     </File>
     <File Include="bin/System.AppContext.dll">
       <publishTime>10/18/2020 07:48:34</publishTime>
@@ -873,6 +906,12 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     <File Include="bin/WebGrease.dll">
       <publishTime>09/10/2013 17:28:38</publishTime>
     </File>
+    <File Include="bin/zh-TW/Hangfire.Core.resources.dll">
+      <publishTime>10/20/2020 15:35:24</publishTime>
+    </File>
+    <File Include="bin/zh/Hangfire.Core.resources.dll">
+      <publishTime>10/20/2020 15:35:24</publishTime>
+    </File>
     <File Include="colorlib-error-404-12/css/style.css">
       <publishTime>07/24/2020 23:45:31</publishTime>
     </File>
@@ -898,7 +937,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>07/06/2020 21:56:41</publishTime>
     </File>
     <File Include="Content/common-admin.css">
-      <publishTime>11/14/2020 20:10:03</publishTime>
+      <publishTime>11/15/2020 14:02:10</publishTime>
     </File>
     <File Include="Content/common.css">
       <publishTime>07/26/2020 20:34:17</publishTime>
@@ -1010,6 +1049,9 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     </File>
     <File Include="Image/Áo.jpg">
       <publishTime>06/26/2020 00:50:53</publishTime>
+    </File>
+    <File Include="Jobs/MailJob.cs">
+      <publishTime>11/18/2020 20:43:16</publishTime>
     </File>
     <File Include="Layout/bootstrap/css/bootstrap-responsive.css">
       <publishTime>06/26/2020 00:51:11</publishTime>
@@ -2215,7 +2257,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>11/07/2020 04:37:32</publishTime>
     </File>
     <File Include="packages.config">
-      <publishTime>11/07/2020 11:13:11</publishTime>
+      <publishTime>11/18/2020 17:52:53</publishTime>
     </File>
     <File Include="Scripts/ai.0.22.9-build00167.js">
       <publishTime>06/26/2020 00:47:19</publishTime>
@@ -2941,10 +2983,10 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>06/26/2020 00:47:06</publishTime>
     </File>
     <File Include="Scripts/Order/AdminOrder.js">
-      <publishTime>11/15/2020 13:05:03</publishTime>
+      <publishTime>11/18/2020 23:04:04</publishTime>
     </File>
     <File Include="Scripts/Product/AdminProduct.js">
-      <publishTime>11/13/2020 20:53:49</publishTime>
+      <publishTime>11/18/2020 22:07:23</publishTime>
     </File>
     <File Include="Scripts/Product/Product.js">
       <publishTime>10/18/2020 22:02:40</publishTime>
@@ -3274,7 +3316,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>06/26/2020 00:46:58</publishTime>
     </File>
     <File Include="Web.config">
-      <publishTime>11/07/2020 15:59:31</publishTime>
+      <publishTime>11/18/2020 23:22:50</publishTime>
     </File>
   </ItemGroup>
 </Project>

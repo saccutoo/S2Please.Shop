@@ -17,6 +17,10 @@
     .color-button-blue {
         background-color: #4066f0 !important;
     }
+    .float-left{
+        float:left;
+        margin-left:5px
+    }
 </style>
 @if (!string.IsNullOrEmpty(Model.TITLE_TABLE_NAME))
 {
@@ -26,29 +30,30 @@
 <div class="table-data__tool">
     <div class="table-data__tool-left">
         @*<div class="rs-select2--light rs-select2--md">
-                <select class="js-select2" name="property">
-                    <option selected="selected">All Properties</option>
-                    <option value="">Option 1</option>
-                    <option value="">Option 2</option>
-                </select>
-                <div class="dropDownSelect2"></div>
-            </div>
-            <div class="rs-select2--light rs-select2--sm">
-                <select class="js-select2" name="time">
-                    <option selected="selected">Today</option>
-                    <option value="">3 Days</option>
-                    <option value="">1 Week</option>
-                </select>
-                <div class="dropDownSelect2"></div>
-            </div>*@
-        <button class="au-btn-filter button-border" onclick="showPopupColumn('1','@Model.TABLE_NAME')" type="button">
+            <select class="js-select2" name="property">
+                <option selected="selected">All Properties</option>
+                <option value="">Option 1</option>
+                <option value="">Option 2</option>
+            </select>
+            <div class="dropDownSelect2"></div>
+        </div>
+        <div class="rs-select2--light rs-select2--sm">
+            <select class="js-select2" name="time">
+                <option selected="selected">Today</option>
+                <option value="">3 Days</option>
+                <option value="">1 Week</option>
+            </select>
+            <div class="dropDownSelect2"></div>
+        </div>*@
+        <button class="au-btn-filter button-border float-left" onclick="showPopupColumn('1','@Model.TABLE_NAME')" type="button">
             <i class="fa fa-filter"></i>@FunctionHelpers.GetValueLanguage("Button.Filter")
         </button>
-        <button class="au-btn-filter button-border" onclick="showPopupColumn('0','@Model.TABLE_NAME')" type="button">
+        <button class="au-btn-filter button-border float-left" onclick="showPopupColumn('0','@Model.TABLE_NAME')" type="button">
             <i class="fa fa-unsorted"></i>@FunctionHelpers.GetValueLanguage("Button.Sort")
         </button>
         @if (Model.BULK_ACTION != null && Model.BULK_ACTION.Count() > 0)
         {
+            int index=0;
             foreach (var action in Model.BULK_ACTION)
             {
                 var funtionNameButon = action.FUNTION_NAME;
@@ -87,42 +92,43 @@
 
                     }
                     if (check)
-                    {
+                    {                       
+                        <div class="dropdown" style="margin-top: 1px; float: left; margin-left: 5px;margin-right:0px;">
+                            <button class="au-btn-filter dropdown-toggle" data-toggle="dropdown" title="@FunctionHelpers.GetValueLanguage(action.BUTTON_NAME)" onclick="@funtionNameButon" type="button" data-placement="top">
+                                @FunctionHelpers.GetValueLanguage(action.BUTTON_NAME) <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
 
-
-                        <button class="au-btn-filter" data-toggle="dropdown" title="@FunctionHelpers.GetValueLanguage(action.BUTTON_NAME)" onclick="@funtionNameButon" type="button" data-placement="top">
-                            <i class=""></i>@FunctionHelpers.GetValueLanguage(action.BUTTON_NAME)
-                        </button>
-
-                        <div class="dropdown-menu" aria-labelledby="navbarDropdown1">
-
-                            @foreach (var dropdown in action.DROPDOWN)
-                            {
-                                funtionNameButon = dropdown.FUNTION_NAME;
-                                if (Model.DATA != null && Model.DATA.Count() > 0)
+                                @foreach (var dropdown in action.DROPDOWN)
                                 {
-                                    foreach (var data in Model.DATA)
+                                    funtionNameButon = dropdown.FUNTION_NAME;
+                                    if (Model.DATA != null && Model.DATA.Count() > 0)
                                     {
-                                        foreach (Newtonsoft.Json.Linq.JProperty property in data)
+                                        foreach (var data in Model.DATA)
                                         {
-                                            if (!String.IsNullOrEmpty(funtionNameButon))
+                                            foreach (Newtonsoft.Json.Linq.JProperty property in data)
                                             {
-                                                string valueReplace = "{" + property.Name + "}";
-                                                if (data[property.Name] != null && data[property.Name].Value != null)
+                                                if (!String.IsNullOrEmpty(funtionNameButon))
                                                 {
-                                                    funtionNameButon = funtionNameButon.Replace(valueReplace, data[property.Name].Value.ToString());
+                                                    string valueReplace = "{" + property.Name + "}";
+                                                    if (data[property.Name] != null && data[property.Name].Value != null)
+                                                    {
+                                                        funtionNameButon = funtionNameButon.Replace(valueReplace, data[property.Name].Value.ToString());
+                                                    }
                                                 }
                                             }
-                                        }
 
+                                        }
+                                    }
+                                    if (dropdown != null && FunctionHelpers.CheckPermission(Model.MENU_NAME, dropdown.ACTION_NAME))
+                                    {
+                                        <li><a class="dropdown-item cusor" onclick="@funtionNameButon">@FunctionHelpers.GetValueLanguage(dropdown.BUTTON_NAME)</a></li>
                                     }
                                 }
-                                if (dropdown != null && FunctionHelpers.CheckPermission(Model.MENU_NAME, dropdown.ACTION_NAME))
-                                {
-                                    <a class="dropdown-item cusor" onclick="@funtionNameButon">@FunctionHelpers.GetValueLanguage(dropdown.BUTTON_NAME)</a>
-                                }
-                            }
+                            </ul>
                         </div>
+
+                        
                     }
 
                 }
@@ -130,12 +136,13 @@
                 {
                     if (action != null && FunctionHelpers.CheckPermission(Model.MENU_NAME, action.ACTION_NAME))
                     {
-                        <button class="item" data-toggle="tooltip" data-placement="top" title="@FunctionHelpers.GetValueLanguage(action.BUTTON_NAME)" onclick="@funtionNameButon" type="button">
+                        <button class="item float-left" data-toggle="tooltip" data-placement="top" title="@FunctionHelpers.GetValueLanguage(action.BUTTON_NAME)" onclick="@funtionNameButon" type="button">
                             <i class="@action.CLASS"></i>
                         </button>
                     }
 
                 }
+                index++;
             }
         }
     </div>

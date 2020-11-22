@@ -21,13 +21,32 @@ namespace S2Please.Helper
         public static void LogError(string msg,string procedure)
         {
             var modelError = new ErrorModel();
-            var param1 = new List<Param>();
-            param1.Add(new Param { Key = "@ERROR_NUM", Value = new Random().Next(100000000, 999999999).ToString() });
-            param1.Add(new Param { Key = "@ERROR_MSG", Value = msg });
-            param1.Add(new Param { Key = "@ERROR_PROC", Value = procedure });
-            param1.Add(new Param { Key = "@CREATED_BY", Value = CurrentUser.UserAdmin.USER_ID.ToString() });
-            var paramType = MapperHelper.MapList<Param, Repository.Model.Param>(param1);
+            var param = new List<Param>();
+            param.Add(new Param { Key = "@ERROR_NUM", Value = new Random().Next(100000000, 999999999).ToString() });
+            param.Add(new Param { Key = "@ERROR_MSG", Value = msg });
+            param.Add(new Param { Key = "@ERROR_PROC", Value = procedure });
+            param.Add(new Param { Key = "@CREATED_BY", Value = CurrentUser.UserAdmin.USER_ID.ToString() });
+            var paramType = MapperHelper.MapList<Param, Repository.Model.Param>(param);
             _commonRepository.ListProcedure<ErrorModel>(modelError, "utl_Insert_ErrorLog", paramType);
+        }
+
+        public static void LogMailQueue(long id,long dataId,string dataType,string mailTo,string mailCc,string mailBcc,string mailName,string content,string message,string status,string from)
+        {
+            var model = new Repository.Model.MailQueueModel();
+            var param = new List<Param>();
+            param.Add(new Param { Key = "@ID", Value = id.ToString() });
+            param.Add(new Param { Key = "@DATA_ID", Value =dataId.ToString() });
+            param.Add(new Param { Key = "@DATA_TYPE", Value = dataType });
+            param.Add(new Param { Key = "@MAIL_TO", Value = mailTo });
+            param.Add(new Param { Key = "@MAIL_CC", Value = mailCc });
+            param.Add(new Param { Key = "@MAIL_BCC", Value = mailBcc });
+            param.Add(new Param { Key = "@MAIL_NAME", Value = mailName });
+            param.Add(new Param { Key = "@CONTENT", Value = content });
+            param.Add(new Param { Key = "@MESSAGE", Value = message });
+            param.Add(new Param { Key = "@STATUS", Value = status });
+            param.Add(new Param { Key = "@FROM", Value = from });
+            var paramType = MapperHelper.MapList<Param, Repository.Model.Param>(param);
+            _commonRepository.ListProcedure<Repository.Model.MailQueueModel>(model, "MailQueue_Update_MailQueue", paramType);
         }
     }
 

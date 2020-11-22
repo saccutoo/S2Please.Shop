@@ -426,13 +426,9 @@ namespace S2Please.Areas.ADMIN.Controllers
                     string body = RenderViewToString(this.ControllerContext, "~/Views/TemplateEmail/_EmailOrder.cshtml", vm);
                     List<string> toMail = new List<string>();
                     toMail.Add(vm.Order.EMAIL);
-                    string from = ConfigurationManager.AppSettings["MailUserName"] + ";" + "S2Please";
+                    string from = ConfigurationManager.AppSettings["MailUserName"] + ";" + "S2Please shop";
                     string replyTo = ConfigurationManager.AppSettings["MailUserName"];
-                    int resultCode = SendMail(subject, body, toMail, new List<string>(), new List<string>(), from, replyTo, new List<AttachmentJs>());
-                    if (resultCode != 200)
-                    {
-                        //Error email
-                    }
+                    int resultCode = SendMail(subject, body, toMail, new List<string>(), new List<string>(), from, replyTo, new List<AttachmentJs>(), vm.Order.ID, DataType.Order);
                 }
                 Session["CART_ORDER"] = null;
 
@@ -785,6 +781,69 @@ namespace S2Please.Areas.ADMIN.Controllers
                     }
                     else
                     {
+                        if (status==StatusOrder.NoApproval || status == StatusOrder.Sending)
+                        {
+                            foreach (var item in type)
+                            {
+                                OrderInformationViewModel vm = new OrderInformationViewModel();
+                                long id = item.ID;
+                                var responseOrder = _orderRepository.GetOrderById(id);
+                                var resultOrder = JsonConvert.DeserializeObject<List<OrderModel>>(JsonConvert.SerializeObject(responseOrder.Results));
+                                if (resultOrder != null && resultOrder.Count() > 0)
+                                {
+                                    vm.Order = resultOrder.FirstOrDefault();
+                                }
+
+                                var responseShipFee = _systemRepository.GetShipFee();
+                                var resultShipFee = JsonConvert.DeserializeObject<List<ShipFeeModel>>(JsonConvert.SerializeObject(responseShipFee.Results));
+                                if (resultShipFee != null && resultShipFee.Count() > 0)
+                                {
+                                    vm.ShipFees = resultShipFee;
+                                }
+
+                                var responseOrderDetail = _orderRepository.GetOrderDetailByOrderId(vm.Order.ID);
+                                var resultOrderDetail = JsonConvert.DeserializeObject<List<OrderDetailModel>>(JsonConvert.SerializeObject(responseOrderDetail.Results));
+
+                                if (resultOrderDetail != null && resultOrderDetail.Count() > 0)
+                                {
+                                    foreach (var orderDetail in resultOrderDetail)
+                                    {
+                                        ProductModel product = new ProductModel();
+                                        var responseProduct = _productRepository.GetProductById(orderDetail.PRODUCT_ID);
+                                        var resultProductSendEmail = JsonConvert.DeserializeObject<List<ProductModel>>(JsonConvert.SerializeObject(responseProduct.Results));
+                                        if (resultProductSendEmail != null && resultProductSendEmail.Count() > 0)
+                                        {
+                                            product = resultProductSendEmail.FirstOrDefault();
+                                        }
+
+                                        CartModel cart = new CartModel();
+                                        var responseProductMapper = _productRepository.GetProductColorSizeMapperByColorIdAndSizeId(orderDetail.COLOR_ID, orderDetail.SIZE_ID, orderDetail.PRODUCT_ID, "0");
+                                        var resultProductMapper = JsonConvert.DeserializeObject<List<ProductColorSizeMapperModel>>(JsonConvert.SerializeObject(responseProductMapper.Results));
+                                        if (resultProductMapper != null && resultProductMapper.Count() > 0)
+                                        {
+                                            cart.ProductColorSizeMapper = resultProductMapper.FirstOrDefault();
+                                            cart.ProductColorSizeMapper.PRICE = orderDetail.PRICE;
+                                            cart.ProductColorSizeMapper.DISCOUNT_RATE = orderDetail.RATE;
+                                        }
+                                        cart.AMOUNT = orderDetail.AMOUNT;
+                                        cart.NAME = product.NAME;
+                                        vm.Carts.Add(cart);
+                                    }
+                                }
+
+                                if (vm.Carts != null && vm.Carts.Count() > 0)
+                                {
+                                    string subject = string.Format(FunctionHelpers.GetValueLanguage("Subject.UpdateStatus"), vm.Order.ORDER_CODE);
+                                    string body = RenderViewToString(this.ControllerContext, "~/Views/TemplateEmail/_EmailOrder.cshtml", vm);
+                                    List<string> toMail = new List<string>();
+                                    toMail.Add(vm.Order.EMAIL);
+                                    string from = ConfigurationManager.AppSettings["MailUserName"] + ";" + "S2Please shop";
+                                    string replyTo = ConfigurationManager.AppSettings["MailUserName"];
+                                    int resultCode = SendMail(subject, body, toMail, new List<string>(), new List<string>(), from, replyTo, new List<AttachmentJs>(), item.ID, DataType.Order);
+                                }
+                            }
+
+                        }
                         result.SetDataMessage(true, FunctionHelpers.GetValueLanguage("Message.Order.UpdateSuccess"), FunctionHelpers.GetValueLanguage("Message.Success"));
                     }
                 }
@@ -858,7 +917,6 @@ namespace S2Please.Areas.ADMIN.Controllers
                 result
             }));
         }
-
 
         #region RenderTable
         public ActionResult ReloadTable(TableViewModel tableData, ParamType param)

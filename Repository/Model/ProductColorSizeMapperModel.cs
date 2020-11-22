@@ -15,7 +15,7 @@ namespace Repository.Model
         public float PRICE { get; set; }
         public long RATE { get; set; }
         public bool IS_MAIN { get; set; }
-        public long DISCOUNT_RATE { get; set; }
+        public float DISCOUNT_RATE { get; set; }
         public string IMG { get; set; }
         public string SIZE_NAME { get; set; }
         public string COLOR { get; set; }

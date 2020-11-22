@@ -374,6 +374,7 @@
     <Compile Include="Models\BaseModel.cs" />
     <Compile Include="Models\CustomerModel.cs" />
     <Compile Include="Models\EmailConfigModel.cs" />
+    <Compile Include="Models\MailQueueModel.cs" />
     <Compile Include="Models\OrderDetailModel.cs" />
     <Compile Include="Models\ConditionFilterModel.cs" />
     <Compile Include="Models\FileModel.cs" />

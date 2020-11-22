@@ -2,7 +2,7 @@
 using Autofac;
 using Autofac.Integration.Mvc;
 using Repository;
-
+using S2Please.Jobs;
 namespace S2Please
 {
     public static class RegisterDependencies
@@ -21,6 +21,7 @@ namespace S2Please
             builder.RegisterType<AuthenRepository>().As<IAuthenRepository>().InstancePerLifetimeScope();
             builder.RegisterType<DashboardRepository>().As<IDashboardRepository>().InstancePerLifetimeScope();
             builder.RegisterType<CustomerRepository>().As<ICustomerRepository>().InstancePerLifetimeScope();
+            builder.RegisterType<MailQueueRepository>().As<IMailQueueRepository>().InstancePerLifetimeScope();
 
             //controller base
             builder.RegisterType<S2Please.Controllers.BaseController>();
@@ -42,6 +43,9 @@ namespace S2Please
             builder.RegisterType<S2Please.Areas.WEB_SHOP.Controllers.ProductController>();
             builder.RegisterType<S2Please.Areas.WEB_SHOP.Controllers.SearchController>();
             builder.RegisterType<S2Please.Areas.WEB_SHOP.Controllers.UserController>();
+
+            //jobs
+            builder.RegisterType<MailJob>();
 
             //build all
             Container = builder.Build();
