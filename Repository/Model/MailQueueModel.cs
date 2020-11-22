@@ -17,5 +17,7 @@ namespace Repository.Model
         public string CONTENT { get; set; }
         public string MESSAGE { get; set; }
         public string STATUS { get; set; }
+        public string FROM { get; set; }
+
     }
 }

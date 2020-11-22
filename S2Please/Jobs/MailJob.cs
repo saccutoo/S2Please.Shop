@@ -4,23 +4,26 @@ using S2Please.Models;
 using System.Collections.Generic;
 using S2Please.Controllers;
 using SHOP.COMMON;
+using SHOP.COMMON.Helpers;
+
 namespace S2Please.Jobs
 {
     public class MailJob
     {
-        static IMailQueueRepository _mailQueueRepository;
+        //static IMailQueueRepository _mailQueueRepository;
         static BaseController _baseC = new BaseController();
-        public MailJob(IMailQueueRepository mailQueueRepository)
-        {
-            _mailQueueRepository = mailQueueRepository;
-        }
-        public string RecurringJob { get; set; } = "Mail job";
+        public static CommonRepository commonRepository = new CommonRepository();
+
+        //public MailJob(IMailQueueRepository mailQueueRepository)
+        //{
+        //    _mailQueueRepository = mailQueueRepository;
+        //}
+        public static string RecurringJob { get; set; } = "Mail job";
         /// <summary>
         /// minute/ hour/ day of month/ month/ day of week/ year
         ///  chạy liên tục và nghỉ sau mỗi 15 minutes
         /// </summary>
-        public string CronExpression { get; set; } = "*/15 * * * *";
-
+        public static string CronExpression { get; set; } = "*/2 * * * *";     
         /// <summary>
         /// khung giờ chạy cố định là 5:00am tới 21:00pm
         /// </summary>
@@ -28,17 +31,53 @@ namespace S2Please.Jobs
 
         private static int HourseMax { get; set; } = 22;
 
-        public static void _Execute()
+        public void _Execute()
         {
-            var response = _mailQueueRepository.GetTop5MailQueueFalse();
+            var param = new List<Param>();
+            var model = new Repository.Model.MailQueueModel();
+            var paramType = MapperHelper.MapList<Param, Repository.Model.Param>(param);
+            var response = commonRepository.ListProcedure<Repository.Model.MailQueueModel>(model, "MailQueue_Get_GetTop5MailQueueFalse", paramType);
             var result = JsonConvert.DeserializeObject<List<MailQueueModel>>(JsonConvert.SerializeObject(response.Results));
             if (result!=null && result.Count>0)
             {
                 foreach (var item in result)
                 {
-                    List<string> mailTo = JsonConvert.DeserializeObject<List<string>>(JsonConvert.SerializeObject(item.MAIL_TO));
-                    List<string> mailCc = JsonConvert.DeserializeObject<List<string>>(JsonConvert.SerializeObject(item.MAIL_CC));
-                    List<string> mailBcc = JsonConvert.DeserializeObject<List<string>>(JsonConvert.SerializeObject(item.MAIL_BCC));
+                    List<string> mailTo = new List<string>();
+                    List<string> mailCc = new List<string>();
+                    List<string> mailBcc = new List<string>();
+                    if (!string.IsNullOrEmpty(item.MAIL_TO))
+                    {
+                        var listMailTo = JsonConvert.DeserializeObject<List<ListMail>>(item.MAIL_TO);
+                        if (listMailTo!=null && listMailTo.Count>0)
+                        {
+                            foreach (var mail in listMailTo)
+                            {
+                                mailTo.Add(mail.Mail);
+                            }
+                        }
+                    }
+                    if (!string.IsNullOrEmpty(item.MAIL_CC))
+                    {
+                        var listMailCc = JsonConvert.DeserializeObject<List<ListMail>>(item.MAIL_CC);
+                        if (listMailCc != null && listMailCc.Count > 0)
+                        {
+                            foreach (var mail in listMailCc)
+                            {
+                                mailCc.Add(mail.Mail);
+                            }
+                        }
+                    }
+                    if (!string.IsNullOrEmpty(item.MAIL_BCC))
+                    {
+                        var listMailBcc = JsonConvert.DeserializeObject<List<ListMail>>(item.MAIL_BCC);
+                        if (listMailBcc != null && listMailBcc.Count > 0)
+                        {
+                            foreach (var mail in listMailBcc)
+                            {
+                                mailBcc.Add(mail.Mail);
+                            }
+                        }
+                    }
 
                     if (item.DATA_TYPE==DataType.Order)
                     {

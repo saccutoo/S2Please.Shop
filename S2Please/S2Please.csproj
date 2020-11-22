@@ -70,6 +70,9 @@
       <HintPath>..\packages\ExcelNumberFormat.1.0.10\lib\net20\ExcelNumberFormat.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Hangfire.AspNet, Version=0.2.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Hangfire.AspNet.0.2.0\lib\net45\Hangfire.AspNet.dll</HintPath>
+    </Reference>
     <Reference Include="Hangfire.Core, Version=1.7.17.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Hangfire.Core.1.7.17\lib\net46\Hangfire.Core.dll</HintPath>
     </Reference>
@@ -258,12 +261,14 @@
   <ItemGroup>
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
+    <Compile Include="App_Start\Hangfire.cs" />
     <Compile Include="App_Start\IdentityConfig.cs" />
     <Compile Include="App_Start\RegisterDependencies.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Areas\ADMIN\ADMINAreaRegistration.cs" />
+    <Compile Include="Areas\ADMIN\Controllers\TestController.cs" />
     <Compile Include="Areas\ADMIN\Controllers\SystemController.cs" />
     <Compile Include="Areas\ADMIN\Controllers\FilterController.cs" />
     <Compile Include="Areas\ADMIN\Controllers\OrderController.cs" />
@@ -374,6 +379,7 @@
     <Compile Include="Models\BaseModel.cs" />
     <Compile Include="Models\CustomerModel.cs" />
     <Compile Include="Models\EmailConfigModel.cs" />
+    <Compile Include="Models\ListMail.cs" />
     <Compile Include="Models\MailQueueModel.cs" />
     <Compile Include="Models\OrderDetailModel.cs" />
     <Compile Include="Models\ConditionFilterModel.cs" />

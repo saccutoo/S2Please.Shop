@@ -11,6 +11,10 @@ namespace S2Please.Helper
 {
     public static class EmailHelper
     {
+        public static List<ListMail> MailTo { get; set; }
+        public static List<ListMail> MailCc { get; set; }
+        public static List<ListMail> MailBcc { get; set; }
+
         public static EmailConfigModel GetConfiguration()
         {
 
@@ -57,7 +61,7 @@ namespace S2Please.Helper
 
                     MailMessage message = PrepareMailMessage(subject, body, to, cc, bcc, attachments, emailConfiguration);
                     smtpClient.Send(message);
-                    LogHelper.LogMailQueue(0, dataId, dataType, JsonConvert.SerializeObject(to), JsonConvert.SerializeObject(cc), JsonConvert.SerializeObject(bcc), subject, body, "Thành công", StatusMailQueue.Success,from);
+                    LogHelper.LogMailQueue(0, dataId, dataType, JsonConvert.SerializeObject(MailTo), JsonConvert.SerializeObject(MailCc), JsonConvert.SerializeObject(MailBcc), subject, body, "Thành công", StatusMailQueue.Success,from);
                 }
 
                 return 200;
@@ -96,24 +100,31 @@ namespace S2Please.Helper
             message.From = fromAddress;
             if (to != null)
             {
+                MailTo = new List<ListMail>();
                 foreach (var item in to.Where(item => !string.IsNullOrWhiteSpace(item)))
                 {
                     message.To.Add(item);
+                    MailTo.Add(new ListMail() { Mail = item });
                 }
             }
 
             if (cc != null)
             {
+                MailCc = new List<ListMail>();
                 foreach (var item in cc.Where(item => !string.IsNullOrWhiteSpace(item)))
                 {
                     message.CC.Add(item);
+                    MailCc.Add(new ListMail() { Mail = item });
                 }
             }
             if (bcc != null)
             {
+                MailBcc = new List<ListMail>();
                 foreach (var item in bcc.Where(item => !string.IsNullOrWhiteSpace(item)))
                 {
                     message.Bcc.Add(item);
+                    MailBcc.Add(new ListMail() { Mail = item });
+
                 }
             }
 

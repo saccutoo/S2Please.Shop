@@ -4,6 +4,7 @@ using S2Please.Models;
 using Newtonsoft.Json;
 using S2Please.Controllers;
 using Repository;
+
 namespace S2Please.Areas.ADMIN.Controllers
 {
     public class DashboardController : BaseController

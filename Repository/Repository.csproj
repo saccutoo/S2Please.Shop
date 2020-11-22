@@ -72,6 +72,7 @@
     <Compile Include="Model\GenderModel.cs" />
     <Compile Include="Model\HistoryResetPassword.cs" />
     <Compile Include="Model\LanguageModel.cs" />
+    <Compile Include="Model\ListMail.cs" />
     <Compile Include="Model\MailQueueModel.cs" />
     <Compile Include="Model\MethodPayModel.cs" />
     <Compile Include="Model\MultiLanguageModel.cs" />

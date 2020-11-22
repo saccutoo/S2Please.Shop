@@ -274,7 +274,6 @@ function Update(id) {
 }
 
 function updateOrder() {
-    debugger
     loadingBody.Show();
     $("#form-order label[name*='message-error-']").text("");
 
@@ -359,6 +358,7 @@ function updateStatusOrder(status) {
             }
         }
     }
+    loadingBody.Show();
     $.ajax({
         type: "POST",
         url: "/ADMIN/Order/UpdateStatusOrder",
@@ -368,7 +368,6 @@ function updateStatusOrder(status) {
         },
         dataType: 'json',
         success: function (response) {
-            loadingBody.Hide();
             if (!response.result.IsPermission) {
                 window.location.href = response.result.Url;
             }
@@ -379,7 +378,7 @@ function updateStatusOrder(status) {
             else if (!response.result.Success) {
                 toastr["error"](response.result.Message, response.result.CacheName);
             }
-
+            loadingBody.Hide();
         }
     });
 }

@@ -344,3 +344,5 @@ C:\S2Please\S2Please\bin\pt-BR\Hangfire.Core.resources.dll
 C:\S2Please\S2Please\bin\pt-PT\Hangfire.Core.resources.dll
 C:\S2Please\S2Please\bin\zh\Hangfire.Core.resources.dll
 C:\S2Please\S2Please\bin\zh-TW\Hangfire.Core.resources.dll
+C:\S2Please\S2Please\bin\Hangfire.AspNet.dll
+C:\S2Please\S2Please\bin\Hangfire.AspNet.xml
