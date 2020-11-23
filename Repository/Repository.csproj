@@ -55,6 +55,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="IRepository\ICustomerRepository.cs" />
+    <Compile Include="IRepository\IProductGroupRepository.cs" />
+    <Compile Include="IRepository\IMenuRepository.cs" />
+    <Compile Include="IRepository\IProductTypeRepository.cs" />
     <Compile Include="IRepository\IOrderRepository.cs" />
     <Compile Include="IRepository\IAuthenRepository.cs" />
     <Compile Include="IRepository\IDashboardRepository.cs" />
@@ -74,6 +77,7 @@
     <Compile Include="Model\LanguageModel.cs" />
     <Compile Include="Model\ListMail.cs" />
     <Compile Include="Model\MailQueueModel.cs" />
+    <Compile Include="Model\MenuModel.cs" />
     <Compile Include="Model\MethodPayModel.cs" />
     <Compile Include="Model\MultiLanguageModel.cs" />
     <Compile Include="Model\MULTI_LANGUAGE.cs" />
@@ -103,9 +107,12 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repository\CommonRepository.cs" />
     <Compile Include="Repository\CustomerRepository.cs" />
+    <Compile Include="Repository\ProductGroupRepository.cs" />
     <Compile Include="Repository\OrderRepository.cs" />
     <Compile Include="Repository\AuthenRepository.cs" />
     <Compile Include="Repository\DashboardRepository.cs" />
+    <Compile Include="Repository\MenuRepository.cs" />
+    <Compile Include="Repository\ProductTypeRepository.cs" />
     <Compile Include="Repository\SystemRepository.cs" />
     <Compile Include="Repository\MailQueueRepository.cs" />
     <Compile Include="Repository\TableRepository.cs" />

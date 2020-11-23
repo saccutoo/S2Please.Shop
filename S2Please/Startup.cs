@@ -13,10 +13,10 @@ namespace S2Please
             ConfigureAuth(app);
             app.MapSignalR();
             app.UseHangfireDashboard();
-            app.UseHangfireDashboard("/hangfire", new DashboardOptions
-            {
-                Authorization = new[] { new UseHangfireDashboard() }
-            });
+            //app.UseHangfireDashboard("/hangfire", new DashboardOptions
+            //{
+            //    Authorization = new[] { new UseHangfireDashboard() }
+            //});
             app.UseHangfireServer();
 
         }

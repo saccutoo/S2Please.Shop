@@ -22,6 +22,9 @@ namespace S2Please
             builder.RegisterType<DashboardRepository>().As<IDashboardRepository>().InstancePerLifetimeScope();
             builder.RegisterType<CustomerRepository>().As<ICustomerRepository>().InstancePerLifetimeScope();
             builder.RegisterType<MailQueueRepository>().As<IMailQueueRepository>().InstancePerLifetimeScope();
+            builder.RegisterType<ProductTypeRepository>().As<IProductTypeRepository>().InstancePerLifetimeScope();
+            builder.RegisterType<MenuRepository>().As<IMenuRepository>().InstancePerLifetimeScope();
+            builder.RegisterType<ProductGroupRepository>().As<IProductGroupRepository>().InstancePerLifetimeScope();
 
             //controller base
             builder.RegisterType<S2Please.Controllers.BaseController>();
@@ -35,6 +38,7 @@ namespace S2Please
             builder.RegisterType<S2Please.Areas.ADMIN.Controllers.FilterController>();
             builder.RegisterType<S2Please.Areas.ADMIN.Controllers.SystemController>();
             builder.RegisterType<S2Please.Areas.ADMIN.Controllers.TestController>();
+            builder.RegisterType<S2Please.Areas.ADMIN.Controllers.ProductTypeController>();
 
             //controllers web
             builder.RegisterType<S2Please.Areas.WEB_SHOP.Controllers.AuthenController>();
@@ -44,9 +48,6 @@ namespace S2Please
             builder.RegisterType<S2Please.Areas.WEB_SHOP.Controllers.ProductController>();
             builder.RegisterType<S2Please.Areas.WEB_SHOP.Controllers.SearchController>();
             builder.RegisterType<S2Please.Areas.WEB_SHOP.Controllers.UserController>();
-
-            //jobs
-            builder.RegisterType<MailJob>();
 
             //build all
             Container = builder.Build();

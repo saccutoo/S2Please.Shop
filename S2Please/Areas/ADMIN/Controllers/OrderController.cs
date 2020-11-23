@@ -653,9 +653,7 @@ namespace S2Please.Areas.ADMIN.Controllers
             }
             else if (responseOrder != null && responseOrder.Success == true)
             {
-                result.Success = true;
-                result.Message = FunctionHelpers.GetValueLanguage("Message.Order.UpdateSuccess");
-                result.CacheName = FunctionHelpers.GetValueLanguage("Message.Success");
+                result.SetDataMessage(true, FunctionHelpers.GetValueLanguage("Message.Order.UpdateSuccess"), FunctionHelpers.GetValueLanguage("Message.Success"), string.Empty);
                 result.Results = responseOrder.Results;
                 data = JsonConvert.DeserializeObject<List<OrderModel>>(JsonConvert.SerializeObject(result.Results)).FirstOrDefault();              
             }
@@ -1137,19 +1135,23 @@ namespace S2Please.Areas.ADMIN.Controllers
             {
                 for (int i = 0; i < tableData.DATA.Count(); i++)
                 {
-                    var value = string.Empty;
                     Cell = Cell + 1;
                     foreach (var item in dt1.Columns)
                     {
 
                         for (var j = 0; j < dt1.Columns.Count; j++)
                         {
-                            if (tableData.DATA[i][dt1.Columns[j].ToString()] != null && tableData.DATA[i][dt1.Columns[j].ToString()].Value != null)
+                            var value = string.Empty;
+                            var column = tableData.TABLE_COLUMN.Where(s => s.COLUMN_NAME == dt1.Columns[j].ToString()).ToList().FirstOrDefault();
+                            if (!string.IsNullOrEmpty(column.DATA_TYPE) && !string.IsNullOrEmpty(column.PROPERTY_NAME))
+                            {
+                                value = FunctionHelpers.GetValueLocalization(long.Parse(tableData.DATA[i][column.ORIGINAL_COLUMN_NAME].Value), column.DATA_TYPE, column.PROPERTY_NAME);
+                            }
+                            else if (tableData.DATA[i][dt1.Columns[j].ToString()] != null && tableData.DATA[i][dt1.Columns[j].ToString()].Value != null)
                             {
                                 value = tableData.DATA[i][dt1.Columns[j].ToString()].Value;
                             }
                             ws.Cell(Cell, j + 1).Value = value;
-
                         }
                     }
                 }
