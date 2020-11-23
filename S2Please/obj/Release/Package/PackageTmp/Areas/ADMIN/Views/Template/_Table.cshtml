@@ -122,7 +122,7 @@
                                     }
                                     if (dropdown != null && FunctionHelpers.CheckPermission(Model.MENU_NAME, dropdown.ACTION_NAME))
                                     {
-                                        <li><a class="dropdown-item cusor" onclick="@funtionNameButon">@FunctionHelpers.GetValueLanguage(dropdown.BUTTON_NAME)</a></li>
+                                        <li onclick="@funtionNameButon"><a class="dropdown-item cusor" >@FunctionHelpers.GetValueLanguage(dropdown.BUTTON_NAME)</a></li>
                                     }
                                 }
                             </ul>

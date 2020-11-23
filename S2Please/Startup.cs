@@ -1,26 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using Microsoft.Owin;
+﻿using Microsoft.Owin;
 using Owin;
 using Hangfire;
-using S2Please.Jobs;
-using System.Configuration;
-using Hangfire.SqlServer;
+using S2Please.Filters;
 
 [assembly: OwinStartup(typeof(S2Please.Startup))]
 namespace S2Please
 {
     public partial class Startup
     {
-        private  string _connection = ConfigurationManager.AppSettings["DBConnectionHangfire"];
         public void Configuration(IAppBuilder app)
         {
             ConfigureAuth(app);
             app.MapSignalR();
-            //GlobalConfiguration.Configuration.UseSqlServerStorage(_connection);
-            //RecurringJob.AddOrUpdate<MailJob>(MailJob.RecurringJob, x => x._Execute(), MailJob.CronExpression);
             app.UseHangfireDashboard();
+            app.UseHangfireDashboard("/hangfire", new DashboardOptions
+            {
+                Authorization = new[] { new UseHangfireDashboard() }
+            });
             app.UseHangfireServer();
 
         }

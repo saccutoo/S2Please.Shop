@@ -130,7 +130,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>10/24/2020 20:18:06</publishTime>
     </File>
     <File Include="Areas/ADMIN/Views/Template/_Table.cshtml">
-      <publishTime>11/18/2020 22:41:38</publishTime>
+      <publishTime>11/20/2020 15:14:25</publishTime>
     </File>
     <File Include="Areas/ADMIN/Views/Template/_TableContent.cshtml">
       <publishTime>11/15/2020 13:17:00</publishTime>
@@ -229,7 +229,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>09/04/2020 14:35:19</publishTime>
     </File>
     <File Include="Areas/WEB_SHOP/Views/Home/Index.cshtml">
-      <publishTime>11/07/2020 16:00:09</publishTime>
+      <publishTime>11/22/2020 13:06:03</publishTime>
     </File>
     <File Include="Areas/WEB_SHOP/Views/Menu/DropdownLanuage.cshtml">
       <publishTime>11/11/2020 21:14:41</publishTime>
@@ -354,6 +354,9 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     <File Include="bin/fr/Hangfire.Core.resources.dll">
       <publishTime>10/20/2020 15:35:24</publishTime>
     </File>
+    <File Include="bin/Hangfire.AspNet.dll">
+      <publishTime>08/16/2016 14:23:58</publishTime>
+    </File>
     <File Include="bin/Hangfire.Core.dll">
       <publishTime>10/20/2020 15:35:54</publishTime>
     </File>
@@ -463,13 +466,13 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>10/20/2020 15:35:24</publishTime>
     </File>
     <File Include="bin/Repository.dll">
-      <publishTime>11/18/2020 23:22:44</publishTime>
+      <publishTime>11/22/2020 22:22:28</publishTime>
     </File>
     <File Include="bin/Repository.dll.config">
       <publishTime>11/07/2020 00:40:38</publishTime>
     </File>
     <File Include="bin/Repository.pdb">
-      <publishTime>11/18/2020 23:22:44</publishTime>
+      <publishTime>11/22/2020 22:22:28</publishTime>
     </File>
     <File Include="bin/roslyn/csc.exe">
       <publishTime>06/18/2015 20:19:46</publishTime>
@@ -508,13 +511,13 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>06/18/2015 20:19:46</publishTime>
     </File>
     <File Include="bin/S2Please.dll">
-      <publishTime>11/18/2020 23:22:49</publishTime>
+      <publishTime>11/22/2020 22:55:43</publishTime>
     </File>
     <File Include="bin/S2Please.pdb">
-      <publishTime>11/18/2020 23:22:49</publishTime>
+      <publishTime>11/22/2020 22:55:43</publishTime>
     </File>
     <File Include="bin/SHOP.COMMON.dll">
-      <publishTime>11/18/2020 23:22:44</publishTime>
+      <publishTime>11/22/2020 22:22:27</publishTime>
     </File>
     <File Include="bin/SHOP.COMMON.dll.config">
       <publishTime>10/18/2020 08:14:03</publishTime>
@@ -526,7 +529,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>10/18/2020 08:14:03</publishTime>
     </File>
     <File Include="bin/SHOP.COMMON.pdb">
-      <publishTime>11/18/2020 23:22:44</publishTime>
+      <publishTime>11/22/2020 22:22:27</publishTime>
     </File>
     <File Include="bin/System.AppContext.dll">
       <publishTime>10/18/2020 07:48:34</publishTime>
@@ -2257,7 +2260,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>11/07/2020 04:37:32</publishTime>
     </File>
     <File Include="packages.config">
-      <publishTime>11/18/2020 17:52:53</publishTime>
+      <publishTime>11/22/2020 09:43:39</publishTime>
     </File>
     <File Include="Scripts/ai.0.22.9-build00167.js">
       <publishTime>06/26/2020 00:47:19</publishTime>
@@ -2983,7 +2986,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>06/26/2020 00:47:06</publishTime>
     </File>
     <File Include="Scripts/Order/AdminOrder.js">
-      <publishTime>11/18/2020 23:04:04</publishTime>
+      <publishTime>11/22/2020 11:44:25</publishTime>
     </File>
     <File Include="Scripts/Product/AdminProduct.js">
       <publishTime>11/18/2020 22:07:23</publishTime>
@@ -3307,7 +3310,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>07/13/2020 23:16:15</publishTime>
     </File>
     <File Include="Views/TemplateEmail/_EmailOrder.cshtml">
-      <publishTime>11/15/2020 13:24:14</publishTime>
+      <publishTime>11/20/2020 15:12:39</publishTime>
     </File>
     <File Include="Views/Web.config">
       <publishTime>11/07/2020 11:17:12</publishTime>
@@ -3316,7 +3319,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>06/26/2020 00:46:58</publishTime>
     </File>
     <File Include="Web.config">
-      <publishTime>11/18/2020 23:22:50</publishTime>
+      <publishTime>11/22/2020 22:51:52</publishTime>
     </File>
   </ItemGroup>
 </Project>
