@@ -32,7 +32,7 @@ namespace Repository
         }
 
         //Save product type
-        public ResultModel SaveProductType(ProductTypeModel model, bool isCheckPermission = true)
+        public ResultModel SaveProductType(ProductTypeModel model,List<LocalizationType> type, bool isCheckPermission = true)
         {
             var param = new List<Param>();
             param.Add(new Param { Key = "@ID", Value = model.ID.ToString() });
@@ -42,6 +42,17 @@ namespace Repository
             param.Add(new Param { Key = "@MENU_ID", Value = model.MENU_ID.ToString() });
             param.Add(new Param { Key = "@CREATED_BY", Value = model.CREATED_BY.ToString() });
             param.Add(new Param { Key = "@UPDATED_BY", Value = model.UPDATED_BY.ToString() });
+
+            param.Add(new Param
+            {
+                IsUserDefinedTableType = true,
+                paramUserDefinedTableType = new SqlParameter("@LocalizationType", SqlDbType.Structured)
+                {
+                    TypeName = "dbo.LocalizationType",
+                    Value = DataTableHelper.ConvertToUserDefinedDataTable(type)
+                }
+            });
+
             return ListProcedure<ProductTypeModel>(new ProductTypeModel(), "ProductType_Update_SaveProductType", param, false, isCheckPermission);
         }
 
@@ -51,6 +62,15 @@ namespace Repository
             var param = new List<Param>();
             param.Add(new Param { Key = "@ID", Value = id.ToString() });
             return ListProcedure<ProductTypeModel>(new ProductTypeModel(), "ProductType_Get_ProductTypeByID1", param);
+        }
+
+        //delete product type by id
+        public ResultModel DeleteById(long id,long userId, bool isCheckPermission = true)
+        {
+            var param = new List<Param>();
+            param.Add(new Param { Key = "@ID", Value = id.ToString() });
+            param.Add(new Param { Key = "@UPDATED_BY", Value = userId.ToString() });
+            return ListProcedure<ProductTypeModel>(new ProductTypeModel(), "ProductType_Delete_DeleteById", param,false, isCheckPermission);
         }
     }
 }

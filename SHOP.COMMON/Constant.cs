@@ -107,16 +107,24 @@ namespace SHOP.COMMON
         public static string CL_STATUS_ORDER = "CL_STATUS_ORDER";//CL_STATUS_ORDER
         public static string CL_STATUS_PAY = "CL_STATUS_PAY";//CL_STATUS_PAY
         public static string Order = "Order";//CL_STATUS_PAY
-
+        public static string TABLE_MULTIPLE_LANGUAGE_CONFIGURATION = "TABLE_MULTIPLE_LANGUAGE_CONFIGURATION";//TABLE_MULTIPLE_LANGUAGE_CONFIGURATION
+        public static string PRODUCT_TYPE = "PRODUCT_TYPE";//CL_STATUS_PAY
     }
 
     public static class PropertyName
     {
-        public static string Name = "NAME";//CL_STATUS_ORDER
+        public static string Name = "NAME";
+        public static string Property_Name = "PROPERTY_NAME";
     }
     public static class StatusMailQueue
     {
         public static string Success = "S";//Thành công
         public static string False = "F";//Thất bại
+    }
+
+    public static class MuiltipleLanguageType
+    {
+        public static string Input = "input";
+        public static string Textarea = "textarea";//Thất bại
     }
 }

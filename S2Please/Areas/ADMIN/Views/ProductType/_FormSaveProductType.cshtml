@@ -19,14 +19,6 @@
         padding-right: 20px;
     }
 </style>
-@if (Model.ProductType.ID == 0)
-{
-    <title>@FunctionHelpers.GetValueLanguage("ProductType.ProductTypeAddNew")</title>
-}
-else
-{
-    <title>@FunctionHelpers.GetValueLanguage("ProductType.ProductTypeUpdate")</title>
-}
 
 <div class="modal-header">
     <h5 class="modal-title" id="scrollmodalLabel">
@@ -45,7 +37,7 @@ else
 </div>
 <div class="modal-body" style="padding-left:15px;">
     <form id="product-type">
-        <input type="text" name="model.ID" value="@Model.ProductType.ID" hidden/>
+        <input type="text" name="model.ID" value="@Model.ProductType.ID" hidden />
         <div class="row form-group">
             <div class="col col-md-6">
                 @Html.Partial("~/Areas/ADMIN/Views/Template/Form/_Input.cshtml", new InputModel() { Type = "text", Id = "NAME", Class = "", Name = "model.NAME", LabelName = "ProductType.Name", Value = Model.ProductType.NAME, IsRequied = true })
@@ -67,9 +59,13 @@ else
                     }
 
                 }
-                @Html.Partial("~/Areas/ADMIN/Views/Template/Form/_Switch.cshtml", new InputModel() { Id = "IS_SHOW_VIEW", Class = "", Name = "model.IS_SHOW_VIEW", LabelName = "Title.Show", Value = "true", Attribute = check, Style="margin-top:5px;"})
+                @Html.Partial("~/Areas/ADMIN/Views/Template/Form/_Switch.cshtml", new InputModel() { Id = "IS_SHOW_VIEW", Class = "", Name = "model.IS_SHOW_VIEW", LabelName = "Title.Show", Value = "true", Attribute = check, Style = "margin-top:5px;" })
             </div>
         </div>
+        @if (Model.Localiza != null)
+        {
+            @Html.Partial("~/Areas/ADMIN/Views/Template/_Localizadata.cshtml", Model.Localiza)
+        }
     </form>
 </div>
 <div class="modal-footer">

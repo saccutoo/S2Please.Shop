@@ -77,6 +77,7 @@ namespace S2Please.Areas.ADMIN.Controllers
         public ActionResult ShowFormSaveProductType(long id=0)
         {
             ProductTypeSaveViewModel vm = new ProductTypeSaveViewModel();
+            vm.Localiza.DATA_TYPE = DataType.PRODUCT_TYPE;
 
             var responseMenu = _menuRepository.GetMenu();
             vm.Menus = responseMenu.Results;
@@ -84,13 +85,35 @@ namespace S2Please.Areas.ADMIN.Controllers
             var responseProductGroup= _productGroupRepository.GetAllProductGroup();
             vm.Groups = responseProductGroup.Results;
 
+            var responseMultipleLanguage = _systemRepository.GetTableMultipleLanguageConfigurationByTableName(TableName.ProductType);
+            var resultMultipleLanguage = JsonConvert.DeserializeObject<List<TableMultipleLanguageConfigurationModel>>(JsonConvert.SerializeObject(responseMultipleLanguage.Results));
+            if (resultMultipleLanguage != null && resultMultipleLanguage.Count()>0)
+            {
+                vm.Localiza.MultipleLanguageConfigurations = resultMultipleLanguage;
+            }
+
+            var responseLanguage = _systemRepository.GetLanguage();
+            var resultLanguage = JsonConvert.DeserializeObject<List<LanguageModel>>(JsonConvert.SerializeObject(responseLanguage.Results));
+            if (resultLanguage != null && resultLanguage.Count() > 0)
+            {
+                vm.Localiza.Languages = resultLanguage;
+            }
+
             if (id!=0)
             {
+                vm.Localiza.DATA_ID = id;
                 var responseProductType = _productTypeRepository.GetProductTypeByID(id);
                 var resultProductType=JsonConvert.DeserializeObject<List<ProductTypeModel>>(JsonConvert.SerializeObject(responseProductType.Results));
                 if (resultProductType!=null && resultProductType.Count()>0)
                 {
                     vm.ProductType = resultProductType.FirstOrDefault();
+                }
+
+                var responseLocalizadata = _systemRepository.GetLocalizationByDataIdAndDataType(id, vm.Localiza.DATA_TYPE);
+                var resultLocalizadata = JsonConvert.DeserializeObject<List<LocalizationModel>>(JsonConvert.SerializeObject(responseLocalizadata.Results));
+                if (resultLocalizadata != null && resultLocalizadata.Count() > 0)
+                {
+                    vm.Localiza.Localizations = resultLocalizadata;
                 }
             }
             var html = RenderViewToString(this.ControllerContext, "~/Areas/ADMIN/Views/ProductType/_FormSaveProductType.cshtml", vm);
@@ -100,18 +123,25 @@ namespace S2Please.Areas.ADMIN.Controllers
             }));
         }
         
-        public ActionResult SaveProductType(ProductTypeModel model)
+        public ActionResult SaveProductType(ProductTypeModel model, List<LocalizationModel> localiza)
         {
             var validations = ValidationHelper.Validation(model, "model");
-            if (validations.Count > 0)
+            var validationLocaliza = ValidationHelper.ListValidation(localiza, "localiza");
+            var allValidations = new List<ValidationModel>(validations.Count +
+                                    validationLocaliza.Count);
+            allValidations.AddRange(validations);
+            allValidations.AddRange(validationLocaliza);
+
+            if (allValidations.Count > 0)
             {
-                return Json(new { Result = validations, Invalid = true }, JsonRequestBehavior.AllowGet);
+                return Json(new { Result = allValidations, Invalid = true }, JsonRequestBehavior.AllowGet);
             }
             model.CREATED_BY = CurrentUser.UserAdmin.ID;
             model.UPDATED_BY = CurrentUser.UserAdmin.ID;
             var modelType = MapperHelper.Map<ProductTypeModel,Repository.Model.ProductTypeModel>(model);
+            var localizaType = MapperHelper.MapList<LocalizationModel, Repository.Type.LocalizationType>(localiza);
             var result = new ResultModel();
-            var response = _productTypeRepository.SaveProductType(modelType);
+            var response = _productTypeRepository.SaveProductType(modelType, localizaType);
             if (response != null)
             {
                 if (response.Success == false && CheckPermision(response.StatusCode) == false)
@@ -127,6 +157,7 @@ namespace S2Please.Areas.ADMIN.Controllers
                     var resultProductType= JsonConvert.DeserializeObject<List<ProductTypeModel>>(JsonConvert.SerializeObject(response.Results));
                     if (resultProductType!=null && resultProductType.Count()>0)
                     {
+                        FunctionHelpers.RemoveCacheByProcedure("Localization_Get_Localization");
                         if (model.ID==0)
                         {
                             result.SetDataMessage(true, FunctionHelpers.GetValueLanguage("Message.AddNewSuccess"), FunctionHelpers.GetValueLanguage("Message.Success"), string.Empty);
@@ -150,6 +181,25 @@ namespace S2Please.Areas.ADMIN.Controllers
                     }
 
                 }
+            }
+            return Content(JsonConvert.SerializeObject(new
+            {
+                result
+            }));
+        }
+
+        public ActionResult Delete(long id = 0)
+        {
+            ResultModel result = new ResultModel();
+            var response = _productTypeRepository.DeleteById(id,CurrentUser.UserAdmin.ID);
+            if (response.Success == false && CheckPermision(response.StatusCode) == false)
+            {
+                result.SetUrl("/Base/Page404");
+            }
+            else
+            {
+                FunctionHelpers.RemoveCacheByProcedure("Localization_Get_Localization");
+                result.SetDataMessage(true, FunctionHelpers.GetValueLanguage("Message.Remove.Sucess"), FunctionHelpers.GetValueLanguage("Message.Success"));
             }
             return Content(JsonConvert.SerializeObject(new
             {

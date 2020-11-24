@@ -76,6 +76,7 @@
     <Compile Include="Model\HistoryResetPassword.cs" />
     <Compile Include="Model\LanguageModel.cs" />
     <Compile Include="Model\ListMail.cs" />
+    <Compile Include="Model\LocalizationModel.cs" />
     <Compile Include="Model\MailQueueModel.cs" />
     <Compile Include="Model\MenuModel.cs" />
     <Compile Include="Model\MethodPayModel.cs" />
@@ -100,6 +101,7 @@
     <Compile Include="Model\StatusPayModel.cs" />
     <Compile Include="Model\TableColumnModel.cs" />
     <Compile Include="Model\TableModel.cs" />
+    <Compile Include="Model\TableMultipleLanguageConfigurationModel.cs" />
     <Compile Include="Model\TableUserConfigModel.cs" />
     <Compile Include="Model\TimeVersion.cs" />
     <Compile Include="Model\UserModel.cs" />
@@ -121,6 +123,7 @@
     <Compile Include="Type\DataIdType.cs" />
     <Compile Include="Type\ColorType.cs" />
     <Compile Include="Type\ImportCountryType.cs" />
+    <Compile Include="Type\LocalizationType.cs" />
     <Compile Include="Type\OrderDetailType.cs" />
     <Compile Include="Type\ParamType.cs" />
     <Compile Include="Type\ProductImgType.cs" />

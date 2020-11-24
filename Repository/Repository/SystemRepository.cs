@@ -136,5 +136,22 @@ namespace Repository
         {
             return ListProcedure<StatusPayModel>(new StatusPayModel(), "StatusPay_Get_StatusPay", new List<Param>(), true);
         }
+
+        //Get table multiole language configuration
+        public ResultModel GetTableMultipleLanguageConfigurationByTableName(string tableName)
+        {
+            var param = new List<Param>();
+            param.Add(new Param { Key = "@TABLE_NAME", Value = tableName });
+            return ListProcedure<TableMultipleLanguageConfigurationModel>(new TableMultipleLanguageConfigurationModel(), "TableMultipleLanguageConfiguration_Get_TableMultipleLanguageConfigurationByTableName", param, true);
+        }
+
+        //Get Localization By DataId And Data Type
+        public ResultModel GetLocalizationByDataIdAndDataType(long dataId,string dataType)
+        {
+            var param = new List<Param>();
+            param.Add(new Param { Key = "@DATA_ID", Value = dataId.ToString() });
+            param.Add(new Param { Key = "@DATA_TYPE", Value = dataType });
+            return ListProcedure<LocalizationModel>(new LocalizationModel(), "Localization_Get_LocalizationByDataIdAndDataType", param);
+        }
     }
 }

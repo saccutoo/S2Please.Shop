@@ -26,6 +26,6 @@ namespace S2Please.ViewModel
         public string OnBlur { get; set; } = string.Empty;
         public bool IsFuntionBlur { get; set; } = false;
         public string TypeInputMask { get; set; } = string.Empty;
-
+        public string LabelNameLocalization { get; set; } = string.Empty;
     }
 }

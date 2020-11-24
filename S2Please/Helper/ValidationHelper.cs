@@ -21,8 +21,8 @@ namespace S2Please.Helper
             if (models != null && models.Count > 0)
             {
                 var param = new List<Param>();
-                var paramType = MapperHelper.MapList<Param, Repository.Model.Param>(param);
                 param.Add(new Param { Key = "@TABLE_NAME", Value = models[0].GetType().Name.Replace("Model", string.Empty) });
+                var paramType = MapperHelper.MapList<Param, Repository.Model.Param>(param);
                 var validationResponse = _commonRepository.ListProcedure<ColumnValidationModel>(new ColumnValidationModel(), "Validation_Get_GetValidation", paramType);
                 var validationResult = JsonConvert.DeserializeObject<List<ColumnValidationModel>>(JsonConvert.SerializeObject(validationResponse.Results));
 

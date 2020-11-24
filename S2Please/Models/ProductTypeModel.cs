@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-
+using S2Please.Areas.ADMIN.ViewModel;
 namespace S2Please.Models
 {
     public class ProductTypeModel : BaseModel
@@ -12,6 +12,5 @@ namespace S2Please.Models
         public bool IS_SHOW_VIEW { get; set; }
         public long MENU_ID { get; set; }
         public string MENU_NAME { get; set; }
-
     }
 }

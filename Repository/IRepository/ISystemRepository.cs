@@ -61,6 +61,13 @@ namespace Repository
         ResultModel GetStatusOrder();
 
         //Get Status pay
-        ResultModel GetStatusPay();
+        ResultModel GetStatusPay(); 
+
+        //Get table multiole language configuration
+        ResultModel GetTableMultipleLanguageConfigurationByTableName(string tableName);
+
+        //Get Localization By DataId And Data Type
+        ResultModel GetLocalizationByDataIdAndDataType(long dataId, string dataType);
+
     }
 }

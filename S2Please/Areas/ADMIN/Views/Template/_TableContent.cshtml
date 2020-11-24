@@ -431,15 +431,15 @@
                 <div class="rs-select2--light  rs-select3--sm">
                     @if ((Model.PAGE_INDEX * Model.PAGE_SIZE) > Model.TOTAL)
                     {
-                        <span class="font-bold">@((Model.PAGE_INDEX * Model.PAGE_SIZE) - Model.PAGE_SIZE + 1 ) - @Model.TOTAL  (@Model.TOTAL)@FunctionHelpers.GetValueLanguage("Title.Record")</span>
+                        <span class="font-bold">@((Model.PAGE_INDEX * Model.PAGE_SIZE) - Model.PAGE_SIZE + 1 ) - @Model.TOTAL  (@Model.TOTAL)          @FunctionHelpers.GetValueLanguage("Title.Record")</span>
                     }
                     else
                     {
-                        <span class="font-bold">@((Model.PAGE_INDEX * Model.PAGE_SIZE) - Model.PAGE_SIZE + 1 ) - @(Model.PAGE_INDEX * Model.PAGE_SIZE)  (@Model.TOTAL) @FunctionHelpers.GetValueLanguage("Title.Record")</span>
+                        <span class="font-bold">@((Model.PAGE_INDEX * Model.PAGE_SIZE) - Model.PAGE_SIZE + 1 ) - @(Model.PAGE_INDEX * Model.PAGE_SIZE)  (@Model.TOTAL)  @FunctionHelpers.GetValueLanguage("Title.Record")</span>
                     }
                 </div>
                 <div class="rs-select2--light  rs-select1--sm ">
-                    <span class="font-bold">@FunctionHelpers.GetValueLanguage("Title.Show")</span>
+                    <span class="font-bold"> @FunctionHelpers.GetValueLanguage("Title.Show") </span>
                 </div>
                 <div class="rs-select2--light rs-select2--sm">
                     <select class="js-select2 @Model.TABLE_NAME-paging-items-per-page" name="time" id="@Model.TABLE_NAME-paging-items-per-page" onchange="changeItemsPerpage('@Model.TABLE_NAME')">
@@ -467,7 +467,7 @@
                                     disabledEnvent = "pointer-events: none";
                                 }
                             }
-                            <li class="page-item" style="@disabledEnvent" onclick="prev('@Model.TABLE_NAME')"><a class="page-link">Trước</a></li>
+                            <li class="page-item" style="@disabledEnvent" onclick="prev('@Model.TABLE_NAME')"><a class="page-link">@FunctionHelpers.GetValueLanguage("Labled.Before")</a></li>
                             @{
                                 int index = Convert.ToInt16(Model.PAGE_INDEX);
                                 int maxPageShow = 0;
@@ -540,7 +540,7 @@
                                     disabledEnvent = "pointer-events: none";
                                 }
                             }
-                            <li class="page-item" style="@disabledEnvent" onclick="next('@Model.TABLE_NAME')" id="topcontrol"><a class="page-link">Sau</a></li>
+                            <li class="page-item" style="@disabledEnvent" onclick="next('@Model.TABLE_NAME')" id="topcontrol"><a class="page-link">@FunctionHelpers.GetValueLanguage("Labled.After")</a></li>
                         </ul>
                     </nav>
                 </div>

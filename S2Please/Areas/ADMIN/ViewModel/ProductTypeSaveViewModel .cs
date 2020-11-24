@@ -13,6 +13,7 @@ namespace S2Please.Areas.ADMIN.ViewModel
         public ProductTypeModel ProductType { get; set; } = new ProductTypeModel();
         public List<dynamic> Menus { get; set; } = new List<dynamic>();
         public List<dynamic> Groups { get; set; } = new List<dynamic>();
+        public LocalizadataViewModel Localiza { get; set; } = new LocalizadataViewModel();
     }
 
 }

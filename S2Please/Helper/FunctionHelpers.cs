@@ -9,6 +9,9 @@ using S2Please.Models;
 using Newtonsoft.Json;
 using Repository;
 using SHOP.COMMON.Helpers;
+using System.Collections;
+using System.Web;
+
 namespace S2Please.Helper
 {
     public static class FunctionHelpers
@@ -167,6 +170,21 @@ namespace S2Please.Helper
                 timeVersion = result.FirstOrDefault().TIME_VERSION;
             }
             return timeVersion.ToString();
+        }
+
+        public static void RemoveCacheByProcedure(string procedure)
+        {
+            List<string> keys = new List<string>();
+            IDictionaryEnumerator enumerator = HttpRuntime.Cache.GetEnumerator();
+
+            while (enumerator.MoveNext())
+                keys.Add(enumerator.Key.ToString());
+
+            for (int i = 0; i < keys.Count; i++)
+                if (keys[i].Contains(procedure))
+                {
+                    HttpRuntime.Cache.Remove(keys[i]);
+                }
         }
     }
 }
