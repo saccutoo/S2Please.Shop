@@ -21,76 +21,70 @@ using System.Configuration;
 
 namespace S2Please.Areas.ADMIN.Controllers
 {
-    public class ProductTypeController : BaseController
+    public class ProductGroupController : BaseController
     {
-        // GET: ADMIN/ProductType
+        // GET: ADMIN/ProductGroup
 
         private ITableRepository _tableRepository;
         private ISystemRepository _systemRepository;
         private IProductRepository _productRepository;
-        private IProductTypeRepository _productTypeRepository;
-        private IMenuRepository _menuRepository;
         private IProductGroupRepository _productGroupRepository;
-        public ProductTypeController(ITableRepository tableRepository, IOrderRepository orderRepository, ISystemRepository systemRepository, IProductRepository productRepository, IProductTypeRepository productTypeRepository, IMenuRepository menuRepository, IProductGroupRepository productGroupRepository)
+        public ProductGroupController(ITableRepository tableRepository, IOrderRepository orderRepository, ISystemRepository systemRepository, IProductRepository productRepository ,IProductGroupRepository productGroupRepository)
         {
             this._tableRepository = tableRepository;
             this._systemRepository = systemRepository;
             this._productRepository = productRepository;
-            this._productTypeRepository = productTypeRepository;
-            this._menuRepository = menuRepository;
             this._productGroupRepository = productGroupRepository;
         }
 
         public ActionResult Index()
         {
-            ProductTypeViewModel productType = new ProductTypeViewModel();
-            var responseTableUser = _tableRepository.GetTableUserConfig(TableName.ProductType, CurrentUser.UserAdmin.USER_ID);
+            ProductGroupViewModel productGroup = new ProductGroupViewModel();
+            var responseTableUser = _tableRepository.GetTableUserConfig(TableName.ProductGroup, CurrentUser.UserAdmin.USER_ID);
             var resultTableUser = JsonConvert.DeserializeObject<List<TableModel>>(JsonConvert.SerializeObject(responseTableUser.Results));
             if (resultTableUser != null && resultTableUser.Count() > 0)
             {
-                productType.Table = JsonConvert.DeserializeObject<TableViewModel>(resultTableUser.FirstOrDefault().TABLE_CONTENT);
+                productGroup.Table = JsonConvert.DeserializeObject<TableViewModel>(resultTableUser.FirstOrDefault().TABLE_CONTENT);
             }
             else
             {
-                var responseOrder = _tableRepository.GetTableByTableName(TableName.ProductType);
+                var responseOrder = _tableRepository.GetTableByTableName(TableName.ProductGroup);
                 var resultOrder = JsonConvert.DeserializeObject<List<TableModel>>(JsonConvert.SerializeObject(responseOrder.Results));
                 if (resultOrder != null && resultOrder.Count() > 0)
                 {
-                    productType.Table = JsonConvert.DeserializeObject<TableViewModel>(resultOrder.FirstOrDefault().TABLE_CONTENT);
+                    productGroup.Table = JsonConvert.DeserializeObject<TableViewModel>(resultOrder.FirstOrDefault().TABLE_CONTENT);
                 }
             }
 
             ParamType paramType = new ParamType();
-            paramType.PAGE_SIZE = productType.Table.PAGE_SIZE == 0 ? 1 : productType.Table.PAGE_SIZE;
-            paramType.PAGE_NUMBER = productType.Table.PAGE_INDEX == 0 ? 1 : productType.Table.PAGE_INDEX;
-            productType.Table.TABLE_NAME = TableName.ProductType;
-            productType.Table.TITLE_TABLE_NAME = FunctionHelpers.GetValueLanguage("Table.Title.ProductType");
-            productType.Table = RenderTable(productType.Table, paramType);
-            if (!productType.Table.IS_PERMISSION)
+            paramType.PAGE_SIZE = productGroup.Table.PAGE_SIZE == 0 ? 1 : productGroup.Table.PAGE_SIZE;
+            paramType.PAGE_NUMBER = productGroup.Table.PAGE_INDEX == 0 ? 1 : productGroup.Table.PAGE_INDEX;
+            productGroup.Table.TABLE_NAME = TableName.ProductGroup;
+            productGroup.Table.TITLE_TABLE_NAME = FunctionHelpers.GetValueLanguage("Table.Title.ProductGroup");
+            productGroup.Table = RenderTable(productGroup.Table, paramType);
+            if (!productGroup.Table.IS_PERMISSION)
             {
                 return RedirectToRoute(new { action = "/Page404", controller = "Base", area = "" });
             }
             //Table common
-            return View(productType);
+            return View(productGroup);
         }
 
-        public ActionResult ShowFormSaveProductType(long id=0,bool isUpdate=true)
+        public ActionResult ShowFormSaveProductGroup(long id = 0, bool isUpdate = true)
         {
-            ProductTypeSaveViewModel vm = new ProductTypeSaveViewModel();
-            vm.Localiza.DATA_TYPE = DataType.PRODUCT_TYPE;
-            vm.Is_Save = isUpdate;
-            var responseMenu = _menuRepository.GetMenu();
-            vm.Menus = responseMenu.Results;
+            ProductGroupSaveViewModel vm = new ProductGroupSaveViewModel();
+            vm.Localiza.DATA_TYPE = DataType.PRODUCT_GROUP;
+            vm.Is_Save = isUpdate;          
 
-            var responseProductGroup= _productGroupRepository.GetAllProductGroup();
-            vm.Groups = responseProductGroup.Results;
-
-            var responseMultipleLanguage = _systemRepository.GetTableMultipleLanguageConfigurationByTableName(TableName.ProductType);
+            var responseMultipleLanguage = _systemRepository.GetTableMultipleLanguageConfigurationByTableName(TableName.ProductGroup);
             var resultMultipleLanguage = JsonConvert.DeserializeObject<List<TableMultipleLanguageConfigurationModel>>(JsonConvert.SerializeObject(responseMultipleLanguage.Results));
-            if (resultMultipleLanguage != null && resultMultipleLanguage.Count()>0)
+            if (resultMultipleLanguage != null && resultMultipleLanguage.Count() > 0)
             {
                 vm.Localiza.MultipleLanguageConfigurations = resultMultipleLanguage;
             }
+
+            var responseType = _systemRepository.GetProductGroupType();
+            vm.Types = responseType.Results;
 
             var responseLanguage = _systemRepository.GetLanguage();
             var resultLanguage = JsonConvert.DeserializeObject<List<LanguageModel>>(JsonConvert.SerializeObject(responseLanguage.Results));
@@ -99,14 +93,15 @@ namespace S2Please.Areas.ADMIN.Controllers
                 vm.Localiza.Languages = resultLanguage;
             }
 
-            if (id!=0)
+            if (id != 0)
             {
                 vm.Localiza.DATA_ID = id;
-                var responseProductType = _productTypeRepository.GetProductTypeByID(id);
-                var resultProductType=JsonConvert.DeserializeObject<List<ProductTypeModel>>(JsonConvert.SerializeObject(responseProductType.Results));
-                if (resultProductType!=null && resultProductType.Count()>0)
+
+                var responseProductGroup = _productGroupRepository.GetProductGroupById(id);
+                var resultProductGroup = JsonConvert.DeserializeObject<List<ProductGroupModel>>(JsonConvert.SerializeObject(responseProductGroup.Results));
+                if (resultProductGroup != null && resultProductGroup.Count() > 0)
                 {
-                    vm.ProductType = resultProductType.FirstOrDefault();
+                    vm.ProductGroup = resultProductGroup.FirstOrDefault();
                 }
 
                 var responseLocalizadata = _systemRepository.GetLocalizationByDataIdAndDataType(id, vm.Localiza.DATA_TYPE);
@@ -116,14 +111,14 @@ namespace S2Please.Areas.ADMIN.Controllers
                     vm.Localiza.Localizations = resultLocalizadata;
                 }
             }
-            var html = RenderViewToString(this.ControllerContext, "~/Areas/ADMIN/Views/ProductType/_FormSaveProductType.cshtml", vm);
+            var html = RenderViewToString(this.ControllerContext, "~/Areas/ADMIN/Views/ProductGroup/_FormSaveProductGroup.cshtml", vm);
             return Content(JsonConvert.SerializeObject(new
             {
                 html
             }));
         }
-        
-        public ActionResult SaveProductType(ProductTypeModel model, List<LocalizationModel> localiza)
+
+        public ActionResult SaveProductGroup(ProductGroupModel model, List<LocalizationModel> localiza)
         {
             var validations = ValidationHelper.Validation(model, "model");
             var validationLocaliza = ValidationHelper.ListValidation(localiza, "localiza");
@@ -138,10 +133,10 @@ namespace S2Please.Areas.ADMIN.Controllers
             }
             model.CREATED_BY = CurrentUser.UserAdmin.ID;
             model.UPDATED_BY = CurrentUser.UserAdmin.ID;
-            var modelType = MapperHelper.Map<ProductTypeModel,Repository.Model.ProductTypeModel>(model);
+            var modelType = MapperHelper.Map<ProductGroupModel, Repository.Model.ProductGroupModel>(model);
             var localizaType = MapperHelper.MapList<LocalizationModel, Repository.Type.LocalizationType>(localiza);
             var result = new ResultModel();
-            var response = _productTypeRepository.SaveProductType(modelType, localizaType);
+            var response = _productGroupRepository.SaveProductGroup(modelType, localizaType);
             if (response != null)
             {
                 if (response.Success == false && CheckPermision(response.StatusCode) == false)
@@ -154,11 +149,11 @@ namespace S2Please.Areas.ADMIN.Controllers
                 }
                 else
                 {
-                    var resultProductType= JsonConvert.DeserializeObject<List<ProductTypeModel>>(JsonConvert.SerializeObject(response.Results));
-                    if (resultProductType!=null && resultProductType.Count()>0)
+                    var resultProductType = JsonConvert.DeserializeObject<List<ProductGroupModel>>(JsonConvert.SerializeObject(response.Results));
+                    if (resultProductType != null && resultProductType.Count() > 0)
                     {
                         FunctionHelpers.RemoveCacheByProcedure("Localization_Get_Localization");
-                        if (model.ID==0)
+                        if (model.ID == 0)
                         {
                             result.SetDataMessage(true, FunctionHelpers.GetValueLanguage("Message.AddNewSuccess"), FunctionHelpers.GetValueLanguage("Message.Success"), string.Empty);
                         }
@@ -191,7 +186,7 @@ namespace S2Please.Areas.ADMIN.Controllers
         public ActionResult Delete(long id = 0)
         {
             ResultModel result = new ResultModel();
-            var response = _productTypeRepository.DeleteById(id,CurrentUser.UserAdmin.ID);
+            var response = _productGroupRepository.DeleteById(id);
             if (response.Success == false && CheckPermision(response.StatusCode) == false)
             {
                 result.SetUrl("/Base/Page404");
@@ -206,6 +201,7 @@ namespace S2Please.Areas.ADMIN.Controllers
                 result
             }));
         }
+
 
         #region RenderTable
         public ActionResult ReloadTable(TableViewModel tableData, ParamType param)
@@ -234,9 +230,9 @@ namespace S2Please.Areas.ADMIN.Controllers
             }
 
             tableData.TABLE_NAME = tableName;
-            if (tableName == TableName.ProductType)
+            if (tableName == TableName.ProductGroup)
             {
-                tableData.TITLE_TABLE_NAME = FunctionHelpers.GetValueLanguage("Table.Title.ProductType");
+                tableData.TITLE_TABLE_NAME = FunctionHelpers.GetValueLanguage("Table.Title.ProductGroup");
             }
             tableData = RenderTable(tableData, param);
 
@@ -266,12 +262,12 @@ namespace S2Please.Areas.ADMIN.Controllers
             tableData.VALUE_DYNAMIC = paramType.VALUE;
             tableData.STRING_FILTER = paramType.STRING_FILTER;
 
-            if (tableData.TABLE_NAME == TableName.ProductType)
+            if (tableData.TABLE_NAME == TableName.ProductGroup)
             {
-                tableData.TABLE_URL = TableUrl.ProductType;
-                tableData.MENU_NAME = MenuName.ProductType;
-                tableData.TABLE_EXPORT_URL = TableExportUrl.ProductType;
-                tableData.TABLE_SESION_EXPORT_URL = TableSesionExportUrl.ProductType;
+                tableData.TABLE_URL = TableUrl.ProductGroup;
+                tableData.MENU_NAME = MenuName.ProductGroup;
+                tableData.TABLE_EXPORT_URL = TableExportUrl.ProductGroup;
+                tableData.TABLE_SESION_EXPORT_URL = TableSesionExportUrl.ProductGroup;
             }
 
             if (tableData.TABLE_COLUMN == null || tableData.TABLE_COLUMN.Count() == 0)
@@ -309,9 +305,9 @@ namespace S2Please.Areas.ADMIN.Controllers
         public TableViewModel GetData(TableViewModel tableData, ParamType paramType)
         {
             var type = MapperHelper.Map<ParamType, Repository.Type.ParamType>(paramType);
-            if (tableData.TABLE_NAME == TableName.ProductType)
+            if (tableData.TABLE_NAME == TableName.ProductGroup)
             {
-                var response = _productTypeRepository.GetProductType(type);
+                var response = _productGroupRepository.GetProductGroupGromAdmin(type);
                 if (response != null)
                 {
                     if (response.Success == false && CheckPermision(response.StatusCode) == false)

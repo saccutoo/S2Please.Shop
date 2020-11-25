@@ -1145,7 +1145,7 @@ namespace S2Please.Areas.ADMIN.Controllers
                             var column = tableData.TABLE_COLUMN.Where(s => s.COLUMN_NAME == dt1.Columns[j].ToString()).ToList().FirstOrDefault();
                             if (!string.IsNullOrEmpty(column.DATA_TYPE) && !string.IsNullOrEmpty(column.PROPERTY_NAME))
                             {
-                                value = FunctionHelpers.GetValueLocalization(long.Parse(tableData.DATA[i][column.ORIGINAL_COLUMN_NAME].Value), column.DATA_TYPE, column.PROPERTY_NAME);
+                                value = FunctionHelpers.GetValueLocalization(long.Parse(tableData.DATA[i][column.COLUMN_DATA_ID].Value), column.DATA_TYPE, column.PROPERTY_NAME);
                             }
                             else if (tableData.DATA[i][dt1.Columns[j].ToString()] != null && tableData.DATA[i][dt1.Columns[j].ToString()].Value != null)
                             {

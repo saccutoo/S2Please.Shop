@@ -44,6 +44,8 @@ namespace SHOP.COMMON
         public static string ProductOrder = "Product-Order";
         public static string OrderDetail = "OrderDetail";
         public static string ProductType = "ProductType";
+        public static string ProductGroup = "ProductGroup";
+
     }
 
     public static class MenuName
@@ -53,6 +55,8 @@ namespace SHOP.COMMON
         public static string ProductOrder = "Product-Order";
         public static string OrderDetail = "OrderDetail";
         public static string ProductType = "ProductType";
+        public static string ProductGroup = "ProductGroup";
+
     }
 
     public static class TableUrl
@@ -61,6 +65,8 @@ namespace SHOP.COMMON
         public static string Order = "/ADMIN/Order/ReloadTable";
         public static string ProductOrder = "/ADMIN/Order/ReloadTable";
         public static string ProductType = "/ADMIN/ProductType/ReloadTable";
+        public static string ProductGroup = "/ADMIN/ProductGroup/ReloadTable";
+
     }
     public static class TableExportUrl
     {
@@ -68,7 +74,7 @@ namespace SHOP.COMMON
         public static string Order = "/ADMIN/Order/Export";
         public static string ProductOrder = "/ADMIN/Order/Export";
         public static string ProductType = "/ADMIN/ProductType/Export";
-
+        public static string ProductGroup = "/ADMIN/ProductGroup/Export";
     }
     public static class TableSesionExportUrl
     {
@@ -76,7 +82,7 @@ namespace SHOP.COMMON
         public static string Order = "/ADMIN/Order/SesionExport";
         public static string ProductOrder = "/ADMIN/Order/SesionExport";
         public static string ProductType = "/ADMIN/ProductType/SesionExport";
-
+        public static string ProductGroup = "/ADMIN/ProductGroup/SesionExport";
     }
     public static class Permission
     {
@@ -108,13 +114,22 @@ namespace SHOP.COMMON
         public static string CL_STATUS_PAY = "CL_STATUS_PAY";//CL_STATUS_PAY
         public static string Order = "Order";//CL_STATUS_PAY
         public static string TABLE_MULTIPLE_LANGUAGE_CONFIGURATION = "TABLE_MULTIPLE_LANGUAGE_CONFIGURATION";//TABLE_MULTIPLE_LANGUAGE_CONFIGURATION
-        public static string PRODUCT_TYPE = "PRODUCT_TYPE";//CL_STATUS_PAY
+        public static string PRODUCT_TYPE = "PRODUCT_TYPE";//PRODUCT_TYPE
+        public static string PRODUCT_GROUP = "PRODUCT_GROUP";//PRODUCT_GROUP
+        public static string MENU = "MENU";//MENU
+        public static string PRODUCT_GROUP_TYPE = "PRODUCT_GROUP_TYPE";//PRODUCT_GROUP_TYPE
+        public static string CL_METHOD_PAY = "CL_METHOD_PAY";//CL_METHOD_PAY
+        public static string CL_SHIP_FEE = "CL_SHIP_FEE";//CL_METHOD_PAY
+
     }
 
     public static class PropertyName
     {
         public static string Name = "NAME";
         public static string Property_Name = "PROPERTY_NAME";
+        public static string MenuName = "MENU_NAME";
+        public static string ColumnName = "COLUMN_NAME";
+
     }
     public static class StatusMailQueue
     {

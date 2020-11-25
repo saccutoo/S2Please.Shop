@@ -39,6 +39,7 @@ namespace S2Please
             builder.RegisterType<S2Please.Areas.ADMIN.Controllers.SystemController>();
             builder.RegisterType<S2Please.Areas.ADMIN.Controllers.TestController>();
             builder.RegisterType<S2Please.Areas.ADMIN.Controllers.ProductTypeController>();
+            builder.RegisterType<S2Please.Areas.ADMIN.Controllers.ProductGroupController>();
 
             //controllers web
             builder.RegisterType<S2Please.Areas.WEB_SHOP.Controllers.AuthenController>();

@@ -14,5 +14,17 @@ namespace Repository
     {
         //Get all product group
         ResultModel GetAllProductGroup();
+
+        //Get product type
+        ResultModel GetProductGroupGromAdmin(ParamType paramType, bool isCheckPermission = true);
+
+        //Save product group
+        ResultModel SaveProductGroup(ProductGroupModel model, List<LocalizationType> type, bool isCheckPermission = true);
+
+        //Save product group by id
+        ResultModel GetProductGroupById(long Id);
+
+        //delete product group by id
+        ResultModel DeleteById(long id, bool isCheckPermission = true);
     }
 }

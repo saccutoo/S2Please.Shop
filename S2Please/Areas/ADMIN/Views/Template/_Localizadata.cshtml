@@ -35,7 +35,7 @@
                                 <div class="row form-group">
                                     <div class="col-md-12">
                                         <input type="text" id="language_@index" name="localiza[@index].LANGUAGE_ID" value="@item.ID" hidden />
-                                        <input type="text" id="language_@index" name="localiza[@index].DATA_TYPE" value="@Model.DATA_TYPE " hidden />
+                                        <input type="text" id="language_@index" name="localiza[@index].DATA_TYPE" value="@Model.DATA_TYPE" hidden />
                                         <input type="text" id="language_@index" name="localiza[@index].DATA_ID" value="@Model.DATA_ID" hidden />
                                         <input type="text" id="language_@index" name="localiza[@index].PROPERTY_NAME" value="@muiltipleLanguage.PROPERTY_NAME" hidden />
                                         @if (muiltipleLanguage.TYPE == MuiltipleLanguageType.Input)
@@ -43,7 +43,7 @@
                                             var value = string.Empty;
                                             if (Model.DATA_ID!=0 && Model.Localizations!=null && Model.Localizations.Count()>0)
                                             {
-                                                var localizadata = Model.Localizations.Where(s => s.DATA_ID == Model.DATA_ID && s.LANGUAGE_ID == item.ID && s.DATA_TYPE == Model.DATA_TYPE && s.PROPERTY_NAME==muiltipleLanguage.PROPERTY_NAME).FirstOrDefault();
+                                                var localizadata = Model.Localizations.Where(s => s.DATA_ID == Model.DATA_ID && s.LANGUAGE_ID == item.ID && s.DATA_TYPE.Trim() == Model.DATA_TYPE.Trim() && s.PROPERTY_NAME==muiltipleLanguage.PROPERTY_NAME).FirstOrDefault();
                                                 if (localizadata!=null)
                                                 {
                                                     value = localizadata.PROPERTY_VALUE;

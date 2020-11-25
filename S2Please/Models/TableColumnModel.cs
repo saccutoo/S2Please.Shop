@@ -18,6 +18,7 @@ namespace S2Please.Models
         public bool? IS_SORT { get; set; }
         public string ORIGINAL_COLUMN_ALIAS { get; set; }
         public string ORIGINAL_COLUMN_NAME { get; set; }
+        public string COLUMN_DATA_ID { get; set; }
         public string DATA_TYPE { get; set; }
         public string PROPERTY_NAME { get; set; }
         public bool IS_CHECK { get; set; }

@@ -69,5 +69,7 @@ namespace Repository
         //Get Localization By DataId And Data Type
         ResultModel GetLocalizationByDataIdAndDataType(long dataId, string dataType);
 
+        //Get Product Group Type
+        ResultModel GetProductGroupType();
     }
 }

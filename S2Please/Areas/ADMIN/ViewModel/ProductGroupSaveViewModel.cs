@@ -8,12 +8,11 @@ using S2Please.Helper;
 
 namespace S2Please.Areas.ADMIN.ViewModel
 {
-    public class ProductTypeSaveViewModel : BaseModel
+    public class ProductGroupSaveViewModel : BaseModel
     {
-        public ProductTypeModel ProductType { get; set; } = new ProductTypeModel();
-        public List<dynamic> Menus { get; set; } = new List<dynamic>();
-        public List<dynamic> Groups { get; set; } = new List<dynamic>();
+        public ProductGroupModel ProductGroup{ get; set; } = new ProductGroupModel();
         public LocalizadataViewModel Localiza { get; set; } = new LocalizadataViewModel();
+        public List<dynamic> Types { get; set; } = new List<dynamic>();
         public bool Is_Save { get; set; } = true;
     }
 

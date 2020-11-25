@@ -153,5 +153,11 @@ namespace Repository
             param.Add(new Param { Key = "@DATA_TYPE", Value = dataType });
             return ListProcedure<LocalizationModel>(new LocalizationModel(), "Localization_Get_LocalizationByDataIdAndDataType", param);
         }
+
+        //Get Product Group Type
+        public ResultModel GetProductGroupType()
+        {
+            return ListProcedure<BaseModel>(new BaseModel(), "ProductGroupType_Get_ProductGroupType", new List<Param>(), true);
+        }
     }
 }

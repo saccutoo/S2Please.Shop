@@ -91,16 +91,16 @@
                                 <div class="card-body">
                                     <div class="row form-group">
                                         <div class="col col-md-6">
-                                            @Html.Partial("~/Areas/ADMIN/Views/Template/Form/_Select.cshtml", new SelectModel() { Id = "STATUS", Name = "model.STATUS", Datas = Model.StatusOrders, LabelName = "OrderDetail.OrderStauts", IsRequied = true, Value = Model.Order.STATUS.ToString(), FieldId = "ID", FieldName = "NAME", IsShowTitle = true })
+                                            @Html.Partial("~/Areas/ADMIN/Views/Template/Form/_Select.cshtml", new SelectModel() { Id = "STATUS", Name = "model.STATUS", Datas = Model.StatusOrders, LabelName = "OrderDetail.OrderStauts", IsRequied = true, Value = Model.Order.STATUS.ToString(), FieldId = "ID", FieldName = "NAME", IsShowTitle = true ,IsMultiLanguage=true,DataType=DataType.CL_STATUS_ORDER,, PropertyName = PropertyName.Name })
                                         </div>
                                         <div class="col col-md-6">
-                                            @Html.Partial("~/Areas/ADMIN/Views/Template/Form/_Select.cshtml", new SelectModel() { Id = "STATUS_PAY", Name = "model.STATUS_PAY", Datas = Model.StatusPays, LabelName = "OrderDetail.StautsPay", IsRequied = true, Value = Model.Order.STATUS_PAY.ToString(), FieldId = "ID", FieldName = "NAME", IsShowTitle = true })
+                                            @Html.Partial("~/Areas/ADMIN/Views/Template/Form/_Select.cshtml", new SelectModel() { Id = "STATUS_PAY", Name = "model.STATUS_PAY", Datas = Model.StatusPays, LabelName = "OrderDetail.StautsPay", IsRequied = true, Value = Model.Order.STATUS_PAY.ToString(), FieldId = "ID", FieldName = "NAME", IsShowTitle = true, IsMultiLanguage = true, DataType = DataType.CL_STATUS_PAY, PropertyName = PropertyName.Name })
                                         </div>
                                         <div class="col col-md-6">
-                                            @Html.Partial("~/Areas/ADMIN/Views/Template/Form/_Select.cshtml", new SelectModel() { Id = "METHOD_PAY", Name = "model.METHOD_PAY", Datas = Model.MethodPays, LabelName = "Cart.MethodPay", IsRequied = true, Value = Model.Order.METHOD_PAY.ToString(), FieldId = "ID", FieldName = "NAME", IsShowTitle = true })
+                                            @Html.Partial("~/Areas/ADMIN/Views/Template/Form/_Select.cshtml", new SelectModel() { Id = "METHOD_PAY", Name = "model.METHOD_PAY", Datas = Model.MethodPays, LabelName = "Cart.MethodPay", IsRequied = true, Value = Model.Order.METHOD_PAY.ToString(), FieldId = "ID", FieldName = "NAME", IsShowTitle = true, IsMultiLanguage = true, DataType = DataType.CL_METHOD_PAY, PropertyName = PropertyName.Name })
                                         </div>
                                         <div class="col col-md-6">
-                                            @Html.Partial("~/Areas/ADMIN/Views/Template/Form/_Select.cshtml", new SelectModel() { Id = "FEE_SHIP", Name = "model.FEE_SHIP", Datas = Model.ShipFees, LabelName = "Cart.ShipFee", IsRequied = true, Value = Model.Order.FEE_SHIP.ToString(), FieldId = "ID", FieldName = "NAME", IsShowTitle = true })
+                                            @Html.Partial("~/Areas/ADMIN/Views/Template/Form/_Select.cshtml", new SelectModel() { Id = "FEE_SHIP", Name = "model.FEE_SHIP", Datas = Model.ShipFees, LabelName = "Cart.ShipFee", IsRequied = true, Value = Model.Order.FEE_SHIP.ToString(), FieldId = "ID", FieldName = "NAME", IsShowTitle = true, IsMultiLanguage = true, DataType = DataType.CL_SHIP_FEE, PropertyName = PropertyName.Name })
                                         </div>
                                     </div>
                                 </div>
@@ -193,7 +193,7 @@
                             <button type="button" onclick="comeBackOrder()" class="btn btn-primary">
                                 @FunctionHelpers.GetValueLanguage("Button.ComeBack")
                             </button>
-                            @if (FunctionHelpers.CheckPermission("Order", "Update"))
+                            @if (FunctionHelpers.CheckPermission(MenuName.Order, Permission.Update))
                             {
                                 <button type="button" onclick="updateOrder()" class="btn btn-success">
                                     @FunctionHelpers.GetValueLanguage("Button.Save")
