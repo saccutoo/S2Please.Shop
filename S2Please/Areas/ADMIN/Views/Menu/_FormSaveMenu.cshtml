@@ -1,0 +1,76 @@
+﻿@model S2Please.Areas.ADMIN.ViewModel.MenuViewModel
+@using S2Please.Helper;
+@using S2Please.ViewModel;
+@using System.Globalization
+@using SHOP.COMMON;
+@{
+    Layout = null;
+    CultureInfo cul = CultureInfo.GetCultureInfo("vi-VN");   // try with "en-U
+
+}
+<style>
+    .modal-body .padding-left-right {
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+
+    .modal-body {
+        padding-left: 0;
+        padding-right: 20px;
+    }
+</style>
+
+<div class="modal-header">
+    <h5 class="modal-title" id="scrollmodalLabel">
+        @if (Model.Menu.ID == 0)
+        {
+            <span>@FunctionHelpers.GetValueLanguage("Menu.AddNew")</span>
+        }
+        else
+        {
+            <span>@FunctionHelpers.GetValueLanguage("Menu.Update")</span>
+        }
+    </h5>
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<div class="modal-body" style="padding-left:15px;">
+    <form id="form-menu">
+        <input type="text" name="model.ID" value="@Model.Menu.ID" hidden />
+        <div class="row form-group">
+            <div class="col col-md-6">
+                @Html.Partial("~/Areas/ADMIN/Views/Template/Form/_Input.cshtml", new InputModel() { Type = "text", Id = "MENU_NAME", Class = "", Name = "model.MENU_NAME", LabelName = "Menu.MenuName", Value = Model.Menu.MENU_NAME, IsRequied = true })
+            </div>
+            <div class="col col-md-6">
+                @Html.Partial("~/Areas/ADMIN/Views/Template/Form/_Select.cshtml", new SelectModel() { Id = "PRODUCT_GROUP_ID", Name = "model.PRODUCT_GROUP_ID", Datas = Model.Groups, LabelName = "ProductType.GroupName", IsRequied = true, Value = Model.Menu.PRODUCT_GROUP_ID.ToString(), FieldId = "ID", FieldName = "GROUP_NAME", IsShowTitle = true, DataType = DataType.PRODUCT_GROUP, IsMultiLanguage = true, PropertyName = PropertyName.Name })
+            </div>
+        </div>
+        <div class="row form-group">
+            <div class="col col-md-6">
+                @Html.Partial("~/Areas/ADMIN/Views/Template/Form/_Input.cshtml", new InputModel() { Type = "text", Id = "ORDER_MENU", Class = "", Name = "model.ORDER_MENU", LabelName = "Button.Sort", Value = Model.Menu.ORDER_MENU.ToString(), IsRequied = true })
+            </div>
+            <div class="col col-md-6">
+                @Html.Partial("~/Areas/ADMIN/Views/Template/Form/_Select.cshtml", new SelectModel() { Id = "PARENT_ID", Name = "model.PARENT_ID", Datas = Model.Menus, LabelName = "ProductType.GroupName", Value = Model.Menu.PARENT_ID.ToString(), FieldId = "ID", FieldName = "MENU_NAME", IsShowTitle = true, DataType = DataType.MENU, IsMultiLanguage = true, PropertyName = PropertyName.MenuName })
+                @*@Html.Partial("~/Areas/ADMIN/Views/Template/Form/_Switch.cshtml", new InputModel() { Id = "IS_SHOW_VIEW", Class = "", Name = "model.IS_SHOW_VIEW", LabelName = "Title.Show", Value = "true", Attribute = check, Style = "margin-top:5px;" })*@
+            </div>
+        </div>
+        <div class="row form-group">
+            <div class="col col-md-6">
+                @Html.Partial("~/Areas/ADMIN/Views/Template/Form/_Input.cshtml", new InputModel() { Type = "text", Id = "LINK", Class = "", Name = "model.LINK", LabelName = "Menu.Link", Value = Model.Menu.LINK })
+            </div>
+            
+        </div>
+        @if (Model.Localiza != null)
+        {
+            @Html.Partial("~/Areas/ADMIN/Views/Template/_Localizadata.cshtml", Model.Localiza)
+        }
+    </form>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-secondary au-btn au-btn-icon au-btn--smally" data-dismiss="modal">@FunctionHelpers.GetValueLanguage("Button.Title.Close")</button>
+    @if (FunctionHelpers.CheckPermission(MenuName.Menu,Permission.Update) && Model.Is_Save)
+    {
+        <button type="button" class="au-btn au-btn-icon au-btn--green au-btn--smally" onclick="saveMenu()">@FunctionHelpers.GetValueLanguage("Button.Save")</button>
+    }
+</div>

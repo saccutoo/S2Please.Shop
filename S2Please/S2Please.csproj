@@ -269,6 +269,7 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Areas\ADMIN\ADMINAreaRegistration.cs" />
     <Compile Include="Areas\ADMIN\Controllers\ProductGroupController.cs" />
+    <Compile Include="Areas\ADMIN\Controllers\MenuController.cs" />
     <Compile Include="Areas\ADMIN\Controllers\ProductTypeController.cs" />
     <Compile Include="Areas\ADMIN\Controllers\TestController.cs" />
     <Compile Include="Areas\ADMIN\Controllers\SystemController.cs" />
@@ -285,6 +286,7 @@
     <Compile Include="Areas\ADMIN\ViewModel\ProductGroupSaveViewModel.cs" />
     <Compile Include="Areas\ADMIN\ViewModel\ProductTypeSaveViewModel .cs" />
     <Compile Include="Areas\ADMIN\ViewModel\ProductGroupViewModel.cs" />
+    <Compile Include="Areas\ADMIN\ViewModel\MenuViewModel.cs" />
     <Compile Include="Areas\ADMIN\ViewModel\ProductTypeViewModel.cs" />
     <Compile Include="Areas\ADMIN\ViewModel\OrderViewModel.cs" />
     <Compile Include="Areas\ADMIN\ViewModel\OrderDetailViewModel.cs" />
@@ -1144,6 +1146,8 @@
     <Content Include="Areas\ADMIN\Views\Template\_Localizadata.cshtml" />
     <Content Include="Areas\ADMIN\Views\ProductGroup\Index.cshtml" />
     <Content Include="Areas\ADMIN\Views\ProductGroup\_FormSaveProductGroup.cshtml" />
+    <Content Include="Areas\ADMIN\Views\Menu\_FormSaveMenu.cshtml" />
+    <Content Include="Areas\ADMIN\Views\Menu\Index.cshtml" />
     <None Include="Properties\PublishProfiles\shop.pubxml" />
     <Content Include="Scripts\bootstrap-select-1.13.14\dist\css\bootstrap-select.css.map" />
     <Content Include="Scripts\bootstrap-select-1.13.14\dist\js\bootstrap-select.js.map" />
@@ -1236,6 +1240,7 @@
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\Order\AdminOrder.js" />
     <Content Include="Scripts\ProductGroup\ProductGroup.js" />
+    <Content Include="Scripts\Menu\Menu.js" />
     <Content Include="Scripts\ProductType\ProductType.js" />
     <Content Include="Scripts\Product\AdminProduct.js" />
     <Content Include="Scripts\Product\Product.js" />

@@ -77,6 +77,11 @@ namespace S2Please.Areas.ADMIN
         defaults: new { controller = "ProductGroup", action = "Index", id = UrlParameter.Optional }
     );
             context.MapRoute(
+        name: "admin/menu",
+        url: "admin/menu",
+        defaults: new { controller = "Menu", action = "Index", id = UrlParameter.Optional }
+    );
+            context.MapRoute(
                 "ADMIN_default",
                 "ADMIN/{controller}/{action}/{id}",
                 new { action = "Index", id = UrlParameter.Optional }

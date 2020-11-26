@@ -38,8 +38,6 @@ namespace S2Please
             // Let's also create a sample background job
             //BackgroundJob.Schedule(() => MailJob._Execute(),MailJob.Time);
             RecurringJob.AddOrUpdate<MailJob>(MailJob.RecurringJob, x=>x._Execute(), MailJob.CronExpression);
-
-
         }
     }
 }

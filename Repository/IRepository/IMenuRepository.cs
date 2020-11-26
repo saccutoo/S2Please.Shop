@@ -14,5 +14,17 @@ namespace Repository
     {
         //Get all menu
         ResultModel GetMenu();
+
+        //Get menu render to table
+        ResultModel GetMenuFromAdmin(ParamType paramType, bool isCheckPermission = true);
+
+        //Save product group
+        ResultModel SaveMenu(MenuModel model, List<LocalizationType> type, bool isCheckPermission = true);
+
+        //Get menu by ID
+        ResultModel GetMenuById(long id);
+
+        //Delete menu by Id
+        ResultModel Delete(long id);
     }
 }

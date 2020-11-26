@@ -152,7 +152,7 @@ namespace S2Please.Areas.ADMIN.Controllers
                     var resultProductType = JsonConvert.DeserializeObject<List<ProductGroupModel>>(JsonConvert.SerializeObject(response.Results));
                     if (resultProductType != null && resultProductType.Count() > 0)
                     {
-                        FunctionHelpers.RemoveCacheByProcedure("Localization_Get_Localization");
+                        FunctionHelpers.RemoveCacheByProcedure("Localization_Get_Localization;ProductGroup");
                         if (model.ID == 0)
                         {
                             result.SetDataMessage(true, FunctionHelpers.GetValueLanguage("Message.AddNewSuccess"), FunctionHelpers.GetValueLanguage("Message.Success"), string.Empty);
@@ -193,7 +193,7 @@ namespace S2Please.Areas.ADMIN.Controllers
             }
             else
             {
-                FunctionHelpers.RemoveCacheByProcedure("Localization_Get_Localization");
+                FunctionHelpers.RemoveCacheByProcedure("Localization_Get_Localization;ProductGroup");
                 result.SetDataMessage(true, FunctionHelpers.GetValueLanguage("Message.Remove.Sucess"), FunctionHelpers.GetValueLanguage("Message.Success"));
             }
             return Content(JsonConvert.SerializeObject(new

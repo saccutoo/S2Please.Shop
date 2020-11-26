@@ -156,23 +156,22 @@ namespace S2Please.Helper
         {
             return commonRepository.CheckPermission(menuName, action,CurrentUser.UserAdmin.USER_ID);
         }
-
         public static string GetTimeVersion()
         {
             //Lấy danh sách đa ngôn ngữ
-            int timeVersion = 0;
+            long timeVersion = 0;
             var param = new List<Param>();
             var paramType = MapperHelper.MapList<Param, Repository.Model.Param>(param);
             var response = commonRepository.ListProcedure<TimeVersion>(new TimeVersion(), "TimeVersion_Get_TimeVersion", paramType);
             var result = JsonConvert.DeserializeObject<List<TimeVersion>>(JsonConvert.SerializeObject(response.Results));
             if (result!=null && result.Count()>0)
             {
-                timeVersion = result.FirstOrDefault().TIME_VERSION;
+                timeVersion = result.FirstOrDefault().ID;
             }
             return timeVersion.ToString();
         }
 
-        public static void RemoveCacheByProcedure(string procedure)
+        public static void RemoveCacheByProcedure(string key)
         {
             List<string> keys = new List<string>();
             IDictionaryEnumerator enumerator = HttpRuntime.Cache.GetEnumerator();
@@ -180,11 +179,18 @@ namespace S2Please.Helper
             while (enumerator.MoveNext())
                 keys.Add(enumerator.Key.ToString());
 
+            var listKey = key.Split(';');
             for (int i = 0; i < keys.Count; i++)
-                if (keys[i].Contains(procedure))
+            {
+                foreach (var item in listKey)
                 {
-                    HttpRuntime.Cache.Remove(keys[i]);
-                }
+                    if (keys[i].Contains(item))
+                    {
+                        HttpRuntime.Cache.Remove(keys[i]);
+                    }
+                }              
+            }
+           
         }
     }
 }

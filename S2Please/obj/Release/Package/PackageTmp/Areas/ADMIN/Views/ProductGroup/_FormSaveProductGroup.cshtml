@@ -1,0 +1,71 @@
+﻿@model S2Please.Areas.ADMIN.ViewModel.ProductGroupSaveViewModel
+@using S2Please.Helper;
+@using S2Please.ViewModel;
+@using System.Globalization
+@using SHOP.COMMON;
+@{
+    Layout = null;
+    CultureInfo cul = CultureInfo.GetCultureInfo("vi-VN");   // try with "en-U
+
+}
+<style>
+    .modal-body .padding-left-right {
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+
+    .modal-body {
+        padding-left: 0;
+        padding-right: 20px;
+    }
+</style>
+
+<div class="modal-header">
+    <h5 class="modal-title" id="scrollmodalLabel">
+        @if (Model.ProductGroup.ID == 0)
+        {
+            <span>@FunctionHelpers.GetValueLanguage("ProductType.ProductGroupAddNew")</span>
+        }
+        else
+        {
+            <span>@FunctionHelpers.GetValueLanguage("ProductGroup.ProductGroupUpdate")</span>
+        }
+    </h5>
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<div class="modal-body" style="padding-left:15px;">
+    <form id="product-group">
+        <input type="text" name="model.ID" value="@Model.ProductGroup.ID" hidden />
+        <div class="row form-group">
+            <div class="col col-md-6">
+                @Html.Partial("~/Areas/ADMIN/Views/Template/Form/_Input.cshtml", new InputModel() { Type = "text", Id = "GROUP_NAME", Class = "", Name = "model.GROUP_NAME", LabelName = "ProductGroup.GroupName", Value = Model.ProductGroup.GROUP_NAME, IsRequied = true })
+            </div>
+            <div class="col col-md-6">
+                @Html.Partial("~/Areas/ADMIN/Views/Template/Form/_Select.cshtml", new SelectModel() { Id = "TYPE", Name = "model.TYPE", Datas =Model.Types, LabelName = "ProductGroup.Type", IsRequied = true, Value = Model.ProductGroup.TYPE==0 ? "1" : Model.ProductGroup.TYPE.ToString() , FieldId = "ID", FieldName = "NAME", IsShowTitle = true ,DataType=DataType.PRODUCT_GROUP_TYPE,IsMultiLanguage=true,PropertyName=PropertyName.Name})
+            </div>
+        </div>
+
+        <div class="row form-group">
+            <div class="col col-md-6">
+                @Html.Partial("~/Areas/ADMIN/Views/Template/Form/_InputMask.cshtml", new InputModel() { Type = "text", Id = "ORDER", Class = "", Name = "model.ORDER", LabelName = "Button.Sort", Value = Model.ProductGroup.ORDER.ToString(), IsRequied = true,TypeInputMask= "numeric" })
+            </div>
+            <div class="col col-md-6">
+                @Html.Partial("~/Areas/ADMIN/Views/Template/Form/_Switch.cshtml", new InputModel() { Id = "IS_SHOW", Class = "", Name = "model.IS_SHOW", LabelName = "Title.Show", Value = "true", Attribute = "", Style = "margin-top:5px;" })
+            </div>
+        </div>
+
+        @if (Model.Localiza != null)
+        {
+            @Html.Partial("~/Areas/ADMIN/Views/Template/_Localizadata.cshtml", Model.Localiza)
+        }
+    </form>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-secondary au-btn au-btn-icon au-btn--smally" data-dismiss="modal">@FunctionHelpers.GetValueLanguage("Button.Title.Close")</button>
+    @if (FunctionHelpers.CheckPermission(MenuName.ProductGroup,Permission.Update) && Model.Is_Save)
+    {
+        <button type="button" class="au-btn au-btn-icon au-btn--green au-btn--smally" onclick="saveProductGroup()">@FunctionHelpers.GetValueLanguage("Button.Save")</button>
+    }
+</div>

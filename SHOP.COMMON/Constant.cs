@@ -45,6 +45,7 @@ namespace SHOP.COMMON
         public static string OrderDetail = "OrderDetail";
         public static string ProductType = "ProductType";
         public static string ProductGroup = "ProductGroup";
+        public static string Menu = "Menu";
 
     }
 
@@ -56,7 +57,7 @@ namespace SHOP.COMMON
         public static string OrderDetail = "OrderDetail";
         public static string ProductType = "ProductType";
         public static string ProductGroup = "ProductGroup";
-
+        public static string Menu = "Menu";
     }
 
     public static class TableUrl
@@ -66,6 +67,7 @@ namespace SHOP.COMMON
         public static string ProductOrder = "/ADMIN/Order/ReloadTable";
         public static string ProductType = "/ADMIN/ProductType/ReloadTable";
         public static string ProductGroup = "/ADMIN/ProductGroup/ReloadTable";
+        public static string Menu = "/ADMIN/Menu/ReloadTable";
 
     }
     public static class TableExportUrl
@@ -75,6 +77,8 @@ namespace SHOP.COMMON
         public static string ProductOrder = "/ADMIN/Order/Export";
         public static string ProductType = "/ADMIN/ProductType/Export";
         public static string ProductGroup = "/ADMIN/ProductGroup/Export";
+        public static string Menu = "/ADMIN/Menu/Export";
+
     }
     public static class TableSesionExportUrl
     {
@@ -83,6 +87,7 @@ namespace SHOP.COMMON
         public static string ProductOrder = "/ADMIN/Order/SesionExport";
         public static string ProductType = "/ADMIN/ProductType/SesionExport";
         public static string ProductGroup = "/ADMIN/ProductGroup/SesionExport";
+        public static string Menu = "/ADMIN/Menu/SesionExport";
     }
     public static class Permission
     {

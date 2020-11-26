@@ -40,10 +40,10 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>11/13/2020 21:27:56</publishTime>
     </File>
     <File Include="Areas/ADMIN/Views/Order/OrderSave.cshtml">
-      <publishTime>11/17/2020 21:15:09</publishTime>
+      <publishTime>11/25/2020 23:18:17</publishTime>
     </File>
     <File Include="Areas/ADMIN/Views/Order/UpdateOrder.cshtml">
-      <publishTime>11/17/2020 22:36:19</publishTime>
+      <publishTime>11/25/2020 23:18:37</publishTime>
     </File>
     <File Include="Areas/ADMIN/Views/Order/_ContentCart.cshtml">
       <publishTime>11/17/2020 22:01:57</publishTime>
@@ -64,7 +64,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>11/13/2020 21:30:21</publishTime>
     </File>
     <File Include="Areas/ADMIN/Views/Product/ProductSave.cshtml">
-      <publishTime>11/15/2020 10:29:48</publishTime>
+      <publishTime>11/25/2020 23:18:10</publishTime>
     </File>
     <File Include="Areas/ADMIN/Views/Product/_Detail.cshtml">
       <publishTime>10/22/2020 08:49:44</publishTime>
@@ -77,6 +77,18 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     </File>
     <File Include="Areas/ADMIN/Views/Product/_RowTableColorAndSize.cshtml">
       <publishTime>10/04/2020 06:35:36</publishTime>
+    </File>
+    <File Include="Areas/ADMIN/Views/ProductGroup/Index.cshtml">
+      <publishTime>11/25/2020 22:02:16</publishTime>
+    </File>
+    <File Include="Areas/ADMIN/Views/ProductGroup/_FormSaveProductGroup.cshtml">
+      <publishTime>11/25/2020 23:51:17</publishTime>
+    </File>
+    <File Include="Areas/ADMIN/Views/ProductType/Index.cshtml">
+      <publishTime>11/23/2020 21:37:37</publishTime>
+    </File>
+    <File Include="Areas/ADMIN/Views/ProductType/_FormSaveProductType.cshtml">
+      <publishTime>11/25/2020 23:21:04</publishTime>
     </File>
     <File Include="Areas/ADMIN/Views/Shared/_Header_Desktop.cshtml">
       <publishTime>11/11/2020 22:00:26</publishTime>
@@ -91,16 +103,16 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>07/20/2020 21:19:09</publishTime>
     </File>
     <File Include="Areas/ADMIN/Views/Template/Form/_Input.cshtml">
-      <publishTime>08/02/2020 09:24:30</publishTime>
+      <publishTime>11/25/2020 00:25:50</publishTime>
     </File>
     <File Include="Areas/ADMIN/Views/Template/Form/_InputMask.cshtml">
       <publishTime>11/15/2020 11:06:24</publishTime>
     </File>
     <File Include="Areas/ADMIN/Views/Template/Form/_Select.cshtml">
-      <publishTime>08/02/2020 09:23:00</publishTime>
+      <publishTime>11/25/2020 23:04:49</publishTime>
     </File>
     <File Include="Areas/ADMIN/Views/Template/Form/_Switch.cshtml">
-      <publishTime>08/01/2020 19:57:27</publishTime>
+      <publishTime>11/23/2020 22:25:50</publishTime>
     </File>
     <File Include="Areas/ADMIN/Views/Template/Form/_Textarea.cshtml">
       <publishTime>08/09/2020 14:04:25</publishTime>
@@ -120,6 +132,9 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     <File Include="Areas/ADMIN/Views/Template/_InputMulti.cshtml">
       <publishTime>08/01/2020 16:47:41</publishTime>
     </File>
+    <File Include="Areas/ADMIN/Views/Template/_Localizadata.cshtml">
+      <publishTime>11/26/2020 00:10:09</publishTime>
+    </File>
     <File Include="Areas/ADMIN/Views/Template/_Select.cshtml">
       <publishTime>08/01/2020 15:13:21</publishTime>
     </File>
@@ -133,7 +148,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>11/20/2020 15:14:25</publishTime>
     </File>
     <File Include="Areas/ADMIN/Views/Template/_TableContent.cshtml">
-      <publishTime>11/15/2020 13:17:00</publishTime>
+      <publishTime>11/25/2020 01:36:38</publishTime>
     </File>
     <File Include="Areas/ADMIN/Views/web.config">
       <publishTime>11/07/2020 11:16:50</publishTime>
@@ -466,13 +481,13 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>10/20/2020 15:35:24</publishTime>
     </File>
     <File Include="bin/Repository.dll">
-      <publishTime>11/23/2020 10:53:06</publishTime>
+      <publishTime>11/26/2020 07:59:02</publishTime>
     </File>
     <File Include="bin/Repository.dll.config">
       <publishTime>11/07/2020 00:40:38</publishTime>
     </File>
     <File Include="bin/Repository.pdb">
-      <publishTime>11/23/2020 10:53:06</publishTime>
+      <publishTime>11/26/2020 07:59:02</publishTime>
     </File>
     <File Include="bin/roslyn/csc.exe">
       <publishTime>06/18/2015 20:19:46</publishTime>
@@ -511,13 +526,13 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>06/18/2015 20:19:46</publishTime>
     </File>
     <File Include="bin/S2Please.dll">
-      <publishTime>11/23/2020 11:04:26</publishTime>
+      <publishTime>11/26/2020 07:59:07</publishTime>
     </File>
     <File Include="bin/S2Please.pdb">
-      <publishTime>11/23/2020 11:04:26</publishTime>
+      <publishTime>11/26/2020 07:59:07</publishTime>
     </File>
     <File Include="bin/SHOP.COMMON.dll">
-      <publishTime>11/22/2020 22:22:27</publishTime>
+      <publishTime>11/26/2020 07:59:01</publishTime>
     </File>
     <File Include="bin/SHOP.COMMON.dll.config">
       <publishTime>10/18/2020 08:14:03</publishTime>
@@ -529,7 +544,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>10/18/2020 08:14:03</publishTime>
     </File>
     <File Include="bin/SHOP.COMMON.pdb">
-      <publishTime>11/22/2020 22:22:27</publishTime>
+      <publishTime>11/26/2020 07:59:01</publishTime>
     </File>
     <File Include="bin/System.AppContext.dll">
       <publishTime>10/18/2020 07:48:34</publishTime>
@@ -2996,6 +3011,12 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     </File>
     <File Include="Scripts/ProductDetail/ProductDetail.js">
       <publishTime>10/18/2020 22:04:55</publishTime>
+    </File>
+    <File Include="Scripts/ProductGroup/ProductGroup.js">
+      <publishTime>11/26/2020 00:16:24</publishTime>
+    </File>
+    <File Include="Scripts/ProductType/ProductType.js">
+      <publishTime>11/25/2020 21:09:39</publishTime>
     </File>
     <File Include="Scripts/respond.js">
       <publishTime>06/26/2020 00:47:06</publishTime>

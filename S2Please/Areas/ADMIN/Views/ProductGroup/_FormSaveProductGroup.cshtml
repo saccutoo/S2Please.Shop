@@ -43,7 +43,7 @@
                 @Html.Partial("~/Areas/ADMIN/Views/Template/Form/_Input.cshtml", new InputModel() { Type = "text", Id = "GROUP_NAME", Class = "", Name = "model.GROUP_NAME", LabelName = "ProductGroup.GroupName", Value = Model.ProductGroup.GROUP_NAME, IsRequied = true })
             </div>
             <div class="col col-md-6">
-                @Html.Partial("~/Areas/ADMIN/Views/Template/Form/_Select.cshtml", new SelectModel() { Id = "TYPE", Name = "model.TYPE", Datas =Model.Types, LabelName = "ProductGroup.Type", IsRequied = true, Value = Model.ProductGroup.TYPE==0 ? "1" : Model.ProductGroup.TYPE.ToString() , FieldId = "ID", FieldName = "NAME", IsShowTitle = true ,DataType=DataType.PRODUCT_GROUP_TYPE,IsMultiLanguage=true,PropertyName=PropertyName.Name})
+                @Html.Partial("~/Areas/ADMIN/Views/Template/Form/_Select.cshtml", new SelectModel() { Id = "TYPE", Name = "model.TYPE", Datas =Model.Types, LabelName = "ProductGroup.Type", IsRequied = true, Value = Model.ProductGroup.TYPE==0 ? "2" : Model.ProductGroup.TYPE.ToString() , FieldId = "ID", FieldName = "NAME", IsShowTitle = true ,DataType=DataType.PRODUCT_GROUP_TYPE,IsMultiLanguage=true,PropertyName=PropertyName.Name})
             </div>
         </div>
 
@@ -52,7 +52,7 @@
                 @Html.Partial("~/Areas/ADMIN/Views/Template/Form/_InputMask.cshtml", new InputModel() { Type = "text", Id = "ORDER", Class = "", Name = "model.ORDER", LabelName = "Button.Sort", Value = Model.ProductGroup.ORDER.ToString(), IsRequied = true,TypeInputMask= "numeric" })
             </div>
             <div class="col col-md-6">
-                @Html.Partial("~/Areas/ADMIN/Views/Template/Form/_Switch.cshtml", new InputModel() { Id = "IS_SHOW", Class = "", Name = "model.IS_SHOW", LabelName = "Title.Show", Value = "true", Attribute = "", Style = "margin-top:5px;" })
+                @Html.Partial("~/Areas/ADMIN/Views/Template/Form/_Switch.cshtml", new InputModel() { Id = "IS_SHOW", Class = "", Name = "model.IS_SHOW", LabelName = "Title.Show", Value = "true", Attribute = Model.ProductGroup.IS_SHOW ? "checked" : "", Style = "margin-top:5px;" })
             </div>
         </div>
 

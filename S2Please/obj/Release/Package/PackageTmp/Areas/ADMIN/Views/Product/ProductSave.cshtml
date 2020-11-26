@@ -3,6 +3,7 @@
 @using S2Please.Areas.ADMIN.ViewModel
 @using S2Please.Models
 @using S2Please.Helper
+@using SHOP.COMMON
 @{
     Layout = "~/Areas/ADMIN/Views/Shared/_Layout.cshtml";
     var timeVersion = FunctionHelpers.GetTimeVersion();
@@ -154,10 +155,10 @@ else
                                     </div>
                                     <div class="row form-group">
                                         <div class="col col-md-6">
-                                            @Html.Partial("~/Areas/ADMIN/Views/Template/Form/_Select.cshtml", new SelectModel() { Id = "PRODUCT_TYPE_ID", Name = "model.PRODUCT_TYPE_ID", Datas = Model.Types, LabelName = "Product.Type", IsRequied = true, Value = Model.Product.PRODUCT_TYPE_ID.ToString(), FieldId = "ID", FieldName = "NAME", IsShowTitle = true })
+                                            @Html.Partial("~/Areas/ADMIN/Views/Template/Form/_Select.cshtml", new SelectModel() { Id = "PRODUCT_TYPE_ID", Name = "model.PRODUCT_TYPE_ID", Datas = Model.Types, LabelName = "Product.Type", IsRequied = true, Value = Model.Product.PRODUCT_TYPE_ID.ToString(), FieldId = "ID", FieldName = "NAME", IsShowTitle = true, IsMultiLanguage = true, DataType = DataType.PRODUCT_TYPE, PropertyName = PropertyName.Name })
                                         </div>
                                         <div class="col col-md-6">
-                                            @Html.Partial("~/Areas/ADMIN/Views/Template/Form/_Select.cshtml", new SelectModel() { Id = "PRODUCT_GROUP_ID", Name = "model.PRODUCT_GROUP_ID", Datas = Model.Groups, LabelName = "Product.Group", IsRequied = true, Value = Model.Product.PRODUCT_GROUP_ID.ToString(), FieldId = "ID", FieldName = "GROUP_NAME", IsShowTitle = true })
+                                            @Html.Partial("~/Areas/ADMIN/Views/Template/Form/_Select.cshtml", new SelectModel() { Id = "PRODUCT_GROUP_ID", Name = "model.PRODUCT_GROUP_ID", Datas = Model.Groups, LabelName = "Product.Group", IsRequied = true, Value = Model.Product.PRODUCT_GROUP_ID.ToString(), FieldId = "ID", FieldName = "GROUP_NAME", IsShowTitle = true , IsMultiLanguage = true, DataType = DataType.PRODUCT_GROUP, PropertyName = PropertyName.Name })
                                         </div>
                                     </div>
 
@@ -393,7 +394,7 @@ else
                             <button type="button" onclick="comeBackProduct()" class="btn btn-primary">
                                 @FunctionHelpers.GetValueLanguage("Button.ComeBack")
                             </button>
-                            @if (FunctionHelpers.CheckPermission("Product", "Update"))
+                            @if (FunctionHelpers.CheckPermission(MenuName.Product, Permission.Update))
                             {
                                 <button type="button" onclick="saveProduct()" class="btn btn-success">
                                     @FunctionHelpers.GetValueLanguage("Button.Save")

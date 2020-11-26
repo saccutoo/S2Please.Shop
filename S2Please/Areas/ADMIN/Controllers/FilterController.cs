@@ -184,24 +184,28 @@ namespace S2Please.Areas.ADMIN.Controllers
                 conditions = resultCondition;
             }
 
-            foreach (var item in data)
+            if (data!=null && data.Count()>0)
             {
-                var column = columns.Where(s => s.ID == item.COLUMN_ID).FirstOrDefault();
-                if (column!=null)
+                foreach (var item in data)
                 {
-                    if (type == "1")
+                    var column = columns.Where(s => s.ID == item.COLUMN_ID).FirstOrDefault();
+                    if (column != null)
                     {
-                        product.Table.TABLE_COLUMN_FIELD.Where(s => s.COLUMN_NAME == column.COLUMN_NAME).FirstOrDefault().IS_CHECK = true;
-                    }
-                    else
-                    {
-                        product.Table.TABLE_COLUMN_FIELD.Where(s => s.COLUMN_NAME == column.COLUMN_NAME).FirstOrDefault().IS_SHOW = item.IS_SHOW.Value;
-                        product.Table.TABLE_COLUMN_FIELD.Where(s => s.COLUMN_NAME == column.COLUMN_NAME).FirstOrDefault().POSITION = item.POSITION.Value;
+                        if (type == "1")
+                        {
+                            product.Table.TABLE_COLUMN_FIELD.Where(s => s.COLUMN_NAME == column.COLUMN_NAME).FirstOrDefault().IS_CHECK = true;
+                        }
+                        else
+                        {
+                            product.Table.TABLE_COLUMN_FIELD.Where(s => s.COLUMN_NAME == column.COLUMN_NAME).FirstOrDefault().IS_SHOW = item.IS_SHOW.Value;
+                            product.Table.TABLE_COLUMN_FIELD.Where(s => s.COLUMN_NAME == column.COLUMN_NAME).FirstOrDefault().POSITION = item.POSITION.Value;
 
+                        }
                     }
+
                 }
-               
             }
+           
 
             #region lưu table theo người đăng nhập
             string parram = string.Empty;
