@@ -82,6 +82,11 @@ namespace S2Please.Areas.ADMIN
         defaults: new { controller = "Menu", action = "Index", id = UrlParameter.Optional }
     );
             context.MapRoute(
+        name: "admin/mail-queue",
+        url: "admin/mail-queue",
+        defaults: new { controller = "MailQueue", action = "Index", id = UrlParameter.Optional }
+    );
+            context.MapRoute(
                 "ADMIN_default",
                 "ADMIN/{controller}/{action}/{id}",
                 new { action = "Index", id = UrlParameter.Optional }

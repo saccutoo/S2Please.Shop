@@ -105,8 +105,9 @@ namespace S2Please.Areas.ADMIN.Controllers
                     Id = "input-value-" + column.ID,
                     Name = "condition-name-input-date" + column.ID,
                     Class = "datepicker-input",
-                    IsSetDate = true,
-                    Value = column.VALUE
+                    IsSetDate = !string.IsNullOrEmpty(column.VALUE) ? false : true,
+                    Value = column.VALUE,
+
 
                 };
                 return PartialView("~/Areas/ADMIN/Views/Template/_DatePicker.cshtml", model);

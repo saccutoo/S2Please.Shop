@@ -1,0 +1,66 @@
+﻿@model S2Please.Areas.ADMIN.ViewModel.MailQueueViewModel
+@using S2Please.Helper;
+@using S2Please.ViewModel;
+@using System.Globalization
+@using SHOP.COMMON;
+@{
+    Layout = null;
+    CultureInfo cul = CultureInfo.GetCultureInfo("vi-VN");   // try with "en-U
+
+}
+<style>
+    .modal-body .padding-left-right {
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+
+    .modal-body {
+        padding-left: 0;
+        padding-right: 20px;
+    }
+</style>
+
+<div class="modal-header">
+    <h5 class="modal-title" id="scrollmodalLabel">
+        @if (Model.MailQueue.ID == 0)
+        {
+            <span>@FunctionHelpers.GetValueLanguage("Menu.AddNew")</span>
+        }
+        else
+        {
+            <span>@FunctionHelpers.GetValueLanguage("MailQueue.Update")</span>
+        }
+    </h5>
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<div class="modal-body" style="padding-left:15px;">
+    <form id="form-menu">
+        <input type="text" name="model.ID" value="@Model.MailQueue.ID" hidden />
+        <input type="text" name="model.DATA_ID" value="@Model.MailQueue.DATA_ID" hidden />
+
+        <div class="row form-group">
+            <div class="col col-md-6">
+                @Html.Partial("~/Areas/ADMIN/Views/Template/Form/_Input.cshtml", new InputModel() { Type = "text", Id = "DATA_TYPE", Class = "", Name = "model.DATA_TYPE", LabelName = "MailQueue.DataType", Value = Model.MailQueue.DATA_TYPE, IsRequied = true })
+            </div>
+            <div class="col col-md-6">
+                @Html.Partial("~/Areas/ADMIN/Views/Template/Form/_Input.cshtml", new InputModel() { Type = "text", Id = "FROM", Class = "", Name = "model.FROM", LabelName = "MailQueue.MailTo", Value = Model.MailQueue.FROM, IsRequied = true, Attribute = "readonly" })
+            </div>
+            <div class="col col-md-6">
+                @Html.Partial("~/Areas/ADMIN/Views/Template/Form/_Textarea.cshtml", new InputModel() { Type = "text", Id = "MAIL_TO", Class = "", Name = "model.MAIL_TO", LabelName = "MailQueue.Mailto", Value = Model.MailQueue.MAIL_TO, IsRequied = true })
+            </div>
+            <div class="col col-md-6">
+                @Html.Partial("~/Areas/ADMIN/Views/Template/Form/_Textarea.cshtml", new InputModel() { Type = "text", Id = "MAIL_CC", Class = "", Name = "model.MAIL_CC", LabelName = "MailQueue.Cc", Value = Model.MailQueue.MAIL_CC})
+            </div>
+        </div>
+
+    </form>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-secondary au-btn au-btn-icon au-btn--smally" data-dismiss="modal">@FunctionHelpers.GetValueLanguage("Button.Title.Close")</button>
+    @if (FunctionHelpers.CheckPermission(MenuName.Menu,Permission.Update) && Model.Is_Save)
+    {
+        <button type="button" class="au-btn au-btn-icon au-btn--green au-btn--smally" onclick="saveMenu()">@FunctionHelpers.GetValueLanguage("Button.Save")</button>
+    }
+</div>

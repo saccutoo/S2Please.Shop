@@ -1,5 +1,6 @@
 ﻿using Repository.Model;
 using Repository.Type;
+using SHOP.COMMON.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -14,5 +15,11 @@ namespace Repository
     {
         //Get top 5 row mail queue false
         ResultModel GetTop5MailQueueFalse();
+
+        //Get mail queue render table
+        ResultModel GetMaiQueueRenderTable(ParamType paramType, bool isCheckPermission = true);
+
+        //Get mail queue by id
+        ResultModel GetMailQueueById(long id);
     }
 }
