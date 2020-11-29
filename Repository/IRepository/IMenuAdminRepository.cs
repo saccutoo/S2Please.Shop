@@ -17,5 +17,17 @@ namespace Repository
 
         //Get menu left admin
         ResultModel GetMenuLeftAdmin(long userId, long roleId);
+
+        //Get all menu admin
+        ResultModel GetAllMenuAdmin(long id);
+
+        //Get menu admin by id
+        ResultModel GetMenuAdminById(long id);
+
+        //Save menu admin
+        ResultModel SaveMenuAdmin(MenuModel model, List<LocalizationType> type, bool isCheckPermission = true);
+
+        //Get menu admin by id
+        ResultModel DeleteMenuAdminById(long id);
     }
 }

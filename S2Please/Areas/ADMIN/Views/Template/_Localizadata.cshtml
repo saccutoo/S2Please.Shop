@@ -51,7 +51,7 @@
 
                                             }
 
-                                            @Html.Partial("~/Areas/ADMIN/Views/Template/Form/_Input.cshtml", new InputModel() { Type = "text", Id = muiltipleLanguage.PROPERTY_NAME + "_" + index, Class = "", Name = "localiza[" + index + "].PROPERTY_VALUE", LabelNameLocalization = FunctionHelpers.GetValueLocalization(muiltipleLanguage.ID, DataType.TABLE_MULTIPLE_LANGUAGE_CONFIGURATION, PropertyName.Property_Name) + " - " + item.LANGUAGE_NAME, IsRequied = true,Value= value })
+                                            @Html.Partial("~/Areas/ADMIN/Views/Template/Form/_Input.cshtml", new InputModel() { Type = "text", Id = muiltipleLanguage.PROPERTY_NAME + "_" + index, Class = "", Name = "localiza[" + index + "].PROPERTY_VALUE", LabelNameLocalization = FunctionHelpers.GetValueLocalization(muiltipleLanguage.ID, DataType.TABLE_MULTIPLE_LANGUAGE_CONFIGURATION, PropertyName.Property_Name) + " - " + item.LANGUAGE_NAME, IsRequied = true,Value= value, Attribute = Model.Is_Save ? "" : "disabled" })
                                         }
                                     </div>                                   
                                 </div>

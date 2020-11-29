@@ -74,7 +74,8 @@ namespace S2Please.Areas.ADMIN.Controllers
         {
             ProductGroupSaveViewModel vm = new ProductGroupSaveViewModel();
             vm.Localiza.DATA_TYPE = DataType.PRODUCT_GROUP;
-            vm.Is_Save = isUpdate;          
+            vm.Is_Save = isUpdate;
+            vm.Localiza.Is_Save = isUpdate;
 
             var responseMultipleLanguage = _systemRepository.GetTableMultipleLanguageConfigurationByTableName(TableName.ProductGroup);
             var resultMultipleLanguage = JsonConvert.DeserializeObject<List<TableMultipleLanguageConfigurationModel>>(JsonConvert.SerializeObject(responseMultipleLanguage.Results));

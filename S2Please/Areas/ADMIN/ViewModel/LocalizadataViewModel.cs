@@ -12,5 +12,7 @@ namespace S2Please.Areas.ADMIN.ViewModel
         public List<LocalizationModel> Localizations { get; set; } = new List<LocalizationModel>();
         public long DATA_ID { get; set; }
         public string DATA_TYPE { get; set; }
+        public bool Is_Save { get; set; }=true;
+
     }
 }

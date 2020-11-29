@@ -79,6 +79,8 @@ namespace S2Please.Areas.ADMIN.Controllers
             ProductTypeSaveViewModel vm = new ProductTypeSaveViewModel();
             vm.Localiza.DATA_TYPE = DataType.PRODUCT_TYPE;
             vm.Is_Save = isUpdate;
+            vm.Localiza.Is_Save = isUpdate;
+
             var responseMenu = _menuRepository.GetMenu();
             vm.Menus = responseMenu.Results;
 

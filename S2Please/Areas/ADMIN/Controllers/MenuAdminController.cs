@@ -68,6 +68,138 @@ namespace S2Please.Areas.ADMIN.Controllers
             return View(menu);
         }
 
+        public ActionResult ShowFormSaveMenuAdmin(long id = 0, bool isUpdate = true)
+        {
+            MenuAdminViewModel vm = new MenuAdminViewModel();
+            vm.Localiza.DATA_TYPE = DataType.MENU_ADMIN;
+            vm.Is_Save = isUpdate;
+            vm.Localiza.Is_Save = isUpdate;
+
+            var responseMenu = _menuAdminRepositor.GetAllMenuAdmin(id);
+            vm.MenuDropdowns = responseMenu.Results;
+
+            var responseMultipleLanguage = _systemRepository.GetTableMultipleLanguageConfigurationByTableName(TableName.MenuAdmin);
+            var resultMultipleLanguage = JsonConvert.DeserializeObject<List<TableMultipleLanguageConfigurationModel>>(JsonConvert.SerializeObject(responseMultipleLanguage.Results));
+            if (resultMultipleLanguage != null && resultMultipleLanguage.Count() > 0)
+            {
+                vm.Localiza.MultipleLanguageConfigurations = resultMultipleLanguage;
+            }
+
+            var responseLanguage = _systemRepository.GetLanguage();
+            var resultLanguage = JsonConvert.DeserializeObject<List<LanguageModel>>(JsonConvert.SerializeObject(responseLanguage.Results));
+            if (resultLanguage != null && resultLanguage.Count() > 0)
+            {
+                vm.Localiza.Languages = resultLanguage;
+            }
+
+            if (id != 0)
+            {
+                vm.Localiza.DATA_ID = id;
+                var responseMenuById = _menuAdminRepositor.GetMenuAdminById(id);
+                var resultMenuById = JsonConvert.DeserializeObject<List<MenuModel>>(JsonConvert.SerializeObject(responseMenuById.Results));
+                if (resultMenuById != null && resultMenuById.Count() > 0)
+                {
+                    vm.Menu = resultMenuById.FirstOrDefault();
+                }
+                var responseLocalizadata = _systemRepository.GetLocalizationByDataIdAndDataType(id, vm.Localiza.DATA_TYPE);
+                var resultLocalizadata = JsonConvert.DeserializeObject<List<LocalizationModel>>(JsonConvert.SerializeObject(responseLocalizadata.Results));
+                if (resultLocalizadata != null && resultLocalizadata.Count() > 0)
+                {
+                    vm.Localiza.Localizations = resultLocalizadata;
+                }
+            }
+            var html = RenderViewToString(this.ControllerContext, "~/Areas/ADMIN/Views/MenuAdmin/_FormSaveMenuAdmin.cshtml", vm);
+            return Content(JsonConvert.SerializeObject(new
+            {
+                html
+            }));
+        }
+
+        public ActionResult SaveMenuAdmin(MenuAdminModel model, List<LocalizationModel> localiza)
+        {
+            var validations = ValidationHelper.Validation(model, "model");
+            var validationLocaliza = ValidationHelper.ListValidation(localiza, "localiza");
+            var allValidations = new List<ValidationModel>(validations.Count +
+                                    validationLocaliza.Count);
+            allValidations.AddRange(validations);
+            allValidations.AddRange(validationLocaliza);
+
+            if (allValidations.Count > 0)
+            {
+                return Json(new { Result = allValidations, Invalid = true }, JsonRequestBehavior.AllowGet);
+            }
+            model.CREATED_BY = CurrentUser.UserAdmin.ID;
+            model.UPDATED_BY = CurrentUser.UserAdmin.ID;
+            var modelType = MapperHelper.Map<MenuAdminModel, Repository.Model.MenuModel>(model);
+            var localizaType = MapperHelper.MapList<LocalizationModel, Repository.Type.LocalizationType>(localiza);
+            var result = new ResultModel();
+            var response = _menuAdminRepositor.SaveMenuAdmin(modelType, localizaType);
+            if (response != null)
+            {
+                if (response.Success == false && CheckPermision(response.StatusCode) == false)
+                {
+                    result.SetUrl("/Base/Page404");
+                    return Content(JsonConvert.SerializeObject(new
+                    {
+                        result
+                    }));
+                }
+                else
+                {
+                    var resultProductType = JsonConvert.DeserializeObject<List<ProductTypeModel>>(JsonConvert.SerializeObject(response.Results));
+                    if (resultProductType != null && resultProductType.Count() > 0)
+                    {
+                        FunctionHelpers.RemoveCacheByProcedure("Localization_Get_Localization;Menu");
+                        if (model.ID == 0)
+                        {
+                            result.SetDataMessage(true, FunctionHelpers.GetValueLanguage("Message.AddNewSuccess"), FunctionHelpers.GetValueLanguage("Message.Success"), string.Empty);
+                        }
+                        else
+                        {
+                            result.SetDataMessage(true, FunctionHelpers.GetValueLanguage("Message.UpdateSuccess"), FunctionHelpers.GetValueLanguage("Message.Success"), string.Empty);
+                        }
+                    }
+                    else
+                    {
+                        if (model.ID == 0)
+                        {
+                            result.SetDataMessage(false, FunctionHelpers.GetValueLanguage("Message.AddNew.Error"), FunctionHelpers.GetValueLanguage("Message.Error"), string.Empty);
+
+                        }
+                        else
+                        {
+                            result.SetDataMessage(false, FunctionHelpers.GetValueLanguage("Message.UpdateFail"), FunctionHelpers.GetValueLanguage("Message.Success"), string.Empty);
+                        }
+                    }
+
+                }
+            }
+            return Content(JsonConvert.SerializeObject(new
+            {
+                result
+            }));
+        }
+
+        public ActionResult Delete(long id = 0)
+        {
+            ResultModel result = new ResultModel();
+            var response = _menuAdminRepositor.DeleteMenuAdminById(id);
+            if (response.Success == false && CheckPermision(response.StatusCode) == false)
+            {
+                result.SetUrl("/Base/Page404");
+            }
+            else
+            {
+                FunctionHelpers.RemoveCacheByProcedure("Localization_Get_Localization;Menu");
+                result.SetDataMessage(true, FunctionHelpers.GetValueLanguage("Message.Remove.Sucess"), FunctionHelpers.GetValueLanguage("Message.Success"));
+            }
+            return Content(JsonConvert.SerializeObject(new
+            {
+                result
+            }));
+        }
+
+
         #region RenderTable
         public ActionResult ReloadTable(TableViewModel tableData, ParamType param)
         {
@@ -170,7 +302,7 @@ namespace S2Please.Areas.ADMIN.Controllers
         public TableViewModel GetData(TableViewModel tableData, ParamType paramType)
         {
             var type = MapperHelper.Map<ParamType, Repository.Type.ParamType>(paramType);
-            if (tableData.TABLE_NAME == TableName.Menu)
+            if (tableData.TABLE_NAME == TableName.MenuAdmin)
             {
                 var response = _menuAdminRepositor.GetMenuAdminFromAdmin(type);
                 if (response != null)

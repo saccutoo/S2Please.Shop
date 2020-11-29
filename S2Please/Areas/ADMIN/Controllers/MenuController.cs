@@ -77,6 +77,7 @@ namespace S2Please.Areas.ADMIN.Controllers
             MenuViewModel vm = new MenuViewModel();
             vm.Localiza.DATA_TYPE = DataType.MENU;
             vm.Is_Save = isUpdate;
+            vm.Localiza.Is_Save = isUpdate;
 
             var responseMenu = _menuRepository.GetMenu();
             vm.Menus = responseMenu.Results;

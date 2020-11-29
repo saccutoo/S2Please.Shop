@@ -2,14 +2,14 @@
     loadingBody.Show();
     $.ajax({
         type: "POST",
-        url: "/ADMIN/Menu/ShowFormSaveMenu",
+        url: "/ADMIN/MenuAdmin/ShowFormSaveMenuAdmin",
         data: {
             id: 0
         },
         dataType: "json",
         success: function (response) {
-            $("#modal-content-center").html(response.html);
-            $("#modal-center").modal("show");
+            $("#modal-content-right").html(response.html);
+            $("#modal-right").modal("show");
             loadingBody.Hide();
         },
         error: function (response, status, error) {
@@ -19,17 +19,17 @@
     });
 }
 
-function saveMenu() {
-    $("#form-menu label[name*='message-error-']").text("");
+function saveMenuAdmin() {
+    $("#form-menu-admin label[name*='message-error-']").text("");
     $.ajax({
         type: "POST",
-        url: "/ADMIN/Menu/SaveMenu",
-        data: $('#form-menu').serializeArray(),
+        url: "/ADMIN/MenuAdmin/SaveMenuAdmin",
+        data: $('#form-menu-admin').serializeArray(),
         dataType: "json",
         success: function (response) {
             if (response.Invalid) {
                 var validations = response.Result;
-                renderError(validations, "form-menu");
+                renderError(validations, "form-menu-admin");
                 var check = false;
                 for (var i = 0; i < validations.length; i++) {
                     if (validations[i].ColumnName.indexOf('.PROPERTY_VALUE') > -1) {
@@ -48,8 +48,8 @@ function saveMenu() {
             }
             else if (response.result.Success) {
                 toastr["success"](response.result.Message, response.result.CacheName);
-                $("#modal-center").modal("hide");
-                reaload("Menu", ControlModel["Menu"].PAGE_INDEX, $('#Menu-paging-items-per-page').val(), "");
+                $("#modal-right").modal("hide");
+                reaload("MenuAdmin", ControlModel["MenuAdmin"].PAGE_INDEX, $('#MenuAdmin-paging-items-per-page').val(), "");
             }           
             else if (!response.result.IsPermission) {
                 window.location.href = response.result.Url;
@@ -69,14 +69,14 @@ function Update(id) {
     loadingBody.Show();
     $.ajax({
         type: "POST",
-        url: "/ADMIN/Menu/ShowFormSaveMenu",
+        url: "/ADMIN/MenuAdmin/ShowFormSaveMenuAdmin",
         data: {
             id: id
         },
         dataType: "json",
         success: function (response) {
-            $("#modal-content-center").html(response.html);
-            $("#modal-center").modal("show");
+            $("#modal-content-right").html(response.html);
+            $("#modal-right").modal("show");
             loadingBody.Hide();
         },
         error: function (response, status, error) {
@@ -110,14 +110,14 @@ function deleteMenu(id) {
 function saveDelete(id) {
     $.ajax({
         type: "POST",
-        url: "/ADMIN/Menu/Delete",
+        url: "/ADMIN/MenuAdmin/Delete",
         data: {id:id},
         dataType: "json",
         success: function (response) {
              if (response.result.Success) {
                 toastr["success"](response.result.Message, response.result.CacheName);
                 $("#modal-center").modal("hide");
-                 reaload("Menu", ControlModel["Menu"].PAGE_INDEX, $('#Menu-paging-items-per-page').val(), "");
+                 reaload("MenuAdmin", ControlModel["MenuAdmin"].PAGE_INDEX, $('#MenuAdmin-paging-items-per-page').val(), "");
             }
             else if (!response.result.IsPermission) {
                 window.location.href = response.result.Url;
@@ -133,19 +133,19 @@ function saveDelete(id) {
     });
 }
 
-function viewDetailMenu(id) {
+function viewDetailMenuAdmin(id) {
     loadingBody.Show();
     $.ajax({
         type: "POST",
-        url: "/ADMIN/Menu/ShowFormSaveMenu",
+        url: "/ADMIN/MenuAdmin/ShowFormSaveMenuAdmin",
         data: {
             id: id,
             isUpdate: false
         },
         dataType: "json",
         success: function (response) {
-            $("#modal-content-center").html(response.html);
-            $("#modal-center").modal("show");
+            $("#modal-content-right").html(response.html);
+            $("#modal-right").modal("show");
             loadingBody.Hide();
         },
         error: function (response, status, error) {

@@ -37,7 +37,7 @@ namespace Repository
             return ListProcedure<MenuModel>(new MenuModel(), "Menu_Get_MenuFromAdmin", param, false, isCheckPermission);
         }
 
-        //Save product group
+        //Save menu
         public ResultModel SaveMenu(MenuModel model, List<LocalizationType> type, bool isCheckPermission = true)
         {
             var param = new List<Param>();

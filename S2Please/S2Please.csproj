@@ -389,6 +389,7 @@
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\AttachmentJs.cs" />
     <Compile Include="Models\CartModel.cs" />
+    <Compile Include="Models\MenuAdminModel.cs" />
     <Compile Include="Models\TableMultipleLanguageConfigurationModel.cs" />
     <Compile Include="Models\HistoryResetPassword.cs" />
     <Compile Include="Models\BaseModel.cs" />
@@ -1158,6 +1159,7 @@
     <Content Include="Areas\ADMIN\Views\MenuAdmin\GetMenuLeftAdmin.cshtml" />
     <Content Include="Areas\ADMIN\Views\MenuAdmin\GetMenuLeftMobileAdmin.cshtml" />
     <Content Include="Areas\ADMIN\Views\MenuAdmin\_MenuLeftCommon.cshtml" />
+    <Content Include="Areas\ADMIN\Views\MenuAdmin\_FormSaveMenuAdmin.cshtml" />
     <None Include="Properties\PublishProfiles\shop.pubxml" />
     <Content Include="Scripts\bootstrap-select-1.13.14\dist\css\bootstrap-select.css.map" />
     <Content Include="Scripts\bootstrap-select-1.13.14\dist\js\bootstrap-select.js.map" />

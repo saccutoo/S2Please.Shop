@@ -18,7 +18,7 @@ namespace Repository
         //Get menu render to table
         ResultModel GetMenuFromAdmin(ParamType paramType, bool isCheckPermission = true);
 
-        //Save product group
+        //Save menu
         ResultModel SaveMenu(MenuModel model, List<LocalizationType> type, bool isCheckPermission = true);
 
         //Get menu by ID

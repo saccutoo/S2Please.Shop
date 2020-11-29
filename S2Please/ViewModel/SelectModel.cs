@@ -30,7 +30,7 @@ namespace S2Please.ViewModel
         public string DataType { get; set; } = string.Empty;
         public string PropertyName { get; set; } = string.Empty;
         public bool IsShowTitle { get; set; } = false;
-        public string DropdownParent { get; set; }
+        public string DropdownParent { get; set; } = string.Empty;
 
     }
 }
