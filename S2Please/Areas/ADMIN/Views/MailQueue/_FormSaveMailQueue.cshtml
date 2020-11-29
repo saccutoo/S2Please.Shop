@@ -36,7 +36,7 @@
     </button>
 </div>
 <div class="modal-body" style="padding-left:15px;">
-    <form id="form-menu">
+    <form id="form-mail-queue">
         <input type="text" name="model.ID" value="@Model.MailQueue.ID" hidden />
         <input type="text" name="model.DATA_ID" value="@Model.MailQueue.DATA_ID" hidden />
 
@@ -45,15 +45,39 @@
                 @Html.Partial("~/Areas/ADMIN/Views/Template/Form/_Input.cshtml", new InputModel() { Type = "text", Id = "DATA_TYPE", Class = "", Name = "model.DATA_TYPE", LabelName = "MailQueue.DataType", Value = Model.MailQueue.DATA_TYPE, IsRequied = true })
             </div>
             <div class="col col-md-6">
-                @Html.Partial("~/Areas/ADMIN/Views/Template/Form/_Input.cshtml", new InputModel() { Type = "text", Id = "FROM", Class = "", Name = "model.FROM", LabelName = "MailQueue.MailTo", Value = Model.MailQueue.FROM, IsRequied = true, Attribute = "readonly" })
+                @Html.Partial("~/Areas/ADMIN/Views/Template/Form/_Input.cshtml", new InputModel() { Type = "text", Id = "FROM", Class = "", Name = "model.FROM", LabelName = "MailQueue.From", Value = Model.MailQueue.FROM, IsRequied = true, Attribute = "readonly" })
+            </div>
+
+        </div>
+        <div class="row form-group">
+            <div class="col col-md-6">
+                @Html.Partial("~/Areas/ADMIN/Views/Template/Form/_Textarea.cshtml", new InputModel() { Type = "text", Id = "MAIL_NAME", Class = "", Name = "model.MAIL_NAME", LabelName = "MailQueue.MailName", Value = Model.MailQueue.MAIL_NAME, IsRequied = true })
             </div>
             <div class="col col-md-6">
-                @Html.Partial("~/Areas/ADMIN/Views/Template/Form/_Textarea.cshtml", new InputModel() { Type = "text", Id = "MAIL_TO", Class = "", Name = "model.MAIL_TO", LabelName = "MailQueue.Mailto", Value = Model.MailQueue.MAIL_TO, IsRequied = true })
-            </div>
-            <div class="col col-md-6">
-                @Html.Partial("~/Areas/ADMIN/Views/Template/Form/_Textarea.cshtml", new InputModel() { Type = "text", Id = "MAIL_CC", Class = "", Name = "model.MAIL_CC", LabelName = "MailQueue.Cc", Value = Model.MailQueue.MAIL_CC})
+                @Html.Partial("~/Areas/ADMIN/Views/Template/Form/_Textarea.cshtml", new InputModel() { Type = "text", Id = "CONTENT", Class = "", Name = "model.CONTENT", LabelName = "MailQueue.Content", Value = Model.MailQueue.CONTENT, IsRequied = true })
             </div>
         </div>
+
+        <div class="row form-group">
+            <div class="col col-md-6">
+                @Html.Partial("~/Areas/ADMIN/Views/Template/Form/_Textarea.cshtml", new InputModel() { Type = "text", Id = "MAIL_TO", Class = "", Name = "model.MAIL_TO", LabelName = "MailQueue.MailTo", Value = Model.MailQueue.MAIL_TO, IsRequied = true })
+            </div>
+            <div class="col col-md-6">
+                @Html.Partial("~/Areas/ADMIN/Views/Template/Form/_Input.cshtml", new InputModel() { Type = "text", Id = "STATUS", Class = "", Name = "model.STATUS", LabelName = "MailQueue.Status", Value = Model.MailQueue.STATUS, IsRequied = true, Placeholder = "MailQueue.DecriptionStatus" })
+            </div>
+        </div>
+
+        <div class="row form-group">
+            <div class="col col-md-6">
+                @Html.Partial("~/Areas/ADMIN/Views/Template/Form/_Textarea.cshtml", new InputModel() { Type = "text", Id = "MAIL_CC", Class = "", Name = "model.MAIL_CC", LabelName = "MailQueue.Cc", Value = Model.MailQueue.MAIL_CC })
+
+            </div>
+            <div class="col col-md-6">
+                @Html.Partial("~/Areas/ADMIN/Views/Template/Form/_Textarea.cshtml", new InputModel() { Type = "text", Id = "MAIL_BCC", Class = "", Name = "model.MAIL_BCC", LabelName = "MailQueue.Bcc", Value = Model.MailQueue.MAIL_BCC })
+
+            </div>
+        </div>
+
 
     </form>
 </div>
@@ -61,6 +85,6 @@
     <button type="button" class="btn btn-secondary au-btn au-btn-icon au-btn--smally" data-dismiss="modal">@FunctionHelpers.GetValueLanguage("Button.Title.Close")</button>
     @if (FunctionHelpers.CheckPermission(MenuName.Menu,Permission.Update) && Model.Is_Save)
     {
-        <button type="button" class="au-btn au-btn-icon au-btn--green au-btn--smally" onclick="saveMenu()">@FunctionHelpers.GetValueLanguage("Button.Save")</button>
+        <button type="button" class="au-btn au-btn-icon au-btn--green au-btn--smally" onclick="saveMailQueue()">@FunctionHelpers.GetValueLanguage("Button.Save")</button>
     }
 </div>

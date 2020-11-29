@@ -269,6 +269,7 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Areas\ADMIN\ADMINAreaRegistration.cs" />
     <Compile Include="Areas\ADMIN\Controllers\MailQueueController.cs" />
+    <Compile Include="Areas\ADMIN\Controllers\MenuAdminController.cs" />
     <Compile Include="Areas\ADMIN\Controllers\ProductGroupController.cs" />
     <Compile Include="Areas\ADMIN\Controllers\MenuController.cs" />
     <Compile Include="Areas\ADMIN\Controllers\ProductTypeController.cs" />
@@ -285,6 +286,7 @@
     <Compile Include="Areas\ADMIN\ViewModel\FilterViewModel.cs" />
     <Compile Include="Areas\ADMIN\ViewModel\LocalizadataViewModel.cs" />
     <Compile Include="Areas\ADMIN\ViewModel\MailQueueViewModel.cs" />
+    <Compile Include="Areas\ADMIN\ViewModel\MenuAdminViewModel.cs" />
     <Compile Include="Areas\ADMIN\ViewModel\ProductGroupSaveViewModel.cs" />
     <Compile Include="Areas\ADMIN\ViewModel\ProductTypeSaveViewModel .cs" />
     <Compile Include="Areas\ADMIN\ViewModel\ProductGroupViewModel.cs" />
@@ -1152,6 +1154,10 @@
     <Content Include="Areas\ADMIN\Views\Menu\Index.cshtml" />
     <Content Include="Areas\ADMIN\Views\MailQueue\Index.cshtml" />
     <Content Include="Areas\ADMIN\Views\MailQueue\_FormSaveMailQueue.cshtml" />
+    <Content Include="Areas\ADMIN\Views\MenuAdmin\Index.cshtml" />
+    <Content Include="Areas\ADMIN\Views\MenuAdmin\GetMenuLeftAdmin.cshtml" />
+    <Content Include="Areas\ADMIN\Views\MenuAdmin\GetMenuLeftMobileAdmin.cshtml" />
+    <Content Include="Areas\ADMIN\Views\MenuAdmin\_MenuLeftCommon.cshtml" />
     <None Include="Properties\PublishProfiles\shop.pubxml" />
     <Content Include="Scripts\bootstrap-select-1.13.14\dist\css\bootstrap-select.css.map" />
     <Content Include="Scripts\bootstrap-select-1.13.14\dist\js\bootstrap-select.js.map" />
@@ -1242,6 +1248,7 @@
     <Content Include="Scripts\Kraamen\autocomplete.min.css" />
     <Content Include="Scripts\Kraamen\autocomplete.min.js" />
     <Content Include="Scripts\MailQueue\MailQueue.js" />
+    <Content Include="Scripts\MenuAdmin\MenuAdmin.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\Order\AdminOrder.js" />
     <Content Include="Scripts\ProductGroup\ProductGroup.js" />

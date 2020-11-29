@@ -47,6 +47,7 @@ namespace SHOP.COMMON
         public static string ProductGroup = "ProductGroup";
         public static string Menu = "Menu";
         public static string MailQueue = "MailQueue";
+        public static string MenuAdmin = "MenuAdmin";
 
     }
 
@@ -60,6 +61,8 @@ namespace SHOP.COMMON
         public static string ProductGroup = "ProductGroup";
         public static string Menu = "Menu";
         public static string MailQueue = "MailQueue";
+        public static string MenuAdmin = "MenuAdmin";
+
     }
 
     public static class TableUrl
@@ -71,6 +74,8 @@ namespace SHOP.COMMON
         public static string ProductGroup = "/ADMIN/ProductGroup/ReloadTable";
         public static string Menu = "/ADMIN/Menu/ReloadTable";
         public static string MailQueue = "/ADMIN/MailQueue/ReloadTable";
+        public static string MenuAdmin = "/ADMIN/MenuAdmin/ReloadTable";
+
     }
     public static class TableExportUrl
     {
@@ -81,6 +86,8 @@ namespace SHOP.COMMON
         public static string ProductGroup = "/ADMIN/ProductGroup/Export";
         public static string Menu = "/ADMIN/Menu/Export";
         public static string MailQueue = "/ADMIN/MailQueue/Export";
+        public static string MenuAdmin = "/ADMIN/MenuAdmin/Export";
+
     }
     public static class TableSesionExportUrl
     {
@@ -90,7 +97,8 @@ namespace SHOP.COMMON
         public static string ProductType = "/ADMIN/ProductType/SesionExport";
         public static string ProductGroup = "/ADMIN/ProductGroup/SesionExport";
         public static string Menu = "/ADMIN/Menu/SesionExport";
-        public static string MailQueue = "/ADMIN/MailQueue/SesionExport";
+        public static string MailQueue = "/ADMIN/MenuAdmin/SesionExport";
+        public static string MenuAdmin = "/ADMIN/MenuAdmin/SesionExport";
     }
     public static class Permission
     {
@@ -128,6 +136,8 @@ namespace SHOP.COMMON
         public static string PRODUCT_GROUP_TYPE = "PRODUCT_GROUP_TYPE";//PRODUCT_GROUP_TYPE
         public static string CL_METHOD_PAY = "CL_METHOD_PAY";//CL_METHOD_PAY
         public static string CL_SHIP_FEE = "CL_SHIP_FEE";//CL_METHOD_PAY
+        public static string MENU_ADMIN = "MENU_ADMIN";//MENU
+
     }
 
     public static class PropertyName

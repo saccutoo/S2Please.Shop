@@ -21,187 +21,52 @@ using System.Configuration;
 
 namespace S2Please.Areas.ADMIN.Controllers
 {
-    public class ProductGroupController : BaseController
+    public class MenuAdminController : BaseController
     {
-        // GET: ADMIN/ProductGroup
+        // GET: ADMIN/Menu
 
         private ITableRepository _tableRepository;
         private ISystemRepository _systemRepository;
-        private IProductRepository _productRepository;
-        private IProductGroupRepository _productGroupRepository;
-        public ProductGroupController(ITableRepository tableRepository, IOrderRepository orderRepository, ISystemRepository systemRepository, IProductRepository productRepository ,IProductGroupRepository productGroupRepository)
+        private IMenuAdminRepository _menuAdminRepositor;
+        public MenuAdminController(ITableRepository tableRepository, IOrderRepository orderRepository, ISystemRepository systemRepository, IMenuAdminRepository menuAdminRepositor)
         {
             this._tableRepository = tableRepository;
             this._systemRepository = systemRepository;
-            this._productRepository = productRepository;
-            this._productGroupRepository = productGroupRepository;
+            this._menuAdminRepositor = menuAdminRepositor;
         }
 
         public ActionResult Index()
         {
-            ProductGroupViewModel productGroup = new ProductGroupViewModel();
-            var responseTableUser = _tableRepository.GetTableUserConfig(TableName.ProductGroup, CurrentUser.UserAdmin.USER_ID);
+            MenuAdminViewModel menu = new MenuAdminViewModel();
+            var responseTableUser = _tableRepository.GetTableUserConfig(TableName.MenuAdmin, CurrentUser.UserAdmin.USER_ID);
             var resultTableUser = JsonConvert.DeserializeObject<List<TableModel>>(JsonConvert.SerializeObject(responseTableUser.Results));
             if (resultTableUser != null && resultTableUser.Count() > 0)
             {
-                productGroup.Table = JsonConvert.DeserializeObject<TableViewModel>(resultTableUser.FirstOrDefault().TABLE_CONTENT);
+                menu.Table = JsonConvert.DeserializeObject<TableViewModel>(resultTableUser.FirstOrDefault().TABLE_CONTENT);
             }
             else
             {
-                var responseOrder = _tableRepository.GetTableByTableName(TableName.ProductGroup);
+                var responseOrder = _tableRepository.GetTableByTableName(TableName.MenuAdmin);
                 var resultOrder = JsonConvert.DeserializeObject<List<TableModel>>(JsonConvert.SerializeObject(responseOrder.Results));
                 if (resultOrder != null && resultOrder.Count() > 0)
                 {
-                    productGroup.Table = JsonConvert.DeserializeObject<TableViewModel>(resultOrder.FirstOrDefault().TABLE_CONTENT);
+                    menu.Table = JsonConvert.DeserializeObject<TableViewModel>(resultOrder.FirstOrDefault().TABLE_CONTENT);
                 }
             }
 
             ParamType paramType = new ParamType();
-            paramType.PAGE_SIZE = productGroup.Table.PAGE_SIZE == 0 ? 1 : productGroup.Table.PAGE_SIZE;
-            paramType.PAGE_NUMBER = productGroup.Table.PAGE_INDEX == 0 ? 1 : productGroup.Table.PAGE_INDEX;
-            productGroup.Table.TABLE_NAME = TableName.ProductGroup;
-            productGroup.Table.TITLE_TABLE_NAME = FunctionHelpers.GetValueLanguage("Table.Title.ProductGroup");
-            productGroup.Table = RenderTable(productGroup.Table, paramType);
-            if (!productGroup.Table.IS_PERMISSION)
+            paramType.PAGE_SIZE = menu.Table.PAGE_SIZE == 0 ? 1 : menu.Table.PAGE_SIZE;
+            paramType.PAGE_NUMBER = menu.Table.PAGE_INDEX == 0 ? 1 : menu.Table.PAGE_INDEX;
+            menu.Table.TABLE_NAME = TableName.MenuAdmin;
+            menu.Table.TITLE_TABLE_NAME = FunctionHelpers.GetValueLanguage("Table.Title.MenuAdmin");
+            menu.Table = RenderTable(menu.Table, paramType);
+            if (!menu.Table.IS_PERMISSION)
             {
                 return RedirectToRoute(new { action = "/Page404", controller = "Base", area = "" });
             }
             //Table common
-            return View(productGroup);
+            return View(menu);
         }
-
-        public ActionResult ShowFormSaveProductGroup(long id = 0, bool isUpdate = true)
-        {
-            ProductGroupSaveViewModel vm = new ProductGroupSaveViewModel();
-            vm.Localiza.DATA_TYPE = DataType.PRODUCT_GROUP;
-            vm.Is_Save = isUpdate;          
-
-            var responseMultipleLanguage = _systemRepository.GetTableMultipleLanguageConfigurationByTableName(TableName.ProductGroup);
-            var resultMultipleLanguage = JsonConvert.DeserializeObject<List<TableMultipleLanguageConfigurationModel>>(JsonConvert.SerializeObject(responseMultipleLanguage.Results));
-            if (resultMultipleLanguage != null && resultMultipleLanguage.Count() > 0)
-            {
-                vm.Localiza.MultipleLanguageConfigurations = resultMultipleLanguage;
-            }
-
-            var responseType = _systemRepository.GetProductGroupType();
-            vm.Types = responseType.Results;
-
-            var responseLanguage = _systemRepository.GetLanguage();
-            var resultLanguage = JsonConvert.DeserializeObject<List<LanguageModel>>(JsonConvert.SerializeObject(responseLanguage.Results));
-            if (resultLanguage != null && resultLanguage.Count() > 0)
-            {
-                vm.Localiza.Languages = resultLanguage;
-            }
-
-            if (id != 0)
-            {
-                vm.Localiza.DATA_ID = id;
-
-                var responseProductGroup = _productGroupRepository.GetProductGroupById(id);
-                var resultProductGroup = JsonConvert.DeserializeObject<List<ProductGroupModel>>(JsonConvert.SerializeObject(responseProductGroup.Results));
-                if (resultProductGroup != null && resultProductGroup.Count() > 0)
-                {
-                    vm.ProductGroup = resultProductGroup.FirstOrDefault();
-                }
-
-                var responseLocalizadata = _systemRepository.GetLocalizationByDataIdAndDataType(id, vm.Localiza.DATA_TYPE);
-                var resultLocalizadata = JsonConvert.DeserializeObject<List<LocalizationModel>>(JsonConvert.SerializeObject(responseLocalizadata.Results));
-                if (resultLocalizadata != null && resultLocalizadata.Count() > 0)
-                {
-                    vm.Localiza.Localizations = resultLocalizadata;
-                }
-            }
-            var html = RenderViewToString(this.ControllerContext, "~/Areas/ADMIN/Views/ProductGroup/_FormSaveProductGroup.cshtml", vm);
-            return Content(JsonConvert.SerializeObject(new
-            {
-                html
-            }));
-        }
-
-        public ActionResult SaveProductGroup(ProductGroupModel model, List<LocalizationModel> localiza)
-        {
-            var validations = ValidationHelper.Validation(model, "model");
-            var validationLocaliza = ValidationHelper.ListValidation(localiza, "localiza");
-            var allValidations = new List<ValidationModel>(validations.Count +
-                                    validationLocaliza.Count);
-            allValidations.AddRange(validations);
-            allValidations.AddRange(validationLocaliza);
-
-            if (allValidations.Count > 0)
-            {
-                return Json(new { Result = allValidations, Invalid = true }, JsonRequestBehavior.AllowGet);
-            }
-            model.CREATED_BY = CurrentUser.UserAdmin.ID;
-            model.UPDATED_BY = CurrentUser.UserAdmin.ID;
-            var modelType = MapperHelper.Map<ProductGroupModel, Repository.Model.ProductGroupModel>(model);
-            var localizaType = MapperHelper.MapList<LocalizationModel, Repository.Type.LocalizationType>(localiza);
-            var result = new ResultModel();
-            var response = _productGroupRepository.SaveProductGroup(modelType, localizaType);
-            if (response != null)
-            {
-                if (response.Success == false && CheckPermision(response.StatusCode) == false)
-                {
-                    result.SetUrl("/Base/Page404");
-                    return Content(JsonConvert.SerializeObject(new
-                    {
-                        result
-                    }));
-                }
-                else
-                {
-                    var resultProductType = JsonConvert.DeserializeObject<List<ProductGroupModel>>(JsonConvert.SerializeObject(response.Results));
-                    if (resultProductType != null && resultProductType.Count() > 0)
-                    {
-                        FunctionHelpers.RemoveCacheByProcedure("Localization_Get_Localization;ProductGroup");
-                        if (model.ID == 0)
-                        {
-                            result.SetDataMessage(true, FunctionHelpers.GetValueLanguage("Message.AddNewSuccess"), FunctionHelpers.GetValueLanguage("Message.Success"), string.Empty);
-                        }
-                        else
-                        {
-                            result.SetDataMessage(true, FunctionHelpers.GetValueLanguage("Message.UpdateSuccess"), FunctionHelpers.GetValueLanguage("Message.Success"), string.Empty);
-                        }
-                    }
-                    else
-                    {
-                        if (model.ID == 0)
-                        {
-                            result.SetDataMessage(false, FunctionHelpers.GetValueLanguage("Message.AddNew.Error"), FunctionHelpers.GetValueLanguage("Message.Error"), string.Empty);
-
-                        }
-                        else
-                        {
-                            result.SetDataMessage(false, FunctionHelpers.GetValueLanguage("Message.UpdateFail"), FunctionHelpers.GetValueLanguage("Message.Success"), string.Empty);
-                        }
-                    }
-
-                }
-            }
-            return Content(JsonConvert.SerializeObject(new
-            {
-                result
-            }));
-        }
-
-        public ActionResult Delete(long id = 0)
-        {
-            ResultModel result = new ResultModel();
-            var response = _productGroupRepository.DeleteById(id);
-            if (response.Success == false && CheckPermision(response.StatusCode) == false)
-            {
-                result.SetUrl("/Base/Page404");
-            }
-            else
-            {
-                FunctionHelpers.RemoveCacheByProcedure("Localization_Get_Localization;ProductGroup");
-                result.SetDataMessage(true, FunctionHelpers.GetValueLanguage("Message.Remove.Sucess"), FunctionHelpers.GetValueLanguage("Message.Success"));
-            }
-            return Content(JsonConvert.SerializeObject(new
-            {
-                result
-            }));
-        }
-
 
         #region RenderTable
         public ActionResult ReloadTable(TableViewModel tableData, ParamType param)
@@ -230,9 +95,9 @@ namespace S2Please.Areas.ADMIN.Controllers
             }
 
             tableData.TABLE_NAME = tableName;
-            if (tableName == TableName.ProductGroup)
+            if (tableName == TableName.MenuAdmin)
             {
-                tableData.TITLE_TABLE_NAME = FunctionHelpers.GetValueLanguage("Table.Title.ProductGroup");
+                tableData.TITLE_TABLE_NAME = FunctionHelpers.GetValueLanguage("Table.Title.MenuAdmin");
             }
             tableData = RenderTable(tableData, param);
 
@@ -262,12 +127,12 @@ namespace S2Please.Areas.ADMIN.Controllers
             tableData.VALUE_DYNAMIC = paramType.VALUE;
             tableData.STRING_FILTER = paramType.STRING_FILTER;
 
-            if (tableData.TABLE_NAME == TableName.ProductGroup)
+            if (tableData.TABLE_NAME == TableName.MenuAdmin)
             {
-                tableData.TABLE_URL = TableUrl.ProductGroup;
-                tableData.MENU_NAME = MenuName.ProductGroup;
-                tableData.TABLE_EXPORT_URL = TableExportUrl.ProductGroup;
-                tableData.TABLE_SESION_EXPORT_URL = TableSesionExportUrl.ProductGroup;
+                tableData.TABLE_URL = TableUrl.MenuAdmin;
+                tableData.MENU_NAME = MenuName.MenuAdmin;
+                tableData.TABLE_EXPORT_URL = TableExportUrl.MenuAdmin;
+                tableData.TABLE_SESION_EXPORT_URL = TableSesionExportUrl.MenuAdmin;
             }
 
             if (tableData.TABLE_COLUMN == null || tableData.TABLE_COLUMN.Count() == 0)
@@ -305,9 +170,9 @@ namespace S2Please.Areas.ADMIN.Controllers
         public TableViewModel GetData(TableViewModel tableData, ParamType paramType)
         {
             var type = MapperHelper.Map<ParamType, Repository.Type.ParamType>(paramType);
-            if (tableData.TABLE_NAME == TableName.ProductGroup)
+            if (tableData.TABLE_NAME == TableName.Menu)
             {
-                var response = _productGroupRepository.GetProductGroupGromAdmin(type);
+                var response = _menuAdminRepositor.GetMenuAdminFromAdmin(type);
                 if (response != null)
                 {
                     if (response.Success == false && CheckPermision(response.StatusCode) == false)
@@ -432,6 +297,33 @@ namespace S2Please.Areas.ADMIN.Controllers
                 wb.SaveAs(stream);
                 return File(stream.ToArray(), "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", TABLE_NAME + ".xlsx");
             }
+        }
+        #endregion
+
+
+        #region get menu left
+        public ActionResult GetMenuLeftAdmin()
+        {
+            MenuAdminViewModel menu = new MenuAdminViewModel();
+            var responseMenus = _menuAdminRepositor.GetMenuLeftAdmin(CurrentUser.UserAdmin.USER_ID, CurrentUser.UserAdmin.ROLE_ID);
+            var resultMenus= JsonConvert.DeserializeObject<List<MenuModel>>(JsonConvert.SerializeObject(responseMenus.Results));
+            if (resultMenus != null && resultMenus.Count() > 0)
+            {
+                menu.Menus = resultMenus;
+            }
+            return View(menu);
+        }
+
+        public ActionResult GetMenuLeftMobileAdmin()
+        {
+            MenuAdminViewModel menu = new MenuAdminViewModel();
+            var responseMenus = _menuAdminRepositor.GetMenuLeftAdmin(CurrentUser.UserAdmin.USER_ID, CurrentUser.UserAdmin.ROLE_ID);
+            var resultMenus = JsonConvert.DeserializeObject<List<MenuModel>>(JsonConvert.SerializeObject(responseMenus.Results));
+            if (resultMenus != null && resultMenus.Count() > 0)
+            {
+                menu.Menus = resultMenus;
+            }
+            return View(menu);
         }
         #endregion
     }

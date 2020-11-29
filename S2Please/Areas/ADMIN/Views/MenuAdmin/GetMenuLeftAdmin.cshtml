@@ -1,0 +1,25 @@
+﻿@model S2Please.Areas.ADMIN.ViewModel.MenuAdminViewModel
+@using SHOP.COMMON
+@using S2Please.Helper
+@{
+    Layout = null;
+}
+
+<aside class="menu-sidebar d-none d-lg-block">
+    <div class="logo">
+        <a href="/admin/dashboard">
+            <img src="~/LayoutAdmin/images//icon/logo.png" alt="Cool Admin" />
+        </a>
+    </div>
+
+    <div class="menu-sidebar__content js-scrollbar1">
+        <nav class="navbar-sidebar">
+            <ul class="list-unstyled navbar__list">
+                @if (Model != null && Model.Menus != null && Model.Menus.Count() > 0)
+                {
+                    @Html.Partial("~/Areas/ADMIN/Views/MenuAdmin/_MenuLeftCommon.cshtml", Model)
+                }
+            </ul>              
+        </nav>
+    </div>
+</aside>

@@ -90,6 +90,100 @@ namespace S2Please.Areas.ADMIN.Controllers
             }));
         }
 
+        [ValidateInput(false)]
+        public ActionResult SaveMailQueue(MailQueueModel model)
+        {
+            var validations = ValidationHelper.Validation(model, "model");
+            if (validations.Count > 0)
+            {
+                var validate = validations.Where(s => s.ColumnName.Contains(".STATUS")).ToList();
+                if (validate==null || validate.Count()==0)
+                {
+                    if (model.STATUS!="F" && model.STATUS != "S")
+                    {
+                        validations.Add(new ValidationModel() { ColumnName = "model.STATUS", IsError = true, ErrorMessage = FunctionHelpers.GetValueLanguage("MailQueue.ErrorStatus") }) ;
+                    }
+                }
+                return Json(new { Result = validations, Invalid = true }, JsonRequestBehavior.AllowGet);
+            }
+            else
+            {
+                if (model.STATUS != "F" && model.STATUS != "S")
+                {
+                    validations.Add(new ValidationModel() { ColumnName = "model.STATUS", IsError = true, ErrorMessage = FunctionHelpers.GetValueLanguage("MailQueue.ErrorStatus") });
+                    return Json(new { Result = validations, Invalid = true }, JsonRequestBehavior.AllowGet);
+
+                }
+            }
+            model.CREATED_BY = CurrentUser.UserAdmin.ID;
+            model.UPDATED_BY = CurrentUser.UserAdmin.ID;
+            var modelType = MapperHelper.Map<MailQueueModel, Repository.Model.MailQueueModel>(model);
+            var result = new ResultModel();
+            var response = _mailQueueRepository.SaveMailQueue(modelType);
+            if (response != null)
+            {
+                if (response.Success == false && CheckPermision(response.StatusCode) == false)
+                {
+                    result.SetUrl("/Base/Page404");
+                    return Content(JsonConvert.SerializeObject(new
+                    {
+                        result
+                    }));
+                }
+                else
+                {
+                    var resultProductType = JsonConvert.DeserializeObject<List<ProductTypeModel>>(JsonConvert.SerializeObject(response.Results));
+                    if (resultProductType != null && resultProductType.Count() > 0)
+                    {
+                        if (model.ID == 0)
+                        {
+                            result.SetDataMessage(true, FunctionHelpers.GetValueLanguage("Message.AddNewSuccess"), FunctionHelpers.GetValueLanguage("Message.Success"), string.Empty);
+                        }
+                        else
+                        {
+                            result.SetDataMessage(true, FunctionHelpers.GetValueLanguage("Message.UpdateSuccess"), FunctionHelpers.GetValueLanguage("Message.Success"), string.Empty);
+                        }
+                    }
+                    else
+                    {
+                        if (model.ID == 0)
+                        {
+                            result.SetDataMessage(false, FunctionHelpers.GetValueLanguage("Message.AddNew.Error"), FunctionHelpers.GetValueLanguage("Message.Error"), string.Empty);
+
+                        }
+                        else
+                        {
+                            result.SetDataMessage(false, FunctionHelpers.GetValueLanguage("Message.UpdateFail"), FunctionHelpers.GetValueLanguage("Message.Success"), string.Empty);
+                        }
+                    }
+
+                }
+            }
+            return Content(JsonConvert.SerializeObject(new
+            {
+                result
+            }));
+        }
+
+        public ActionResult Delete(long id = 0)
+        {
+            ResultModel result = new ResultModel();
+            var response = _mailQueueRepository.DeleteMailQueueById(id);
+            if (response.Success == false && CheckPermision(response.StatusCode) == false)
+            {
+                result.SetUrl("/Base/Page404");
+            }
+            else
+            {
+                result.SetDataMessage(true, FunctionHelpers.GetValueLanguage("Message.Remove.Sucess"), FunctionHelpers.GetValueLanguage("Message.Success"));
+            }
+            return Content(JsonConvert.SerializeObject(new
+            {
+                result
+            }));
+        }
+
+
         #region RenderTable
         public ActionResult ReloadTable(TableViewModel tableData, ParamType param)
         {

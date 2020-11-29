@@ -21,5 +21,11 @@ namespace Repository
 
         //Get mail queue by id
         ResultModel GetMailQueueById(long id);
+
+        //Save mail queue
+        ResultModel SaveMailQueue(MailQueueModel model);
+
+        //Delete mail queue by id
+        ResultModel DeleteMailQueueById(long id);
     }
 }

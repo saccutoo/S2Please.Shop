@@ -23,7 +23,7 @@ namespace S2Please.Helper
                 var param = new List<Param>();
                 param.Add(new Param { Key = "@TABLE_NAME", Value = models[0].GetType().Name.Replace("Model", string.Empty) });
                 var paramType = MapperHelper.MapList<Param, Repository.Model.Param>(param);
-                var validationResponse = _commonRepository.ListProcedure<ColumnValidationModel>(new ColumnValidationModel(), "Validation_Get_GetValidation", paramType);
+                var validationResponse = _commonRepository.ListProcedure<ColumnValidationModel>(new ColumnValidationModel(), "Validation_Get_GetValidation", paramType,false,true);
                 var validationResult = JsonConvert.DeserializeObject<List<ColumnValidationModel>>(JsonConvert.SerializeObject(validationResponse.Results));
 
                 if (validationResult != null && validationResult.Count() > 0)
@@ -55,7 +55,7 @@ namespace S2Please.Helper
                 param.Add(new Param { Key = "@TABLE_NAME", Value = model.GetType().Name.Replace("Model", string.Empty) });
                 var paramType = MapperHelper.MapList<Param, Repository.Model.Param>(param);
 
-                var validationResponse = _commonRepository.ListProcedure<ColumnValidationModel>(new ColumnValidationModel(), "Validation_Get_GetValidation", paramType);
+                var validationResponse = _commonRepository.ListProcedure<ColumnValidationModel>(new ColumnValidationModel(), "Validation_Get_GetValidation", paramType,false,true);
                 var validationResult = JsonConvert.DeserializeObject<List<ColumnValidationModel>>(JsonConvert.SerializeObject(validationResponse.Results));
 
                 if (validationResult!=null && validationResult.Count()>0)

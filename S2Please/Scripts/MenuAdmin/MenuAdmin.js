@@ -1,19 +1,55 @@
-﻿function saveMailQueue() {
-    $("#form-mail-queue label[name*='message-error-']").text("");
+﻿function clickAdd() {
+    loadingBody.Show();
     $.ajax({
         type: "POST",
-        url: "/ADMIN/MailQueue/SaveMailQueue",
-        data: $('#form-mail-queue').serializeArray(),
+        url: "/ADMIN/Menu/ShowFormSaveMenu",
+        data: {
+            id: 0
+        },
+        dataType: "json",
+        success: function (response) {
+            $("#modal-content-center").html(response.html);
+            $("#modal-center").modal("show");
+            loadingBody.Hide();
+        },
+        error: function (response, status, error) {
+            alert("Error try again");
+            loadingBody.Hide();
+        }
+    });
+}
+
+function saveMenu() {
+    $("#form-menu label[name*='message-error-']").text("");
+    $.ajax({
+        type: "POST",
+        url: "/ADMIN/Menu/SaveMenu",
+        data: $('#form-menu').serializeArray(),
         dataType: "json",
         success: function (response) {
             if (response.Invalid) {
                 var validations = response.Result;
-                renderError(validations, "form-mail-queue");               
+                renderError(validations, "form-menu");
+                var check = false;
+                for (var i = 0; i < validations.length; i++) {
+                    if (validations[i].ColumnName.indexOf('.PROPERTY_VALUE') > -1) {
+                        check = true;
+                        break;
+                    }                   
+                }
+                if (check) {
+                    $("#cardThree").animate({
+                        'background-color': 'red',
+                    });
+                    $("#cardThree").animate({
+                        'background-color': 'rgba(0,0,0,.03)',
+                    });
+                }
             }
             else if (response.result.Success) {
                 toastr["success"](response.result.Message, response.result.CacheName);
                 $("#modal-center").modal("hide");
-                reaload("MailQueue", ControlModel["Menu"].PAGE_INDEX, $('#MailQueue-paging-items-per-page').val(), "");
+                reaload("Menu", ControlModel["Menu"].PAGE_INDEX, $('#Menu-paging-items-per-page').val(), "");
             }           
             else if (!response.result.IsPermission) {
                 window.location.href = response.result.Url;
@@ -33,7 +69,7 @@ function Update(id) {
     loadingBody.Show();
     $.ajax({
         type: "POST",
-        url: "/ADMIN/MailQueue/ShowFormSaveMailQueue",
+        url: "/ADMIN/Menu/ShowFormSaveMenu",
         data: {
             id: id
         },
@@ -70,17 +106,18 @@ function deleteMenu(id) {
     });
 }
 
+
 function saveDelete(id) {
     $.ajax({
         type: "POST",
-        url: "/ADMIN/MailQueue/Delete",
+        url: "/ADMIN/Menu/Delete",
         data: {id:id},
         dataType: "json",
         success: function (response) {
              if (response.result.Success) {
                 toastr["success"](response.result.Message, response.result.CacheName);
                 $("#modal-center").modal("hide");
-                 reaload("MailQueue", ControlModel["MailQueue"].PAGE_INDEX, $('#MailQueue-paging-items-per-page').val(), "");
+                 reaload("Menu", ControlModel["Menu"].PAGE_INDEX, $('#Menu-paging-items-per-page').val(), "");
             }
             else if (!response.result.IsPermission) {
                 window.location.href = response.result.Url;
@@ -96,17 +133,13 @@ function saveDelete(id) {
     });
 }
 
-function viewDetailMailQueue(id,dataId,dataType) {
+function viewDetailMenu(id) {
     loadingBody.Show();
-    var url = "";
-    if (dataType='Order') {
-        url = "/ADMIN/Order/Detail";
-    }
     $.ajax({
         type: "POST",
-        url: url,
+        url: "/ADMIN/Menu/ShowFormSaveMenu",
         data: {
-            id: dataId,
+            id: id,
             isUpdate: false
         },
         dataType: "json",

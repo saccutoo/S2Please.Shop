@@ -1,0 +1,82 @@
+﻿@model S2Please.Areas.ADMIN.ViewModel.MenuAdminViewModel
+@using SHOP.COMMON
+@using S2Please.Helper
+@{
+    Layout = null;
+}
+
+@if (Model.Menus != null && Model.Menus.Count() > 0)
+{
+    var menuParents = Model.Menus.Where(s => s.PARENT_ID == 0).ToList();
+    foreach (var parent in menuParents)
+    {
+        string activeParent = string.Empty;
+        var pathName = Request.Url.PathAndQuery;
+        var listPath = pathName.Trim('/').Split('/');
+        //HttpContext.Current.Request.PhysicalApplicationPath
+
+        var menuChidren = Model.Menus.Where(s => s.PARENT_ID == parent.ID).ToList();
+
+        if (menuChidren == null || menuChidren.Count() == 0)
+        {
+            if (("||" + parent.ACTIVE + "||").IndexOf("||" + listPath[1] + "||") > -1)
+            {
+                activeParent = "active";
+            }
+            if (FunctionHelpers.CheckPermission(parent.MENU_NAME, Permission.Get))
+            {
+                <li class="@activeParent">
+                    <a href="@parent.LINK">
+                        <i class="@parent.ICON" style="margin-right:10px"></i> @FunctionHelpers.GetValueLocalization(parent.ID, DataType.MENU_ADMIN, PropertyName.MenuName)
+                    </a>
+                </li>
+            }
+
+        }
+        else
+        {
+            var dataActiveChidren = menuChidren.Where(s => ("||" + s.ACTIVE + "||").Contains("||" + listPath[1] + "||")).ToList();
+            if (dataActiveChidren != null && dataActiveChidren.Count() > 0)
+            {
+                activeParent = "active";
+            }
+            bool check = false;
+            foreach (var chidren in menuChidren)
+            {
+                if (FunctionHelpers.CheckPermission(chidren.MENU_NAME, Permission.Get))
+                {
+                    check = true;
+                    break;
+                }
+            }
+            if (check)
+            {
+                <li class="has-sub @activeParent">
+                    <a class="js-arrow" href="#" @(!string.IsNullOrEmpty(activeParent) ? "open" : "")>
+                        <i class="@parent.ICON" style="margin-right:10px"></i> @FunctionHelpers.GetValueLocalization(parent.ID, DataType.MENU_ADMIN, PropertyName.MenuName)
+                    </a>
+                    <ul class="list-unstyled navbar__sub-list js-sub-list" @(!string.IsNullOrEmpty(activeParent) ? "style=display:block" : "")>
+                        @foreach (var chidren in menuChidren)
+                        {
+                            string activeChidren = string.Empty;
+                            if (("||" + chidren.ACTIVE + "||").ToString().IndexOf("||" + listPath[1] + "||") > -1)
+                            {
+                                activeChidren = "active";
+                            }
+                            if (FunctionHelpers.CheckPermission(chidren.MENU_NAME, Permission.Get))
+                            {
+                                <li class="@activeChidren">
+                                    <a href="@chidren.LINK">
+                                        <i class="@chidren.ICON" style="margin-right:10px"></i> @FunctionHelpers.GetValueLocalization(chidren.ID, DataType.MENU_ADMIN, PropertyName.MenuName)
+                                    </a>
+                                </li>
+                            }
+
+                        }
+                    </ul>
+                </li>
+            }
+        }
+
+    }
+}
