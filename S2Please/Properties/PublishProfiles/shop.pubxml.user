@@ -36,6 +36,33 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     <File Include="Areas/ADMIN/Views/Import/Index.cshtml">
       <publishTime>08/01/2020 21:25:43</publishTime>
     </File>
+    <File Include="Areas/ADMIN/Views/MailQueue/Index.cshtml">
+      <publishTime>11/27/2020 21:51:50</publishTime>
+    </File>
+    <File Include="Areas/ADMIN/Views/MailQueue/_FormSaveMailQueue.cshtml">
+      <publishTime>11/28/2020 14:45:52</publishTime>
+    </File>
+    <File Include="Areas/ADMIN/Views/Menu/Index.cshtml">
+      <publishTime>11/26/2020 21:15:37</publishTime>
+    </File>
+    <File Include="Areas/ADMIN/Views/Menu/_FormSaveMenu.cshtml">
+      <publishTime>11/29/2020 17:04:29</publishTime>
+    </File>
+    <File Include="Areas/ADMIN/Views/MenuAdmin/GetMenuLeftAdmin.cshtml">
+      <publishTime>11/28/2020 16:42:05</publishTime>
+    </File>
+    <File Include="Areas/ADMIN/Views/MenuAdmin/GetMenuLeftMobileAdmin.cshtml">
+      <publishTime>11/28/2020 16:42:29</publishTime>
+    </File>
+    <File Include="Areas/ADMIN/Views/MenuAdmin/Index.cshtml">
+      <publishTime>11/29/2020 15:39:50</publishTime>
+    </File>
+    <File Include="Areas/ADMIN/Views/MenuAdmin/_FormSaveMenuAdmin.cshtml">
+      <publishTime>11/29/2020 17:02:16</publishTime>
+    </File>
+    <File Include="Areas/ADMIN/Views/MenuAdmin/_MenuLeftCommon.cshtml">
+      <publishTime>11/28/2020 21:39:00</publishTime>
+    </File>
     <File Include="Areas/ADMIN/Views/Order/Index.cshtml">
       <publishTime>11/13/2020 21:27:56</publishTime>
     </File>
@@ -43,7 +70,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>11/25/2020 23:18:17</publishTime>
     </File>
     <File Include="Areas/ADMIN/Views/Order/UpdateOrder.cshtml">
-      <publishTime>11/25/2020 23:18:37</publishTime>
+      <publishTime>11/28/2020 20:13:12</publishTime>
     </File>
     <File Include="Areas/ADMIN/Views/Order/_ContentCart.cshtml">
       <publishTime>11/17/2020 22:01:57</publishTime>
@@ -82,13 +109,13 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>11/25/2020 22:02:16</publishTime>
     </File>
     <File Include="Areas/ADMIN/Views/ProductGroup/_FormSaveProductGroup.cshtml">
-      <publishTime>11/25/2020 23:51:17</publishTime>
+      <publishTime>11/29/2020 17:03:08</publishTime>
     </File>
     <File Include="Areas/ADMIN/Views/ProductType/Index.cshtml">
-      <publishTime>11/23/2020 21:37:37</publishTime>
+      <publishTime>11/26/2020 09:21:53</publishTime>
     </File>
     <File Include="Areas/ADMIN/Views/ProductType/_FormSaveProductType.cshtml">
-      <publishTime>11/25/2020 23:21:04</publishTime>
+      <publishTime>11/29/2020 17:02:42</publishTime>
     </File>
     <File Include="Areas/ADMIN/Views/Shared/_Header_Desktop.cshtml">
       <publishTime>11/11/2020 22:00:26</publishTime>
@@ -97,7 +124,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>07/20/2020 21:06:14</publishTime>
     </File>
     <File Include="Areas/ADMIN/Views/Shared/_Layout.cshtml">
-      <publishTime>11/11/2020 22:02:40</publishTime>
+      <publishTime>11/28/2020 16:43:53</publishTime>
     </File>
     <File Include="Areas/ADMIN/Views/Shared/_Menu_Sidebar.cshtml">
       <publishTime>07/20/2020 21:19:09</publishTime>
@@ -109,19 +136,19 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>11/15/2020 11:06:24</publishTime>
     </File>
     <File Include="Areas/ADMIN/Views/Template/Form/_Select.cshtml">
-      <publishTime>11/25/2020 23:04:49</publishTime>
+      <publishTime>11/29/2020 16:08:34</publishTime>
     </File>
     <File Include="Areas/ADMIN/Views/Template/Form/_Switch.cshtml">
       <publishTime>11/23/2020 22:25:50</publishTime>
     </File>
     <File Include="Areas/ADMIN/Views/Template/Form/_Textarea.cshtml">
-      <publishTime>08/09/2020 14:04:25</publishTime>
+      <publishTime>11/28/2020 14:35:47</publishTime>
     </File>
     <File Include="Areas/ADMIN/Views/Template/_Checkbox.cshtml">
       <publishTime>07/26/2020 21:37:54</publishTime>
     </File>
     <File Include="Areas/ADMIN/Views/Template/_DatePicker.cshtml">
-      <publishTime>11/15/2020 14:16:58</publishTime>
+      <publishTime>11/27/2020 22:11:17</publishTime>
     </File>
     <File Include="Areas/ADMIN/Views/Template/_DeleteModal.cshtml">
       <publishTime>11/18/2020 22:03:38</publishTime>
@@ -133,7 +160,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>08/01/2020 16:47:41</publishTime>
     </File>
     <File Include="Areas/ADMIN/Views/Template/_Localizadata.cshtml">
-      <publishTime>11/26/2020 00:10:09</publishTime>
+      <publishTime>11/29/2020 16:51:13</publishTime>
     </File>
     <File Include="Areas/ADMIN/Views/Template/_Select.cshtml">
       <publishTime>08/01/2020 15:13:21</publishTime>
@@ -481,13 +508,13 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>10/20/2020 15:35:24</publishTime>
     </File>
     <File Include="bin/Repository.dll">
-      <publishTime>11/26/2020 07:59:02</publishTime>
+      <publishTime>11/29/2020 17:07:13</publishTime>
     </File>
     <File Include="bin/Repository.dll.config">
       <publishTime>11/07/2020 00:40:38</publishTime>
     </File>
     <File Include="bin/Repository.pdb">
-      <publishTime>11/26/2020 07:59:02</publishTime>
+      <publishTime>11/29/2020 17:07:13</publishTime>
     </File>
     <File Include="bin/roslyn/csc.exe">
       <publishTime>06/18/2015 20:19:46</publishTime>
@@ -526,13 +553,13 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>06/18/2015 20:19:46</publishTime>
     </File>
     <File Include="bin/S2Please.dll">
-      <publishTime>11/26/2020 07:59:07</publishTime>
+      <publishTime>11/29/2020 17:07:18</publishTime>
     </File>
     <File Include="bin/S2Please.pdb">
-      <publishTime>11/26/2020 07:59:07</publishTime>
+      <publishTime>11/29/2020 17:07:18</publishTime>
     </File>
     <File Include="bin/SHOP.COMMON.dll">
-      <publishTime>11/26/2020 07:59:01</publishTime>
+      <publishTime>11/29/2020 17:07:13</publishTime>
     </File>
     <File Include="bin/SHOP.COMMON.dll.config">
       <publishTime>10/18/2020 08:14:03</publishTime>
@@ -544,7 +571,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>10/18/2020 08:14:03</publishTime>
     </File>
     <File Include="bin/SHOP.COMMON.pdb">
-      <publishTime>11/26/2020 07:59:01</publishTime>
+      <publishTime>11/29/2020 17:07:13</publishTime>
     </File>
     <File Include="bin/System.AppContext.dll">
       <publishTime>10/18/2020 07:48:34</publishTime>
@@ -2997,6 +3024,15 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     <File Include="Scripts/Kraamen/autocomplete.min.js">
       <publishTime>07/17/2020 09:17:54</publishTime>
     </File>
+    <File Include="Scripts/MailQueue/MailQueue.js">
+      <publishTime>11/28/2020 15:31:06</publishTime>
+    </File>
+    <File Include="Scripts/Menu/Menu.js">
+      <publishTime>11/26/2020 22:51:33</publishTime>
+    </File>
+    <File Include="Scripts/MenuAdmin/MenuAdmin.js">
+      <publishTime>11/29/2020 16:57:36</publishTime>
+    </File>
     <File Include="Scripts/modernizr-2.6.2.js">
       <publishTime>06/26/2020 00:47:06</publishTime>
     </File>
@@ -3331,7 +3367,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>07/13/2020 23:16:15</publishTime>
     </File>
     <File Include="Views/TemplateEmail/_EmailOrder.cshtml">
-      <publishTime>11/20/2020 15:12:39</publishTime>
+      <publishTime>11/28/2020 14:41:20</publishTime>
     </File>
     <File Include="Views/Web.config">
       <publishTime>11/07/2020 11:17:12</publishTime>

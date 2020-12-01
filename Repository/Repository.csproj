@@ -56,6 +56,7 @@
   <ItemGroup>
     <Compile Include="IRepository\ICustomerRepository.cs" />
     <Compile Include="IRepository\IMenuAdminRepository.cs" />
+    <Compile Include="IRepository\IPermissonRepository.cs" />
     <Compile Include="IRepository\IProductGroupRepository.cs" />
     <Compile Include="IRepository\IMenuRepository.cs" />
     <Compile Include="IRepository\IProductTypeRepository.cs" />
@@ -80,6 +81,7 @@
     <Compile Include="Model\LocalizationModel.cs" />
     <Compile Include="Model\MailQueueModel.cs" />
     <Compile Include="Model\MenuModel.cs" />
+    <Compile Include="Model\MenuPermission.cs" />
     <Compile Include="Model\MethodPayModel.cs" />
     <Compile Include="Model\MultiLanguageModel.cs" />
     <Compile Include="Model\MULTI_LANGUAGE.cs" />
@@ -111,6 +113,7 @@
     <Compile Include="Repository\CommonRepository.cs" />
     <Compile Include="Repository\CustomerRepository.cs" />
     <Compile Include="Repository\MenuAdminRepository.cs" />
+    <Compile Include="Repository\PermissionRepository.cs" />
     <Compile Include="Repository\ProductGroupRepository.cs" />
     <Compile Include="Repository\OrderRepository.cs" />
     <Compile Include="Repository\AuthenRepository.cs" />

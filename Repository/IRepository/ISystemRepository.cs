@@ -71,5 +71,8 @@ namespace Repository
 
         //Get Product Group Type
         ResultModel GetProductGroupType();
+
+        //Get All role
+        ResultModel GetAllRole();
     }
 }

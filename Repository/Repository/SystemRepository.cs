@@ -159,5 +159,11 @@ namespace Repository
         {
             return ListProcedure<BaseModel>(new BaseModel(), "ProductGroupType_Get_ProductGroupType", new List<Param>(), true);
         }
+
+        //Get All role
+        public ResultModel GetAllRole( )
+        {
+            return ListProcedure<BaseModel>(new BaseModel(), "Role_Get_GetAllRole", new List<Param>(), true);
+        }
     }
 }

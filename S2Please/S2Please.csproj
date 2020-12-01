@@ -273,6 +273,7 @@
     <Compile Include="Areas\ADMIN\Controllers\ProductGroupController.cs" />
     <Compile Include="Areas\ADMIN\Controllers\MenuController.cs" />
     <Compile Include="Areas\ADMIN\Controllers\ProductTypeController.cs" />
+    <Compile Include="Areas\ADMIN\Controllers\PermissionController.cs" />
     <Compile Include="Areas\ADMIN\Controllers\TestController.cs" />
     <Compile Include="Areas\ADMIN\Controllers\SystemController.cs" />
     <Compile Include="Areas\ADMIN\Controllers\FilterController.cs" />
@@ -287,6 +288,7 @@
     <Compile Include="Areas\ADMIN\ViewModel\LocalizadataViewModel.cs" />
     <Compile Include="Areas\ADMIN\ViewModel\MailQueueViewModel.cs" />
     <Compile Include="Areas\ADMIN\ViewModel\MenuAdminViewModel.cs" />
+    <Compile Include="Areas\ADMIN\ViewModel\PermissionViewModel.cs" />
     <Compile Include="Areas\ADMIN\ViewModel\ProductGroupSaveViewModel.cs" />
     <Compile Include="Areas\ADMIN\ViewModel\ProductTypeSaveViewModel .cs" />
     <Compile Include="Areas\ADMIN\ViewModel\ProductGroupViewModel.cs" />
@@ -390,6 +392,7 @@
     <Compile Include="Models\AttachmentJs.cs" />
     <Compile Include="Models\CartModel.cs" />
     <Compile Include="Models\MenuAdminModel.cs" />
+    <Compile Include="Models\MenuPermissionModel.cs" />
     <Compile Include="Models\TableMultipleLanguageConfigurationModel.cs" />
     <Compile Include="Models\HistoryResetPassword.cs" />
     <Compile Include="Models\BaseModel.cs" />
@@ -469,6 +472,7 @@
     <Content Include="Content\common.css" />
     <Content Include="Content\flag-icon-css-master\css\flag-icon.css" />
     <Content Include="Content\flag-icon-css-master\css\flag-icon.min.css" />
+    <Content Include="Content\jquery-checktree\jquery-checktree.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -1160,6 +1164,8 @@
     <Content Include="Areas\ADMIN\Views\MenuAdmin\GetMenuLeftMobileAdmin.cshtml" />
     <Content Include="Areas\ADMIN\Views\MenuAdmin\_MenuLeftCommon.cshtml" />
     <Content Include="Areas\ADMIN\Views\MenuAdmin\_FormSaveMenuAdmin.cshtml" />
+    <Content Include="Areas\ADMIN\Views\Permission\PermissionRole.cshtml" />
+    <Content Include="Areas\ADMIN\Views\Permission\_FormSavePermisionRole.cshtml" />
     <None Include="Properties\PublishProfiles\shop.pubxml" />
     <Content Include="Scripts\bootstrap-select-1.13.14\dist\css\bootstrap-select.css.map" />
     <Content Include="Scripts\bootstrap-select-1.13.14\dist\js\bootstrap-select.js.map" />
@@ -1222,6 +1228,7 @@
     <Content Include="Scripts\InputMask\dist\jquery.inputmask.min.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
+    <Content Include="Scripts\jquery-checktree\jquery-checktree.js" />
     <Content Include="Scripts\jquery-loading-overlay-master\.gitignore" />
     <Content Include="Scripts\jquery-loading-overlay-master\bower.json" />
     <Content Include="Scripts\jquery-loading-overlay-master\CHANGELOG.md" />
@@ -1250,6 +1257,7 @@
     <Content Include="Scripts\Kraamen\autocomplete.min.css" />
     <Content Include="Scripts\Kraamen\autocomplete.min.js" />
     <Content Include="Scripts\MailQueue\MailQueue.js" />
+    <Content Include="Scripts\Permission\Permission.js" />
     <Content Include="Scripts\MenuAdmin\MenuAdmin.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\Order\AdminOrder.js" />

@@ -1,0 +1,35 @@
+﻿@model S2Please.Areas.ADMIN.ViewModel.MenuAdminViewModel
+@using SHOP.COMMON
+@using S2Please.Helper
+@{
+    Layout = null;
+}
+
+<header class="header-mobile d-block d-lg-none">
+    <div class="header-mobile__bar">
+        <div class="container-fluid">
+            <div class="header-mobile-inner">
+                <a class="logo" href="index.html">
+                    <img src="~/LayoutAdmin/images//icon/logo.png" alt="CoolAdmin" />
+                </a>
+                <button class="hamburger hamburger--slider" type="button">
+                    <span class="hamburger-box">
+                        <span class="hamburger-inner"></span>
+                    </span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <nav class="navbar-mobile">
+        <div class="container-fluid">
+            <ul class="navbar-mobile__list list-unstyled">
+                @if (Model != null && Model.Menus != null && Model.Menus.Count() > 0)
+                {
+                    @Html.Partial("~/Areas/ADMIN/Views/MenuAdmin/_MenuLeftCommon.cshtml", Model)
+                }
+            </ul>
+        </div>
+    </nav>
+</header>
+

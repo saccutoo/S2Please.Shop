@@ -40,26 +40,39 @@
         <input type="text" name="model.ID" value="@Model.ProductType.ID" hidden />
         <div class="row form-group">
             <div class="col col-md-6">
-                @Html.Partial("~/Areas/ADMIN/Views/Template/Form/_Input.cshtml", new InputModel() { Type = "text", Id = "NAME", Class = "", Name = "model.NAME", LabelName = "ProductType.Name", Value = Model.ProductType.NAME, IsRequied = true })
+                @Html.Partial("~/Areas/ADMIN/Views/Template/Form/_Input.cshtml", new InputModel() { Type = "text", Id = "NAME", Class = "", Name = "model.NAME", LabelName = "ProductType.Name", Value = Model.ProductType.NAME, IsRequied = true, Attribute = Model.Is_Save ? "" : "disabled" })
             </div>
             <div class="col col-md-6">
-                @Html.Partial("~/Areas/ADMIN/Views/Template/Form/_Select.cshtml", new SelectModel() { Id = "PRODUCT_GROUP_ID", Name = "model.PRODUCT_GROUP_ID", Datas = Model.Groups, LabelName = "ProductType.GroupName", IsRequied = true, Value = Model.ProductType.PRODUCT_GROUP_ID.ToString(), FieldId = "ID", FieldName = "GROUP_NAME", IsShowTitle = true,DataType=DataType.PRODUCT_GROUP, IsMultiLanguage = true, PropertyName = PropertyName.Name })
+                @Html.Partial("~/Areas/ADMIN/Views/Template/Form/_Select.cshtml", new SelectModel() { Id = "PRODUCT_GROUP_ID", Name = "model.PRODUCT_GROUP_ID", Datas = Model.Groups, LabelName = "ProductType.GroupName", IsRequied = true, Value = Model.ProductType.PRODUCT_GROUP_ID.ToString(), FieldId = "ID", FieldName = "GROUP_NAME", IsShowTitle = true,DataType=DataType.PRODUCT_GROUP, IsMultiLanguage = true, PropertyName = PropertyName.Name, DropdownParent = "modal-center", Attribute = Model.Is_Save ? "" : "disabled" })
             </div>
         </div>
         <div class="row form-group">
             <div class="col col-md-6">
-                @Html.Partial("~/Areas/ADMIN/Views/Template/Form/_Select.cshtml", new SelectModel() { Id = "MENU_ID", Name = "model.MENU_ID", Datas = Model.Menus, LabelName = "ProductType.MenuName", IsRequied = true, Value = Model.ProductType.MENU_ID.ToString(), FieldId = "ID", FieldName = "MENU_NAME", IsShowTitle = true,DataType=DataType.MENU , IsMultiLanguage = true, PropertyName = PropertyName.MenuName })
+                @Html.Partial("~/Areas/ADMIN/Views/Template/Form/_Select.cshtml", new SelectModel() { Id = "MENU_ID", Name = "model.MENU_ID", Datas = Model.Menus, LabelName = "ProductType.MenuName", IsRequied = true, Value = Model.ProductType.MENU_ID.ToString(), FieldId = "ID", FieldName = "MENU_NAME", IsShowTitle = true,DataType=DataType.MENU , IsMultiLanguage = true, PropertyName = PropertyName.MenuName, DropdownParent = "modal-center", Attribute = Model.Is_Save ? "" : "disabled" })
             </div>
             <div class="col col-md-6">
                 @{
-                    var check = "checked";
-                    if (!Model.ProductType.IS_SHOW_VIEW)
+                    var attribute = "disabled";
+                    if (Model.Is_Save)
                     {
-                        check = string.Empty;
+                        if (Model.ProductType.IS_SHOW_VIEW)
+                        {
+                            attribute = "checked";
+                        }
+                        else
+                        {
+                            attribute = "";
+                        }
                     }
-
+                    else
+                    {
+                        if (Model.ProductType.IS_SHOW_VIEW)
+                        {
+                            attribute = "checked disabled";
+                        }
+                    }
                 }
-                @Html.Partial("~/Areas/ADMIN/Views/Template/Form/_Switch.cshtml", new InputModel() { Id = "IS_SHOW_VIEW", Class = "", Name = "model.IS_SHOW_VIEW", LabelName = "Title.Show", Value = "true", Attribute = check, Style = "margin-top:5px;" })
+                @Html.Partial("~/Areas/ADMIN/Views/Template/Form/_Switch.cshtml", new InputModel() { Id = "IS_SHOW_VIEW", Class = "", Name = "model.IS_SHOW_VIEW", LabelName = "Title.Show", Value = "true", Attribute = attribute, Style = "margin-top:5px;" })
             </div>
         </div>
         @if (Model.Localiza != null)

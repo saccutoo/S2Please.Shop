@@ -91,7 +91,7 @@
                                 <div class="card-body">
                                     <div class="row form-group">
                                         <div class="col col-md-6">
-                                            @Html.Partial("~/Areas/ADMIN/Views/Template/Form/_Select.cshtml", new SelectModel() { Id = "STATUS", Name = "model.STATUS", Datas = Model.StatusOrders, LabelName = "OrderDetail.OrderStauts", IsRequied = true, Value = Model.Order.STATUS.ToString(), FieldId = "ID", FieldName = "NAME", IsShowTitle = true ,IsMultiLanguage=true,DataType=DataType.CL_STATUS_ORDER,, PropertyName = PropertyName.Name })
+                                            @Html.Partial("~/Areas/ADMIN/Views/Template/Form/_Select.cshtml", new SelectModel() { Id = "STATUS", Name = "model.STATUS", Datas = Model.StatusOrders, LabelName = "OrderDetail.OrderStauts", IsRequied = true, Value = Model.Order.STATUS.ToString(), FieldId = "ID", FieldName = "NAME", IsShowTitle = true ,IsMultiLanguage=true,DataType=DataType.CL_STATUS_ORDER, PropertyName = PropertyName.Name })
                                         </div>
                                         <div class="col col-md-6">
                                             @Html.Partial("~/Areas/ADMIN/Views/Template/Form/_Select.cshtml", new SelectModel() { Id = "STATUS_PAY", Name = "model.STATUS_PAY", Datas = Model.StatusPays, LabelName = "OrderDetail.StautsPay", IsRequied = true, Value = Model.Order.STATUS_PAY.ToString(), FieldId = "ID", FieldName = "NAME", IsShowTitle = true, IsMultiLanguage = true, DataType = DataType.CL_STATUS_PAY, PropertyName = PropertyName.Name })

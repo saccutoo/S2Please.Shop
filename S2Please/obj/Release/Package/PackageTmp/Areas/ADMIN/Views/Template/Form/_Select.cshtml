@@ -74,36 +74,75 @@
 <script>
     $(document).ready(function () {
         var isSearchAjax = '@Model.IsSearchAjax';
+        var dropdownParent = '@Model.DropdownParent';
         if (isSearchAjax == 'False') {
-            $('#' + '@Model.Id.ToLower()').select2();
+            if (dropdownParent != '') {
+                $('#' + '@Model.Id.ToLower()').select2(
+                    {
+                        dropdownParent: $("#" + '@Model.DropdownParent')
+                    });
+            }
+            else {
+                  $('#' + '@Model.Id.ToLower()').select2({});
+            }
+
         }
         else {
-            $('#' + '@Model.Id.ToLower()').select2({
-                //minimumInputLength: 1,
-                ajax: {
-                    url: '@Model.Url',
-                    dataType: 'json',
-                    type: "POST",
-                    quietMillis: 50,
-                    data: function (term) {
-                        return {
-                            value: term.term
-                        };
+            if (dropdownParent != '') {
+                $('#' + '@Model.Id.ToLower()').select2({
+                    //minimumInputLength: 1,
+                    ajax: {
+                        url: '@Model.Url',
+                        dataType: 'json',
+                        type: "POST",
+                        quietMillis: 50,
+                        data: function (term) {
+                            return {
+                                value: term.term
+                            };
+                        },
+                        processResults: function (data) {
+                            return {
+                                results: $.map(data.datas, function (item) {
+                                    return {
+                                        text: item.NAME,
+                                        id: item.CODE
+                                    }
+                                })
+                            };
+                        }
                     },
-                    processResults: function (data) {
-                        return {
-                            results: $.map(data.datas, function (item) {
-                                return {
-                                    text: item.NAME,
-                                    id: item.CODE
-                                }
-                            })
-                        };
+                    dropdownParent: $("#" + '@Model.DropdownParent')
+                })
+            }
+            else {
+                  $('#' + '@Model.Id.ToLower()').select2({
+                    //minimumInputLength: 1,
+                    ajax: {
+                        url: '@Model.Url',
+                        dataType: 'json',
+                        type: "POST",
+                        quietMillis: 50,
+                        data: function (term) {
+                            return {
+                                value: term.term
+                            };
+                        },
+                        processResults: function (data) {
+                            return {
+                                results: $.map(data.datas, function (item) {
+                                    return {
+                                        text: item.NAME,
+                                        id: item.CODE
+                                    }
+                                })
+                            };
+                        }
                     }
-                }
-            })
+                })
+            }
         }
     })
-    
+
 </script>
 

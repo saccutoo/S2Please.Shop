@@ -87,12 +87,12 @@
     <div class="page-wrapper">
         <!-- HEADER MOBILE-->
 
-        @Html.Partial("~/Areas/ADMIN/Views/Shared/_Header_Mobile.cshtml")
+        @Html.Action("GetMenuLeftMobileAdmin", "MenuAdmin", new { area = "ADMIN" })
 
         <!-- END HEADER MOBILE-->
         <!-- MENU SIDEBAR-->
 
-        @Html.Partial("~/Areas/ADMIN/Views/Shared/_Menu_Sidebar.cshtml")
+        @Html.Action("GetMenuLeftAdmin", "MenuAdmin", new { area = "ADMIN" })
 
         <!-- END MENU SIDEBAR-->
         <!-- PAGE CONTAINER-->

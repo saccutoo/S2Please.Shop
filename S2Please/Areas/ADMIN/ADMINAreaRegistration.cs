@@ -92,6 +92,16 @@ namespace S2Please.Areas.ADMIN
        defaults: new { controller = "MenuAdmin", action = "Index", id = UrlParameter.Optional }
    );
             context.MapRoute(
+      name: "admin/permission-role",
+      url: "admin/permission-role",
+      defaults: new { controller = "Permission", action = "PermissionRole", id = UrlParameter.Optional }
+  );
+            context.MapRoute(
+      name: "admin/permission-user",
+      url: "admin/permission-user",
+      defaults: new { controller = "Permission", action = "PermissionUser", id = UrlParameter.Optional }
+  );
+            context.MapRoute(
                 "ADMIN_default",
                 "ADMIN/{controller}/{action}/{id}",
                 new { action = "Index", id = UrlParameter.Optional }

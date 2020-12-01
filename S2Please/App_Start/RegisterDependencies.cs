@@ -26,6 +26,7 @@ namespace S2Please
             builder.RegisterType<MenuRepository>().As<IMenuRepository>().InstancePerLifetimeScope();
             builder.RegisterType<ProductGroupRepository>().As<IProductGroupRepository>().InstancePerLifetimeScope();
             builder.RegisterType<MenuAdminRepository>().As<IMenuAdminRepository>().InstancePerLifetimeScope();
+            builder.RegisterType<PermissionRepository>().As<IPermissonRepository>().InstancePerLifetimeScope();
 
             //controller base
             builder.RegisterType<S2Please.Controllers.BaseController>();
@@ -44,6 +45,7 @@ namespace S2Please
             builder.RegisterType<S2Please.Areas.ADMIN.Controllers.MenuController>();
             builder.RegisterType<S2Please.Areas.ADMIN.Controllers.MailQueueController>();
             builder.RegisterType<S2Please.Areas.ADMIN.Controllers.MenuAdminController>();
+            builder.RegisterType<S2Please.Areas.ADMIN.Controllers.PermissionController>();
 
             //controllers web
             builder.RegisterType<S2Please.Areas.WEB_SHOP.Controllers.AuthenController>();

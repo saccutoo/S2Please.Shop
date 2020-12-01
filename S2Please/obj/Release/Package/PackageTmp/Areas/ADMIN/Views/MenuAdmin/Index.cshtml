@@ -1,0 +1,25 @@
+﻿@model S2Please.Areas.ADMIN.ViewModel.MenuAdminViewModel
+@using S2Please.Helper
+@{
+    Layout = "~/Areas/ADMIN/Views/Shared/_Layout.cshtml";
+    var timeVersion = FunctionHelpers.GetTimeVersion();
+}
+
+<!DOCTYPE html>
+
+<title>@FunctionHelpers.GetValueLanguage("Table.Title.MenuAdmin")</title>
+<div class="section__content section__content--p30">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <!-- DATA TABLE -->
+                @Html.Partial("~/Areas/ADMIN/Views/Template/_Table.cshtml", Model.Table)
+                <!-- END DATA TABLE -->
+            </div>
+        </div>
+    </div>
+</div>
+@section scripts
+{
+    <script src="@Url.Content("~/Scripts/MenuAdmin/MenuAdmin.js?v=" + timeVersion)" type="text/javascript"></script>
+}
