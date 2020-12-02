@@ -178,7 +178,7 @@ namespace S2Please.Areas.ADMIN.Controllers
                         }
                         else
                         {
-                            result.SetDataMessage(false, FunctionHelpers.GetValueLanguage("Message.UpdateFail"), FunctionHelpers.GetValueLanguage("Message.Success"), string.Empty);
+                            result.SetDataMessage(false, FunctionHelpers.GetValueLanguage("Message.UpdateFail"), FunctionHelpers.GetValueLanguage("Message.Error"), string.Empty);
                         }
                     }
 

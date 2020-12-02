@@ -1,0 +1,41 @@
+﻿@model S2Please.Areas.ADMIN.ViewModel.PermissionViewModel
+@using S2Please.Helper
+@using SHOP.COMMON;
+@using S2Please.ViewModel;
+@{
+    Layout = "~/Areas/ADMIN/Views/Shared/_Layout.cshtml";
+    var timeVersion = FunctionHelpers.GetTimeVersion();
+}
+
+
+<title>@FunctionHelpers.GetValueLanguage("Title.PermissionUser")</title>
+<div class="section__content section__content--p30">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <h3 class="title-5 m-b-35">@FunctionHelpers.GetValueLanguage("Title.PermissionUser")</h3>
+                <div class="table-data__tool">
+                    <div class="row col-md-12">
+                        <div class="col-md-1">
+                            <label style="line-height: 35px; font-weight: bold;">@FunctionHelpers.GetValueLanguage("PermissionUser.UserLabeld")</label>
+                        </div>
+                        <div class="col-md-4">
+                            @Html.Partial("~/Areas/ADMIN/Views/Template/Form/_Select.cshtml", new SelectModel() { Id = "USER", Name = "model.USER", Datas = Model.Users, IsRequied = true, FieldId = "ID", FieldName = "FULL_NAME", IsShowTitle = true, DataType = DataType.ROLE, IsMultiLanguage = false, PropertyName = PropertyName.Name, DropdownParent = "" })
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="permission-user">
+    <div class="row col-md-12" id="permission-user">
+
+    </div>
+</div>
+@section scripts
+{
+    <script src="@Url.Content("~/Scripts/Permission/Permission.js?v=" + timeVersion)" type="text/javascript"></script>
+
+}

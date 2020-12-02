@@ -27,6 +27,7 @@ namespace S2Please
             builder.RegisterType<ProductGroupRepository>().As<IProductGroupRepository>().InstancePerLifetimeScope();
             builder.RegisterType<MenuAdminRepository>().As<IMenuAdminRepository>().InstancePerLifetimeScope();
             builder.RegisterType<PermissionRepository>().As<IPermissonRepository>().InstancePerLifetimeScope();
+            builder.RegisterType<UserRepository>().As<IUserRepository>().InstancePerLifetimeScope();
 
             //controller base
             builder.RegisterType<S2Please.Controllers.BaseController>();

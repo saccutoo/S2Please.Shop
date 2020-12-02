@@ -318,26 +318,31 @@ namespace Repository
             {
                 try
                 {
-                    var result = ExecSqlString("SELECT " +
-                                         " MA.MENU_NAME," +
-                                         " CP.[PERMISSION_NAME]" +
-                                     " FROM dbo.EMPLOYEE_ROLE_PERMISSON ERP" +
-                                     " INNER JOIN dbo.MENU_ADMIN_PERMISSION MAP ON MAP.ID = ERP.MENU_PERMISSION_ID AND MAP.IS_DELETED = 0" +
-                                     " INNER JOIN dbo.CL_PERMISSION CP ON CP.ID = MAP.PERMISSION_ID AND CP.IS_DELETED = 0" +
-                                     " INNER JOIN dbo.MENU_ADMIN MA ON MA.ID = MAP.MENU_ADMIN_ID AND MA.IS_DELETED = 0" +
-                                     " INNER JOIN dbo.EMPLOYES E ON E.ID=" + userID + " AND E.IS_DELETED=0" +
-                                     " WHERE ERP.DATA_TYPE = 0 AND ERP.DATA_ID = " + userID + " AND ERP.IS_DELETED = 0" +
-                                     " UNION" +
-                                     " SELECT" +
-                                         " MA.MENU_NAME," +
-                                         " CP.[PERMISSION_NAME]" +
-                                     " FROM dbo.EMPLOYEE_ROLE_PERMISSON ERP" +
-                                     " INNER JOIN dbo.MENU_ADMIN_PERMISSION MAP ON MAP.ID = ERP.MENU_PERMISSION_ID AND MAP.IS_DELETED = 0" +
-                                     " INNER JOIN dbo.CL_PERMISSION CP ON CP.ID = MAP.PERMISSION_ID AND CP.IS_DELETED = 0" +
-                                     " INNER JOIN dbo.MENU_ADMIN MA ON MA.ID = MAP.MENU_ADMIN_ID AND MA.IS_DELETED = 0" +
-                                     " INNER JOIN dbo.CL_ROLE CR ON CR.ID= (SELECT TOP 1 ROLE_ID FROM dbo.EMPLOYEE_ROLE_MAPPER WHERE EMPLOYEE_ID=" + userID + " )  AND CR.IS_DELETED=0" +
-                                     " WHERE ERP.DATA_TYPE = 1 AND ERP.DATA_ID = (SELECT TOP 1 ROLE_ID FROM dbo.EMPLOYEE_ROLE_MAPPER WHERE EMPLOYEE_ID=" + userID + " ) AND ERP.IS_DELETED = 0"
-                                    );
+
+                    var param = new List<Param>();
+                    param.Add(new Param { Key = "@USER_ID", Value = userID.ToString() });
+                    var result =ListProcedure<CheckPermission>(new CheckPermission(), "Permission_Get_PermissionByUserId", param,true,false);
+
+                    //var result = ExecSqlString("SELECT " +
+                    //                     " MA.MENU_NAME," +
+                    //                     " CP.[PERMISSION_NAME]" +
+                    //                 " FROM dbo.EMPLOYEE_ROLE_PERMISSON ERP" +
+                    //                 " INNER JOIN dbo.MENU_ADMIN_PERMISSION MAP ON MAP.ID = ERP.MENU_PERMISSION_ID AND MAP.IS_DELETED = 0" +
+                    //                 " INNER JOIN dbo.CL_PERMISSION CP ON CP.ID = MAP.PERMISSION_ID AND CP.IS_DELETED = 0" +
+                    //                 " INNER JOIN dbo.MENU_ADMIN MA ON MA.ID = MAP.MENU_ADMIN_ID AND MA.IS_DELETED = 0" +
+                    //                 " INNER JOIN dbo.EMPLOYES E ON E.ID=" + userID + " AND E.IS_DELETED=0" +
+                    //                 " WHERE ERP.DATA_TYPE = 0 AND ERP.DATA_ID = " + userID + " AND ERP.IS_DELETED = 0" +
+                    //                 " UNION" +
+                    //                 " SELECT" +
+                    //                     " MA.MENU_NAME," +
+                    //                     " CP.[PERMISSION_NAME]" +
+                    //                 " FROM dbo.EMPLOYEE_ROLE_PERMISSON ERP" +
+                    //                 " INNER JOIN dbo.MENU_ADMIN_PERMISSION MAP ON MAP.ID = ERP.MENU_PERMISSION_ID AND MAP.IS_DELETED = 0" +
+                    //                 " INNER JOIN dbo.CL_PERMISSION CP ON CP.ID = MAP.PERMISSION_ID AND CP.IS_DELETED = 0" +
+                    //                 " INNER JOIN dbo.MENU_ADMIN MA ON MA.ID = MAP.MENU_ADMIN_ID AND MA.IS_DELETED = 0" +
+                    //                 " INNER JOIN dbo.CL_ROLE CR ON CR.ID= (SELECT TOP 1 ROLE_ID FROM dbo.EMPLOYEE_ROLE_MAPPER WHERE EMPLOYEE_ID=" + userID + " )  AND CR.IS_DELETED=0" +
+                    //                 " WHERE ERP.DATA_TYPE = 1 AND ERP.DATA_ID = (SELECT TOP 1 ROLE_ID FROM dbo.EMPLOYEE_ROLE_MAPPER WHERE EMPLOYEE_ID=" + userID + " ) AND ERP.IS_DELETED = 0"
+                    //);
                     if (result != null && result.Results.Count() > 0)
                     {
                         var listData = JsonConvert.DeserializeObject<List<CheckPermission>>(JsonConvert.SerializeObject(result.Results));

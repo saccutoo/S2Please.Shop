@@ -1,0 +1,86 @@
+﻿@model S2Please.Areas.ADMIN.ViewModel.PermissionViewModel
+@using S2Please.Helper;
+@using S2Please.ViewModel;
+@using System.Globalization
+@using SHOP.COMMON;
+@using System.Linq
+
+@{
+    Layout = null;
+    var dataCheck = Model.Permissions.Where(s => s.IS_CHECK == true).ToList();
+}
+@helper RenderTree(long id)
+{
+    var listMenus = Model.Menus.Where(s => s.PARENT_ID == id).ToList();
+    if (listMenus != null && listMenus.Count() > 0)
+    {
+        foreach (var menuParent in listMenus)
+        {
+            var menuPermissions = Model.Permissions.Where(s => s.MENU_ID == menuParent.ID).ToList();
+            var menuChilren = Model.Menus.Where(s => s.PARENT_ID == menuParent.ID).ToList();
+            if (menuChilren != null && menuChilren.Count() > 0)
+            {
+                <li>
+                    <label>
+                        <input type="checkbox"
+                               menu-id="@menuParent.ID" />
+                        @FunctionHelpers.GetValueLocalization(menuParent.ID, DataType.MENU_ADMIN, PropertyName.MenuName)
+                    </label>
+                    @if (menuChilren != null && menuChilren.Count() > 0)
+                    {
+                        <ul>
+                            @RenderTree(menuParent.ID)
+                        </ul>
+                    }
+                </li>
+                }
+                else
+                {
+                    <li>
+                        <label>
+                            <input type="checkbox"
+                                   menu-id="@menuParent.ID" />
+                            @FunctionHelpers.GetValueLocalization(menuParent.ID, DataType.MENU_ADMIN, PropertyName.MenuName)
+                        </label>
+                        @if (menuPermissions != null && menuPermissions.Count() > 0)
+                        {
+                                <ul>
+                                    @foreach (var menuPermission in menuPermissions)
+                                    {
+                                        <li>
+                                            <label>
+                                                <input type="checkbox" class="check-box-is-save"
+                                                       menu-id="@menuPermission.MENU_ID"
+                                                       menu-permission-id="@menuPermission.MENU_PERMISSION_ID"
+                                                       permission-id="@menuPermission.PERMISSION_ID"
+                                                       employes-role-permission-id="@menuPermission.EMPLOYEE_ROLE_PERMISSON_ID"
+                                                       id="check-box-menu-permission-@menuPermission.EMPLOYEE_ROLE_PERMISSON_ID" />
+                                                @FunctionHelpers.GetValueLocalization(menuPermission.PERMISSION_ID, DataType.CL_PERMISSION, PropertyName.Name)
+                                            </label>
+                                        </li>
+                                    }
+                                </ul>
+                    
+                        }
+                    </li>
+                }
+
+            }
+        }
+}
+<ul id="tree">
+    @if (Model.Menus != null && Model.Menus.Count() > 0 && Model.Menus.Where(s => s.PARENT_ID == 0).Count() > 0)
+        {
+            @RenderTree(0)
+        }
+</ul>
+
+<script>
+    $('#tree').checktree();
+    var data = @Html.Raw(Json.Encode(dataCheck));
+    if (data != null && data.length > 0) {
+        for (var i = 0; i < data.length; i++) {
+            $('#check-box-menu-permission-' + data[i].EMPLOYEE_ROLE_PERMISSON_ID).click();
+        }
+    }
+</script>

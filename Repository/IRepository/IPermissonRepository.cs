@@ -14,5 +14,14 @@ namespace Repository
     {
         //Get permission role by role id
         ResultModel GetPermissionRoleByRoleId(long roleId);
+
+        //save permission role
+        ResultModel SavePermissionRole(List<MenuPermissionType> types, long roleId);
+
+        //Get permission user by role id
+        ResultModel GetPermissionUserByUserId(long userId);
+
+        //save permission user
+        ResultModel SavePermissionUser(List<MenuPermissionType> types, long userId);
     }
 }

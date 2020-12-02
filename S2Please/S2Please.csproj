@@ -392,6 +392,7 @@
     <Compile Include="Models\AttachmentJs.cs" />
     <Compile Include="Models\CartModel.cs" />
     <Compile Include="Models\MenuAdminModel.cs" />
+    <Compile Include="Models\EmployesModel.cs" />
     <Compile Include="Models\MenuPermissionModel.cs" />
     <Compile Include="Models\TableMultipleLanguageConfigurationModel.cs" />
     <Compile Include="Models\HistoryResetPassword.cs" />
@@ -1166,6 +1167,9 @@
     <Content Include="Areas\ADMIN\Views\MenuAdmin\_FormSaveMenuAdmin.cshtml" />
     <Content Include="Areas\ADMIN\Views\Permission\PermissionRole.cshtml" />
     <Content Include="Areas\ADMIN\Views\Permission\_FormSavePermisionRole.cshtml" />
+    <Content Include="Areas\ADMIN\Views\Template\_TreePermission.cshtml" />
+    <Content Include="Areas\ADMIN\Views\Permission\PermissionUser.cshtml" />
+    <Content Include="Areas\ADMIN\Views\Permission\_FormSavePermisionUser.cshtml" />
     <None Include="Properties\PublishProfiles\shop.pubxml" />
     <Content Include="Scripts\bootstrap-select-1.13.14\dist\css\bootstrap-select.css.map" />
     <Content Include="Scripts\bootstrap-select-1.13.14\dist\js\bootstrap-select.js.map" />

@@ -1,0 +1,49 @@
+﻿@model S2Please.Areas.ADMIN.ViewModel.PermissionViewModel
+@using S2Please.Helper;
+@using S2Please.ViewModel;
+@using System.Globalization
+@using SHOP.COMMON;
+@{
+    Layout = null;
+}
+<style>
+    ul.checktree-root, ul#tree ul {
+        list-style: none;
+    }
+
+        ul.checktree-root label {
+            font-weight: normal;
+            position: relative;
+        }
+            ul.checktree-root label input {
+                position: relative;
+                top: 2px;
+                left: -5px;
+            }
+    #form-permission ul{margin-left:30px}
+    #form-permission {
+        padding-bottom: 20px;
+        padding-top: 20px;
+    }
+    .permission-padding {
+        background: white;
+        max-height:500px;
+        overflow:auto;
+    }
+    #permission-user {
+        padding-left: 85px;
+    }
+</style>
+<div class="row col-md-12 permission-padding">
+    <form id="form-permission">
+            @Html.Partial("~/Areas/ADMIN/Views/Template/_TreePermission.cshtml", Model)
+     </form>
+
+</div>
+
+<div class="row col-md-12">
+    @if (FunctionHelpers.CheckPermission(MenuName.PermissionUser, Permission.Update))
+    {
+        <button type="button" class="au-btn au-btn-icon au-btn--green au-btn--smally" onclick="savePermissionUser()">@FunctionHelpers.GetValueLanguage("Button.Save")</button>
+    }
+</div>

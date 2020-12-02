@@ -48,7 +48,8 @@ namespace SHOP.COMMON
         public static string Menu = "Menu";
         public static string MailQueue = "MailQueue";
         public static string MenuAdmin = "MenuAdmin";
-
+        public static string PermissionRole = "PermissionRole";
+        public static string PermissionUser = "PermissionUser";
     }
 
     public static class MenuName
@@ -140,6 +141,8 @@ namespace SHOP.COMMON
         public static string CL_SHIP_FEE = "CL_SHIP_FEE";//CL_METHOD_PAY
         public static string MENU_ADMIN = "MENU_ADMIN";//MENU
         public static string ROLE = "ROLE";//MENU
+        public static string CL_PERMISSION = "CL_PERMISSION";//MENU
+
     }
 
     public static class PropertyName

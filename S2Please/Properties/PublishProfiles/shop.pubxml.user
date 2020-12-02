@@ -31,7 +31,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>07/25/2020 00:10:55</publishTime>
     </File>
     <File Include="Areas/ADMIN/Views/Exec/Index.cshtml">
-      <publishTime>11/17/2020 09:52:14</publishTime>
+      <publishTime>11/30/2020 21:07:26</publishTime>
     </File>
     <File Include="Areas/ADMIN/Views/Import/Index.cshtml">
       <publishTime>08/01/2020 21:25:43</publishTime>
@@ -87,6 +87,18 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     <File Include="Areas/ADMIN/Views/Order/_PriceDetail.cshtml">
       <publishTime>11/13/2020 22:51:05</publishTime>
     </File>
+    <File Include="Areas/ADMIN/Views/Permission/PermissionRole.cshtml">
+      <publishTime>12/01/2020 22:32:12</publishTime>
+    </File>
+    <File Include="Areas/ADMIN/Views/Permission/PermissionUser.cshtml">
+      <publishTime>12/02/2020 00:05:17</publishTime>
+    </File>
+    <File Include="Areas/ADMIN/Views/Permission/_FormSavePermisionRole.cshtml">
+      <publishTime>12/01/2020 22:32:09</publishTime>
+    </File>
+    <File Include="Areas/ADMIN/Views/Permission/_FormSavePermisionUser.cshtml">
+      <publishTime>12/02/2020 00:08:26</publishTime>
+    </File>
     <File Include="Areas/ADMIN/Views/Product/Index.cshtml">
       <publishTime>11/13/2020 21:30:21</publishTime>
     </File>
@@ -124,7 +136,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>07/20/2020 21:06:14</publishTime>
     </File>
     <File Include="Areas/ADMIN/Views/Shared/_Layout.cshtml">
-      <publishTime>11/28/2020 16:43:53</publishTime>
+      <publishTime>11/30/2020 23:52:48</publishTime>
     </File>
     <File Include="Areas/ADMIN/Views/Shared/_Menu_Sidebar.cshtml">
       <publishTime>07/20/2020 21:19:09</publishTime>
@@ -176,6 +188,9 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     </File>
     <File Include="Areas/ADMIN/Views/Template/_TableContent.cshtml">
       <publishTime>11/25/2020 01:36:38</publishTime>
+    </File>
+    <File Include="Areas/ADMIN/Views/Template/_TreePermission.cshtml">
+      <publishTime>12/01/2020 22:23:52</publishTime>
     </File>
     <File Include="Areas/ADMIN/Views/web.config">
       <publishTime>11/07/2020 11:16:50</publishTime>
@@ -508,13 +523,13 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>10/20/2020 15:35:24</publishTime>
     </File>
     <File Include="bin/Repository.dll">
-      <publishTime>11/29/2020 17:07:13</publishTime>
+      <publishTime>12/02/2020 07:39:49</publishTime>
     </File>
     <File Include="bin/Repository.dll.config">
       <publishTime>11/07/2020 00:40:38</publishTime>
     </File>
     <File Include="bin/Repository.pdb">
-      <publishTime>11/29/2020 17:07:13</publishTime>
+      <publishTime>12/02/2020 07:39:49</publishTime>
     </File>
     <File Include="bin/roslyn/csc.exe">
       <publishTime>06/18/2015 20:19:46</publishTime>
@@ -553,13 +568,13 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>06/18/2015 20:19:46</publishTime>
     </File>
     <File Include="bin/S2Please.dll">
-      <publishTime>11/29/2020 17:07:18</publishTime>
+      <publishTime>12/02/2020 07:39:56</publishTime>
     </File>
     <File Include="bin/S2Please.pdb">
-      <publishTime>11/29/2020 17:07:18</publishTime>
+      <publishTime>12/02/2020 07:39:56</publishTime>
     </File>
     <File Include="bin/SHOP.COMMON.dll">
-      <publishTime>11/29/2020 17:07:13</publishTime>
+      <publishTime>12/02/2020 07:39:49</publishTime>
     </File>
     <File Include="bin/SHOP.COMMON.dll.config">
       <publishTime>10/18/2020 08:14:03</publishTime>
@@ -571,7 +586,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>10/18/2020 08:14:03</publishTime>
     </File>
     <File Include="bin/SHOP.COMMON.pdb">
-      <publishTime>11/29/2020 17:07:13</publishTime>
+      <publishTime>12/02/2020 07:39:49</publishTime>
     </File>
     <File Include="bin/System.AppContext.dll">
       <publishTime>10/18/2020 07:48:34</publishTime>
@@ -992,6 +1007,9 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     </File>
     <File Include="Content/flag-icon-css-master/css/flag-icon.min.css">
       <publishTime>07/23/2020 16:18:31</publishTime>
+    </File>
+    <File Include="Content/jquery-checktree/jquery-checktree.css">
+      <publishTime>11/30/2020 22:21:21</publishTime>
     </File>
     <File Include="Content/Site.css">
       <publishTime>06/26/2020 00:46:58</publishTime>
@@ -2946,6 +2964,9 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     <File Include="Scripts/jquery-1.10.2.min.map">
       <publishTime>06/26/2020 00:47:02</publishTime>
     </File>
+    <File Include="Scripts/jquery-checktree/jquery-checktree.js">
+      <publishTime>11/30/2020 22:20:48</publishTime>
+    </File>
     <File Include="Scripts/jquery-loading-overlay-master/.gitignore">
       <publishTime>07/07/2020 11:23:23</publishTime>
     </File>
@@ -3031,13 +3052,16 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>11/26/2020 22:51:33</publishTime>
     </File>
     <File Include="Scripts/MenuAdmin/MenuAdmin.js">
-      <publishTime>11/29/2020 16:57:36</publishTime>
+      <publishTime>11/29/2020 17:14:32</publishTime>
     </File>
     <File Include="Scripts/modernizr-2.6.2.js">
       <publishTime>06/26/2020 00:47:06</publishTime>
     </File>
     <File Include="Scripts/Order/AdminOrder.js">
       <publishTime>11/22/2020 11:44:25</publishTime>
+    </File>
+    <File Include="Scripts/Permission/Permission.js">
+      <publishTime>12/02/2020 00:00:14</publishTime>
     </File>
     <File Include="Scripts/Product/AdminProduct.js">
       <publishTime>11/18/2020 22:07:23</publishTime>

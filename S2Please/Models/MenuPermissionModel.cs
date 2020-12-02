@@ -13,6 +13,6 @@ namespace S2Please.Models
         public long ORDER_MENU { get; set; }
         public long EMPLOYEE_ROLE_PERMISSON_ID { get; set; }
         public bool IS_CHECK { get; set; }
-
+        public long MENU_ID { get; set; }
     }
 }

@@ -49,7 +49,7 @@ function saveMenuAdmin() {
             else if (response.result.Success) {
                 toastr["success"](response.result.Message, response.result.CacheName);
                 $("#modal-right").modal("hide");
-                reaload("MenuAdmin", ControlModel["MenuAdmin"].PAGE_INDEX, $('#MenuAdmin-paging-items-per-page').val(), "");
+                window.location.reload();
             }           
             else if (!response.result.IsPermission) {
                 window.location.href = response.result.Url;
@@ -117,7 +117,7 @@ function saveDelete(id) {
              if (response.result.Success) {
                 toastr["success"](response.result.Message, response.result.CacheName);
                 $("#modal-center").modal("hide");
-                 reaload("MenuAdmin", ControlModel["MenuAdmin"].PAGE_INDEX, $('#MenuAdmin-paging-items-per-page').val(), "");
+                 window.location.reload();
             }
             else if (!response.result.IsPermission) {
                 window.location.href = response.result.Url;
