@@ -90,6 +90,7 @@ namespace S2Please.Areas.ADMIN.Controllers
                     var resultProductType = JsonConvert.DeserializeObject<List<ProductGroupModel>>(JsonConvert.SerializeObject(response.Results));
                     if (resultProductType != null && resultProductType.Count() > 0)
                     {
+                        FunctionHelpers.InsertTimeVersion();
                         result.SetDataMessage(true, FunctionHelpers.GetValueLanguage("Message.UpdateSuccess"), FunctionHelpers.GetValueLanguage("Message.Success"), string.Empty);
                     }
                     else
@@ -167,6 +168,7 @@ namespace S2Please.Areas.ADMIN.Controllers
                     var resultProductType = JsonConvert.DeserializeObject<List<ProductGroupModel>>(JsonConvert.SerializeObject(response.Results));
                     if (resultProductType != null && resultProductType.Count() > 0)
                     {
+                        FunctionHelpers.InsertTimeVersion();
                         result.SetDataMessage(true, FunctionHelpers.GetValueLanguage("Message.UpdateSuccess"), FunctionHelpers.GetValueLanguage("Message.Success"), string.Empty);
                     }
                     else

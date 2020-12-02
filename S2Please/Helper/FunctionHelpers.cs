@@ -158,7 +158,7 @@ namespace S2Please.Helper
         }
         public static string GetTimeVersion()
         {
-            //Lấy danh sách đa ngôn ngữ
+            //Lấy bản ghi time version
             long timeVersion = 0;
             var param = new List<Param>();
             var paramType = MapperHelper.MapList<Param, Repository.Model.Param>(param);
@@ -167,7 +167,12 @@ namespace S2Please.Helper
             if (result!=null && result.Count()>0)
             {
                 timeVersion = result.FirstOrDefault().ID;
-            }
+                if (CurrentUser.TIME_VERSION != timeVersion)
+                {
+                    RemoveAllCache();
+                    Security.CheckCookieTimeVersion(timeVersion);
+                }
+            }       
             return timeVersion.ToString();
         }
 
@@ -191,6 +196,27 @@ namespace S2Please.Helper
                 }              
             }
            
+        }
+
+        public static void RemoveAllCache()
+        {
+            List<string> keys = new List<string>();
+            IDictionaryEnumerator enumerator = HttpRuntime.Cache.GetEnumerator();
+
+            while (enumerator.MoveNext())
+                keys.Add(enumerator.Key.ToString());
+
+            for (int i = 0; i < keys.Count; i++)
+            {
+                HttpRuntime.Cache.Remove(keys[i]);
+            }
+        }
+
+        public static void InsertTimeVersion()
+        {
+            var param = new List<Param>();
+            var paramType = MapperHelper.MapList<Param, Repository.Model.Param>(param);
+            var response = commonRepository.ListProcedure<TimeVersion>(new TimeVersion(), "TimeVersion_Update_TimeVersion", paramType);
         }
     }
 }

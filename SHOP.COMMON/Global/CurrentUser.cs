@@ -12,6 +12,7 @@ namespace SHOP.COMMON
 {
     public static class CurrentUser
     {
+        //Get language id
         public static long LANGUAGE_ID
         {
             get
@@ -43,6 +44,8 @@ namespace SHOP.COMMON
                 }
             }
         }
+
+        //get user web
         public static User User
         {
             get
@@ -67,6 +70,7 @@ namespace SHOP.COMMON
             }
         }
 
+        //get user admin
         public static User UserAdmin
         {
             get
@@ -84,10 +88,30 @@ namespace SHOP.COMMON
                 }
                 catch (Exception)
                 {
-
                     throw;
                 }
                 return new User();
+            }
+        }
+
+        //Get time verstion
+        public static long TIME_VERSION
+        {
+            get
+            {
+                try
+                {
+                    HttpCookie getCookie = HttpContext.Current.Request.Cookies[Constant.APP_CURRENT_VESTION];
+                    if (getCookie != null)
+                    {
+                        return long.Parse(getCookie.Value);
+                    }
+                }
+                catch (Exception)
+                {
+                    throw;
+                }
+                return 0;
             }
         }
     }

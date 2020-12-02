@@ -17,6 +17,8 @@ namespace SHOP.COMMON
         public static  string ClientDateFormat = "ClientDateFormat";
         public static string ViewProduct = "View_Product";
         public static string ShopKeyViewProduct = "Shop_Key_View_Product";
+        public static string APP_CURRENT_VESTION = "App.Current.Version";
+
     }
     public static class Language
     {

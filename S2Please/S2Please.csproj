@@ -1170,6 +1170,7 @@
     <Content Include="Areas\ADMIN\Views\Template\_TreePermission.cshtml" />
     <Content Include="Areas\ADMIN\Views\Permission\PermissionUser.cshtml" />
     <Content Include="Areas\ADMIN\Views\Permission\_FormSavePermisionUser.cshtml" />
+    <Content Include="Areas\ADMIN\Views\Test\Test.cshtml" />
     <None Include="Properties\PublishProfiles\shop.pubxml" />
     <Content Include="Scripts\bootstrap-select-1.13.14\dist\css\bootstrap-select.css.map" />
     <Content Include="Scripts\bootstrap-select-1.13.14\dist\js\bootstrap-select.js.map" />

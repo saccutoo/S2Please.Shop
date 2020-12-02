@@ -10,10 +10,13 @@ using SHOP.COMMON;
 using SHOP;
 using S2Please.Models;
 using SHOP.COMMON.Helpers;
+using Repository;
 namespace S2Please.Helper
 {
+    
     public static class Security 
     {
+        public static CommonRepository _commonRepository = new CommonRepository();
         //Set cookie language
         public static void CheckCookieLanguage()
         {           
@@ -24,7 +27,8 @@ namespace S2Please.Helper
                 {
                     //CurrentUser.LANGUAGE_ID = long.Parse(getCookie.Value);
                 }
-                else{
+                else
+                {
                     HttpCookie cookie = new HttpCookie(Constant.APP_CURRENT_LANG);
                     cookie.Value = Language.VIETNAM;
                     cookie.Expires = DateTime.Now.AddYears(1);
@@ -62,6 +66,58 @@ namespace S2Please.Helper
                 
                 return false;
 
+            }
+        }
+
+        //Set time vestion
+        public static void CheckCookieTimeVersion(long version=0)
+        {
+            try
+            {
+                HttpCookie getCookie = HttpContext.Current.Request.Cookies[Constant.APP_CURRENT_VESTION];
+                if (getCookie != null)
+                {
+                    //CurrentUser.LANGUAGE_ID = long.Parse(getCookie.Value);
+                    long timeVersion= long.Parse(getCookie.Value);
+                    if (version!=0)
+                    {
+                        var param = new List<Param>();
+                        var paramType = MapperHelper.MapList<Param, Repository.Model.Param>(param);
+                        var response = _commonRepository.ListProcedure<TimeVersion>(new TimeVersion(), "TimeVersion_Get_TimeVersion", paramType);
+                        var result = JsonConvert.DeserializeObject<List<TimeVersion>>(JsonConvert.SerializeObject(response.Results));
+                        if (result != null && result.Count() > 0)
+                        {
+                            timeVersion = result.FirstOrDefault().ID;
+                        }
+
+                        HttpCookie cookie = new HttpCookie(Constant.APP_CURRENT_VESTION);
+                        cookie.Value = timeVersion.ToString();
+                        cookie.Expires = DateTime.Now.AddMonths(1);
+                        HttpContext.Current.Response.Cookies.Add(cookie);
+                    }
+                }
+                else
+                {
+                    long timeVersion = 0;
+                    var param = new List<Param>();
+                    var paramType = MapperHelper.MapList<Param, Repository.Model.Param>(param);
+                    var response = _commonRepository.ListProcedure<TimeVersion>(new TimeVersion(), "TimeVersion_Get_TimeVersion", paramType);
+                    var result = JsonConvert.DeserializeObject<List<TimeVersion>>(JsonConvert.SerializeObject(response.Results));
+                    if (result != null && result.Count() > 0)
+                    {
+                        timeVersion = result.FirstOrDefault().ID;
+                    }
+
+                    HttpCookie cookie = new HttpCookie(Constant.APP_CURRENT_VESTION);
+                    cookie.Value = timeVersion.ToString();
+                    cookie.Expires = DateTime.Now.AddMonths(1);
+                    HttpContext.Current.Response.Cookies.Add(cookie);
+                }
+
+            }
+            catch (Exception)
+            {
+               
             }
         }
 

@@ -5,6 +5,7 @@ using Newtonsoft.Json;
 using S2Please.Controllers;
 using Repository;
 using S2Please.Jobs;
+using System.Web;
 
 namespace S2Please.Areas.ADMIN.Controllers
 {
@@ -21,6 +22,11 @@ namespace S2Please.Areas.ADMIN.Controllers
             MailJob job = new MailJob();
             job._Execute();
             return RedirectToRoute(new { action = "/Page404", controller = "Base", area = "" });
+        }
+        public ActionResult Test()
+        {
+            HttpContext.Response.Redirect("/Base/Page404");
+            return View();
         }
     }
 }

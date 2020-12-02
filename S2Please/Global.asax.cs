@@ -34,8 +34,8 @@ namespace S2Please
         {
             try
             {
-                Security.CheckCookieLanguage();              
-
+                Security.CheckCookieLanguage();
+                Security.CheckCookieTimeVersion();
             }
             catch (Exception)
             {
