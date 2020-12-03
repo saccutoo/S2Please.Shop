@@ -270,6 +270,39 @@ namespace S2Please.Controllers
             var html = RenderViewToString(this.ControllerContext, "~/Areas/ADMIN/Views/Template/_DeleteModal.cshtml", model);
             return Json(html, JsonRequestBehavior.AllowGet);
         }
+
+        public ActionResult StartChat(ChatModel model)
+        {
+            ResultModel result = new ResultModel();
+            List<ChatModel> chats = new List<ChatModel>();
+            var html = string.Empty;
+            var validations = ValidationHelper.Validation(model, "model");         
+            if (validations.Count > 0)
+            {
+                return Json(new { Result = validations, Invalid = true }, JsonRequestBehavior.AllowGet);
+            }
+            else
+            {
+                result.SetDataMessage(true,string.Empty,string.Empty);
+                ChatModel chat = new ChatModel();
+                chat.Chat("Admin", string.Empty, model.USER_ID, "Chào mừng bạn đến với S2please shop.Bạn có thắc mắc xin nhắn tin tại đây.", DateTime.Now, true);
+                chats.Add(chat);
+
+                chat = new ChatModel();
+                html = "<p>" + FunctionHelpers.GetValueLanguage("Chat.Name") + " : " + model.NAME + "</p>";
+                html+= "<p>Email : " + model.EMAIL + "</p>";
+                chat.Chat(model.NAME,chat.EMAIL,0, html,DateTime.Now,false,true);
+                chats.Add(chat);
+
+                Security.ChatCokkie(chats,System.Web.HttpContext.Current);
+                html = RenderViewToString(this.ControllerContext, "~/Areas/WEB_SHOP/Views/Template/_ChatContent.cshtml", chats);
+                result.Html = html;
+            }
+            return Content(JsonConvert.SerializeObject(new
+            {
+                result
+            }));
+        }
     }
     public class Dynamic{
         public long ID { get; set; }

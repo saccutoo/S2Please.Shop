@@ -1,0 +1,58 @@
+﻿@model List<S2Please.Models.ChatModel>
+@using S2Please.Helper
+@using S2Please.ViewModel
+
+@if (Model != null && Model.Count() > 0)
+{
+    foreach (var item in Model)
+    {
+
+        if (item.IS_EMPLOYESS)
+        {
+            <div class="media media-chat">
+                <img class="avatar" src="https://img.icons8.com/color/36/000000/administrator-male.png" alt="..." title="@item.NAME">
+                <div class="media-body">
+                    <p>@Html.Raw(item.CONTENT)</p>
+                    <p class="meta"><time datetime="2018">@item.DATE_SEND.ToString("dd/MM/yyyy HH:mm:ss")</time></p>
+                </div>
+            </div>
+        }
+        else if (item.IS_AUTO_CONTENT) { 
+            <div class="media media-chat media-chat-reverse">
+                <div class="media-body">
+                    @Html.Raw(item.CONTENT)
+                    <p class="meta" style="color: #9b9b9b;"><time datetime="2018">@item.DATE_SEND.ToString("dd/MM/yyyy HH:mm:ss")</time></p>
+                </div>
+            </div>
+        }
+         else
+         {
+            <div class="media media-chat media-chat-reverse">
+                <div class="media-body">
+                    <p title="@item.NAME">@Html.Raw(item.CONTENT)</p>
+                    <p class="meta" style="color: #9b9b9b;"><time datetime="2018">@item.DATE_SEND.ToString("dd/MM/yyyy HH:mm:ss")</time></p>
+                </div>
+            </div>
+        }
+}
+    @*<div class="media media-chat">
+        <img class="avatar" src="https://img.icons8.com/color/36/000000/administrator-male.png" alt="...">
+        <div class="media-body">
+            <p>Hi</p>
+            <p>How are you ...???</p>
+            <p>What are you doing tomorrow?<br> Can we come up a bar?</p>
+            <p class="meta"><time datetime="2018">23:58</time></p>
+        </div>
+    </div>
+
+    <div class="media media-meta-day">Today</div>
+
+     <div class="media media-chat media-chat-reverse">
+                                        <div class="media-body">
+                                            <p>Hiii, I'm good.</p>
+                                            <p>How are you doing?</p>
+                                            <p>Long time no see! Tomorrow office. will be free on sunday.</p>
+                                            <p class="meta"><time datetime="2018">00:06</time></p>
+                                        </div>
+                                    </div>*@
+}

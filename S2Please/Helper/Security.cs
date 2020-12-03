@@ -187,5 +187,10 @@ namespace S2Please.Helper
             httpContext.Request.Cookies.Remove(Constant.AdminShopOnline);
             FormsAuthentication.SignOut();
         }
+
+        public static void ChatCokkie(List<ChatModel> chats, HttpContext curentHttpContext)
+        {
+            var token = SetAuthCookie(curentHttpContext, JsonConvert.SerializeObject(chats), Constant.ChatOnline, Constant.KeyChatOnline, DateTime.Now.AddDays(1));
+        }
     }
 }

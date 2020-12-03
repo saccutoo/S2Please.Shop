@@ -34,6 +34,7 @@
 
     <!--CSS COMMON-->
     <link href="@Url.Content("~/Content/common.css?v=" + timeVersion)" rel="stylesheet">
+    <link href="@Url.Content("~/Content/chat.css?v=" + timeVersion)" rel="stylesheet">
 
     <!-- global styles -->
 
@@ -71,6 +72,8 @@
     <!--bootstrap-select-1.13.14-->
     <link href="@Url.Content("~/Scripts/bootstrap-select-1.13.14/dist/css/bootstrap-select.min.css?v=" + timeVersion)" rel="stylesheet">
     <script src="@Url.Content("~/Scripts/bootstrap-select-1.13.14/dist/js/bootstrap-select.min.js?v=" + timeVersion)" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/bootstrap-select-1.13.14/dist/js/bootstrap-select.min.js?v=" + timeVersion)" type="text/javascript"></script>
+
     <!--end bootstrap-select-1.13.14-->
 
     <script>
@@ -202,6 +205,7 @@
         </div>
     </div>
 
+    @Html.Partial("~/Areas/WEB_SHOP/Views/Template/_Chat.cshtml")
 </body>
 
 </html>
