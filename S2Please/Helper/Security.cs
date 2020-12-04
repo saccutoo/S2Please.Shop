@@ -188,9 +188,9 @@ namespace S2Please.Helper
             FormsAuthentication.SignOut();
         }
 
-        public static void ChatCokkie(List<ChatModel> chats, HttpContext curentHttpContext)
+        public static void SetChatCokkie(List<ChatModel> chats, HttpContext curentHttpContext)
         {
-            var token = SetAuthCookie(curentHttpContext, JsonConvert.SerializeObject(chats), Constant.ChatOnline, Constant.KeyChatOnline, DateTime.Now.AddDays(1));
+            SetAuthCookie(curentHttpContext, JsonConvert.SerializeObject(chats), Constant.ChatOnline, Constant.KeyChatOnline, DateTime.Now.AddHours(2));
         }
     }
 }

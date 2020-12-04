@@ -72,6 +72,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Constant.cs" />
+    <Compile Include="Entity\ChatModel.cs" />
     <Compile Include="Entity\User.cs" />
     <Compile Include="Global\CurrentMultiLanguage.cs" />
     <Compile Include="Global\CurrentUser.cs" />

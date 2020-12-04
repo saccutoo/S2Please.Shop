@@ -27,6 +27,8 @@ using System.Web.Security;
 using S2Please.ParramType;
 using System.Net;
 using Repository;
+using SHOP.COMMON.Helpers;
+
 namespace S2Please.Controllers
 {
     public class BaseController : Controller
@@ -273,35 +275,35 @@ namespace S2Please.Controllers
 
         public ActionResult StartChat(ChatModel model)
         {
-            ResultModel result = new ResultModel();
-            List<ChatModel> chats = new List<ChatModel>();
-            var html = string.Empty;
-            var validations = ValidationHelper.Validation(model, "model");         
+            var validations = ValidationHelper.Validation(model, "model");
             if (validations.Count > 0)
             {
                 return Json(new { Result = validations, Invalid = true }, JsonRequestBehavior.AllowGet);
             }
-            else
+            return Json(new { Result = validations, Invalid = false }, JsonRequestBehavior.AllowGet);
+        }
+        [ValidateInput(false)]
+        public ActionResult SetCokkieChat(string chats)
+        {
+            if (!string.IsNullOrEmpty(chats))
             {
-                result.SetDataMessage(true,string.Empty,string.Empty);
-                ChatModel chat = new ChatModel();
-                chat.Chat("Admin", string.Empty, model.USER_ID, "Chào mừng bạn đến với S2please shop.Bạn có thắc mắc xin nhắn tin tại đây.", DateTime.Now, true);
-                chats.Add(chat);
-
-                chat = new ChatModel();
-                html = "<p>" + FunctionHelpers.GetValueLanguage("Chat.Name") + " : " + model.NAME + "</p>";
-                html+= "<p>Email : " + model.EMAIL + "</p>";
-                chat.Chat(model.NAME,chat.EMAIL,0, html,DateTime.Now,false,true);
-                chats.Add(chat);
-
-                Security.ChatCokkie(chats,System.Web.HttpContext.Current);
-                html = RenderViewToString(this.ControllerContext, "~/Areas/WEB_SHOP/Views/Template/_ChatContent.cshtml", chats);
-                result.Html = html;
+                var listChat = JsonConvert.DeserializeObject<List<ChatModel>>(chats);
+                var listChatCookie = new List<ChatModel>();
+                if (CurrentUser.Chats!=null && CurrentUser.Chats.Count()>0)
+                {
+                    listChatCookie = MapperHelper.MapList<SHOP.COMMON.Entity.ChatModel, ChatModel>(CurrentUser.Chats);
+                }
+                if (listChat==null || listChat.Count()==0)
+                {
+                    listChat = new List<ChatModel>();
+                }
+                var listChatCookieNew = new List<ChatModel>(listChat.Count +
+                                    listChatCookie.Count);
+                listChatCookieNew.AddRange(listChat);
+                listChatCookieNew.AddRange(listChatCookie);
+                Security.SetChatCokkie(listChatCookieNew, System.Web.HttpContext.Current);
             }
-            return Content(JsonConvert.SerializeObject(new
-            {
-                result
-            }));
+            return Json(new { succes=true }, JsonRequestBehavior.AllowGet);
         }
     }
     public class Dynamic{

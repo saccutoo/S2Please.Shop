@@ -35,8 +35,14 @@ namespace S2Please
 //    {
 //        public void Configuration(IAppBuilder app)
 //        {
+//            //ConfigureAuth(app);
 //            app.MapSignalR();
-//            //app.UseHang
+//            app.UseHangfireDashboard();
+//            //app.UseHangfireDashboard("/hangfire", new DashboardOptions
+//            //{
+//            //    Authorization = new[] { new UseHangfireDashboard() }
+//            //});
+//            app.UseHangfireServer();
 //        }
 //    }
 //}

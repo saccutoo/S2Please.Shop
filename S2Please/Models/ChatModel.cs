@@ -7,23 +7,30 @@ namespace S2Please.Models
 {
     public class ChatModel:BaseModel
     {
-        public string NAME { get; set; }
+        public string CUSTOMER_NAME { get; set; }
         public string EMAIL { get; set; }
-        public long USER_ID { get; set; }
+        public long PHONE { get; set; }
+        public long ROLE_ID { get; set; }
+        public bool IS_ADMIN { get; set; }
+        public long EMPLOYEE_ID { get; set; }
+        public string EMPLOYEE_NAME{ get; set; }
+        public long USER_CUSTOMER_ID { get; set; }
         public string CONTENT { get; set; }
         public bool IS_EMPLOYESS { get; set; }
         public bool IS_AUTO_CONTENT { get; set; }
-        public DateTime DATE_SEND { get; set; }
+        public DateTime? DATE_SEND { get; set; }
 
-        public void Chat(string name,string email, long userId,string content, DateTime dateSend, bool is_employess=true,bool is_auto_content=false)
+        public void Chat(string name,string email, long phone, long userId,string content,long employeeId, bool is_admin = false, bool is_auto_content=false)
         {
-            NAME = name;
+            CUSTOMER_NAME = name;
             EMAIL = email;
-            USER_ID = userId;
+            USER_CUSTOMER_ID = userId;
             CONTENT = content;
-            DATE_SEND = dateSend;
-            IS_EMPLOYESS = is_employess;
+            EMPLOYEE_ID = employeeId;
+            PHONE = phone;
             IS_AUTO_CONTENT = is_auto_content;
+            IS_ADMIN = is_admin;
+            DATE_SEND = DateTime.Now;
         }
     }
 }

@@ -114,5 +114,30 @@ namespace SHOP.COMMON
                 return 0;
             }
         }
+
+
+        //Get chát
+        public static List<ChatModel> Chats
+        {
+            get
+            {
+                try
+                {
+                    HttpCookie getCookie = HttpContext.Current.Request.Cookies[Constant.ChatOnline];
+                    if (getCookie != null)
+                    {
+                        var value = getCookie.Value;
+                        string strConvertKey = Utils.Decrypt(value, Constant.KeyChatOnline);
+                        return JsonConvert.DeserializeObject<List<ChatModel>>(strConvertKey);
+                    }
+                }
+                catch (Exception)
+                {
+
+                    throw;
+                }
+                return new List<ChatModel>();
+            }
+        }
     }
 }

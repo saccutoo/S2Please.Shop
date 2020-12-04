@@ -29,7 +29,6 @@
     @Html.Partial("~/Areas/WEB_SHOP/Views/Shared/_OurClient.cshtml")
 }*@
 
-@*<button class="btn btn-danger" id="btn-test">test</button>*@
 
 <div class="row">
     <div class="span12">
@@ -66,33 +65,4 @@
 
 @section scripts
 {
-
-    <script>
-        $(function () {
-            $(document).ready(function () {
-                var test = $.connection.tesHub;
-                test.client.addNewMessageToPage = function (name, message) {
-                    alert(message);
-                };
-
-                $.connection.hub.start().done(function () {
-                    $('#btn-test').click(function () {
-                        test.server.send('vinh', 'Đặt hàng thành công');
-                    });
-                });
-
-            });
-
-        });
-
-        function htmlEncode(value) {
-            var encodedValue = $('<div />').text(value).html();
-            return encodedValue;
-        }
-
-        //$('#btn-test').click(function () {
-        //    loadingBody.Show();
-        //});
-
-    </script>
 }

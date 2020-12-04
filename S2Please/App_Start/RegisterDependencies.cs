@@ -28,6 +28,7 @@ namespace S2Please
             builder.RegisterType<MenuAdminRepository>().As<IMenuAdminRepository>().InstancePerLifetimeScope();
             builder.RegisterType<PermissionRepository>().As<IPermissonRepository>().InstancePerLifetimeScope();
             builder.RegisterType<UserRepository>().As<IUserRepository>().InstancePerLifetimeScope();
+            builder.RegisterType<MessengerRepository>().As<IMessengerRepository>().InstancePerLifetimeScope();
 
             //controller base
             builder.RegisterType<S2Please.Controllers.BaseController>();
@@ -56,6 +57,9 @@ namespace S2Please
             builder.RegisterType<S2Please.Areas.WEB_SHOP.Controllers.ProductController>();
             builder.RegisterType<S2Please.Areas.WEB_SHOP.Controllers.SearchController>();
             builder.RegisterType<S2Please.Areas.WEB_SHOP.Controllers.UserController>();
+
+            //SignalR
+            //builder.RegisterType<S2Please.SignalR.MessengerHub>();
 
             //build all
             Container = builder.Build();
