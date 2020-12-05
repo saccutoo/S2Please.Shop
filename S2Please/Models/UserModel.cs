@@ -18,6 +18,7 @@ namespace S2Please.Models
         public bool IS_CONFIRM { get; set; }
         public string CODE { get; set; }
         public string FULL_NAME { get; set; }
+        public string PHONE { get; set; }
 
     }
 }

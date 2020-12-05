@@ -205,12 +205,13 @@ function renderError(validations, formName) {
 
 function showChat() {
     $("#page-content").show();
-    $('.font-lato').hide();
+    $('#font-lato').hide();
 }
 
 function hideChat() {
+    debugger
     $("#page-content").hide();
-    $('.font-lato').show();
+    $('#font-lato').show();
 }
 
 //function startChat() {

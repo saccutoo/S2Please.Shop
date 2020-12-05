@@ -1,0 +1,38 @@
+﻿@model S2Please.Areas.ADMIN.ViewModel.NotificationViewModel
+@using SHOP.COMMON
+@using S2Please.Helper
+@using S2Please.Areas.ADMIN.ViewModel
+@{
+    Layout = null;
+}
+
+@if (FunctionHelpers.CheckPermission(MenuName.Messenger, Permission.Get))
+{
+    if (Model != null)
+    {
+        <div class="noti__item js-item-menu">
+            <i class="zmdi zmdi-comment-more"></i>
+            <span class="quantity" id="quantity-total-messenger">@Model.Total.ToString()</span>
+            <div class="mess-dropdown js-dropdown">
+                <div class="mess__title">
+                    <p id="quantity-total-messenger-p">@string.Format(FunctionHelpers.GetValueLanguage("Messenger.MessengerTotal"), Model.Total.ToString())</p>
+                </div>
+                <div id="content-message">
+                    @if (Model.Messengers != null && Model.Messengers.Count() > 0)
+                    {
+                        @Html.Partial("~/Areas/ADMIN/Views/Notification/_ContentNotificationMessage.cshtml", Model)
+                    }
+
+                    @if (Model.Messengers != null && Model.Messengers.Count() > 0)
+                    {
+                        <div class="mess__footer">
+                            <a href="#">@FunctionHelpers.GetValueLanguage("Messenger.MessengerViewAll")</a>
+                        </div>
+                    }
+                </div>             
+            </div>
+        </div>
+    }
+
+}
+

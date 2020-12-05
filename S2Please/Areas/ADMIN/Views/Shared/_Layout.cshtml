@@ -1,4 +1,5 @@
 ﻿@using S2Please.Helper
+@using SHOP.COMMON
 @{
     var timeVersion = FunctionHelpers.GetTimeVersion();
 }
@@ -29,7 +30,9 @@
     <link href="@Url.Content("~/LayoutAdmin/css/theme.css?v=" + timeVersion)" rel="stylesheet" media="all">
     <link href="@Url.Content("~/Content/common-admin.css?v=" + timeVersion)" rel="stylesheet">
     <!-- Jquery JS-->
-    <script src="@Url.Content("~/LayoutAdmin/vendor/jquery-3.2.1.min.js?v=" + timeVersion)" type="text/javascript"></script>
+    @*<script src="@Url.Content("~/LayoutAdmin/vendor/jquery-3.2.1.min.js?v=" + timeVersion)" type="text/javascript"></script>*@
+    <script src="@Url.Content("~/Scripts/jquery-1.10.2.min.js?v=" + timeVersion)" type="text/javascript"></script>
+
     <!-- Bootstrap JS-->
     <script src="@Url.Content("~/LayoutAdmin/vendor/bootstrap-4.1/popper.min.js?v=" + timeVersion)" type="text/javascript"></script>
     <script src="@Url.Content("~/LayoutAdmin/vendor/bootstrap-4.1/bootstrap.min.js?v=" + timeVersion)" type="text/javascript"></script>
@@ -89,6 +92,8 @@
 <body class="animsition" id="body" style="font-family:Roboto">
     <div class="page-wrapper">
         <!-- HEADER MOBILE-->
+        <input value="@CurrentUser.UserAdmin.ROLE_ID" id="current-role-id" hidden />
+        <input value="@CurrentUser.UserAdmin.USER_ID" id="current-user-id" hidden />
 
         @Html.Action("GetMenuLeftMobileAdmin", "MenuAdmin", new { area = "ADMIN" })
 
@@ -114,7 +119,6 @@
             <!-- END PAGE CONTAINER-->
         </div>
     </div>
-
     <!-- modal scroll -->
     <div class="modal fade" id="modal-right" tabindex="-1" role="dialog" aria-labelledby="scrollmodalLabel" aria-hidden="true">
         <div class="modal-dialog right modal-lg" role="document">
@@ -131,10 +135,21 @@
             </div>
         </div>
     </div>
-    <!-- end modal scroll -->
+
+    <!-- sound noti audio -->
+    <audio controls="controls" id="notification-ring-tone" hidden>
+        <source src="~/SoundNotification/Notification-ring-tone.mp3" type="audio/mpeg" />
+    </audio>
+    <!-- end sound noti audio -->
+
     <!-- Main JS-->
     <script src="@Url.Content("~/LayoutAdmin/js/main.js?v=" + timeVersion)" type="text/javascript"></script>
     <script src="@Url.Content("~/Scripts/Common/CommonAdmin.js?v=" + timeVersion)" type="text/javascript"></script>
+    <!-- signalR-->
+    <script src="@Url.Content("~/Scripts/jquery.signalR-2.1.2.min.js?v=" + timeVersion)" type="text/javascript"></script>
+    <script src="@Url.Content("~/signalr/hubs?v=" + timeVersion)" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/Messenger/MessengerAdmin.js?v=" + timeVersion)" type="text/javascript"></script>
+
 </body>
 </html>
 <!-- end document-->

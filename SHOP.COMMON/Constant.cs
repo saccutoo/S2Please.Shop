@@ -69,6 +69,7 @@ namespace SHOP.COMMON
         public static string MenuAdmin = "MenuAdmin";
         public static string PermissionRole = "PermissionRole";
         public static string PermissionUser = "PermissionUser";
+        public static string Messenger = "Messenger";
 
     }
 

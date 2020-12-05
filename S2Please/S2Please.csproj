@@ -274,6 +274,7 @@
     <Compile Include="Areas\ADMIN\Controllers\MenuController.cs" />
     <Compile Include="Areas\ADMIN\Controllers\ProductTypeController.cs" />
     <Compile Include="Areas\ADMIN\Controllers\PermissionController.cs" />
+    <Compile Include="Areas\ADMIN\Controllers\NotificationController.cs" />
     <Compile Include="Areas\ADMIN\Controllers\TestController.cs" />
     <Compile Include="Areas\ADMIN\Controllers\SystemController.cs" />
     <Compile Include="Areas\ADMIN\Controllers\FilterController.cs" />
@@ -288,6 +289,7 @@
     <Compile Include="Areas\ADMIN\ViewModel\LocalizadataViewModel.cs" />
     <Compile Include="Areas\ADMIN\ViewModel\MailQueueViewModel.cs" />
     <Compile Include="Areas\ADMIN\ViewModel\MenuAdminViewModel.cs" />
+    <Compile Include="Areas\ADMIN\ViewModel\NotificationViewModel.cs" />
     <Compile Include="Areas\ADMIN\ViewModel\PermissionViewModel.cs" />
     <Compile Include="Areas\ADMIN\ViewModel\ProductGroupSaveViewModel.cs" />
     <Compile Include="Areas\ADMIN\ViewModel\ProductTypeSaveViewModel .cs" />
@@ -1177,6 +1179,8 @@
     <Content Include="Areas\ADMIN\Views\Test\Test.cshtml" />
     <Content Include="Areas\WEB_SHOP\Views\Template\_Chat.cshtml" />
     <Content Include="Areas\WEB_SHOP\Views\Template\_ChatContent.cshtml" />
+    <Content Include="Areas\ADMIN\Views\Notification\NotificationMessage.cshtml" />
+    <Content Include="Areas\ADMIN\Views\Notification\_ContentNotificationMessage.cshtml" />
     <None Include="Properties\PublishProfiles\shop.pubxml" />
     <Content Include="Scripts\bootstrap-select-1.13.14\dist\css\bootstrap-select.css.map" />
     <Content Include="Scripts\bootstrap-select-1.13.14\dist\js\bootstrap-select.js.map" />
@@ -1268,6 +1272,7 @@
     <Content Include="Scripts\Kraamen\autocomplete.min.css" />
     <Content Include="Scripts\Kraamen\autocomplete.min.js" />
     <Content Include="Scripts\MailQueue\MailQueue.js" />
+    <Content Include="Scripts\Messenger\MessengerAdmin.js" />
     <Content Include="Scripts\Messenger\Messenger.js" />
     <Content Include="Scripts\Permission\Permission.js" />
     <Content Include="Scripts\MenuAdmin\MenuAdmin.js" />
@@ -1358,6 +1363,7 @@
     <Content Include="Scripts\Toastr\dist\toastr.css" />
     <Content Include="Scripts\Toastr\dist\toastr.min.css" />
     <Content Include="Scripts\Toastr\dist\toastr.min.js" />
+    <Content Include="SoundNotification\Notification-ring-tone.mp3" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>

@@ -8,20 +8,20 @@ using Repository;
 using S2Please.Helper;
 using SHOP.COMMON.Helpers;
 using Newtonsoft.Json;
+using S2Please.Areas.ADMIN.ViewModel;
+using S2Please.ParramType;
 namespace S2Please.SignalR
 {
     public class MessengerHub : Hub
     {
-        //private ISystemRepository _systemRepository;
-        //private IMessengerRepository _messengerRepository;
 
-        //public MessengerHub(ISystemRepository systemRepository, IMessengerRepository messengerRepository)
-        //{
-        //    this._systemRepository = systemRepository;
-        //    this._messengerRepository = messengerRepository;
-        //}
         public MessengerRepository _messengerRepository = new MessengerRepository();
-        public void StartChat(string customerName,string email, string phone, string userCustomerId,string html )
+
+        public void Hello()
+        {
+            Clients.All.hello("123");
+        }
+        public void StartChat(string customerName,string email, string phone, string userCustomerId,string html,string sessionId )
         {
             List<ChatModel> chats = new List<ChatModel>();
             try
@@ -30,16 +30,18 @@ namespace S2Please.SignalR
                 var content = string.Empty;
                 ChatModel chat = new ChatModel();
                 content += FunctionHelpers.GetValueLanguage("Messenger.IsAutoContent");
-                chat.Chat(customerName, email, long.Parse(phone), long.Parse(userCustomerId), content, 1, true, true);
+                chat.Chat("Admin", "", 0, long.Parse(userCustomerId), content, 1, sessionId, true, true);
                 chat.EMPLOYEE_NAME = "Admin";
                 chat.CONTENT = ContentHtmlHelper.ContentMessenger(chat);
+                chat.IS_VIEW = true;
                 chats.Add(chat);
 
                 ChatModel chat1 = new ChatModel();
                 content = string.Empty;
                 content = "<p>" + FunctionHelpers.GetValueLanguage("Chat.Name") + " : " + customerName + "</p>";
+                content += "<p>"+FunctionHelpers.GetValueLanguage("Cart.TelePhone") +" : " + phone + "</p>";
                 content += "<p>Email : " + email + "</p>";
-                chat1.Chat(customerName, email, long.Parse(phone), long.Parse(userCustomerId), content, 0, false, true);
+                chat1.Chat(customerName, email, long.Parse(phone), long.Parse(userCustomerId), content, 0,sessionId, false, true);
                 chat1.CONTENT = ContentHtmlHelper.ContentMessenger(chat1);
                 chats.Add(chat1);
 
@@ -55,6 +57,7 @@ namespace S2Please.SignalR
                 var resultChat1 = JsonConvert.DeserializeObject<List<ChatModel>>(JsonConvert.SerializeObject(responseChat1.Results));
 
                 html = resultChat.FirstOrDefault().CONTENT + " " + resultChat1.FirstOrDefault().CONTENT;
+                SendMessageToAdmin();
             }
             catch (Exception ex)
             {
@@ -63,7 +66,27 @@ namespace S2Please.SignalR
             }
            
 
-            Clients.All.addNewMessageToPage(customerName,email,phone,userCustomerId, html, JsonConvert.SerializeObject(chats));
+            Clients.All.addNewMessageToPage(customerName,email,phone,userCustomerId, html, JsonConvert.SerializeObject(chats), sessionId);
+        }
+
+        public void SendMessageToAdmin()
+        {
+            NotificationViewModel vm = new NotificationViewModel();
+            ParamType paramType = new ParamType();
+            paramType.LANGUAGE_ID = CurrentUser.LANGUAGE_ID;
+            paramType.USER_ID = CurrentUser.UserAdmin.USER_ID;
+            paramType.ROLE_ID = CurrentUser.UserAdmin.ROLE_ID;
+            var type = MapperHelper.Map<ParamType, Repository.Type.ParamType>(paramType);
+
+            var responseMessengers = _messengerRepository.GetTop3MessengerNew(type,false);
+            if (responseMessengers != null)
+            {
+                vm.Total = Convert.ToInt32(responseMessengers.OutValue.Parameters["@TotalRecord"].Value.ToString());
+                vm.Messengers = JsonConvert.DeserializeObject<List<ChatModel>>(JsonConvert.SerializeObject(responseMessengers.Results));
+            }
+            var html = ContentHtmlHelper.ContentNotificationMessenger(vm);
+
+            Clients.All.sendMessageToAdmin(vm.Total.ToString(), string.Format(FunctionHelpers.GetValueLanguage("Messenger.MessengerTotal"), vm.Total.ToString()), html,true);
         }
     }
 }

@@ -19,8 +19,11 @@ namespace S2Please.Models
         public bool IS_EMPLOYESS { get; set; }
         public bool IS_AUTO_CONTENT { get; set; }
         public DateTime? DATE_SEND { get; set; }
-
-        public void Chat(string name,string email, long phone, long userId,string content,long employeeId, bool is_admin = false, bool is_auto_content=false)
+        public bool IS_VIEW { get; set; }
+        public bool IS_REP { get; set; }
+        public string SESSION_ID { get; set; }
+        public int TOTAL { get; set; }
+        public void Chat(string name,string email, long phone, long userId,string content,long employeeId,string sessionId ,bool is_admin = false, bool is_auto_content=false)
         {
             CUSTOMER_NAME = name;
             EMAIL = email;
@@ -31,6 +34,7 @@ namespace S2Please.Models
             IS_AUTO_CONTENT = is_auto_content;
             IS_ADMIN = is_admin;
             DATE_SEND = DateTime.Now;
+            SESSION_ID = sessionId;
         }
     }
 }

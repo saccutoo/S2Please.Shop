@@ -5,7 +5,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Http.Filters;
 using System.Web.Mvc;
-
+using SHOP.COMMON;
 namespace S2Please.Helper
 {
     public class NoCache: System.Web.Mvc.ActionFilterAttribute
@@ -20,8 +20,10 @@ namespace S2Please.Helper
                 keys.Add(enumerator.Key.ToString());
 
             for (int i = 0; i < keys.Count; i++)
-                HttpRuntime.Cache.Remove(keys[i]);
-
+                if (keys[i].IndexOf("LoggedInUsers")==-1)
+                {
+                    HttpRuntime.Cache.Remove(keys[i]);
+                }             
             base.OnResultExecuting(filterContext);
         }
     }

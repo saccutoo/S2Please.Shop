@@ -54,6 +54,33 @@ namespace S2Please.Areas.ADMIN.Controllers
                 if (resultUser != null && resultUser.Count() > 0)
                 {
                     Security.UserSignInAdmin(resultUser.FirstOrDefault(), System.Web.HttpContext.Current);
+                    //if the list exists, add this user to it
+
+                    if (HttpRuntime.Cache["LoggedInUsers"] != null)
+                    {
+                        Dictionary<string, DateTime> loggedInUsers = new Dictionary<string, DateTime>();
+
+                        //get the list of logged in users from the cache
+                        //var loggedInUsers = HttpRuntime.Cache["LoggedInUsers"];
+                        loggedInUsers = (Dictionary<string, DateTime>)HttpRuntime.Cache["LoggedInUsers"];
+
+                        if (!loggedInUsers.ContainsKey(resultUser.FirstOrDefault().USER_NAME))
+                        {
+                            //add this user to the list
+                            loggedInUsers.Add(resultUser.FirstOrDefault().USER_NAME, DateTime.Now);
+                            //add the list back into the cache
+                            HttpRuntime.Cache["LoggedInUsers"] = loggedInUsers;
+                        }
+                    }
+                    else
+                    {
+                        //create a new list
+                        Dictionary<string, DateTime> loggedInUsers = new Dictionary<string, DateTime>();
+                        //add this user to the list
+                        loggedInUsers.Add(resultUser.FirstOrDefault().USER_NAME, DateTime.Now);
+                        //add the list into the cache
+                        HttpRuntime.Cache["LoggedInUsers"] = loggedInUsers;
+                    }
                     return RedirectToAction("Index", "Dashboard", new { Area = "ADMIN" });
                 }
                 else
@@ -69,6 +96,19 @@ namespace S2Please.Areas.ADMIN.Controllers
         [NoCache]
         public ActionResult Logout()
         {
+            if (CurrentUser.UserAdmin != null && CurrentUser.UserAdmin.USER_ID != 0)
+            {
+                Dictionary<string, DateTime> loggedInUsers = new Dictionary<string, DateTime>();
+                loggedInUsers = (Dictionary<string, DateTime>)HttpRuntime.Cache["LoggedInUsers"];
+                if (loggedInUsers!=null && loggedInUsers.Count()>0 && !string.IsNullOrEmpty(CurrentUser.UserAdmin.USER_NAME))
+                {
+                    if (loggedInUsers.ContainsKey(CurrentUser.UserAdmin.USER_NAME))
+                    {
+                        loggedInUsers.Remove(CurrentUser.UserAdmin.USER_NAME);
+                    }
+
+                }
+            }
             FormsAuthentication.SignOut();
             //Clear session
             var current = System.Web.HttpContext.Current;

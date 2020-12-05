@@ -25,7 +25,29 @@ namespace Repository
             param.Add(new Param() { Key = "@PHONE", Value = model.PHONE.ToString() });
             param.Add(new Param() { Key = "@CONTENT", Value = string.IsNullOrEmpty(model.CONTENT) ? " " : model.CONTENT });
             param.Add(new Param() { Key = "@IS_AUTO_CONTENT", Value =model.IS_AUTO_CONTENT.ToString()  });
+            param.Add(new Param() { Key = "@IS_VIEW", Value = model.IS_VIEW.ToString() });
+            param.Add(new Param() { Key = "@IS_REP", Value = model.IS_REP.ToString() });
+            param.Add(new Param() { Key = "@SESSION_ID", Value = string.IsNullOrEmpty(model.SESSION_ID) ? " " : model.SESSION_ID });
             return ListProcedure<ChatModel>(new ChatModel(), "Messenger_update_Messenger", param);
+        }
+
+        //Get 3 messenger new 
+        public ResultModel GetTop3MessengerNew(ParamType paramType,bool isCheckPermission=true)
+        {
+            var param = new List<Param>();
+            var basicParamype = new List<ParamType>();
+            basicParamype.Add(paramType);
+            param.Add(new Param
+            {
+                IsUserDefinedTableType = true,
+                paramUserDefinedTableType = new SqlParameter("@BasicParamType", SqlDbType.Structured)
+                {
+                    TypeName = "dbo.BasicParamType",
+                    Value = DataTableHelper.ConvertToUserDefinedDataTable(basicParamype)
+                }
+            });
+            param.Add(new Param { Key = "@TotalRecord", Value = "0", IsOutPut = true, Type = "Int" });
+            return ListProcedure<ChatModel>(new ChatModel(), "Messenger_Get_GetTop3MessengerNew", param,false, isCheckPermission);
         }
     }
 }

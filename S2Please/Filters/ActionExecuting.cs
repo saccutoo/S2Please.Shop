@@ -1,4 +1,7 @@
-﻿using SHOP.COMMON;
+﻿using S2Please.Helper;
+using S2Please.Models;
+using SHOP.COMMON;
+using SHOP.COMMON.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,8 +15,8 @@ namespace S2Please.Filters
 
         public override void OnActionExecuting(ActionExecutingContext filterContext)
         {
-            var rawUrl = System.Web.HttpContext.Current.Request.RawUrl;
-            if (System.Web.HttpContext.Current.Request.FilePath.ToString().ToLower().IndexOf("admin") > -1)
+            var rawUrl =HttpContext.Current.Request.RawUrl;
+            if (HttpContext.Current.Request.FilePath.ToString().ToLower().IndexOf("admin") > -1)
             {
                 if (filterContext.ActionDescriptor.ActionName.ToLower() != "login")
                 {
@@ -29,6 +32,20 @@ namespace S2Please.Filters
 
                     else
                     {
+                        //var user = MapperHelper.Map<SHOP.COMMON.Entity.User,UserModel>(CurrentUser.UserAdmin);
+                        //Security.UserSignInAdmin(user, HttpContext.Current);
+
+                        Dictionary<string, DateTime> loggedInUsers = new Dictionary<string, DateTime>();
+
+                        loggedInUsers = (Dictionary<string, DateTime>)HttpRuntime.Cache["LoggedInUsers"];
+
+                        var userName = CurrentUser.UserAdmin.USER_NAME;
+                        if (loggedInUsers != null)
+                        {
+                            loggedInUsers[userName] = DateTime.Now;
+                            HttpRuntime.Cache["LoggedInUsers"] = loggedInUsers;
+                        }
+
                         goto Finish;
                     }
                 }

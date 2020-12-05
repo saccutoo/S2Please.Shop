@@ -150,7 +150,7 @@ namespace S2Please.Helper
         }
         public static void UserSignInAdmin(UserModel accountInfo, HttpContext curentHttpContext)
         {
-            var token = SetAuthCookie(curentHttpContext, JsonConvert.SerializeObject(accountInfo), Constant.AdminShopOnline, Constant.ShopKeyAuthenAdmin, DateTime.Now.AddDays(15));
+            var token = SetAuthCookie(curentHttpContext, JsonConvert.SerializeObject(accountInfo), Constant.AdminShopOnline, Constant.ShopKeyAuthenAdmin, DateTime.Now.AddDays(7));
         }
         public static void ProductView(List<ProductModel> products, HttpContext curentHttpContext)
         {

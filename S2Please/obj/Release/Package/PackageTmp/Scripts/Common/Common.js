@@ -202,3 +202,39 @@ function renderError(validations, formName) {
     }
 }
 
+
+function showChat() {
+    $("#page-content").show();
+    $('.font-lato').hide();
+}
+
+function hideChat() {
+    $("#page-content").hide();
+    $('.font-lato').show();
+}
+
+//function startChat() {
+//    $("#form-information-chat label[name*='message-error-']").text("");
+
+//    $.ajax({
+//        type: "POST",
+//        url: "/Base/StartChat",
+//        data: $('#form-information-chat').serializeArray(),
+//        dataType: "json",
+//        success: function (response) {
+//            if (response.Invalid) {
+//                var validations = response.Result;
+//                renderError(validations, "form-information-chat");
+//            }
+//            if (response.result.Success) {
+//                $('#chat-content').append(response.result.Html);
+//                $('#chat-content').show();
+//                $('#chat-publisher').show();
+//                $('#information-chat').hide();
+//            }
+//        },
+//        error: function (req, status, error) {
+//            alert("Error try again");
+//        }
+//    });
+//}

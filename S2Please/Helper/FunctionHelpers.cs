@@ -208,7 +208,11 @@ namespace S2Please.Helper
 
             for (int i = 0; i < keys.Count; i++)
             {
-                HttpRuntime.Cache.Remove(keys[i]);
+                if (keys[i].IndexOf("LoggedInUsers") == -1)
+                {
+                    HttpRuntime.Cache.Remove(keys[i]);
+                }
+
             }
         }
 
@@ -217,6 +221,89 @@ namespace S2Please.Helper
             var param = new List<Param>();
             var paramType = MapperHelper.MapList<Param, Repository.Model.Param>(param);
             var response = commonRepository.ListProcedure<TimeVersion>(new TimeVersion(), "TimeVersion_Update_TimeVersion", paramType);
+        }
+
+        public static string getTimeAgo(DateTime strDate)
+        {
+            string strTime = string.Empty;
+            if (IsDate(Convert.ToString(strDate)))
+            {
+                TimeSpan t = DateTime.Now - Convert.ToDateTime(strDate);
+                double deltaSeconds = t.TotalSeconds;
+
+                double deltaMinutes = deltaSeconds / 60.0f;
+                int minutes;
+
+                if (deltaSeconds < 5)
+                {
+                    return FunctionHelpers.GetValueLanguage("TimeAgo.JustNow");
+                }
+                else if (deltaSeconds < 60)
+                {
+                    return Math.Floor(deltaSeconds) + " "+ FunctionHelpers.GetValueLanguage("Seconds ago").ToLower();
+                }
+                else if (deltaSeconds < 120)
+                {
+                    return FunctionHelpers.GetValueLanguage("TimeAgo.AMinuteAgo");
+                }
+                else if (deltaMinutes < 60)
+                {
+                    return Math.Floor(deltaMinutes) + " " + FunctionHelpers.GetValueLanguage("TimeAgo.MinutesAgo").ToLower();
+                }
+                else if (deltaMinutes < 120)
+                {
+                    return FunctionHelpers.GetValueLanguage("TimeAgo.AnHourAgo");
+                }
+                else if (deltaMinutes < (24 * 60))
+                {
+                    minutes = (int)Math.Floor(deltaMinutes / 60);
+                    return minutes + " " + FunctionHelpers.GetValueLanguage("TimeAgo.HoursAgo").ToLower();
+                }
+                else if (deltaMinutes < (24 * 60 * 2))
+                {
+                    return FunctionHelpers.GetValueLanguage("TimeAgo.Yesterday");
+                }
+                else if (deltaMinutes < (24 * 60 * 7))
+                {
+                    minutes = (int)Math.Floor(deltaMinutes / (60 * 24));
+                    return minutes + " " +FunctionHelpers.GetValueLanguage("TimeAgo.DaysAgo").ToLower();
+                }
+                else if (deltaMinutes < (24 * 60 * 14))
+                {
+                    return FunctionHelpers.GetValueLanguage("TimeAgo.LastWeek");
+                }
+                else if (deltaMinutes < (24 * 60 * 31))
+                {
+                    minutes = (int)Math.Floor(deltaMinutes / (60 * 24 * 7));
+                    return minutes + " " + FunctionHelpers.GetValueLanguage("TimeAgo.WeeksAgo").ToLower();
+                }
+                else if (deltaMinutes < (24 * 60 * 61))
+                {
+                    return FunctionHelpers.GetValueLanguage("TimeAgo.LastMonth");
+                }
+                else if (deltaMinutes < (24 * 60 * 365.25))
+                {
+                    minutes = (int)Math.Floor(deltaMinutes / (60 * 24 * 30));
+                    return minutes + " " + FunctionHelpers.GetValueLanguage("TimeAgo.LastMonth").ToLower();
+                }
+                else if (deltaMinutes < (24 * 60 * 731))
+                {
+                    return FunctionHelpers.GetValueLanguage("TimeAgo.LastYear");
+                }
+
+                minutes = (int)Math.Floor(deltaMinutes / (60 * 24 * 365));
+                return minutes + " "+ FunctionHelpers.GetValueLanguage("TimeAgo.LastYear");
+            }
+            else
+            {
+                return "";
+            }
+        }
+
+        public static bool IsDate(string o)
+        {
+            DateTime tmp;
+            return DateTime.TryParse(o, out tmp);
         }
     }
 }

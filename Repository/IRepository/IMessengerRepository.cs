@@ -14,5 +14,8 @@ namespace Repository
     {
         //save message
         ResultModel SaveMessenger(ChatModel model);
+
+        //Get 3 messenger new 
+        ResultModel GetTop3MessengerNew(ParamType paramType, bool isCheckPermission = true);
     }
 }

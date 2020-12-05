@@ -17,6 +17,7 @@ namespace SHOP.COMMON.Entity
         public string IS_LOCK { get; set; }
         public long ROLE_ID { get; set; }
         public string FULL_NAME { get; set; }
+        public string PHONE { get; set; }
 
     }
 }

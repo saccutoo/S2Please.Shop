@@ -48,6 +48,7 @@ namespace S2Please
             builder.RegisterType<S2Please.Areas.ADMIN.Controllers.MailQueueController>();
             builder.RegisterType<S2Please.Areas.ADMIN.Controllers.MenuAdminController>();
             builder.RegisterType<S2Please.Areas.ADMIN.Controllers.PermissionController>();
+            builder.RegisterType<S2Please.Areas.ADMIN.Controllers.NotificationController>();
 
             //controllers web
             builder.RegisterType<S2Please.Areas.WEB_SHOP.Controllers.AuthenController>();
