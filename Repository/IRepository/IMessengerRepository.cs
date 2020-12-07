@@ -17,5 +17,11 @@ namespace Repository
 
         //Get 3 messenger new 
         ResultModel GetTop3MessengerNew(ParamType paramType, bool isCheckPermission = true);
+
+        //Get messenger by session id 
+        ResultModel GetMessengerBySessionId(string sessionId, bool isUpdate = true, bool isCheckPermission = false);
+
+        //Get messenger IS MAIN
+        ResultModel GetMessengerIsMain(bool isCheckPermission = false);
     }
 }

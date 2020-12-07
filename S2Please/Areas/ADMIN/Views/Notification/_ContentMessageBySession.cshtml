@@ -1,0 +1,32 @@
+﻿@model S2Please.Areas.ADMIN.ViewModel.NotificationViewModel
+@using SHOP.COMMON
+@using S2Please.Helper
+@{
+    Layout = null;
+}
+<input id="session-id" value="@Model.MessengerRights.FirstOrDefault().SESSION_ID" hidden />
+
+@foreach (var item in Model.MessengerRights)
+{
+    if (item.EMPLOYEE_ID != 0)
+    {
+        <div class="outgoing_msg" title="@item.CUSTOMER_NAME">
+            <div class="sent_msg">
+                <p>@Html.Raw(item.CONTENT_TEXT)</p>
+                <span class="time_date">@FunctionHelpers.getTimeAgo(item.DATE_SEND.Value)</span>
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="incoming_msg">
+            <div class="incoming_msg_img"> <img src="/Image/user-profile.png" alt="sunil" title="@item.CUSTOMER_NAME"> </div>
+            <div class="received_msg">
+                <div class="received_withd_msg">
+                    @Html.Raw(item.CONTENT_TEXT)
+                    <span class="time_date"> @FunctionHelpers.getTimeAgo(item.DATE_SEND.Value) </span>
+                </div>
+            </div>
+        </div>
+    }
+}

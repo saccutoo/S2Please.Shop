@@ -59,3 +59,7 @@
 .button-border{
     border:1px solid #ccc
 }
+
+#content-message a{
+    width:100%;
+}

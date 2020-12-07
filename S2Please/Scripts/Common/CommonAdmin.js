@@ -1,5 +1,4 @@
 ﻿
-
 //thay đổi ngon ngữ hiển thị
 function changeLanguage() {
     $.ajax({
@@ -265,6 +264,8 @@ $(document).ready(function () {
                 }
             });
     });
+
 })
+
 
 

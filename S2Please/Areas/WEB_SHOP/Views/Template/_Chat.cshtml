@@ -1,9 +1,19 @@
 ﻿@using S2Please.Helper
 @using S2Please.ViewModel
 @using SHOP.COMMON
+@using S2Please.Models
+@using SHOP.COMMON.Helpers
+@{
+    List<ChatModel> chats = new List<ChatModel>();
+    if (Session[Constant.ChatOnline] !=null)
+    {
+        chats = Session[Constant.ChatOnline] as List<ChatModel>;
+        chats = chats.OrderBy(s => s.DATE_SEND).ToList();
+    }
+}
 <div class="page-content page-container">
     <div class="padding">
-        <div class=" container d-flex justify-content-center" id="page-content"  @(CurrentUser.Chats != null && CurrentUser.Chats.Count() > 0 ? "" : "hidden" )>
+        <div class=" container d-flex justify-content-center" id="page-content" @(chats != null && chats.Count() > 0 ? "" : "hidden" )>
             <div class="col-md-6">
                 <div class="card card-bordered">
                     <div class="card-header">
@@ -11,19 +21,19 @@
                     </div>
                     @{ Guid guid = Guid.NewGuid();
                         var sessionId = string.Empty;
-                        SHOP.COMMON.Entity.ChatModel chat = new SHOP.COMMON.Entity.ChatModel();
-                        if (CurrentUser.Chats != null && CurrentUser.Chats.Count() > 0)
+                        ChatModel chat = new ChatModel();
+                        if (chats != null && chats.Count() > 0)
                         {
-                            sessionId = CurrentUser.Chats.FirstOrDefault().SESSION_ID;
-                            chat = CurrentUser.Chats.FirstOrDefault();
+                            sessionId = chats.FirstOrDefault().SESSION_ID;
+                            chat = chats.Where(s=>s.EMPLOYEE_ID==0).ToList().FirstOrDefault();
                         }
                         else
                         {
                             sessionId = guid.ToString();
                         }
-                        if (chat==null || chat.USER_CUSTOMER_ID==0)
+                        if (chat == null || chat.USER_CUSTOMER_ID == 0)
                         {
-                            if (CurrentUser.User!=null && CurrentUser.User.USER_ID!=0)
+                            if (CurrentUser.User != null && CurrentUser.User.USER_ID != 0)
                             {
                                 chat.USER_CUSTOMER_ID = CurrentUser.User.USER_ID;
                                 if (!string.IsNullOrEmpty(CurrentUser.User.PHONE))
@@ -36,11 +46,11 @@
                         }
                     }
 
-                    <div class="card-body" id="information-chat" style="@(CurrentUser.Chats != null && CurrentUser.Chats.Count() > 0 ? "display:none" : "display:block" )">
+                    <div class="card-body" id="information-chat" style="@(chats != null && chats.Count() > 0 ? "display:none" : "display:block" )">
                         <form id="form-information-chat">
-                            <input value="@CurrentUser.User.ID" id="messenger-id" name="model.USER_ID" hidden />
+                            <input value="@CurrentUser.User.ID" id="messenger-id" name="chats.USER_ID" hidden />
 
-                            <input id="session-id" value="@sessionId" name="model.SESSION_ID" hidden />
+                            <input id="session-id" value="@sessionId" name="chats.SESSION_ID" hidden />
                             <div class="form-group" style=" margin-top: 10px; padding-left: 30px;">
                                 @Html.Partial("~/Views/Template/_Input.cshtml", new InputModel() { Type = "text", Id = "MESSENGER-NAME", Class = "input-xlarge", Name = "model.CUSTOMER_NAME", LabelName = "Chat.Name", IsRequied = true, Style = "width: 90%;", Value = chat.CUSTOMER_NAME })
                             </div>
@@ -55,22 +65,19 @@
                             </div>
                         </form>
                     </div>
-                    <div class="ps-container ps-theme-default ps-active-y" id="chat-content" style="overflow-y: scroll !important; height:400px !important;@(CurrentUser.Chats != null && CurrentUser.Chats.Count() > 0 ? "display:block" : "display:none" )">
+                    <div class="ps-container ps-theme-default ps-active-y" id="chat-content" style="margin-top: 15px;overflow-y: scroll !important; height: 400px !important; @(chats != null && chats.Count() > 0 ? "display:block" : "display:none" )">
                         @*Chứa nội dung chát*@
-                        @if (CurrentUser.Chats != null && CurrentUser.Chats.Count() > 0)
+                        @if (chats != null && chats.Count() > 0)
                         {
-                            foreach (var item in CurrentUser.Chats)
-                            {
-                                @Html.Raw(item.CONTENT);
-                            }
+                            @Html.Partial("~/Areas/WEB_SHOP/Views/Template/_ChatContent.cshtml", chats)
                         }
 
                     </div>
 
-                    <div class="publisher bt-1 border-light" id="chat-publisher" style="display: none">
+                    <div class="publisher bt-1 border-light" id="chat-publisher" @(chats != null && chats.Count() > 0 ? "display:block" : "display:none" ) ">
                         <img class="avatar avatar-xs" src="/Image/administrator-male.png" alt="...">
-                        <input class="publisher-input" type="text" placeholder="...."> <span class="publisher-btn file-group"></span>
-                        <a class="publisher-btn text-info" href="#" data-abc="true"><i class="fa fa-paper-plane"></i></a>
+                        <input class="publisher-input" type="text" placeholder="...." id="content-value"> <span class="publisher-btn file-group"></span>
+                        <a class="publisher-btn text-info" href="#" data-abc="true" id="send-message"><i class="fa fa-paper-plane"></i></a>
                     </div>
                 </div>
             </div>
@@ -78,7 +85,7 @@
     </div>
 </div>
 
-<div class="font-lato" id="font-lato" onclick="showChat()" @(CurrentUser.Chats != null && CurrentUser.Chats.Count() > 0 ? "hidden" : "" )>
+<div class="font-lato" id="font-lato" onclick="showChat()" @(chats != null && chats.Count() > 0 ? "hidden" : "" )>
     <div id="tawkchat-minified-wrapper" class="white ltr-direction">
         <div id="tawkchat-minified-container" class="theme-background-color" style="border-radius: 17px 17px 0px 0px;">
             <div id="tawkchat-status-middle">

@@ -102,6 +102,11 @@ namespace S2Please.Areas.ADMIN
       defaults: new { controller = "Permission", action = "PermissionUser", id = UrlParameter.Optional }
   );
             context.MapRoute(
+      name: "admin/message",
+      url: "admin/message",
+      defaults: new { controller = "Notification", action = "Message", id = UrlParameter.Optional }
+  );
+            context.MapRoute(
                 "ADMIN_default",
                 "ADMIN/{controller}/{action}/{id}",
                 new { action = "Index", id = UrlParameter.Optional }

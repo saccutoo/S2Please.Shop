@@ -472,6 +472,7 @@
     <Content Include="Content\all.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\chatAdmin.css" />
     <Content Include="Content\chat.css" />
     <Content Include="Content\Checkbox\Checkbox.css" />
     <Content Include="Content\common-admin.css" />
@@ -1181,6 +1182,8 @@
     <Content Include="Areas\WEB_SHOP\Views\Template\_ChatContent.cshtml" />
     <Content Include="Areas\ADMIN\Views\Notification\NotificationMessage.cshtml" />
     <Content Include="Areas\ADMIN\Views\Notification\_ContentNotificationMessage.cshtml" />
+    <Content Include="Areas\ADMIN\Views\Notification\Message.cshtml" />
+    <Content Include="Areas\ADMIN\Views\Notification\_ContentMessageBySession.cshtml" />
     <None Include="Properties\PublishProfiles\shop.pubxml" />
     <Content Include="Scripts\bootstrap-select-1.13.14\dist\css\bootstrap-select.css.map" />
     <Content Include="Scripts\bootstrap-select-1.13.14\dist\js\bootstrap-select.js.map" />

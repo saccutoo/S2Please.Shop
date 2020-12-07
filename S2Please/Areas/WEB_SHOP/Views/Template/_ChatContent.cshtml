@@ -7,30 +7,25 @@
     foreach (var item in Model)
     {
 
-        if (item.IS_EMPLOYESS)
+        if (item.EMPLOYEE_ID!=0)
         {
             <div class="media media-chat">
                 <img class="avatar" src="~/Image/administrator-male.png" alt="..." title="@item.CUSTOMER_NAME">
                 <div class="media-body">
-                    <p>@Html.Raw(item.CONTENT)</p>
-                    <p class="meta"><time datetime="2018">@item.DATE_SEND.Value.ToString("dd/MM/yyyy HH:mm:ss")</time></p>
+                    <p >@Html.Raw(item.CONTENT_TEXT)</p>
+                    <p class="meta"><time datetime="2018">@FunctionHelpers.getTimeAgo(item.DATE_SEND.Value)</time></p>
                 </div>
             </div>
         }
-        else if (item.IS_AUTO_CONTENT) { 
-            <div class="media media-chat media-chat-reverse">
-                <div class="media-body">
-                    @Html.Raw(item.CONTENT)
-                    <p class="meta" style="color: #9b9b9b;"><time datetime="2018">@item.DATE_SEND.Value.ToString("dd/MM/yyyy HH:mm:ss")</time></p>
-                </div>
-            </div>
-        }
+
          else
          {
             <div class="media media-chat media-chat-reverse">
                 <div class="media-body">
-                    <p title="@item.CUSTOMER_NAME">@Html.Raw(item.CONTENT)</p>
-                    <p class="meta" style="color: #9b9b9b;"><time datetime="2018">@item.DATE_SEND.Value.ToString("dd/MM/yyyy HH:mm:ss")</time></p>
+                    <p title="@item.CUSTOMER_NAME">
+                        @Html.Raw(item.CONTENT_TEXT)
+                    </p>
+                    <p class="meta" style="color: #9b9b9b;"><time datetime="2018">@FunctionHelpers.getTimeAgo(item.DATE_SEND.Value)</time></p>
                 </div>
             </div>
         }

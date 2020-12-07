@@ -11,7 +11,7 @@
     if (Model != null)
     {
         <div class="noti__item js-item-menu">
-            <i class="zmdi zmdi-comment-more" id="btn-comment-more"></i>
+            <i class="zmdi zmdi-comment-more"></i>
             <span class="quantity" id="quantity-total-messenger">@Model.Total.ToString()</span>
             <div class="mess-dropdown js-dropdown">
                 <div class="mess__title">
@@ -26,7 +26,7 @@
                     @if (Model.Messengers != null && Model.Messengers.Count() > 0)
                     {
                         <div class="mess__footer">
-                            <a href="/admin/message">@FunctionHelpers.GetValueLanguage("Messenger.MessengerViewAll")</a>
+                            <a href="#">@FunctionHelpers.GetValueLanguage("Messenger.MessengerViewAll")</a>
                         </div>
                     }
                 </div>             

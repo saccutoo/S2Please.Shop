@@ -11,6 +11,7 @@ using S2Please.ParramType;
 using SHOP.COMMON;
 using SHOP.COMMON.Helpers;
 using System;
+using System.Linq;
 
 namespace S2Please.Areas.ADMIN.Controllers
 {
@@ -43,6 +44,63 @@ namespace S2Please.Areas.ADMIN.Controllers
                 vm.Messengers = JsonConvert.DeserializeObject<List<ChatModel>>(JsonConvert.SerializeObject(responseMessengers.Results));
             }
             return View(vm);
+        }
+
+        public ActionResult Message(string sessionId="")
+        {
+            NotificationViewModel vm = new NotificationViewModel();
+
+            if (!string.IsNullOrEmpty(sessionId))
+            {
+                var responseMessenger = _messengerRepository.GetMessengerBySessionId(sessionId, true,true);
+                if (responseMessenger.Success == false && CheckPermision(responseMessenger.StatusCode) == false)
+                {
+                    return RedirectToRoute(new { action = "/Page404", controller = "Base", area = "" });
+                }
+                else
+                {
+                    var resultMessenger = JsonConvert.DeserializeObject<List<ChatModel>>(JsonConvert.SerializeObject(responseMessenger.Results));
+                    if (resultMessenger != null && resultMessenger.Count > 0)
+                    {
+                        vm.MessengerRights = resultMessenger;
+                    }
+                }
+            }
+
+            var responseMessengers = _messengerRepository.GetMessengerIsMain();
+            if (responseMessengers.Success == false && CheckPermision(responseMessengers.StatusCode) == false)
+            {
+                return RedirectToRoute(new { action = "/Page404", controller = "Base", area = "" });
+            }
+
+            else
+            {
+                var resultMessengers = JsonConvert.DeserializeObject<List<ChatModel>>(JsonConvert.SerializeObject(responseMessengers.Results));
+                if (resultMessengers != null && resultMessengers.Count > 0)
+                {
+                    vm.Messengers = resultMessengers.OrderByDescending(s=>s.DATE_SEND).ToList();
+                }
+            }
+
+          
+            return View(vm);
+        }
+
+        public ActionResult ContentMessenger(string sessionId = "")
+        {
+            NotificationViewModel vm = new NotificationViewModel();
+            if (!string.IsNullOrEmpty(sessionId))
+            {
+                var responseMessenger = _messengerRepository.GetMessengerBySessionId(sessionId, true,false);
+                var resultMessenger = JsonConvert.DeserializeObject<List<ChatModel>>(JsonConvert.SerializeObject(responseMessenger.Results));
+                if (resultMessenger != null && resultMessenger.Count > 0)
+                {
+                    vm.MessengerRights = resultMessenger;
+                }
+            }
+            var html = RenderViewToString(this.ControllerContext, "~/Areas/ADMIN/Views/Notification/_ContentMessageBySession.cshtml", vm);
+            return Json(new { html }, JsonRequestBehavior.AllowGet);
+
         }
     }
 }

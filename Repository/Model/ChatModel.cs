@@ -15,6 +15,8 @@ namespace Repository.Model
         public long EMPLOYEE_ID { get; set; }
         public long USER_CUSTOMER_ID { get; set; }
         public string CONTENT { get; set; }
+        public string CONTENT_TEXT { get; set; }
+
         public bool IS_EMPLOYESS { get; set; }
         public bool IS_AUTO_CONTENT { get; set; }
         public string EMPLOYEE_NAME { get; set; }

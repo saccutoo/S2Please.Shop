@@ -1,10 +1,11 @@
 ﻿$(function () {
     var messenger = $.connection.messengerHub;
-    messenger.client.addNewMessageToPage = function (customerName, email, phone, userCustomerId, html, chats) {
+    messenger.client.addNewMessageToPage = function (customerName, email, phone, userCustomerId, html, chats, sessionId) {
         var customerNameView = $('#messenger-name').val();
         var emailView = $('#messenger-email').val();
         var userCustomerIdView = $('#messenger-id').val();
-        if (customerNameView = customerName && emailView == email && userCustomerIdView == userCustomerId) {
+        var sessionId = $('#session-id').val();
+        if (sessionId == sessionId) {
             $('#chat-content').append(html);
             $('#chat-content').show();
             $('#chat-publisher').show();
@@ -40,8 +41,10 @@
                     else if (!response.Invalid) {
                         var customerName = $('#messenger-name').val();
                         var email = $('#messenger-email').val();
+                        var phone = $('#messenger-phone').val();
                         var userCustomerId = $('#messenger-id').val();
-                        messenger.server.startChat(customerName, email, "0", userCustomerId, " ");
+                        var sessionId = $('#session-id').val();
+                        messenger.server.startChat(customerName, email, phone, userCustomerId, " ", sessionId);
                     }
                 },
                 error: function (req, status, error) {

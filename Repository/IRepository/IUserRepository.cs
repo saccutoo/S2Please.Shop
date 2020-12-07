@@ -14,5 +14,7 @@ namespace Repository
     {
         //Get all user
         ResultModel GetAllUser();
+        //Get all user
+        ResultModel GetUserByUserId(long userId);
     }
 }

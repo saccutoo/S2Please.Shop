@@ -162,7 +162,7 @@ namespace S2Please.Helper
             var encryptedTicket = Utils.Encrypt(authenticationTicket, key);
             var cookie = new HttpCookie(cookieName, encryptedTicket)
             {
-                HttpOnly = true,
+                HttpOnly = false,
                 Expires = Expiration
             };
             httpContext.Response.Cookies.Add(cookie);
@@ -188,9 +188,20 @@ namespace S2Please.Helper
             FormsAuthentication.SignOut();
         }
 
+        public static void RemoveCacheByKey(HttpContext httpContext, string key)
+        {
+            var cookie = new HttpCookie(key);
+            DateTime nowDateTime = DateTime.Now;
+            cookie.Expires = nowDateTime.AddDays(-1);
+            httpContext.Response.Cookies.Add(cookie);
+            httpContext.Request.Cookies.Remove(key);
+            FormsAuthentication.SignOut();
+
+        }
+
         public static void SetChatCokkie(List<ChatModel> chats, HttpContext curentHttpContext)
         {
-            SetAuthCookie(curentHttpContext, JsonConvert.SerializeObject(chats), Constant.ChatOnline, Constant.KeyChatOnline, DateTime.Now.AddHours(2));
+            SetAuthCookie(curentHttpContext, JsonConvert.SerializeObject(chats), Constant.ChatOnline, Constant.KeyChatOnline, DateTime.Now.AddMinutes(30));
         }
     }
 }

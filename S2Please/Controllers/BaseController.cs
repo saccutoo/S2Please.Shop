@@ -3,30 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using S2Please.Database;
 using S2Please.Models;
-using S2Please.Areas.WEB_SHOP.ViewModel;
 using Newtonsoft.Json;
-using System.Data.Sql;
-using System.Data.SqlClient;
-using System.Configuration;
 using System.Data;
-using System.Reflection;
 using S2Please.Helper;
-using System.Text;
 using System.IO;
-using System.Web.UI;
-using System.Web.Caching;
 using SHOP.COMMON;
-using System.Collections;
-using System.Threading.Tasks;
 using System.Net.Mail;
 using S2Please.ViewModel;
-using System.Web.Routing;
-using System.Web.Security;
-using S2Please.ParramType;
-using System.Net;
-using Repository;
 using SHOP.COMMON.Helpers;
 
 namespace S2Please.Controllers
@@ -283,15 +267,15 @@ namespace S2Please.Controllers
             return Json(new { Result = validations, Invalid = false }, JsonRequestBehavior.AllowGet);
         }
         [ValidateInput(false)]
-        public ActionResult SetCokkieChat(string chats)
+        public ActionResult SessionChat(string chats)
         {
             if (!string.IsNullOrEmpty(chats))
             {
                 var listChat = JsonConvert.DeserializeObject<List<ChatModel>>(chats);
                 var listChatCookie = new List<ChatModel>();
-                if (CurrentUser.Chats!=null && CurrentUser.Chats.Count()>0)
+                if (Session[Constant.ChatOnline]!=null)
                 {
-                    listChatCookie = MapperHelper.MapList<SHOP.COMMON.Entity.ChatModel, ChatModel>(CurrentUser.Chats);
+                    listChatCookie = Session[Constant.ChatOnline] as List<ChatModel>;
                 }
                 if (listChat==null || listChat.Count()==0)
                 {
@@ -301,10 +285,11 @@ namespace S2Please.Controllers
                                     listChatCookie.Count);
                 listChatCookieNew.AddRange(listChat);
                 listChatCookieNew.AddRange(listChatCookie);
-                Security.SetChatCokkie(listChatCookieNew, System.Web.HttpContext.Current);
+                Session[Constant.ChatOnline] = listChatCookieNew;
             }
-            return Json(new { succes=true }, JsonRequestBehavior.AllowGet);
+            return Json(new { success = true }, JsonRequestBehavior.AllowGet);
         }
+
     }
     public class Dynamic{
         public long ID { get; set; }

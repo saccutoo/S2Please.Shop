@@ -63,6 +63,12 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     <File Include="Areas/ADMIN/Views/MenuAdmin/_MenuLeftCommon.cshtml">
       <publishTime>11/28/2020 21:39:00</publishTime>
     </File>
+    <File Include="Areas/ADMIN/Views/Notification/NotificationMessage.cshtml">
+      <publishTime>12/05/2020 14:02:16</publishTime>
+    </File>
+    <File Include="Areas/ADMIN/Views/Notification/_ContentNotificationMessage.cshtml">
+      <publishTime>12/05/2020 13:59:39</publishTime>
+    </File>
     <File Include="Areas/ADMIN/Views/Order/Index.cshtml">
       <publishTime>11/13/2020 21:27:56</publishTime>
     </File>
@@ -130,13 +136,13 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>11/29/2020 17:02:42</publishTime>
     </File>
     <File Include="Areas/ADMIN/Views/Shared/_Header_Desktop.cshtml">
-      <publishTime>11/11/2020 22:00:26</publishTime>
+      <publishTime>12/05/2020 13:50:14</publishTime>
     </File>
     <File Include="Areas/ADMIN/Views/Shared/_Header_Mobile.cshtml">
       <publishTime>07/20/2020 21:06:14</publishTime>
     </File>
     <File Include="Areas/ADMIN/Views/Shared/_Layout.cshtml">
-      <publishTime>11/30/2020 23:52:48</publishTime>
+      <publishTime>12/05/2020 15:24:11</publishTime>
     </File>
     <File Include="Areas/ADMIN/Views/Shared/_Menu_Sidebar.cshtml">
       <publishTime>07/20/2020 21:19:09</publishTime>
@@ -331,7 +337,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>06/26/2020 00:58:59</publishTime>
     </File>
     <File Include="Areas/WEB_SHOP/Views/Shared/_Layout.cshtml">
-      <publishTime>12/04/2020 23:17:22</publishTime>
+      <publishTime>12/05/2020 11:47:15</publishTime>
     </File>
     <File Include="Areas/WEB_SHOP/Views/Shared/_OurClient.cshtml">
       <publishTime>07/04/2020 14:57:26</publishTime>
@@ -340,7 +346,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>06/26/2020 00:59:12</publishTime>
     </File>
     <File Include="Areas/WEB_SHOP/Views/Template/_Chat.cshtml">
-      <publishTime>12/04/2020 23:56:12</publishTime>
+      <publishTime>12/05/2020 15:37:17</publishTime>
     </File>
     <File Include="Areas/WEB_SHOP/Views/Template/_ChatContent.cshtml">
       <publishTime>12/04/2020 22:19:25</publishTime>
@@ -532,13 +538,13 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>10/20/2020 15:35:24</publishTime>
     </File>
     <File Include="bin/Repository.dll">
-      <publishTime>12/05/2020 02:12:17</publishTime>
+      <publishTime>12/05/2020 15:45:50</publishTime>
     </File>
     <File Include="bin/Repository.dll.config">
       <publishTime>11/07/2020 00:40:38</publishTime>
     </File>
     <File Include="bin/Repository.pdb">
-      <publishTime>12/05/2020 02:12:17</publishTime>
+      <publishTime>12/05/2020 15:45:50</publishTime>
     </File>
     <File Include="bin/roslyn/csc.exe">
       <publishTime>06/18/2015 20:19:46</publishTime>
@@ -577,13 +583,13 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>06/18/2015 20:19:46</publishTime>
     </File>
     <File Include="bin/S2Please.dll">
-      <publishTime>12/05/2020 02:12:22</publishTime>
+      <publishTime>12/05/2020 15:45:54</publishTime>
     </File>
     <File Include="bin/S2Please.pdb">
-      <publishTime>12/05/2020 02:12:22</publishTime>
+      <publishTime>12/05/2020 15:45:54</publishTime>
     </File>
     <File Include="bin/SHOP.COMMON.dll">
-      <publishTime>12/05/2020 02:12:16</publishTime>
+      <publishTime>12/05/2020 15:45:49</publishTime>
     </File>
     <File Include="bin/SHOP.COMMON.dll.config">
       <publishTime>10/18/2020 08:14:03</publishTime>
@@ -595,7 +601,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>10/18/2020 08:14:03</publishTime>
     </File>
     <File Include="bin/SHOP.COMMON.pdb">
-      <publishTime>12/05/2020 02:12:16</publishTime>
+      <publishTime>12/05/2020 15:45:49</publishTime>
     </File>
     <File Include="bin/System.AppContext.dll">
       <publishTime>10/18/2020 07:48:34</publishTime>
@@ -2944,7 +2950,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>11/12/2020 21:32:56</publishTime>
     </File>
     <File Include="Scripts/Common/Common.js">
-      <publishTime>12/04/2020 22:52:53</publishTime>
+      <publishTime>12/05/2020 11:53:10</publishTime>
     </File>
     <File Include="Scripts/Common/CommonAdmin.js">
       <publishTime>11/12/2020 23:35:07</publishTime>
@@ -3070,7 +3076,10 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>11/29/2020 17:14:32</publishTime>
     </File>
     <File Include="Scripts/Messenger/Messenger.js">
-      <publishTime>12/05/2020 02:05:59</publishTime>
+      <publishTime>12/05/2020 15:37:42</publishTime>
+    </File>
+    <File Include="Scripts/Messenger/MessengerAdmin.js">
+      <publishTime>12/05/2020 15:43:58</publishTime>
     </File>
     <File Include="Scripts/modernizr-2.6.2.js">
       <publishTime>06/26/2020 00:47:06</publishTime>
@@ -3375,6 +3384,9 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     <File Include="SignalR/TesHub.cs">
       <publishTime>11/07/2020 02:45:46</publishTime>
     </File>
+    <File Include="SoundNotification/Notification-ring-tone.mp3">
+      <publishTime>12/05/2020 15:19:51</publishTime>
+    </File>
     <File Include="Views/Base/Error.cshtml">
       <publishTime>07/06/2020 14:46:14</publishTime>
     </File>
@@ -3421,7 +3433,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>06/26/2020 00:46:58</publishTime>
     </File>
     <File Include="Web.config">
-      <publishTime>12/05/2020 02:12:24</publishTime>
+      <publishTime>12/05/2020 15:45:56</publishTime>
     </File>
   </ItemGroup>
 </Project>

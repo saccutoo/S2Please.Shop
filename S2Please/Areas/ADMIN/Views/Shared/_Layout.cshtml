@@ -118,6 +118,13 @@
             <!-- END MAIN CONTENT-->
             <!-- END PAGE CONTAINER-->
         </div>
+
+        <!-- sound noti audio -->
+        <audio controls="controls" id="notification-ring-tone-1" hidden>
+            <source src="/SoundNotification/Notification-ring-tone.mp3" type="audio/mpeg" />
+        </audio>
+        <!-- end sound noti audio -->
+
     </div>
     <!-- modal scroll -->
     <div class="modal fade" id="modal-right" tabindex="-1" role="dialog" aria-labelledby="scrollmodalLabel" aria-hidden="true">
@@ -136,11 +143,6 @@
         </div>
     </div>
 
-    <!-- sound noti audio -->
-    <audio controls="controls" id="notification-ring-tone" hidden>
-        <source src="~/SoundNotification/Notification-ring-tone.mp3" type="audio/mpeg" />
-    </audio>
-    <!-- end sound noti audio -->
 
     <!-- Main JS-->
     <script src="@Url.Content("~/LayoutAdmin/js/main.js?v=" + timeVersion)" type="text/javascript"></script>

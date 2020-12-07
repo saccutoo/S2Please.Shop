@@ -209,7 +209,6 @@ function showChat() {
 }
 
 function hideChat() {
-    debugger
     $("#page-content").hide();
     $('#font-lato').show();
 }

@@ -11,5 +11,6 @@ namespace S2Please.Areas.ADMIN.ViewModel
     {      
         public int Total { get; set; }
         public List<ChatModel> Messengers { get; set; } = new List<ChatModel>();
+        public List<ChatModel> MessengerRights { get; set; } = new List<ChatModel>();
     }
 }

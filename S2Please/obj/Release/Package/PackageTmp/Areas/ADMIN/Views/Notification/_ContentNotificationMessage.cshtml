@@ -1,0 +1,22 @@
+﻿@model S2Please.Areas.ADMIN.ViewModel.NotificationViewModel
+@using SHOP.COMMON
+@using S2Please.Helper
+@{
+    Layout = null;
+}
+
+@foreach (var item in Model.Messengers)
+{
+
+    <div class="mess__item">
+        <div class="image img-cir img-40">
+            <img src="/Image/depositphotos_96173202-stock-illustration-customer-flat-icon.jpg" alt="Michelle Moreno" />
+        </div>
+        <div class="content">
+            <h6>@item.CUSTOMER_NAME</h6>
+            <p>@string.Format(FunctionHelpers.GetValueLanguage("Messenger.MessengerTotalNewBySession"), item.TOTAL.ToString())</p>
+            <span class="time">@FunctionHelpers.getTimeAgo(item.DATE_SEND.Value)</span>
+        </div>
+    </div>
+}
+

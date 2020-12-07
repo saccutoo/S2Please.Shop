@@ -16,6 +16,7 @@ namespace S2Please.SignalR
     {
 
         public MessengerRepository _messengerRepository = new MessengerRepository();
+        public UserRepository _userRepository = new UserRepository();
 
         public void Hello()
         {
@@ -30,23 +31,27 @@ namespace S2Please.SignalR
                 var content = string.Empty;
                 ChatModel chat = new ChatModel();
                 content += FunctionHelpers.GetValueLanguage("Messenger.IsAutoContent");
-                chat.Chat("Admin", "", 0, long.Parse(userCustomerId), content, 1, sessionId, true, true);
+                chat.Chat("Admin", "", 0, long.Parse(userCustomerId), content, content, 1, sessionId, true, true);
                 chat.EMPLOYEE_NAME = "Admin";
-                chat.CONTENT = ContentHtmlHelper.ContentMessenger(chat);
                 chat.IS_VIEW = true;
                 chats.Add(chat);
+                chat.CONTENT = ContentHtmlHelper.ContentMessenger(chats);
 
                 ChatModel chat1 = new ChatModel();
                 content = string.Empty;
-                content = "<p>" + FunctionHelpers.GetValueLanguage("Chat.Name") + " : " + customerName + "</p>";
-                content += "<p>"+FunctionHelpers.GetValueLanguage("Cart.TelePhone") +" : " + phone + "</p>";
-                content += "<p>Email : " + email + "</p>";
-                chat1.Chat(customerName, email, long.Parse(phone), long.Parse(userCustomerId), content, 0,sessionId, false, true);
-                chat1.CONTENT = ContentHtmlHelper.ContentMessenger(chat1);
+                content = FunctionHelpers.GetValueLanguage("Chat.Name") + " : " + customerName + "<br/>";
+                content += FunctionHelpers.GetValueLanguage("Cart.TelePhone") +" : " + phone + "<br/>";
+                content += "Email : " + email;
+                chat1.Chat(customerName, email, long.Parse(phone), long.Parse(userCustomerId), content, content, 0,sessionId, false, true);
+                chats = new List<ChatModel>();
                 chats.Add(chat1);
+                chat1.CONTENT = ContentHtmlHelper.ContentMessenger(chats);
 
                 //Security.SetChatCokkie(chats);
 
+                chats = new List<ChatModel>();
+                chats.Add(chat);
+                chats.Add(chat1);
 
                 var typeChat = MapperHelper.Map<ChatModel, Repository.Model.ChatModel>(chat);
                 var responseChat = _messengerRepository.SaveMessenger(typeChat);
@@ -57,7 +62,7 @@ namespace S2Please.SignalR
                 var resultChat1 = JsonConvert.DeserializeObject<List<ChatModel>>(JsonConvert.SerializeObject(responseChat1.Results));
 
                 html = resultChat.FirstOrDefault().CONTENT + " " + resultChat1.FirstOrDefault().CONTENT;
-                SendMessageToAdmin();
+                SendMessageToAdmin(true);
             }
             catch (Exception ex)
             {
@@ -69,7 +74,7 @@ namespace S2Please.SignalR
             Clients.All.addNewMessageToPage(customerName,email,phone,userCustomerId, html, JsonConvert.SerializeObject(chats), sessionId);
         }
 
-        public void SendMessageToAdmin()
+        public void SendMessageToAdmin(bool sound=false)
         {
             NotificationViewModel vm = new NotificationViewModel();
             ParamType paramType = new ParamType();
@@ -86,7 +91,97 @@ namespace S2Please.SignalR
             }
             var html = ContentHtmlHelper.ContentNotificationMessenger(vm);
 
-            Clients.All.sendMessageToAdmin(vm.Total.ToString(), string.Format(FunctionHelpers.GetValueLanguage("Messenger.MessengerTotal"), vm.Total.ToString()), html,true);
+            Clients.All.sendMessageToAdmin(vm.Total.ToString(), string.Format(FunctionHelpers.GetValueLanguage("Messenger.MessengerTotal"), vm.Total.ToString()), html, sound);
+        }
+
+        public void SendMessageFromAdmin(long userId,string content, string sessionId)
+        {
+            List<ChatModel> chats = new List<ChatModel>();
+            try
+            {
+                UserModel user = new UserModel();
+                var responseUser = _userRepository.GetUserByUserId(userId);
+                var resultUser = JsonConvert.DeserializeObject<List<UserModel>>(JsonConvert.SerializeObject(responseUser.Results));
+                if (resultUser!=null && resultUser.Count()>0)
+                {
+                    user = resultUser.FirstOrDefault();
+                }
+
+                ChatModel chat = new ChatModel();
+                chat.Chat(user.USER_NAME, "", 0,0, content, content, userId, sessionId, true, false);
+                chat.EMPLOYEE_NAME = user.FULL_NAME;
+                chat.IS_VIEW = true;
+                chats.Add(chat);
+                chat.CONTENT = ContentHtmlHelper.ContentMessengerFromAdmin(chats);
+
+                var typeChat = MapperHelper.Map<ChatModel, Repository.Model.ChatModel>(chat);
+                var responseChat = _messengerRepository.SaveMessenger(typeChat);
+                if (responseChat!=null && responseChat.Success)
+                {
+                    var resultChat = JsonConvert.DeserializeObject<List<ChatModel>>(JsonConvert.SerializeObject(responseChat.Results));
+
+                    var responseMessenger = _messengerRepository.GetMessengerBySessionId(sessionId,true, false);
+                    var resultMessenger = JsonConvert.DeserializeObject<List<ChatModel>>(JsonConvert.SerializeObject(responseMessenger.Results));
+                    if (resultMessenger != null && resultMessenger.Count > 0)
+                    {
+                        content = ContentHtmlHelper.ContentMessengerFromAdmin(resultMessenger);
+                        ReloadContentMessageAdmin(sessionId, userId, content);
+                        content = ContentHtmlHelper.ContentMessenger(resultMessenger);
+                        ReloadContentMessageWeb(sessionId, 0, content,JsonConvert.SerializeObject(chats));
+                    }
+                }
+
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        public void SendMessageFromWeb(string customerName, string email, string phone, long userCustomerId, string content, string sessionId)
+        {
+            List<ChatModel> chats = new List<ChatModel>();
+            try
+            {
+                ChatModel chat = new ChatModel();
+                chat.Chat(customerName, email, long.Parse(phone), userCustomerId, content, content, 0, sessionId, false, false);
+                chat.IS_VIEW = false;
+                chats.Add(chat);
+                chat.CONTENT = ContentHtmlHelper.ContentMessenger(chats);
+
+                var typeChat = MapperHelper.Map<ChatModel, Repository.Model.ChatModel>(chat);
+                var responseChat = _messengerRepository.SaveMessenger(typeChat);
+                if (responseChat != null && responseChat.Success)
+                {
+                    var resultChat = JsonConvert.DeserializeObject<List<ChatModel>>(JsonConvert.SerializeObject(responseChat.Results));
+
+                    var responseMessenger = _messengerRepository.GetMessengerBySessionId(sessionId,false, false);
+                    var resultMessenger = JsonConvert.DeserializeObject<List<ChatModel>>(JsonConvert.SerializeObject(responseMessenger.Results));
+                    if (resultMessenger != null && resultMessenger.Count > 0)
+                    {
+                        content = ContentHtmlHelper.ContentMessenger(resultMessenger);
+                        ReloadContentMessageWeb(sessionId, 0, content, JsonConvert.SerializeObject(chats));
+                        SendMessageToAdmin(true);
+
+                    }
+                }
+
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+
+        public void ReloadContentMessageAdmin(string sessionId,long userId,string content)
+        {
+            Clients.All.reloadContentMessageAdmin(sessionId, userId, content);
+        }
+
+        public void ReloadContentMessageWeb(string sessionId, long userId, string content,string chats)
+        {
+            Clients.All.reloadContentMessageWeb(sessionId, userId, content, chats);
         }
     }
 }

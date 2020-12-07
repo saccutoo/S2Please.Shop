@@ -24,6 +24,7 @@ namespace Repository
             param.Add(new Param() { Key = "@EMAIL", Value = string.IsNullOrEmpty(model.EMAIL) ? " " : model.EMAIL });
             param.Add(new Param() { Key = "@PHONE", Value = model.PHONE.ToString() });
             param.Add(new Param() { Key = "@CONTENT", Value = string.IsNullOrEmpty(model.CONTENT) ? " " : model.CONTENT });
+            param.Add(new Param() { Key = "@CONTENT_TEXT", Value = string.IsNullOrEmpty(model.CONTENT_TEXT) ? " " : model.CONTENT_TEXT });
             param.Add(new Param() { Key = "@IS_AUTO_CONTENT", Value =model.IS_AUTO_CONTENT.ToString()  });
             param.Add(new Param() { Key = "@IS_VIEW", Value = model.IS_VIEW.ToString() });
             param.Add(new Param() { Key = "@IS_REP", Value = model.IS_REP.ToString() });
@@ -48,6 +49,24 @@ namespace Repository
             });
             param.Add(new Param { Key = "@TotalRecord", Value = "0", IsOutPut = true, Type = "Int" });
             return ListProcedure<ChatModel>(new ChatModel(), "Messenger_Get_GetTop3MessengerNew", param,false, isCheckPermission);
+        }
+
+
+        //Get messenger by session id 
+        public ResultModel GetMessengerBySessionId(string sessionId,bool isUpdate=true,bool isCheckPermission=false)
+        {
+            var param = new List<Param>();
+            param.Add(new Param { Key = "@SESSION_ID", Value = sessionId });
+            param.Add(new Param { Key = "@IS_UPDATE", Value = isUpdate.ToString() });
+
+            return ListProcedure<ChatModel>(new ChatModel(), "Messenger_Get_GetMessengerBySessionId", param, false, isCheckPermission);
+        }
+
+        //Get messenger IS MAIN 
+        public ResultModel GetMessengerIsMain(bool isCheckPermission = false)
+        {
+            var param = new List<Param>();
+            return ListProcedure<ChatModel>(new ChatModel(), "Messenger_Get_GetMessengerIsMain", param, false, isCheckPermission);
         }
     }
 }

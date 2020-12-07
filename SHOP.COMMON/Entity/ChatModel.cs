@@ -17,6 +17,8 @@ namespace SHOP.COMMON.Entity
         public string EMPLOYEE_NAME { get; set; }
         public long USER_CUSTOMER_ID { get; set; }
         public string CONTENT { get; set; }
+        public string CONTENT_TEXT { get; set; }
+
         public bool IS_EMPLOYESS { get; set; }
         public bool IS_AUTO_CONTENT { get; set; }
         public DateTime? DATE_SEND { get; set; }

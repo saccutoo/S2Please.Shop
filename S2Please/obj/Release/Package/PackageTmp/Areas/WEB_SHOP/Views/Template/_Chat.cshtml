@@ -1,52 +1,75 @@
 ﻿@using S2Please.Helper
 @using S2Please.ViewModel
 @using SHOP.COMMON
-<div class="page-content page-container" id="page-content" style="display:none">
+<div class="page-content page-container">
     <div class="padding">
-        <div class=" container d-flex justify-content-center">
+        <div class=" container d-flex justify-content-center" id="page-content"  @(CurrentUser.Chats != null && CurrentUser.Chats.Count() > 0 ? "" : "hidden" )>
             <div class="col-md-6">
                 <div class="card card-bordered">
                     <div class="card-header">
                         <h4 class="card-title"><strong>@FunctionHelpers.GetValueLanguage("Chat.Chat")</strong></h4> <a class="btn btn-xs btn-secondary" onclick="hideChat()">@FunctionHelpers.GetValueLanguage("Chat.HideChat")</a>
                     </div>
-                    <div class="card-body" id="information-chat">
+                    @{ Guid guid = Guid.NewGuid();
+                        var sessionId = string.Empty;
+                        SHOP.COMMON.Entity.ChatModel chat = new SHOP.COMMON.Entity.ChatModel();
+                        if (CurrentUser.Chats != null && CurrentUser.Chats.Count() > 0)
+                        {
+                            sessionId = CurrentUser.Chats.FirstOrDefault().SESSION_ID;
+                            chat = CurrentUser.Chats.FirstOrDefault();
+                        }
+                        else
+                        {
+                            sessionId = guid.ToString();
+                        }
+                        if (chat==null || chat.USER_CUSTOMER_ID==0)
+                        {
+                            if (CurrentUser.User!=null && CurrentUser.User.USER_ID!=0)
+                            {
+                                chat.USER_CUSTOMER_ID = CurrentUser.User.USER_ID;
+                                if (!string.IsNullOrEmpty(CurrentUser.User.PHONE))
+                                {
+                                    chat.PHONE = long.Parse(CurrentUser.User.PHONE);
+                                }
+                                chat.EMAIL = CurrentUser.User.EMAIL;
+                                chat.CUSTOMER_NAME = CurrentUser.User.FULL_NAME;
+                            }
+                        }
+                    }
+
+                    <div class="card-body" id="information-chat" style="@(CurrentUser.Chats != null && CurrentUser.Chats.Count() > 0 ? "display:none" : "display:block" )">
                         <form id="form-information-chat">
-                            <input value="@CurrentUser.User.ID" id="messenger-id" name="model.USER_ID" hidden/>
+                            <input value="@CurrentUser.User.ID" id="messenger-id" name="model.USER_ID" hidden />
+
+                            <input id="session-id" value="@sessionId" name="model.SESSION_ID" hidden />
                             <div class="form-group" style=" margin-top: 10px; padding-left: 30px;">
-                                @Html.Partial("~/Views/Template/_Input.cshtml", new InputModel() { Type = "text", Id = "MESSENGER-NAME", Class = "input-xlarge", Name = "model.CUSTOMER_NAME", LabelName = "Chat.Name", IsRequied = true, Style = "width: 90%;" })
+                                @Html.Partial("~/Views/Template/_Input.cshtml", new InputModel() { Type = "text", Id = "MESSENGER-NAME", Class = "input-xlarge", Name = "model.CUSTOMER_NAME", LabelName = "Chat.Name", IsRequied = true, Style = "width: 90%;", Value = chat.CUSTOMER_NAME })
                             </div>
                             <div class="form-group" style=" margin-top: 10px; padding-left: 30px;">
-                                @Html.Partial("~/Views/Template/_Input.cshtml", new InputModel() { Type = "text", Id = "MESSENGER-EMAIL", Class = "input-xlarge", Name = "model.EMAIL", LabelName = "Chat.Email", IsRequied = true, Style = "width: 90%;" })
+                                @Html.Partial("~/Views/Template/_Input.cshtml", new InputModel() { Type = "text", Id = "MESSENGER-PHONE", Class = "input-xlarge", Name = "model.PHONE", LabelName = "Chat.Phone", IsRequied = true, Style = "width: 90%;", Value = chat.PHONE.ToString() })
+                            </div>
+                            <div class="form-group" style=" margin-top: 10px; padding-left: 30px;">
+                                @Html.Partial("~/Views/Template/_Input.cshtml", new InputModel() { Type = "text", Id = "MESSENGER-EMAIL", Class = "input-xlarge", Name = "model.EMAIL", LabelName = "Chat.Email", IsRequied = false, Style = "width: 90%;", Value = chat.EMAIL })
                             </div>
                             <div class="form-group" style=" margin-top: 10px; padding-left: 30px;">
                                 <button type="button" id="start-chat" class="btn btn-inverse">@FunctionHelpers.GetValueLanguage("Button.StartChat")</button>
                             </div>
-                        </form>                       
+                        </form>
                     </div>
-                    <div class="ps-container ps-theme-default ps-active-y" id="chat-content" style="overflow-y: scroll !important; height:400px !important;display:none">
-                        @*<div class="media media-chat">
-                            <img class="avatar" src="https://img.icons8.com/color/36/000000/administrator-male.png" alt="...">
-                            <div class="media-body">
-                                <p>Hi</p>
-                                <p>How are you ...???</p>
-                                <p>What are you doing tomorrow?<br> Can we come up a bar?</p>
-                                <p class="meta"><time datetime="2018">23:58</time></p>
-                            </div>
-                        </div>
-                        <div class="media media-meta-day">Today</div>
-                        <div class="media media-chat media-chat-reverse">
-                            <div class="media-body">
-                                <p>Hiii, I'm good.</p>
-                                <p>How are you doing?</p>
-                                <p>Long time no see! Tomorrow office. will be free on sunday.</p>
-                                <p class="meta"><time datetime="2018">00:06</time></p>
-                            </div>
-                        </div>*@
+                    <div class="ps-container ps-theme-default ps-active-y" id="chat-content" style="overflow-y: scroll !important; height:400px !important;@(CurrentUser.Chats != null && CurrentUser.Chats.Count() > 0 ? "display:block" : "display:none" )">
+                        @*Chứa nội dung chát*@
+                        @if (CurrentUser.Chats != null && CurrentUser.Chats.Count() > 0)
+                        {
+                            foreach (var item in CurrentUser.Chats)
+                            {
+                                @Html.Raw(item.CONTENT);
+                            }
+                        }
+
                     </div>
 
                     <div class="publisher bt-1 border-light" id="chat-publisher" style="display: none">
-                        <img class="avatar avatar-xs" src="https://img.icons8.com/color/36/000000/administrator-male.png" alt="...">
-                        <input class="publisher-input" type="text" placeholder="Write something"> <span class="publisher-btn file-group"></span>
+                        <img class="avatar avatar-xs" src="/Image/administrator-male.png" alt="...">
+                        <input class="publisher-input" type="text" placeholder="...."> <span class="publisher-btn file-group"></span>
                         <a class="publisher-btn text-info" href="#" data-abc="true"><i class="fa fa-paper-plane"></i></a>
                     </div>
                 </div>
@@ -55,7 +78,7 @@
     </div>
 </div>
 
-<div class="font-lato" onclick="showChat()">
+<div class="font-lato" id="font-lato" onclick="showChat()" @(CurrentUser.Chats != null && CurrentUser.Chats.Count() > 0 ? "hidden" : "" )>
     <div id="tawkchat-minified-wrapper" class="white ltr-direction">
         <div id="tawkchat-minified-container" class="theme-background-color" style="border-radius: 17px 17px 0px 0px;">
             <div id="tawkchat-status-middle">

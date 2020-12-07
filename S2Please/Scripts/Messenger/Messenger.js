@@ -4,15 +4,35 @@
         var customerNameView = $('#messenger-name').val();
         var emailView = $('#messenger-email').val();
         var userCustomerIdView = $('#messenger-id').val();
-        var sessionId = $('#session-id').val();
-        if (sessionId == sessionId) {
+        var sessionIdView = $('#session-id').val();
+        if (sessionIdView == sessionId) {
             $('#chat-content').append(html);
             $('#chat-content').show();
             $('#chat-publisher').show();
             $('#information-chat').hide();
             $.ajax({
                 type: "POST",
-                url: "/Base/SetCokkieChat",
+                url: "/Base/SessionChat",
+                data: {
+                    chats: chats
+                },
+                dataType: "json",
+                success: function (response) {
+
+                },
+            });
+         
+        }
+       
+    };
+
+    messenger.client.reloadContentMessageWeb = function (sessionId, userId, content, chats) {
+        if ($("#session-id").length > 0 && $('#session-id').val() == sessionId) {
+            $('#chat-content').html(content);
+            $('#notification-ring-tone')[0].play();
+            $.ajax({
+                type: "POST",
+                url: "/Base/SessionChat",
                 data: {
                     chats: chats
                 },
@@ -22,7 +42,6 @@
                 },
             });
         }
-       
     };
 
     $.connection.hub.start().done(function () {
@@ -51,6 +70,20 @@
                     alert("Error try again");
                 }
             });
-        })
+        });
+
+
+        $("#send-message").click(function () {
+            var customerName = $('#messenger-name').val();
+            var email = $('#messenger-email').val();
+            var phone = $('#messenger-phone').val();
+            var userCustomerId = $('#messenger-id').val();
+            var content = $('#content-value').val();
+            var sessionId = $('#session-id').val();
+            if (content != '' && content != null && content != undefined) {
+                messenger.server.sendMessageFromWeb(customerName, email, phone, userCustomerId, content, sessionId);
+            } 
+        });
+
     });
 })

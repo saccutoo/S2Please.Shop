@@ -17,6 +17,14 @@ namespace Repository
         {
             var param = new List<Param>();
             return ListProcedure<EmployesModel>(new EmployesModel(), "User_Get_AllUser", param);
-        }   
+        }
+
+        //Get all user
+        public ResultModel GetUserByUserId(long userId)
+        {
+            var param = new List<Param>();
+            param.Add(new Param() { Key = "@USER_ID", Value = userId.ToString() });
+            return ListProcedure<UserModel>(new UserModel(), "User_Get_UserByUserId", param,true,false);
+        }
     }
 }
