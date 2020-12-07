@@ -44,6 +44,8 @@
         }
     };
 
+
+
     $.connection.hub.start().done(function () {
         $('#start-chat').click(function () {
             $("#form-information-chat label[name*='message-error-']").text("");
@@ -81,8 +83,24 @@
             var content = $('#content-value').val();
             var sessionId = $('#session-id').val();
             if (content != '' && content != null && content != undefined) {
+                $('#content-value').val('');
                 messenger.server.sendMessageFromWeb(customerName, email, phone, userCustomerId, content, sessionId);
             } 
+        });
+
+        $('#content-value').keyup(function (e) {
+            if (e.keyCode == 13) {
+                var customerName = $('#messenger-name').val();
+                var email = $('#messenger-email').val();
+                var phone = $('#messenger-phone').val();
+                var userCustomerId = $('#messenger-id').val();
+                var content = $('#content-value').val();
+                var sessionId = $('#session-id').val();
+                if (content != '' && content != null && content != undefined) {
+                    $('#content-value').val('');
+                    messenger.server.sendMessageFromWeb(customerName, email, phone, userCustomerId, content, sessionId);
+                } 
+            }
         });
 
     });

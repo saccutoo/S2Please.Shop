@@ -49,7 +49,7 @@ namespace S2Please.Areas.ADMIN.Controllers
         public ActionResult Message(string sessionId="")
         {
             NotificationViewModel vm = new NotificationViewModel();
-
+            vm.SESSION_ID = sessionId;
             if (!string.IsNullOrEmpty(sessionId))
             {
                 var responseMessenger = _messengerRepository.GetMessengerBySessionId(sessionId, true,true);

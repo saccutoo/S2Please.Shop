@@ -24,6 +24,24 @@
         }
     };
 
+    messenger.client.reloadListMessage = function (content, sessionId) {
+        if ($("#session-id").length > 0) {
+            sessionId = $("#session-id").val();
+            if ($("#inbox_chat").length > 0) {
+                $('#inbox_chat').html(content);
+                $('.chat_list').removeClass("active_chat");
+                var chatList = $('.chat_list');
+                for (var i = 0; i < chatList.length; i++) {
+                    if ($(chatList[i])[0].getAttribute('value-id') == sessionId) {
+                        $(chatList[i]).addClass("active_chat");
+                        $(chatList[i]).addClass("active_chat");
+                        $('#total-' + sessionId).text("0");
+                    }
+                }
+            }
+        }
+
+    };
 
     $.connection.hub.start().done(function () {
         $("#btn-comment-more").click(function () {
@@ -51,25 +69,26 @@
         });
     });
 
-    $('.chat_list').click(function () {
+    $(document).ready(function () {
+        $('.chat_list').click(function () {
+            $('.chat_list').removeClass("active_chat");
+            $(this).addClass('active_chat');
+            var sessionId = $(this)[0].getAttribute('value-id');
 
-        $('.chat_list').removeClass("active_chat");
-        $(this).addClass('active_chat');
-        var sessionId = $(this)[0].getAttribute('value-id');
+            $.ajax(
+                {
+                    type: "POST",
+                    url: "/ADMIN/Notification/ContentMessenger",
+                    data: {
+                        sessionId: sessionId
+                    },
+                    success: function (response) {
+                        $('#content-all').html(response.html);
+                        $('#total-' + sessionId).text("0");
+                        messenger.server.sendMessageToAdmin(false);
+                    }
+                });
+        });
 
-        $.ajax(
-            {
-                type: "POST",
-                url: "/ADMIN/Notification/ContentMessenger",
-                data: {
-                    sessionId: sessionId
-                },
-                success: function (response) {
-                    $('#content-all').html(response.html);
-                    $('#total-' + sessionId).text("0");
-                    messenger.server.sendMessageToAdmin(false);
-                }
-            });
     });
-
 })

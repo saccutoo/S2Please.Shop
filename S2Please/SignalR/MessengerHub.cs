@@ -161,8 +161,9 @@ namespace S2Please.SignalR
                     {
                         content = ContentHtmlHelper.ContentMessenger(resultMessenger);
                         ReloadContentMessageWeb(sessionId, 0, content, JsonConvert.SerializeObject(chats));
-                        SendMessageToAdmin(true);
-
+                        content = ContentHtmlHelper.ContentMessengerFromAdmin(resultMessenger);
+                        ReloadContentMessageAdmin(sessionId, 0, content);
+                        ReloadListMessage(string.Empty, sessionId);
                     }
                 }
 
@@ -173,11 +174,29 @@ namespace S2Please.SignalR
             }
         }
 
+        //Reload danh mục messenger admin
+
+        public void ReloadListMessage(string content,string sessionId)
+        {
+            NotificationViewModel vm = new NotificationViewModel();
+            var responseMessengers = _messengerRepository.GetMessengerIsMain();
+            var resultMessengers = JsonConvert.DeserializeObject<List<ChatModel>>(JsonConvert.SerializeObject(responseMessengers.Results));
+            if (resultMessengers != null && resultMessengers.Count > 0)
+            {
+                vm.Messengers = resultMessengers.OrderByDescending(s => s.DATE_SEND).ToList();
+            }
+            content = ContentHtmlHelper.ContentListMessage(vm.Messengers, sessionId);
+            Clients.All.reloadListMessage(content, sessionId);
+        }
+
+        //public void Reload content admin
 
         public void ReloadContentMessageAdmin(string sessionId,long userId,string content)
         {
             Clients.All.reloadContentMessageAdmin(sessionId, userId, content);
         }
+
+        //public void Reload content web
 
         public void ReloadContentMessageWeb(string sessionId, long userId, string content,string chats)
         {

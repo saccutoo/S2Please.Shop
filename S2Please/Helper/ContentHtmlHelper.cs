@@ -106,5 +106,27 @@ namespace S2Please.Helper
             
             return html.Trim();
         }
+
+        public static string ContentListMessage(List<ChatModel> models,string sessionId)
+        {
+            var html = string.Empty;
+            foreach (var model in models)
+            {
+                html += @"<div class='chat_list' value-id='{{SESSION_ID}}'>
+                                  <div class='chat_people'>
+                                    <div class='chat_img'> <img src = '/Image/user-profile.png' alt='sunil' title='{{CUSTOMER_NAME}}'> </div>
+                                    <div class='chat_ib'>
+                                        <h5>{{CUSTOMER_NAME}}<span class='chat_date' id='total-{{SESSION_ID}}'>{{TOTAL}}</span></h5>
+                                        <p>
+                                           {{CONTENT_TEXT}}
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>";
+                html = html.Replace("{{SESSION_ID}}", model.SESSION_ID).Replace("{{CONTENT_TEXT}}", model.CONTENT_TEXT).Replace("{{CUSTOMER_NAME}}", model.CUSTOMER_NAME).Replace("{{CONTENT_TEXT}}", model.CONTENT_TEXT).Replace("{{TOTAL}}",model.TOTAL.ToString()) ;
+            }
+
+            return html.Trim();
+        }
     }
 }
