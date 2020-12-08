@@ -398,6 +398,7 @@
     <Compile Include="Models\MenuAdminModel.cs" />
     <Compile Include="Models\EmployesModel.cs" />
     <Compile Include="Models\MenuPermissionModel.cs" />
+    <Compile Include="Models\NotificationModel.cs" />
     <Compile Include="Models\TableMultipleLanguageConfigurationModel.cs" />
     <Compile Include="Models\HistoryResetPassword.cs" />
     <Compile Include="Models\BaseModel.cs" />
@@ -1184,6 +1185,7 @@
     <Content Include="Areas\ADMIN\Views\Notification\_ContentNotificationMessage.cshtml" />
     <Content Include="Areas\ADMIN\Views\Notification\Message.cshtml" />
     <Content Include="Areas\ADMIN\Views\Notification\_ContentMessageBySession.cshtml" />
+    <Content Include="Areas\ADMIN\Views\Notification\DropdownNotifications.cshtml" />
     <None Include="Properties\PublishProfiles\shop.pubxml" />
     <Content Include="Scripts\bootstrap-select-1.13.14\dist\css\bootstrap-select.css.map" />
     <Content Include="Scripts\bootstrap-select-1.13.14\dist\js\bootstrap-select.js.map" />

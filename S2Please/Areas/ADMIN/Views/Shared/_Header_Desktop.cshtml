@@ -21,7 +21,7 @@
                         @*Mesenger*@
                         @Html.Action("NotificationMessage", "Notification", new { area = "ADMIN" })
 
-                        <div class="noti__item js-item-menu">
+                        @*<div class="noti__item js-item-menu">
                             <i class="zmdi zmdi-email"></i>
                             <span class="quantity">1</span>
                             <div class="email-dropdown js-dropdown">
@@ -59,9 +59,11 @@
                                     <a href="#">See all emails</a>
                                 </div>
                             </div>
-                        </div>
+                        </div>*@
 
-                        <div class="noti__item js-item-menu">
+                         @Html.Action("DropdownNotifications", "Notification", new { area = "ADMIN" })
+
+                        @*<div class="noti__item js-item-menu">
                             <i class="zmdi zmdi-notifications"></i>
                             <span class="quantity">3</span>
                             <div class="notifi-dropdown js-dropdown">
@@ -99,7 +101,7 @@
                                     <a href="#">All notifications</a>
                                 </div>
                             </div>
-                        </div>
+                        </div>*@
                     </div>
                     <div class="account-wrap">
                         <div class="account-item clearfix js-item-menu">

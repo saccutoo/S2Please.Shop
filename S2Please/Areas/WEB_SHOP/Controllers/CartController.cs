@@ -13,6 +13,7 @@ using S2Please.Helper;
 using SHOP.COMMON;
 using S2Please.ViewModel;
 using Repository;
+using S2Please.SignalR;
 namespace S2Please.Areas.WEB_SHOP.Controllers
 {
     public class CartController : S2Please.Controllers.BaseController
@@ -22,12 +23,15 @@ namespace S2Please.Areas.WEB_SHOP.Controllers
         private IProductRepository _productRepository;
         private ICustomerRepository _customerRepository;
         private IOrderRepository _orderRepository;
-        public CartController(ISystemRepository systemRepository, IProductRepository productRepository, ICustomerRepository customerRepository, IOrderRepository orderRepository)
+        private IMessengerRepository _messengerRepository;
+
+        public CartController(ISystemRepository systemRepository, IProductRepository productRepository, ICustomerRepository customerRepository, IOrderRepository orderRepository, IMessengerRepository messengerRepository)
         {
             this._systemRepository = systemRepository;
             this._productRepository = productRepository;
             this._customerRepository = customerRepository;
             this._orderRepository = orderRepository;
+            this._messengerRepository = messengerRepository;
         }
 
         public ActionResult AddCart(CartModel cart)
@@ -370,6 +374,21 @@ namespace S2Please.Areas.WEB_SHOP.Controllers
                 result.Results = responseOrder.Results;
                 data = JsonConvert.DeserializeObject<List<OrderModel>>(JsonConvert.SerializeObject(result.Results)).FirstOrDefault();
                 data.ToDecrypt = FunctionHelpers.Encrypt(data.ID.ToString(), FunctionHelpers.KeyEncrypt);
+
+                //Insert notification order
+                var modelNoti = new NotificationModel()
+                {
+                    DATA_ID = data.ID,
+                    DATA_TYPE = DataType.Order,
+                    CONTENT = string.Format(FunctionHelpers.GetValueLanguage("Order.NotificationOrder"), model.FULL_NAME),
+                    URL = "/admin/order/" + data.ID,
+                    IS_VIEW = false,
+                    ICON = Icon.Cart,
+                    CREATED_BY=CurrentUser.User.ID
+                };
+                var typeNoti = MapperHelper.Map<NotificationModel,Repository.Model.NotificationModel>(modelNoti);
+                var responseSaveNoti = _messengerRepository.SaveNotification(typeNoti);
+
             }
             else
             {

@@ -22,7 +22,9 @@ namespace S2Please.SignalR
         {
             Clients.All.hello("123");
         }
-        public void StartChat(string customerName,string email, string phone, string userCustomerId,string html,string sessionId )
+
+        #region messager-chatbox
+        public void StartChat(string customerName, string email, string phone, string userCustomerId, string html, string sessionId)
         {
             List<ChatModel> chats = new List<ChatModel>();
             try
@@ -40,9 +42,9 @@ namespace S2Please.SignalR
                 ChatModel chat1 = new ChatModel();
                 content = string.Empty;
                 content = FunctionHelpers.GetValueLanguage("Chat.Name") + " : " + customerName + "<br/>";
-                content += FunctionHelpers.GetValueLanguage("Cart.TelePhone") +" : " + phone + "<br/>";
+                content += FunctionHelpers.GetValueLanguage("Cart.TelePhone") + " : " + phone + "<br/>";
                 content += "Email : " + email;
-                chat1.Chat(customerName, email, long.Parse(phone), long.Parse(userCustomerId), content, content, 0,sessionId, false, true);
+                chat1.Chat(customerName, email, long.Parse(phone), long.Parse(userCustomerId), content, content, 0, sessionId, false, true);
                 chats = new List<ChatModel>();
                 chats.Add(chat1);
                 chat1.CONTENT = ContentHtmlHelper.ContentMessenger(chats);
@@ -63,18 +65,17 @@ namespace S2Please.SignalR
 
                 html = resultChat.FirstOrDefault().CONTENT + " " + resultChat1.FirstOrDefault().CONTENT;
                 SendMessageToAdmin(true);
+                ReloadListMessage(string.Empty, string.Empty);
+                Clients.All.addNewMessageToPage(customerName, email, phone, userCustomerId, html, JsonConvert.SerializeObject(chats), sessionId);
             }
             catch (Exception ex)
             {
 
                 Clients.All.addNewMessageToPage(customerName, email, phone, userCustomerId, ex);
             }
-           
-
-            Clients.All.addNewMessageToPage(customerName,email,phone,userCustomerId, html, JsonConvert.SerializeObject(chats), sessionId);
         }
 
-        public void SendMessageToAdmin(bool sound=false)
+        public void SendMessageToAdmin(bool sound = false)
         {
             NotificationViewModel vm = new NotificationViewModel();
             ParamType paramType = new ParamType();
@@ -83,7 +84,7 @@ namespace S2Please.SignalR
             paramType.ROLE_ID = CurrentUser.UserAdmin.ROLE_ID;
             var type = MapperHelper.Map<ParamType, Repository.Type.ParamType>(paramType);
 
-            var responseMessengers = _messengerRepository.GetTop3MessengerNew(type,false);
+            var responseMessengers = _messengerRepository.GetTop3MessengerNew(type, false);
             if (responseMessengers != null)
             {
                 vm.Total = Convert.ToInt32(responseMessengers.OutValue.Parameters["@TotalRecord"].Value.ToString());
@@ -94,7 +95,7 @@ namespace S2Please.SignalR
             Clients.All.sendMessageToAdmin(vm.Total.ToString(), string.Format(FunctionHelpers.GetValueLanguage("Messenger.MessengerTotal"), vm.Total.ToString()), html, sound);
         }
 
-        public void SendMessageFromAdmin(long userId,string content, string sessionId)
+        public void SendMessageFromAdmin(long userId, string content, string sessionId)
         {
             List<ChatModel> chats = new List<ChatModel>();
             try
@@ -102,13 +103,13 @@ namespace S2Please.SignalR
                 UserModel user = new UserModel();
                 var responseUser = _userRepository.GetUserByUserId(userId);
                 var resultUser = JsonConvert.DeserializeObject<List<UserModel>>(JsonConvert.SerializeObject(responseUser.Results));
-                if (resultUser!=null && resultUser.Count()>0)
+                if (resultUser != null && resultUser.Count() > 0)
                 {
                     user = resultUser.FirstOrDefault();
                 }
 
                 ChatModel chat = new ChatModel();
-                chat.Chat(user.USER_NAME, "", 0,0, content, content, userId, sessionId, true, false);
+                chat.Chat(user.USER_NAME, "", 0, 0, content, content, userId, sessionId, true, false);
                 chat.EMPLOYEE_NAME = user.FULL_NAME;
                 chat.IS_VIEW = true;
                 chats.Add(chat);
@@ -116,18 +117,18 @@ namespace S2Please.SignalR
 
                 var typeChat = MapperHelper.Map<ChatModel, Repository.Model.ChatModel>(chat);
                 var responseChat = _messengerRepository.SaveMessenger(typeChat);
-                if (responseChat!=null && responseChat.Success)
+                if (responseChat != null && responseChat.Success)
                 {
                     var resultChat = JsonConvert.DeserializeObject<List<ChatModel>>(JsonConvert.SerializeObject(responseChat.Results));
 
-                    var responseMessenger = _messengerRepository.GetMessengerBySessionId(sessionId,true, false);
+                    var responseMessenger = _messengerRepository.GetMessengerBySessionId(sessionId, true, false);
                     var resultMessenger = JsonConvert.DeserializeObject<List<ChatModel>>(JsonConvert.SerializeObject(responseMessenger.Results));
                     if (resultMessenger != null && resultMessenger.Count > 0)
                     {
                         content = ContentHtmlHelper.ContentMessengerFromAdmin(resultMessenger);
                         ReloadContentMessageAdmin(sessionId, userId, content);
                         content = ContentHtmlHelper.ContentMessenger(resultMessenger);
-                        ReloadContentMessageWeb(sessionId, 0, content,JsonConvert.SerializeObject(chats));
+                        ReloadContentMessageWeb(sessionId, 0, content, JsonConvert.SerializeObject(chats));
                     }
                 }
 
@@ -155,7 +156,7 @@ namespace S2Please.SignalR
                 {
                     var resultChat = JsonConvert.DeserializeObject<List<ChatModel>>(JsonConvert.SerializeObject(responseChat.Results));
 
-                    var responseMessenger = _messengerRepository.GetMessengerBySessionId(sessionId,false, false);
+                    var responseMessenger = _messengerRepository.GetMessengerBySessionId(sessionId, false, false);
                     var resultMessenger = JsonConvert.DeserializeObject<List<ChatModel>>(JsonConvert.SerializeObject(responseMessenger.Results));
                     if (resultMessenger != null && resultMessenger.Count > 0)
                     {
@@ -164,6 +165,7 @@ namespace S2Please.SignalR
                         content = ContentHtmlHelper.ContentMessengerFromAdmin(resultMessenger);
                         ReloadContentMessageAdmin(sessionId, 0, content);
                         ReloadListMessage(string.Empty, sessionId);
+                        SendMessageToAdmin(false);
                     }
                 }
 
@@ -176,7 +178,7 @@ namespace S2Please.SignalR
 
         //Reload danh mục messenger admin
 
-        public void ReloadListMessage(string content,string sessionId)
+        public void ReloadListMessage(string content, string sessionId)
         {
             NotificationViewModel vm = new NotificationViewModel();
             var responseMessengers = _messengerRepository.GetMessengerIsMain();
@@ -191,16 +193,20 @@ namespace S2Please.SignalR
 
         //public void Reload content admin
 
-        public void ReloadContentMessageAdmin(string sessionId,long userId,string content)
+        public void ReloadContentMessageAdmin(string sessionId, long userId, string content)
         {
             Clients.All.reloadContentMessageAdmin(sessionId, userId, content);
         }
 
         //public void Reload content web
 
-        public void ReloadContentMessageWeb(string sessionId, long userId, string content,string chats)
+        public void ReloadContentMessageWeb(string sessionId, long userId, string content, string chats)
         {
             Clients.All.reloadContentMessageWeb(sessionId, userId, content, chats);
         }
+        #endregion
+
+        #region Notifications
+        #endregion
     }
 }

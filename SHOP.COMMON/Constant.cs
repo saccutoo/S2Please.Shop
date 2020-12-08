@@ -70,7 +70,7 @@ namespace SHOP.COMMON
         public static string PermissionRole = "PermissionRole";
         public static string PermissionUser = "PermissionUser";
         public static string Messenger = "Messenger";
-
+        public static string Notification = "Notification";
     }
 
     public static class TableUrl
@@ -168,5 +168,10 @@ namespace SHOP.COMMON
     {
         public static string Input = "input";
         public static string Textarea = "textarea";//Thất bại
+    }
+
+    public static class Icon
+    {
+        public static string Cart =  "fa fa-shopping-cart";
     }
 }

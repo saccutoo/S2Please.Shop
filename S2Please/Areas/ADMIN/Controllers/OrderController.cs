@@ -37,7 +37,7 @@ namespace S2Please.Areas.ADMIN.Controllers
             this._productRepository = productRepository;
         }
 
-        public ActionResult Index()
+        public ActionResult Index(long id)
         {
 
             OrderViewModel order = new OrderViewModel();
@@ -60,6 +60,7 @@ namespace S2Please.Areas.ADMIN.Controllers
             ParamType paramType = new ParamType();
             paramType.PAGE_SIZE = order.Table.PAGE_SIZE == 0 ? 1 : order.Table.PAGE_SIZE;
             paramType.PAGE_NUMBER = order.Table.PAGE_INDEX == 0 ? 1 : order.Table.PAGE_INDEX;
+            paramType.STRING_FILTER = id != 0 ? "AND O.ID=" + id : "";
             order.Table.TABLE_NAME = TableName.Order;
             order.Table.TITLE_TABLE_NAME = FunctionHelpers.GetValueLanguage("Table.Title.Order");
             order.Table = RenderTable(order.Table, paramType);

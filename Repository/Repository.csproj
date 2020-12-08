@@ -89,6 +89,7 @@
     <Compile Include="Model\MethodPayModel.cs" />
     <Compile Include="Model\MultiLanguageModel.cs" />
     <Compile Include="Model\MULTI_LANGUAGE.cs" />
+    <Compile Include="Model\NotificationModel.cs" />
     <Compile Include="Model\OrderDetailModel.cs" />
     <Compile Include="Model\OrderModel.cs" />
     <Compile Include="Model\Param.cs" />

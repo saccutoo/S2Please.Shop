@@ -102,5 +102,23 @@ namespace S2Please.Areas.ADMIN.Controllers
             return Json(new { html }, JsonRequestBehavior.AllowGet);
 
         }
+
+        public ActionResult DropdownNotifications()
+        {
+            NotificationViewModel vm = new NotificationViewModel();
+            ParamType paramType = new ParamType();
+            paramType.LANGUAGE_ID = CurrentUser.LANGUAGE_ID;
+            paramType.USER_ID = CurrentUser.UserAdmin.USER_ID;
+            paramType.ROLE_ID = CurrentUser.UserAdmin.ROLE_ID;
+            var type = MapperHelper.Map<ParamType, Repository.Type.ParamType>(paramType);
+
+            var responseNotifications = _messengerRepository.GetTop10NotificationNew(type);
+            if (responseNotifications != null && CheckPermision(responseNotifications.StatusCode))
+            {
+                vm.Total = Convert.ToInt32(responseNotifications.OutValue.Parameters["@TotalRecord"].Value.ToString());
+                vm.Notifications = JsonConvert.DeserializeObject<List<NotificationModel>>(JsonConvert.SerializeObject(responseNotifications.Results));
+            }
+            return View(vm);
+        }
     }
 }

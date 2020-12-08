@@ -34,7 +34,7 @@
                     {
                         foreach (var item in Model.Messengers)
                         {
-                             <div class="chat_list @(!string.IsNullOrEmpty(Model.SESSION_ID) && Model.SESSION_ID==Model.SESSION_ID ? "active_chat" : "")" value-id="@item.SESSION_ID">
+                             <div class="chat_list @(!string.IsNullOrEmpty(Model.SESSION_ID) && Model.SESSION_ID==Model.SESSION_ID ? "active_chat" : "")" value-id="@item.SESSION_ID" >
                                 <div class="chat_people">
                                     <div class="chat_img"> <img src="/Image/user-profile.png" alt="sunil" title="@item.CUSTOMER_NAME"> </div>
                                     <div class="chat_ib">

@@ -1,5 +1,7 @@
 ﻿$(function () {
     var messenger = $.connection.messengerHub;
+    $("#chat-content").scrollTop($("#chat-content")[0].scrollHeight);
+
     messenger.client.addNewMessageToPage = function (customerName, email, phone, userCustomerId, html, chats, sessionId) {
         var customerNameView = $('#messenger-name').val();
         var emailView = $('#messenger-email').val();
@@ -30,6 +32,7 @@
         if ($("#session-id").length > 0 && $('#session-id').val() == sessionId) {
             $('#chat-content').html(content);
             $('#notification-ring-tone')[0].play();
+            $("#chat-content").scrollTop($("#chat-content")[0].scrollHeight);
             $.ajax({
                 type: "POST",
                 url: "/Base/SessionChat",
@@ -84,6 +87,7 @@
             var sessionId = $('#session-id').val();
             if (content != '' && content != null && content != undefined) {
                 $('#content-value').val('');
+                $("#chat-content").scrollTop($("#chat-content")[0].scrollHeight);
                 messenger.server.sendMessageFromWeb(customerName, email, phone, userCustomerId, content, sessionId);
             } 
         });
@@ -98,6 +102,8 @@
                 var sessionId = $('#session-id').val();
                 if (content != '' && content != null && content != undefined) {
                     $('#content-value').val('');
+                    $("#chat-content").scrollTop($("#chat-content")[0].scrollHeight);
+
                     messenger.server.sendMessageFromWeb(customerName, email, phone, userCustomerId, content, sessionId);
                 } 
             }

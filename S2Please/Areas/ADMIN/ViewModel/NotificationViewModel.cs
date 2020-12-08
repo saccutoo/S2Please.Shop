@@ -13,6 +13,7 @@ namespace S2Please.Areas.ADMIN.ViewModel
         public List<ChatModel> Messengers { get; set; } = new List<ChatModel>();
         public List<ChatModel> MessengerRights { get; set; } = new List<ChatModel>();
         public string SESSION_ID { get; set; } = string.Empty;
+        public List<NotificationModel> Notifications { get; set; } = new List<NotificationModel>();
 
     }
 }
