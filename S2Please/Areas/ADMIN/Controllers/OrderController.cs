@@ -37,7 +37,7 @@ namespace S2Please.Areas.ADMIN.Controllers
             this._productRepository = productRepository;
         }
 
-        public ActionResult Index(long id)
+        public ActionResult Index(long id=0)
         {
 
             OrderViewModel order = new OrderViewModel();

@@ -151,7 +151,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>07/20/2020 21:06:14</publishTime>
     </File>
     <File Include="Areas/ADMIN/Views/Shared/_Layout.cshtml">
-      <publishTime>12/06/2020 12:21:37</publishTime>
+      <publishTime>12/08/2020 23:54:16</publishTime>
     </File>
     <File Include="Areas/ADMIN/Views/Shared/_Menu_Sidebar.cshtml">
       <publishTime>07/20/2020 21:19:09</publishTime>
@@ -346,7 +346,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>06/26/2020 00:58:59</publishTime>
     </File>
     <File Include="Areas/WEB_SHOP/Views/Shared/_Layout.cshtml">
-      <publishTime>12/06/2020 01:19:34</publishTime>
+      <publishTime>12/08/2020 23:54:05</publishTime>
     </File>
     <File Include="Areas/WEB_SHOP/Views/Shared/_OurClient.cshtml">
       <publishTime>07/04/2020 14:57:26</publishTime>
@@ -592,10 +592,10 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>06/18/2015 20:19:46</publishTime>
     </File>
     <File Include="bin/S2Please.dll">
-      <publishTime>12/08/2020 23:32:46</publishTime>
+      <publishTime>12/08/2020 23:57:45</publishTime>
     </File>
     <File Include="bin/S2Please.pdb">
-      <publishTime>12/08/2020 23:32:46</publishTime>
+      <publishTime>12/08/2020 23:57:45</publishTime>
     </File>
     <File Include="bin/SHOP.COMMON.dll">
       <publishTime>12/08/2020 23:32:42</publishTime>
@@ -3088,10 +3088,10 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>11/29/2020 17:14:32</publishTime>
     </File>
     <File Include="Scripts/Messenger/Messenger.js">
-      <publishTime>12/08/2020 21:15:29</publishTime>
+      <publishTime>12/08/2020 23:43:40</publishTime>
     </File>
     <File Include="Scripts/Messenger/MessengerAdmin.js">
-      <publishTime>12/08/2020 21:20:16</publishTime>
+      <publishTime>12/08/2020 23:51:54</publishTime>
     </File>
     <File Include="Scripts/modernizr-2.6.2.js">
       <publishTime>06/26/2020 00:47:06</publishTime>

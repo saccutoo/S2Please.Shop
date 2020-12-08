@@ -1,6 +1,8 @@
 ﻿$(function () {
     var messenger = $.connection.messengerHub;
-    $("#content-all").scrollTop($("#content-all")[0].scrollHeight);
+    if ($("#content-all").length>0) {
+        $("#content-all").scrollTop($("#content-all")[0].scrollHeight);
+    }
     messenger.client.sendMessageToAdmin = function (total, titleTotal, html, isSound) {
 
         if ($("#quantity-total-messenger").length > 0) {
@@ -22,7 +24,9 @@
         if ($("#session-id").length > 0 && $("#session-id").val() == sessionId) {
             $('#content-all').html(content);
             $('#content-value').val("");
-            $("#content-all").scrollTop($("#content-all")[0].scrollHeight);
+            if ($("#content-all").length > 0) {
+                $("#content-all").scrollTop($("#content-all")[0].scrollHeight);
+            }
         }
     };
 
@@ -107,7 +111,9 @@
                         success: function (response) {
                             $('#content-all').html(response.html);
                             $('#total-' + sessionId).text("0");
-                            $("#content-all").scrollTop($("#content-all")[0].scrollHeight);
+                            if ($("#content-all").length > 0) {
+                                $("#content-all").scrollTop($("#content-all")[0].scrollHeight);
+                            }
                             messenger.server.sendMessageToAdmin(false);
                         }
                     });
