@@ -91,8 +91,8 @@ h4.card-title {
 }
 
 .media {
-    padding: 16px 12px;
-    -webkit-transition: background-color .2s linear;
+/*    padding: 16px 12px;
+*/    -webkit-transition: background-color .2s linear;
     transition: background-color .2s linear
 }
 
@@ -119,6 +119,11 @@ h4.card-title {
 /*    display: table*/
 }
 
+
+.media-chat .avatar {
+   float:left
+}
+
 .media-body {
     min-width: 0
 }
@@ -130,7 +135,8 @@ h4.card-title {
     background-color: #f5f6f7;
     border-radius: 3px;
     font-weight: 100;
-    color: #9b9b9b
+    color: #9b9b9b;
+    float:left
 }
 
 .media > * {
@@ -140,7 +146,8 @@ h4.card-title {
 .media-chat .media-body p.meta {
     background-color: transparent !important;
     padding: 0;
-    opacity: .8
+    opacity: .8;
+    clear:both
 }
 
 .media-meta-day {
@@ -155,8 +162,8 @@ h4.card-title {
 }
 
 .media {
-    padding: 16px 12px;
-    -webkit-transition: background-color .2s linear;
+/*    padding: 16px 12px;
+*/    -webkit-transition: background-color .2s linear;
     transition: background-color .2s linear
 }
 
@@ -192,13 +199,13 @@ h4.card-title {
 }
 
 .media-chat {
-    padding-right: 64px;
-    margin-bottom: 0
+/*    padding-right: 64px;
+*/    margin-bottom: 0
 }
 
 .media {
-    padding: 16px 12px;
-    -webkit-transition: background-color .2s linear;
+/*    padding: 16px 12px;
+*/    -webkit-transition: background-color .2s linear;
     transition: background-color .2s linear
 }
 
@@ -328,4 +335,12 @@ textarea {
     margin-left: 10px;
     font-size: 20px;
     line-height: 40px;
+}
+
+#chat-publisher input {
+    margin-top: 10px;
+    border: none;
+    box-shadow: none;
+    border-bottom: 1px solid #ccc;
+    border-radius: 0px;
 }

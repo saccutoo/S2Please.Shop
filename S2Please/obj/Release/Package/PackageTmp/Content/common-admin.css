@@ -59,3 +59,10 @@
 .button-border{
     border:1px solid #ccc
 }
+
+#content-message a{
+    width:100%;
+}
+.notifi__item .img-cir i{
+    left:45% !important
+}

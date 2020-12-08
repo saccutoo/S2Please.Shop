@@ -63,11 +63,20 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     <File Include="Areas/ADMIN/Views/MenuAdmin/_MenuLeftCommon.cshtml">
       <publishTime>11/28/2020 21:39:00</publishTime>
     </File>
+    <File Include="Areas/ADMIN/Views/Notification/DropdownNotifications.cshtml">
+      <publishTime>12/08/2020 23:25:44</publishTime>
+    </File>
+    <File Include="Areas/ADMIN/Views/Notification/Message.cshtml">
+      <publishTime>12/08/2020 20:51:54</publishTime>
+    </File>
     <File Include="Areas/ADMIN/Views/Notification/NotificationMessage.cshtml">
-      <publishTime>12/05/2020 14:02:16</publishTime>
+      <publishTime>12/05/2020 21:31:52</publishTime>
+    </File>
+    <File Include="Areas/ADMIN/Views/Notification/_ContentMessageBySession.cshtml">
+      <publishTime>12/06/2020 01:33:15</publishTime>
     </File>
     <File Include="Areas/ADMIN/Views/Notification/_ContentNotificationMessage.cshtml">
-      <publishTime>12/05/2020 13:59:39</publishTime>
+      <publishTime>12/05/2020 23:04:31</publishTime>
     </File>
     <File Include="Areas/ADMIN/Views/Order/Index.cshtml">
       <publishTime>11/13/2020 21:27:56</publishTime>
@@ -136,13 +145,13 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>11/29/2020 17:02:42</publishTime>
     </File>
     <File Include="Areas/ADMIN/Views/Shared/_Header_Desktop.cshtml">
-      <publishTime>12/05/2020 13:50:14</publishTime>
+      <publishTime>12/08/2020 23:06:16</publishTime>
     </File>
     <File Include="Areas/ADMIN/Views/Shared/_Header_Mobile.cshtml">
       <publishTime>07/20/2020 21:06:14</publishTime>
     </File>
     <File Include="Areas/ADMIN/Views/Shared/_Layout.cshtml">
-      <publishTime>12/05/2020 15:24:11</publishTime>
+      <publishTime>12/06/2020 12:21:37</publishTime>
     </File>
     <File Include="Areas/ADMIN/Views/Shared/_Menu_Sidebar.cshtml">
       <publishTime>07/20/2020 21:19:09</publishTime>
@@ -304,7 +313,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>07/10/2020 23:28:08</publishTime>
     </File>
     <File Include="Areas/WEB_SHOP/Views/Product/Detail.cshtml">
-      <publishTime>11/13/2020 21:12:09</publishTime>
+      <publishTime>12/07/2020 09:56:54</publishTime>
     </File>
     <File Include="Areas/WEB_SHOP/Views/Product/Products.cshtml">
       <publishTime>10/04/2020 14:20:35</publishTime>
@@ -337,7 +346,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>06/26/2020 00:58:59</publishTime>
     </File>
     <File Include="Areas/WEB_SHOP/Views/Shared/_Layout.cshtml">
-      <publishTime>12/05/2020 11:47:15</publishTime>
+      <publishTime>12/06/2020 01:19:34</publishTime>
     </File>
     <File Include="Areas/WEB_SHOP/Views/Shared/_OurClient.cshtml">
       <publishTime>07/04/2020 14:57:26</publishTime>
@@ -346,10 +355,10 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>06/26/2020 00:59:12</publishTime>
     </File>
     <File Include="Areas/WEB_SHOP/Views/Template/_Chat.cshtml">
-      <publishTime>12/05/2020 15:37:17</publishTime>
+      <publishTime>12/06/2020 12:28:01</publishTime>
     </File>
     <File Include="Areas/WEB_SHOP/Views/Template/_ChatContent.cshtml">
-      <publishTime>12/04/2020 22:19:25</publishTime>
+      <publishTime>12/06/2020 10:56:35</publishTime>
     </File>
     <File Include="Areas/WEB_SHOP/Views/User/Customer.cshtml">
       <publishTime>11/17/2020 21:38:48</publishTime>
@@ -538,13 +547,13 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>10/20/2020 15:35:24</publishTime>
     </File>
     <File Include="bin/Repository.dll">
-      <publishTime>12/05/2020 15:45:50</publishTime>
+      <publishTime>12/08/2020 23:32:42</publishTime>
     </File>
     <File Include="bin/Repository.dll.config">
       <publishTime>11/07/2020 00:40:38</publishTime>
     </File>
     <File Include="bin/Repository.pdb">
-      <publishTime>12/05/2020 15:45:50</publishTime>
+      <publishTime>12/08/2020 23:32:42</publishTime>
     </File>
     <File Include="bin/roslyn/csc.exe">
       <publishTime>06/18/2015 20:19:46</publishTime>
@@ -583,13 +592,13 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>06/18/2015 20:19:46</publishTime>
     </File>
     <File Include="bin/S2Please.dll">
-      <publishTime>12/05/2020 15:45:54</publishTime>
+      <publishTime>12/08/2020 23:32:46</publishTime>
     </File>
     <File Include="bin/S2Please.pdb">
-      <publishTime>12/05/2020 15:45:54</publishTime>
+      <publishTime>12/08/2020 23:32:46</publishTime>
     </File>
     <File Include="bin/SHOP.COMMON.dll">
-      <publishTime>12/05/2020 15:45:49</publishTime>
+      <publishTime>12/08/2020 23:32:42</publishTime>
     </File>
     <File Include="bin/SHOP.COMMON.dll.config">
       <publishTime>10/18/2020 08:14:03</publishTime>
@@ -601,7 +610,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>10/18/2020 08:14:03</publishTime>
     </File>
     <File Include="bin/SHOP.COMMON.pdb">
-      <publishTime>12/05/2020 15:45:49</publishTime>
+      <publishTime>12/08/2020 23:32:42</publishTime>
     </File>
     <File Include="bin/System.AppContext.dll">
       <publishTime>10/18/2020 07:48:34</publishTime>
@@ -1009,13 +1018,16 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>06/26/2020 00:47:00</publishTime>
     </File>
     <File Include="Content/chat.css">
-      <publishTime>12/02/2020 23:51:06</publishTime>
+      <publishTime>12/06/2020 09:55:50</publishTime>
+    </File>
+    <File Include="Content/chatAdmin.css">
+      <publishTime>12/05/2020 21:24:58</publishTime>
     </File>
     <File Include="Content/Checkbox/Checkbox.css">
       <publishTime>07/06/2020 21:56:41</publishTime>
     </File>
     <File Include="Content/common-admin.css">
-      <publishTime>11/15/2020 14:02:10</publishTime>
+      <publishTime>12/08/2020 23:22:59</publishTime>
     </File>
     <File Include="Content/common.css">
       <publishTime>07/26/2020 20:34:17</publishTime>
@@ -2953,7 +2965,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>12/05/2020 11:53:10</publishTime>
     </File>
     <File Include="Scripts/Common/CommonAdmin.js">
-      <publishTime>11/12/2020 23:35:07</publishTime>
+      <publishTime>12/05/2020 23:31:30</publishTime>
     </File>
     <File Include="Scripts/Common/Table.js">
       <publishTime>11/12/2020 23:46:08</publishTime>
@@ -3076,10 +3088,10 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>11/29/2020 17:14:32</publishTime>
     </File>
     <File Include="Scripts/Messenger/Messenger.js">
-      <publishTime>12/05/2020 15:37:42</publishTime>
+      <publishTime>12/08/2020 21:15:29</publishTime>
     </File>
     <File Include="Scripts/Messenger/MessengerAdmin.js">
-      <publishTime>12/05/2020 15:43:58</publishTime>
+      <publishTime>12/08/2020 21:20:16</publishTime>
     </File>
     <File Include="Scripts/modernizr-2.6.2.js">
       <publishTime>06/26/2020 00:47:06</publishTime>

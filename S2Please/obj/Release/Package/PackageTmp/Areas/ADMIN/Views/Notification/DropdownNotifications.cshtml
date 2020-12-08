@@ -1,0 +1,63 @@
+﻿@model S2Please.Areas.ADMIN.ViewModel.NotificationViewModel
+@using SHOP.COMMON
+@using S2Please.Helper
+@using S2Please.Areas.ADMIN.ViewModel
+@{
+    Layout = null;
+}
+@if (FunctionHelpers.CheckPermission(MenuName.Notification, Permission.Get))
+{
+    if (Model != null && Model.Notifications != null && Model.Notifications.Count() > 0)
+    {
+        <div class="noti__item js-item-menu">
+            <i class="zmdi zmdi-notifications"></i>
+            <span class="quantity" id="notification-quantity-total">@Model.Total</span>
+            <div class="notifi-dropdown js-dropdown" id="notifi-dropdown">
+                <div class="notifi__title">
+                    <p>@string.Format(FunctionHelpers.GetValueLanguage("Notification.TotalDropdown"), Model.Total)</p>
+                </div>
+                @foreach (var item in Model.Notifications)
+                {
+                    var bgColor = string.Empty;
+                    if (item.DATA_TYPE == DataType.Order)
+                    {
+                        bgColor = "bg-c1";
+                    }
+                    <a style="color:black" href="@item.URL">
+                        <div class="notifi__item">
+                            <div class="@bgColor img-cir img-40">
+                                <i class="@item.ICON"></i>
+                            </div>
+                            <div class="content">
+                                <p>@Html.Raw(item.CONTENT)</p>
+                                <span class="date">@FunctionHelpers.getTimeAgo(item.CREATED_DATE.Value)</span>
+                            </div>
+                        </div>
+                    </a>
+                }
+                @*<div class="notifi__item">
+            <div class="bg-c2 img-cir img-40">
+                <i class="zmdi zmdi-account-box"></i>
+            </div>
+            <div class="content">
+                <p>Your account has been blocked</p>
+                <span class="date">April 12, 2018 06:50</span>
+            </div>
+        </div>
+        <div class="notifi__item">
+            <div class="bg-c3 img-cir img-40">
+                <i class="zmdi zmdi-file-text"></i>
+            </div>
+            <div class="content">
+                <p>You got a new file</p>
+                <span class="date">April 12, 2018 06:50</span>
+            </div>
+        </div>*@
+                @*<div class="notifi__footer">
+            <a href="#">@FunctionHelpers.GetValueLanguage("Notification.AllNotification")</a>
+        </div>*@
+            </div>
+        </div>
+    }
+}
+

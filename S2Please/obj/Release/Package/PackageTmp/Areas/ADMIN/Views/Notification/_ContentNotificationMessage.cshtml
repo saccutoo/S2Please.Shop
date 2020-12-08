@@ -8,15 +8,21 @@
 @foreach (var item in Model.Messengers)
 {
 
-    <div class="mess__item">
-        <div class="image img-cir img-40">
-            <img src="/Image/depositphotos_96173202-stock-illustration-customer-flat-icon.jpg" alt="Michelle Moreno" />
+    <a href="/admin/message?sessionId=@item.SESSION_ID">
+        <div class="mess__item" value-session="@item.SESSION_ID">
+            <div class="image img-cir img-40 click-messenger">
+                <img src="/Image/depositphotos_96173202-stock-illustration-customer-flat-icon.jpg" alt="Michelle Moreno" />
+            </div>
+            <div class="content">
+                <h6>@item.CUSTOMER_NAME</h6>
+                @if (!string.IsNullOrEmpty(item.CONTENT_TEXT))
+                {
+                    @Html.Raw(item.CONTENT_TEXT)
+                }
+                <p>@string.Format(FunctionHelpers.GetValueLanguage("Messenger.MessengerTotalNewBySession"), item.TOTAL.ToString())</p>
+                <span class="time">@FunctionHelpers.getTimeAgo(item.DATE_SEND.Value)</span>
+            </div>
         </div>
-        <div class="content">
-            <h6>@item.CUSTOMER_NAME</h6>
-            <p>@string.Format(FunctionHelpers.GetValueLanguage("Messenger.MessengerTotalNewBySession"), item.TOTAL.ToString())</p>
-            <span class="time">@FunctionHelpers.getTimeAgo(item.DATE_SEND.Value)</span>
-        </div>
-    </div>
+    </a>
 }
 

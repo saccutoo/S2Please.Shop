@@ -1,18 +1,41 @@
 ﻿$(function () {
     var messenger = $.connection.messengerHub;
+    $("#chat-content").scrollTop($("#chat-content")[0].scrollHeight);
+
     messenger.client.addNewMessageToPage = function (customerName, email, phone, userCustomerId, html, chats, sessionId) {
         var customerNameView = $('#messenger-name').val();
         var emailView = $('#messenger-email').val();
         var userCustomerIdView = $('#messenger-id').val();
-        var sessionId = $('#session-id').val();
-        if (sessionId == sessionId) {
+        var sessionIdView = $('#session-id').val();
+        if (sessionIdView == sessionId) {
             $('#chat-content').append(html);
             $('#chat-content').show();
             $('#chat-publisher').show();
             $('#information-chat').hide();
             $.ajax({
                 type: "POST",
-                url: "/Base/SetCokkieChat",
+                url: "/Base/SessionChat",
+                data: {
+                    chats: chats
+                },
+                dataType: "json",
+                success: function (response) {
+
+                },
+            });
+         
+        }
+       
+    };
+
+    messenger.client.reloadContentMessageWeb = function (sessionId, userId, content, chats) {
+        if ($("#session-id").length > 0 && $('#session-id').val() == sessionId) {
+            $('#chat-content').html(content);
+            $('#notification-ring-tone')[0].play();
+            $("#chat-content").scrollTop($("#chat-content")[0].scrollHeight);
+            $.ajax({
+                type: "POST",
+                url: "/Base/SessionChat",
                 data: {
                     chats: chats
                 },
@@ -22,8 +45,9 @@
                 },
             });
         }
-       
     };
+
+
 
     $.connection.hub.start().done(function () {
         $('#start-chat').click(function () {
@@ -51,6 +75,39 @@
                     alert("Error try again");
                 }
             });
-        })
+        });
+
+
+        $("#send-message").click(function () {
+            var customerName = $('#messenger-name').val();
+            var email = $('#messenger-email').val();
+            var phone = $('#messenger-phone').val();
+            var userCustomerId = $('#messenger-id').val();
+            var content = $('#content-value').val();
+            var sessionId = $('#session-id').val();
+            if (content != '' && content != null && content != undefined) {
+                $('#content-value').val('');
+                $("#chat-content").scrollTop($("#chat-content")[0].scrollHeight);
+                messenger.server.sendMessageFromWeb(customerName, email, phone, userCustomerId, content, sessionId);
+            } 
+        });
+
+        $('#content-value').keyup(function (e) {
+            if (e.keyCode == 13) {
+                var customerName = $('#messenger-name').val();
+                var email = $('#messenger-email').val();
+                var phone = $('#messenger-phone').val();
+                var userCustomerId = $('#messenger-id').val();
+                var content = $('#content-value').val();
+                var sessionId = $('#session-id').val();
+                if (content != '' && content != null && content != undefined) {
+                    $('#content-value').val('');
+                    $("#chat-content").scrollTop($("#chat-content")[0].scrollHeight);
+
+                    messenger.server.sendMessageFromWeb(customerName, email, phone, userCustomerId, content, sessionId);
+                } 
+            }
+        });
+
     });
 })

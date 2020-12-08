@@ -1,0 +1,70 @@
+﻿@model S2Please.Areas.ADMIN.ViewModel.NotificationViewModel
+@using SHOP.COMMON
+@using S2Please.Helper
+@using S2Please.Areas.ADMIN.ViewModel
+@{
+    Layout = "~/Areas/ADMIN/Views/Shared/_Layout.cshtml";
+    var timeVersion = FunctionHelpers.GetTimeVersion();
+    int index = 0;
+}
+
+<link href="@Url.Content("~/Content/chatAdmin.css?v=" + timeVersion)" rel="stylesheet" media="all">
+
+<title>@FunctionHelpers.GetValueLanguage("Title.Messenger")</title>
+<div class="container">
+    @*<h3 class=" text-center">Messaging</h3>*@
+    <div class="messaging">
+        <div class="inbox_msg">
+            <div class="inbox_people">
+                <div class="headind_srch">
+                    <div class="recent_heading">
+                        <h4>@FunctionHelpers.GetValueLanguage("OrderDetail.Customer")</h4>
+                    </div>
+                    @*<div class="srch_bar">
+                        <div class="stylish-input-group">
+                            <input type="text" class="search-bar" placeholder="Search">
+                            <span class="input-group-addon">
+                                <button type="button"> <i class="fa fa-search" aria-hidden="true"></i> </button>
+                            </span>
+                        </div>
+                    </div>*@
+                </div>
+                <div class="inbox_chat" id="inbox_chat">
+                    @if (Model.Messengers!=null && Model.Messengers.Count()>0)
+                    {
+                        foreach (var item in Model.Messengers)
+                        {
+                             <div class="chat_list @(!string.IsNullOrEmpty(Model.SESSION_ID) && Model.SESSION_ID==Model.SESSION_ID ? "active_chat" : "")" value-id="@item.SESSION_ID" >
+                                <div class="chat_people">
+                                    <div class="chat_img"> <img src="/Image/user-profile.png" alt="sunil" title="@item.CUSTOMER_NAME"> </div>
+                                    <div class="chat_ib">
+                                        <h5>@item.CUSTOMER_NAME <span class="chat_date" id="total-@item.SESSION_ID">@item.TOTAL</span></h5>
+                                        <p>
+                                           @Html.Raw(item.CONTENT_TEXT)
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            index++;
+                        }
+                    }
+                </div>
+            </div>
+            <div class="mesgs">
+
+                <div class="msg_history" id="content-all">
+                    @if (Model.MessengerRights != null && Model.MessengerRights.Count() > 0)
+                    {
+                        @Html.Partial("~/Areas/ADMIN/Views/Notification/_ContentMessageBySession.cshtml", Model)
+                    }
+                </div>
+                <div class="type_msg">
+                    <div class="input_msg_write">
+                        <input type="text" class="write_msg" placeholder=".........." id="content-value" />
+                        <button class="msg_send_btn" type="button" id="btn-send-message-admin" title="@FunctionHelpers.GetValueLanguage("Authen.Send")"><i class="fa fa-send" aria-hidden="true "></i></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
