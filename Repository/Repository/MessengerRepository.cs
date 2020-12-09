@@ -103,5 +103,15 @@ namespace Repository
             param.Add(new Param { Key = "@UPDATED_BY", Value = model.UPDATED_BY.ToString() });
             return ListProcedure<NotificationModel>(new NotificationModel(), "Notification_Update_SaveNotification", param, false, isCheckPermission);
         }
+
+        //update status notification
+        public ResultModel UpdateStatusNotification(long id,string dataType,long updatedBy, bool isCheckPermission = false)
+        {
+            var param = new List<Param>();
+            param.Add(new Param { Key = "@DATA_ID", Value = id.ToString() });
+            param.Add(new Param { Key = "@DATA_TYPE", Value =string.IsNullOrEmpty(dataType) ? " " : dataType });
+            param.Add(new Param { Key = "@UPDATED_BY", Value = updatedBy.ToString() });
+            return ListProcedure<NotificationModel>(new NotificationModel(), "Notification_Update_UpdateStatusNotification", param, false, isCheckPermission);
+        }
     }
 }

@@ -69,6 +69,17 @@
         }
     };
 
+    messenger.client.reloadNotification = function (content, total) {
+        if ($('#notification-quantity-total').length > 0) {
+            $('#notification-quantity-total').text(total);
+        }
+        if ($("#notifi-dropdown").length > 0) {
+            $('#notifi-dropdown').html(content);
+            //var audio = new Audio('../SoundNotification/Notification-ring-tone.mp3');
+            //var playPromise = audio.play();
+        }
+    };
+
     $.connection.hub.start().done(function () {
         $("#btn-comment-more").click(function () {
             messenger.server.sendMessageToAdmin(false);
@@ -81,6 +92,10 @@
             if (content != '' && content != null && content != undefined) {
                 messenger.server.sendMessageFromAdmin(userId, content, sessionId);
             } 
+        });
+
+        $('#item-notification').click(function () {
+            messenger.server.reloadNotification();
         });
 
         $('#content-value').keyup(function (e) {

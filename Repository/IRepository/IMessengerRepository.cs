@@ -30,5 +30,7 @@ namespace Repository
         //Save notification
         ResultModel SaveNotification(NotificationModel model, bool isCheckPermission = false);
 
+        //update status notification
+        ResultModel UpdateStatusNotification(long id, string dataType, long updatedBy, bool isCheckPermission = false);
     }
 }

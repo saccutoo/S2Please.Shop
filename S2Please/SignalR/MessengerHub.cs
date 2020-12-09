@@ -207,6 +207,21 @@ namespace S2Please.SignalR
         #endregion
 
         #region Notifications
+        public void ReloadNotification()
+        {
+            NotificationViewModel vm = new NotificationViewModel();
+            ParamType paramType = new ParamType();
+            paramType.LANGUAGE_ID = CurrentUser.LANGUAGE_ID;
+            paramType.USER_ID = CurrentUser.UserAdmin.USER_ID;
+            paramType.ROLE_ID = CurrentUser.UserAdmin.ROLE_ID;
+            var type = MapperHelper.Map<ParamType, Repository.Type.ParamType>(paramType);
+
+            var responseNotifications = _messengerRepository.GetTop10NotificationNew(type);
+            vm.Total = Convert.ToInt32(responseNotifications.OutValue.Parameters["@TotalRecord"].Value.ToString());
+            vm.Notifications = JsonConvert.DeserializeObject<List<NotificationModel>>(JsonConvert.SerializeObject(responseNotifications.Results));
+            string content = ContentHtmlHelper.ContentNotification(vm);
+            Clients.All.reloadNotification(content,vm.Total);
+        }
         #endregion
     }
 }

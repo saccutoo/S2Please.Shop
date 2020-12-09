@@ -29,12 +29,14 @@ namespace S2Please.Areas.ADMIN.Controllers
         private IOrderRepository _orderRepository;
         private ISystemRepository _systemRepository;
         private IProductRepository _productRepository;
-        public OrderController(ITableRepository tableRepository, IOrderRepository orderRepository, ISystemRepository systemRepository, IProductRepository productRepository)
+        private IMessengerRepository _messengerRepository;
+        public OrderController(ITableRepository tableRepository, IOrderRepository orderRepository, ISystemRepository systemRepository, IProductRepository productRepository, IMessengerRepository messengerRepository)
         {
             this._tableRepository = tableRepository;
             this._orderRepository = orderRepository;
             this._systemRepository = systemRepository;
             this._productRepository = productRepository;
+            this._messengerRepository = messengerRepository;
         }
 
         public ActionResult Index(long id=0)
@@ -55,6 +57,11 @@ namespace S2Please.Areas.ADMIN.Controllers
                 {
                     order.Table = JsonConvert.DeserializeObject<TableViewModel>(resultOrder.FirstOrDefault().TABLE_CONTENT);
                 }
+            }
+
+            if (id!=0)
+            {
+                var responseNoti = _messengerRepository.UpdateStatusNotification(id,DataType.Order,CurrentUser.UserAdmin.ID);
             }
 
             ParamType paramType = new ParamType();
@@ -423,7 +430,7 @@ namespace S2Please.Areas.ADMIN.Controllers
                         vm.Order = resultOrder.FirstOrDefault();
                     }
 
-                    string subject = FunctionHelpers.GetValueLanguage("Email.SubjectOrder");
+                    string subject = FunctionHelpers.GetValueLanguage("Email.SubjectNewOrder");
                     string body = RenderViewToString(this.ControllerContext, "~/Views/TemplateEmail/_EmailOrder.cshtml", vm);
                     List<string> toMail = new List<string>();
                     toMail.Add(vm.Order.EMAIL);

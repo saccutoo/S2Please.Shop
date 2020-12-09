@@ -381,14 +381,13 @@ namespace S2Please.Areas.WEB_SHOP.Controllers
                     DATA_ID = data.ID,
                     DATA_TYPE = DataType.Order,
                     CONTENT = string.Format(FunctionHelpers.GetValueLanguage("Order.NotificationOrder"), model.FULL_NAME),
-                    URL = "/admin/order/" + data.ID,
+                    URL = "/admin/order?id=" + data.ID,
                     IS_VIEW = false,
                     ICON = Icon.Cart,
                     CREATED_BY=CurrentUser.User.ID
                 };
                 var typeNoti = MapperHelper.Map<NotificationModel,Repository.Model.NotificationModel>(modelNoti);
                 var responseSaveNoti = _messengerRepository.SaveNotification(typeNoti);
-
             }
             else
             {

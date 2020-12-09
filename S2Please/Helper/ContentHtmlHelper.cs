@@ -128,5 +128,39 @@ namespace S2Please.Helper
 
             return html.Trim();
         }
+
+        public static string ContentNotification(NotificationViewModel viewModel)
+        {
+            var html = string.Empty;
+
+            html += @" <div class='notifi__title'>
+                        <p>{{TOTAL}}</p>
+                    </div>";
+            if (viewModel.Notifications!=null && viewModel.Notifications.Count()>0)
+            {
+                foreach (var item in viewModel.Notifications)
+                {
+                    var bgColor = string.Empty;
+                    if (item.DATA_TYPE == DataType.Order)
+                    {
+                        bgColor = "bg-c1";
+                    }
+                    html += " " + @"<a style='color:black' href='{{URL}}'>
+                        <div class='notifi__item'>
+                            <div class='{{BG_COLOR}} img-cir img-40'>
+                                <i class='{{ICON}}'></i>
+                            </div>
+                            <div class='content'>
+                                <p>{{CONTENT}}</p>
+                                <span class='date'>{{SEND_DATE}}</span>
+                            </div>
+                        </div>
+                    </a>";
+                    html = html.Replace("{{TOTAL}}", string.Format(FunctionHelpers.GetValueLanguage("Notification.TotalDropdown"), viewModel.Total)).Replace("{{URL}}", item.URL).Replace("{{BG_COLOR}}", bgColor).Replace("{{ICON}}", item.ICON).Replace("{{CONTENT}}", item.CONTENT).Replace("{{SEND_DATE}}", FunctionHelpers.getTimeAgo(item.CREATED_DATE.Value));
+                }
+            }
+
+            return html.Trim();
+        }
     }
 }
