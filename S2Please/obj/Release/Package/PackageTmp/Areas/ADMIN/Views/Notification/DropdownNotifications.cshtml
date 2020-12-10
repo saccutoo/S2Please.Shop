@@ -9,7 +9,7 @@
 {
     if (Model != null && Model.Notifications != null && Model.Notifications.Count() > 0)
     {
-        <div class="noti__item js-item-menu">
+        <div class="noti__item js-item-menu" id="item-notification">
             <i class="zmdi zmdi-notifications"></i>
             <span class="quantity" id="notification-quantity-total">@Model.Total</span>
             <div class="notifi-dropdown js-dropdown" id="notifi-dropdown">

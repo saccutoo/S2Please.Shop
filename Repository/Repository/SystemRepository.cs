@@ -165,5 +165,13 @@ namespace Repository
         {
             return ListProcedure<BaseModel>(new BaseModel(), "Role_Get_GetAllRole", new List<Param>(), true);
         }
+
+        //Get All role
+        public ResultModel GetAllPermissionAction(long menuId)
+        {
+            var param = new List<Param>();
+            param.Add(new Param { Key = "@MENU_ID", Value = menuId.ToString() });
+            return ListProcedure<PermissionActionModel>(new PermissionActionModel(), "Permission_Get_GetPermissionAction", param);
+        }
     }
 }

@@ -40,16 +40,16 @@
         <input type="text" name="model.ID" value="@Model.Menu.ID" hidden />
         <div class="row form-group">
             <div class="col col-md-6">
-                @Html.Partial("~/Areas/ADMIN/Views/Template/Form/_Input.cshtml", new InputModel() { Type = "text", Id = "MENU_NAME", Class = "", Name = "model.MENU_NAME", LabelName = "MenuAdmin.MenuName", Value = Model.Menu.MENU_NAME, IsRequied = true,Attribute=Model.Is_Save ? "" : "disabled" })
+                @Html.Partial("~/Areas/ADMIN/Views/Template/Form/_Input.cshtml", new InputModel() { Type = "text", Id = "MENU_NAME", Class = "", Name = "model.MENU_NAME", LabelName = "MenuAdmin.MenuName", Value = Model.Menu.MENU_NAME, IsRequied = true, Attribute = Model.Is_Save ? "" : "disabled" })
             </div>
             <div class="col col-md-6">
                 @Html.Partial("~/Areas/ADMIN/Views/Template/Form/_Input.cshtml", new InputModel() { Type = "text", Id = "LINK", Class = "", Name = "model.LINK", LabelName = "MenuAdmin.Link", Value = Model.Menu.LINK, IsRequied = true, Attribute = Model.Is_Save ? "" : "disabled" })
-               
+
             </div>
         </div>
         <div class="row form-group">
             <div class="col col-md-6">
-                @Html.Partial("~/Areas/ADMIN/Views/Template/Form/_Input.cshtml", new InputModel() { Type = "text", Id = "ORDER_MENU", Class = "", Name = "model.ORDER_MENU", LabelName = "MenuAdmin.OrderMenu", Value = Model.Menu.ORDER_MENU.ToString(), IsRequied = true, Attribute = Model.Is_Save ? "" : "disabled" })               
+                @Html.Partial("~/Areas/ADMIN/Views/Template/Form/_Input.cshtml", new InputModel() { Type = "text", Id = "ORDER_MENU", Class = "", Name = "model.ORDER_MENU", LabelName = "MenuAdmin.OrderMenu", Value = Model.Menu.ORDER_MENU.ToString(), IsRequied = true, Attribute = Model.Is_Save ? "" : "disabled" })
             </div>
             <div class="col col-md-6">
                 @Html.Partial("~/Areas/ADMIN/Views/Template/Form/_Input.cshtml", new InputModel() { Type = "text", Id = "ACTIVE", Class = "", Name = "model.ACTIVE", LabelName = "MenuAdmin.Active", Value = Model.Menu.ACTIVE, IsRequied = true, Attribute = Model.Is_Save ? "" : "disabled" })
@@ -61,12 +61,12 @@
                 @Html.Partial("~/Areas/ADMIN/Views/Template/Form/_Input.cshtml", new InputModel() { Type = "text", Id = "ICON", Class = "", Name = "model.ICON", LabelName = "MenuAdmin.Icon", Value = Model.Menu.ICON, IsRequied = false, Attribute = Model.Is_Save ? "" : "disabled" })
             </div>
             <div class="col col-md-6">
-                @Html.Partial("~/Areas/ADMIN/Views/Template/Form/_Select.cshtml", new SelectModel() { Id = "PARENT_ID", Name = "model.PARENT_ID", Datas = Model.MenuDropdowns, LabelName = "MenuAdmin.ParentMenuName", IsRequied = false, Value = Model.Menu.PARENT_ID.ToString(), FieldId = "ID", FieldName = "MENU_NAME", IsShowTitle = true, DataType = DataType.MENU_ADMIN, IsMultiLanguage = true, PropertyName = PropertyName.MenuName,DropdownParent= "modal-right", Attribute = Model.Is_Save ? "" : "disabled" })
+                @Html.Partial("~/Areas/ADMIN/Views/Template/Form/_Select.cshtml", new SelectModel() { Id = "PARENT_ID", Name = "model.PARENT_ID", Datas = Model.MenuDropdowns, LabelName = "MenuAdmin.ParentMenuName", IsRequied = false, Value = Model.Menu.PARENT_ID.ToString(), FieldId = "ID", FieldName = "MENU_NAME", IsShowTitle = true, DataType = DataType.MENU_ADMIN, IsMultiLanguage = true, PropertyName = PropertyName.MenuName, DropdownParent = "modal-right", Attribute = Model.Is_Save ? "" : "disabled" })
             </div>
         </div>
         <div class="row form-group">
             <div class="col col-md-6">
-                @{ 
+                @{
                     var attribute = "disabled";
                     if (Model.Is_Save)
                     {
@@ -93,6 +93,11 @@
         @if (Model.Localiza != null)
         {
             @Html.Partial("~/Areas/ADMIN/Views/Template/_Localizadata.cshtml", Model.Localiza)
+        }
+
+        @if (Model.PermissionAction != null && Model.PermissionAction.PermissionActions != null && Model.PermissionAction.PermissionActions.Count() > 0)
+        {
+            @Html.Partial("~/Areas/ADMIN/Views/Template/_PermissionAction.cshtml", Model.PermissionAction)
         }
     </form>
 </div>

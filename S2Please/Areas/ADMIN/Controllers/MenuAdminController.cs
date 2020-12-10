@@ -74,9 +74,17 @@ namespace S2Please.Areas.ADMIN.Controllers
             vm.Localiza.DATA_TYPE = DataType.MENU_ADMIN;
             vm.Is_Save = isUpdate;
             vm.Localiza.Is_Save = isUpdate;
+            vm.PermissionAction.MENU_ID = id;
 
             var responseMenu = _menuAdminRepositor.GetAllMenuAdmin(id);
             vm.MenuDropdowns = responseMenu.Results;
+
+            var responsePermissionAction = _systemRepository.GetAllPermissionAction(id);
+            var resultPermissionAction = JsonConvert.DeserializeObject<List<PermissionActionModel>>(JsonConvert.SerializeObject(responsePermissionAction.Results));
+            if (resultPermissionAction != null && resultPermissionAction.Count() > 0)
+            {
+                vm.PermissionAction.PermissionActions = resultPermissionAction;
+            }
 
             var responseMultipleLanguage = _systemRepository.GetTableMultipleLanguageConfigurationByTableName(TableName.MenuAdmin);
             var resultMultipleLanguage = JsonConvert.DeserializeObject<List<TableMultipleLanguageConfigurationModel>>(JsonConvert.SerializeObject(responseMultipleLanguage.Results));
@@ -115,7 +123,7 @@ namespace S2Please.Areas.ADMIN.Controllers
             }));
         }
 
-        public ActionResult SaveMenuAdmin(MenuAdminModel model, List<LocalizationModel> localiza)
+        public ActionResult SaveMenuAdmin(MenuAdminModel model, List<LocalizationModel> localiza, List<MenuPermissionModel> menuPermission)
         {
             var validations = ValidationHelper.Validation(model, "model");
             var validationLocaliza = ValidationHelper.ListValidation(localiza, "localiza");
@@ -132,8 +140,10 @@ namespace S2Please.Areas.ADMIN.Controllers
             model.UPDATED_BY = CurrentUser.UserAdmin.ID;
             var modelType = MapperHelper.Map<MenuAdminModel, Repository.Model.MenuModel>(model);
             var localizaType = MapperHelper.MapList<LocalizationModel, Repository.Type.LocalizationType>(localiza);
+            var permissionType = MapperHelper.MapList<MenuPermissionModel, Repository.Type.PermissionType>(menuPermission.Where(s=>s.ID!=0).ToList());
+
             var result = new ResultModel();
-            var response = _menuAdminRepositor.SaveMenuAdmin(modelType, localizaType);
+            var response = _menuAdminRepositor.SaveMenuAdmin(modelType, localizaType, permissionType);
             if (response != null)
             {
                 if (response.Success == false && CheckPermision(response.StatusCode) == false)

@@ -5,5 +5,5 @@
 
 <label class="au-checkbox custom-checkbox">
     <input type="checkbox" class="row-checkbox @Model.Class" id="@Model.Id" name="@Model.Name"  style="@Model.Style" value="@Model.Value"   onchange="@Model.OnChange" onkeyup="@Model.OnKeyUp" onclick="@Model.OnClick" @Model.AttributeCheck>
-    <span class="au-checkmark"></span>
+    <span class="au-checkmark">@Model.LabledName</span>
 </label>

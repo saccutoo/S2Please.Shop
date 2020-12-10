@@ -66,3 +66,7 @@
 .notifi__item .img-cir i{
     left:45% !important
 }
+#notifi-dropdown{
+    max-height:500px;
+    overflow:auto;
+}

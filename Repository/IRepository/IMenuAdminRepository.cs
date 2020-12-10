@@ -25,7 +25,7 @@ namespace Repository
         ResultModel GetMenuAdminById(long id);
 
         //Save menu admin
-        ResultModel SaveMenuAdmin(MenuModel model, List<LocalizationType> type, bool isCheckPermission = true);
+        ResultModel SaveMenuAdmin(MenuModel model, List<LocalizationType> type, List<PermissionType> permission, bool isCheckPermission = true);
 
         //Get menu admin by id
         ResultModel DeleteMenuAdminById(long id);

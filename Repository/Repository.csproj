@@ -93,6 +93,7 @@
     <Compile Include="Model\OrderDetailModel.cs" />
     <Compile Include="Model\OrderModel.cs" />
     <Compile Include="Model\Param.cs" />
+    <Compile Include="Model\PermissionActionModel.cs" />
     <Compile Include="Model\ProductBonusModel.cs" />
     <Compile Include="Model\ProductColorModel.cs" />
     <Compile Include="Model\ProductColorSizeMapperModel.cs" />
@@ -139,6 +140,7 @@
     <Compile Include="Type\LocalizationType.cs" />
     <Compile Include="Type\OrderDetailType.cs" />
     <Compile Include="Type\ParamType.cs" />
+    <Compile Include="Type\PermissionType.cs" />
     <Compile Include="Type\ProductImgType.cs" />
     <Compile Include="Type\SizeType.cs" />
   </ItemGroup>

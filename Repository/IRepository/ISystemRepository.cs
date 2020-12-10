@@ -74,5 +74,8 @@ namespace Repository
 
         //Get All role
         ResultModel GetAllRole();
+
+        //Get All role
+        ResultModel GetAllPermissionAction(long menuId);
     }
 }

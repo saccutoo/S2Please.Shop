@@ -35,7 +35,7 @@
         }
         else
         {
-            var dataActiveChidren = menuChidren.Where(s => ("||" + s.ACTIVE + "||").Contains("||" + listPath[1] + "||")).ToList();
+            var dataActiveChidren = menuChidren.Where(s => ("||" + s.ACTIVE + "||").Contains("||" + listPath[1].Split('?')[0] + "||")).ToList();
             if (dataActiveChidren != null && dataActiveChidren.Count() > 0)
             {
                 activeParent = "active";
@@ -59,7 +59,7 @@
                         @foreach (var chidren in menuChidren)
                         {
                             string activeChidren = string.Empty;
-                            if (("||" + chidren.ACTIVE + "||").ToString().IndexOf("||" + listPath[1] + "||") > -1)
+                            if (("||" + chidren.ACTIVE + "||").ToString().IndexOf("||" + listPath[1].Split('?')[0] + "||") > -1)
                             {
                                 activeChidren = "active";
                             }

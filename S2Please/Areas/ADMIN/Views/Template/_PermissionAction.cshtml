@@ -1,0 +1,60 @@
+﻿@model S2Please.Areas.ADMIN.ViewModel.PermissionActionViewModel
+@using SHOP.COMMON
+@using S2Please.ViewModel
+@using S2Please.Helper
+@{
+    Layout = null;
+    int index = 0;
+}
+<style>
+    .permission-checkbox{
+        float:left;
+    }
+    .permission-title {
+        float: left;
+        margin-left:30px;
+    }
+</style>
+@if (Model.PermissionActions != null && Model.PermissionActions.Count() > 0)
+{
+    <div id="accordion">
+        <div class="card">
+            <div class="card-header" id="cardTwo">
+                <h5 class="mb-0">
+                    <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
+                        @FunctionHelpers.GetValueLanguage("Product.Action")
+                    </button>
+                </h5>
+            </div>
+            <div id="collapseTwo" class="collapse" aria-labelledby="cardTwo">
+                <div class="card-body">
+                    <div class="row">
+
+                        @foreach (var item in Model.PermissionActions)
+                        {
+                            <div class="col-md-12 " style="height:40px">
+                                <input type="text" value="@Model.MENU_ID" name="menuPermission[@index].MENU_ID" hidden>
+
+                                <div class="permission-checkbox">
+                                    @Html.Partial("~/Areas/ADMIN/Views/Template/_Checkbox.cshtml", new CheckBoxViewModel()
+                                   {
+                                       Id = "cb-permission-action-" + item.ID.ToString(),
+                                       Name = "menuPermission[" + index + "].ID",
+                                       Value = item.ID.ToString(),
+                                       AttributeCheck = item.MENU_ID !=0  ? "checked" : "",
+                                   })
+                                </div>
+                                <div class="permission-title">
+                                    @FunctionHelpers.GetValueLocalization(item.ID, DataType.CL_PERMISSION, PropertyName.Name)
+                                </div>
+                            </div>
+                           
+                            index++;
+                        }
+                    </div>
+                   
+                </div>
+            </div>
+        </div>
+    </div>
+}

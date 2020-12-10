@@ -14,6 +14,7 @@ namespace S2Please.Areas.ADMIN.ViewModel
         public List<dynamic> Menus { get; set; } = new List<dynamic>();
         public List<dynamic> Groups { get; set; } = new List<dynamic>();
         public LocalizadataViewModel Localiza { get; set; } = new LocalizadataViewModel();
+        public List<dynamic> PermissionActions { get; set; } = new List<dynamic>();
         public bool Is_Save { get; set; } = true;
     }
 }

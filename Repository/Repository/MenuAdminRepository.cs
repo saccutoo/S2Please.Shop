@@ -57,7 +57,7 @@ namespace Repository
         }
 
         //Save menu admin
-        public ResultModel SaveMenuAdmin(MenuModel model, List<LocalizationType> type, bool isCheckPermission = true)
+        public ResultModel SaveMenuAdmin(MenuModel model, List<LocalizationType> type,List<PermissionType> permission, bool isCheckPermission = true)
         {
             var param = new List<Param>();
             param.Add(new Param { Key = "@ID", Value = model.ID.ToString() });
@@ -77,6 +77,16 @@ namespace Repository
                 {
                     TypeName = "dbo.LocalizationType",
                     Value = DataTableHelper.ConvertToUserDefinedDataTable(type)
+                }
+            });
+
+            param.Add(new Param
+            {
+                IsUserDefinedTableType = true,
+                paramUserDefinedTableType = new SqlParameter("@PermissionType", SqlDbType.Structured)
+                {
+                    TypeName = "dbo.PermissionType",
+                    Value = DataTableHelper.ConvertToUserDefinedDataTable(permission)
                 }
             });
 

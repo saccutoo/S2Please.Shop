@@ -290,6 +290,7 @@
     <Compile Include="Areas\ADMIN\ViewModel\MailQueueViewModel.cs" />
     <Compile Include="Areas\ADMIN\ViewModel\MenuAdminViewModel.cs" />
     <Compile Include="Areas\ADMIN\ViewModel\NotificationViewModel.cs" />
+    <Compile Include="Areas\ADMIN\ViewModel\PermissionActionViewModel.cs" />
     <Compile Include="Areas\ADMIN\ViewModel\PermissionViewModel.cs" />
     <Compile Include="Areas\ADMIN\ViewModel\ProductGroupSaveViewModel.cs" />
     <Compile Include="Areas\ADMIN\ViewModel\ProductTypeSaveViewModel .cs" />
@@ -393,6 +394,7 @@
     <Compile Include="Models\AccountBindingModels.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\AttachmentJs.cs" />
+    <Compile Include="Models\PermissionActionModel.cs" />
     <Compile Include="Models\CartModel.cs" />
     <Compile Include="Models\ChatModel.cs" />
     <Compile Include="Models\MenuAdminModel.cs" />
@@ -1186,6 +1188,7 @@
     <Content Include="Areas\ADMIN\Views\Notification\Message.cshtml" />
     <Content Include="Areas\ADMIN\Views\Notification\_ContentMessageBySession.cshtml" />
     <Content Include="Areas\ADMIN\Views\Notification\DropdownNotifications.cshtml" />
+    <Content Include="Areas\ADMIN\Views\Template\_PermissionAction.cshtml" />
     <None Include="Properties\PublishProfiles\shop.pubxml" />
     <Content Include="Scripts\bootstrap-select-1.13.14\dist\css\bootstrap-select.css.map" />
     <Content Include="Scripts\bootstrap-select-1.13.14\dist\js\bootstrap-select.js.map" />

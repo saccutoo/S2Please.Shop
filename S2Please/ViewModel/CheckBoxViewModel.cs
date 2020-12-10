@@ -19,6 +19,8 @@ namespace S2Please.ViewModel
         public string OnKeyUp { get; set; } = string.Empty;
         public string DataType { get; set; } = string.Empty;
         public string PropertyName { get; set; } = string.Empty;
+        public string LabledName { get; set; } = string.Empty;
+
 
     }
 }

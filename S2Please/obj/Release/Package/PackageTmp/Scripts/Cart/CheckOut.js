@@ -1,4 +1,6 @@
 ﻿
+var messengerNotificationFromCart = $.connection.messengerHub;
+
 
 function login() {
     $(".message-error-username").css("display", "none");
@@ -71,6 +73,10 @@ function order() {
                 }
                 else if (response.result.Success) {
                     toastr["success"](response.result.CacheName, response.result.Message);
+                    $.connection.hub.start().done(function () {                     
+                        messengerNotificationFromCart.server.reloadNotification();
+                    });
+
                     window.location.href = "/order_information/" + response.data.ToDecrypt
                 }
                 else {
