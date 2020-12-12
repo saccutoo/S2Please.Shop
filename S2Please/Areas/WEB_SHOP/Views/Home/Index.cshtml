@@ -11,7 +11,7 @@
 
 @section HomePageSlider
 {
-    @Html.Partial("~/Areas/WEB_SHOP/Views/Shared/_Home_Slider.cshtml")
+    @Html.Action("Slide", "Home", new { area = "WEB_SHOP" })
 }
 @section HeaderText
 {
@@ -25,9 +25,9 @@
 
 
 @*@section OurClient
-{
-    @Html.Partial("~/Areas/WEB_SHOP/Views/Shared/_OurClient.cshtml")
-}*@
+    {
+        @Html.Partial("~/Areas/WEB_SHOP/Views/Shared/_OurClient.cshtml")
+    }*@
 
 
 <div class="row">

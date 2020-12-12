@@ -80,5 +80,8 @@ namespace Repository
 
         //Search common from admin
         ResultModel SearchCommonFromAdmin(string filterString);
+
+        //get silde
+        ResultModel GetSlide();
     }
 }

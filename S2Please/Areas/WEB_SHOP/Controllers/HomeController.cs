@@ -69,5 +69,12 @@ namespace S2Please.Areas.WEB_SHOP.Controllers
             }
             return View();
         }
+
+        public ActionResult Slide()
+        {
+            var response = _systemRepository.GetSlide();
+            var result = JsonConvert.DeserializeObject<List<SlideModel>>(JsonConvert.SerializeObject(response.Results));
+            return View(result);
+        }
     }
 }

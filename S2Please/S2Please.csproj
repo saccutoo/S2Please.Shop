@@ -403,6 +403,7 @@
     <Compile Include="Models\EmployesModel.cs" />
     <Compile Include="Models\MenuPermissionModel.cs" />
     <Compile Include="Models\NotificationModel.cs" />
+    <Compile Include="Models\SlideModel.cs" />
     <Compile Include="Models\TableMultipleLanguageConfigurationModel.cs" />
     <Compile Include="Models\HistoryResetPassword.cs" />
     <Compile Include="Models\BaseModel.cs" />
@@ -1194,6 +1195,7 @@
     <Content Include="Areas\ADMIN\Views\Notification\DropdownNotifications.cshtml" />
     <Content Include="Areas\ADMIN\Views\Template\_PermissionAction.cshtml" />
     <Content Include="Areas\ADMIN\Views\Template\_Search.cshtml" />
+    <Content Include="Areas\WEB_SHOP\Views\Home\Slide.cshtml" />
     <None Include="Properties\PublishProfiles\shop.pubxml" />
     <Content Include="Scripts\bootstrap-select-1.13.14\dist\css\bootstrap-select.css.map" />
     <Content Include="Scripts\bootstrap-select-1.13.14\dist\js\bootstrap-select.js.map" />
@@ -1416,6 +1418,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Areas\ADMIN\Views\System\" />
     <Folder Include="Areas\WEB_SHOP\Models\" />
     <Folder Include="Layout\themes\js\images\" />
     <Folder Include="Layout\themes\js\js\" />

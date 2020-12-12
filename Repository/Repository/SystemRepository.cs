@@ -181,5 +181,12 @@ namespace Repository
             param.Add(new Param { Key = "@FILTER_STRING", Value = filterString.ToString() });
             return ListProcedure<SearchModel>(new SearchModel(), "Search_Get_SearchCommonFromAdmin", param);
         }
+
+        //get silde
+        public ResultModel GetSlide()
+        {
+            var param = new List<Param>();
+            return ListProcedure<SlideModel>(new SlideModel(), "Silde_Get_Silde", param);
+        }
     }
 }

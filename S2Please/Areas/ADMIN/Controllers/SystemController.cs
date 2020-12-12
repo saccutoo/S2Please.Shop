@@ -97,5 +97,11 @@ namespace S2Please.Areas.ADMIN.Controllers
             return Json(html, JsonRequestBehavior.AllowGet);
         }
 
+        public ActionResult Silide()
+        {
+            var response = _systemRepository.GetSlide();
+            var result = JsonConvert.DeserializeObject<List<SlideModel>>(JsonConvert.SerializeObject(response.Results));
+            return View(result);
+        }
     }
 }

@@ -107,6 +107,7 @@
     <Compile Include="Model\SearchModel.cs" />
     <Compile Include="Model\SelectOptionModel.cs" />
     <Compile Include="Model\ShipFeeModel.cs" />
+    <Compile Include="Model\SlideModel.cs" />
     <Compile Include="Model\StatusOrderModel.cs" />
     <Compile Include="Model\StatusPayModel.cs" />
     <Compile Include="Model\TableColumnModel.cs" />
