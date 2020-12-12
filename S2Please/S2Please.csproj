@@ -301,6 +301,7 @@
     <Compile Include="Areas\ADMIN\ViewModel\OrderDetailViewModel.cs" />
     <Compile Include="Areas\ADMIN\ViewModel\OrderSaveViewModel.cs" />
     <Compile Include="Areas\ADMIN\ViewModel\ProductPriceViewModel.cs" />
+    <Compile Include="Areas\ADMIN\ViewModel\SearchViewModel.cs" />
     <Compile Include="Areas\ADMIN\ViewModel\SlideImgViewModel.cs" />
     <Compile Include="Areas\ADMIN\ViewModel\ProductDetailViewModel.cs" />
     <Compile Include="Areas\ADMIN\ViewModel\ProductSaveViewModel.cs" />
@@ -394,6 +395,7 @@
     <Compile Include="Models\AccountBindingModels.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\AttachmentJs.cs" />
+    <Compile Include="Models\SearchModel.cs" />
     <Compile Include="Models\PermissionActionModel.cs" />
     <Compile Include="Models\CartModel.cs" />
     <Compile Include="Models\ChatModel.cs" />
@@ -507,6 +509,8 @@
     <Content Include="Image\2019-11-06 23-10-24.mkv" />
     <Content Include="Image\administrator-male.png" />
     <Content Include="Image\InternetSlowdown_Day.gif" />
+    <Content Include="Image\LogoS2.png" />
+    <Content Include="Image\S2Please.png" />
     <Content Include="Image\united-states.png" />
     <Content Include="Image\Video.mp4" />
     <Content Include="Image\vietnam-flag-icon.png" />
@@ -1189,6 +1193,7 @@
     <Content Include="Areas\ADMIN\Views\Notification\_ContentMessageBySession.cshtml" />
     <Content Include="Areas\ADMIN\Views\Notification\DropdownNotifications.cshtml" />
     <Content Include="Areas\ADMIN\Views\Template\_PermissionAction.cshtml" />
+    <Content Include="Areas\ADMIN\Views\Template\_Search.cshtml" />
     <None Include="Properties\PublishProfiles\shop.pubxml" />
     <Content Include="Scripts\bootstrap-select-1.13.14\dist\css\bootstrap-select.css.map" />
     <Content Include="Scripts\bootstrap-select-1.13.14\dist\js\bootstrap-select.js.map" />

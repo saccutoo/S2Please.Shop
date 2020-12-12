@@ -51,7 +51,7 @@
                 @Html.Partial("~/Areas/ADMIN/Views/Template/Form/_Input.cshtml", new InputModel() { Type = "text", Id = "ORDER_MENU", Class = "", Name = "model.ORDER_MENU", LabelName = "Button.Sort", Value = Model.Menu.ORDER_MENU.ToString(), IsRequied = true, Attribute = Model.Is_Save ? "" : "disabled" })
             </div>
             <div class="col col-md-6">
-                @Html.Partial("~/Areas/ADMIN/Views/Template/Form/_Select.cshtml", new SelectModel() { Id = "PARENT_ID", Name = "model.PARENT_ID", Datas = Model.Menus, LabelName = "ProductType.GroupName", Value = Model.Menu.PARENT_ID.ToString(), FieldId = "ID", FieldName = "MENU_NAME", IsShowTitle = true, DataType = DataType.MENU, IsMultiLanguage = true, PropertyName = PropertyName.MenuName, Attribute = Model.Is_Save ? "" : "disabled", DropdownParent = "modal-center" })
+                @Html.Partial("~/Areas/ADMIN/Views/Template/Form/_Select.cshtml", new SelectModel() { Id = "PARENT_ID", Name = "model.PARENT_ID", Datas = Model.Menus, LabelName = "MenuAdmin.ParentMenuName", Value = Model.Menu.PARENT_ID.ToString(), FieldId = "ID", FieldName = "MENU_NAME", IsShowTitle = true, DataType = DataType.MENU, IsMultiLanguage = true, PropertyName = PropertyName.MenuName, Attribute = Model.Is_Save ? "" : "disabled", DropdownParent = "modal-center" })
                 @*@Html.Partial("~/Areas/ADMIN/Views/Template/Form/_Switch.cshtml", new InputModel() { Id = "IS_SHOW_VIEW", Class = "", Name = "model.IS_SHOW_VIEW", LabelName = "Title.Show", Value = "true", Attribute = check, Style = "margin-top:5px;" })*@
             </div>
         </div>

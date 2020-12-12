@@ -66,7 +66,6 @@ var loadingBody = {};
 loadingBody.Show=function(){
     $("#body").LoadingOverlay("show", {
         //background: "rgba(165, 190, 100, 0.5)",
-        //image: "/Image/Áo.jpg",
         image: "",
         fontawesome: "fas fa-biohazard fa-spin",
         //text: "Loading...",
@@ -101,34 +100,6 @@ function viewDetail(id) {
     });
 }
 //search sản phẩm
-//$("#autocomplete-search").select2({
-//    ajax: {
-//        url: "/WEB_SHOP/Search/SearchProduct",
-//        type: "POST",
-//        data: function (params) {
-
-//            var queryParameters = {
-//                searchString: params.term
-//            }
-//            return queryParameters;
-//        },
-//        processResults: function (data) {
-//            return {
-//                results: $.map(data.data, function (item) {
-//                    return {
-//                        text: item.NAME,
-//                        id: item.PRODUCT_KEY
-//                    }
-//                })
-//            };
-//        }
-//    }
-//});
-
-//$('#autocomplete-search').on('select2:selecting', function (e) {
-//    window.location.href = "/WEB_SHOP/Product/Detail?toDecrypt=" + e.params.args.data.id;
-//})
-
 var input = document.getElementById("autocomplete-search");
 
 autocomplete({
@@ -212,29 +183,3 @@ function hideChat() {
     $("#page-content").hide();
     $('#font-lato').show();
 }
-
-//function startChat() {
-//    $("#form-information-chat label[name*='message-error-']").text("");
-
-//    $.ajax({
-//        type: "POST",
-//        url: "/Base/StartChat",
-//        data: $('#form-information-chat').serializeArray(),
-//        dataType: "json",
-//        success: function (response) {
-//            if (response.Invalid) {
-//                var validations = response.Result;
-//                renderError(validations, "form-information-chat");
-//            }
-//            if (response.result.Success) {
-//                $('#chat-content').append(response.result.Html);
-//                $('#chat-content').show();
-//                $('#chat-publisher').show();
-//                $('#information-chat').hide();
-//            }
-//        },
-//        error: function (req, status, error) {
-//            alert("Error try again");
-//        }
-//    });
-//}

@@ -117,7 +117,8 @@ function saveDelete(id) {
              if (response.result.Success) {
                 toastr["success"](response.result.Message, response.result.CacheName);
                 $("#modal-center").modal("hide");
-                reaload("ProductGroup", ControlModel["ProductGroup"].PAGE_INDEX, $('#ProductGroup-paging-items-per-page').val(), "");
+                 reaload("ProductGroup", ControlModel["ProductGroup"].PAGE_INDEX, $('#ProductGroup-paging-items-per-page').val(), "");
+                 window.location.reload();
             }
             else if (!response.result.IsPermission) {
                 window.location.href = response.result.Url;

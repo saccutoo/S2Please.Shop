@@ -173,5 +173,13 @@ namespace Repository
             param.Add(new Param { Key = "@MENU_ID", Value = menuId.ToString() });
             return ListProcedure<PermissionActionModel>(new PermissionActionModel(), "Permission_Get_GetPermissionAction", param);
         }
+
+        //Search common from admin
+        public ResultModel SearchCommonFromAdmin(string filterString)
+        {
+            var param = new List<Param>();
+            param.Add(new Param { Key = "@FILTER_STRING", Value = filterString.ToString() });
+            return ListProcedure<SearchModel>(new SearchModel(), "Search_Get_SearchCommonFromAdmin", param);
+        }
     }
 }

@@ -1,0 +1,91 @@
+﻿@using SHOP.COMMON
+@using S2Please.Helper
+@model S2Please.Areas.ADMIN.ViewModel.SearchViewModel
+@{
+    Layout = null;
+    int index = 0;
+}
+
+<style>
+    .search-card tbody a{
+        color: black !important;
+    }
+</style>
+@if (Model != null && Model.Datas != null && Model.Datas.Count() > 0)
+{
+    foreach (var group in Model.Groups)
+    {
+        var datas = Model.Datas.Where(s => s.GROUP_NAME.ToString().ToLower() == group.ToLower()).ToList();
+        if (datas != null && datas.Count() > 0)
+        {
+            <div class="card search-card" style="margin-bottom:5px;">
+                <div class="card-header" id="card-@group.ToLower()">
+                    <h5 class="mb-0">
+                        <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapse-@group.ToLower()" aria-expanded="true" aria-controls="collapse-@group.ToLower()">
+                            @if (group.ToLower() == "product")
+                            {
+                                @FunctionHelpers.GetValueLanguage("Product.Products")
+                            }
+                            @if (group.ToLower() == "order")
+                            {
+                                @FunctionHelpers.GetValueLanguage("OrderDetail.Order")
+                            }
+                        </button>
+                    </h5>
+                </div>
+                <div id="collapse-@group.ToLower()" class="collapse show" aria-labelledby="headingOne">
+                    <div class="card-body">
+                        <div class="table-responsive table-data" style="height:auto">
+                            <table class="table" >                            
+                                <tbody>
+                                    @foreach (var data in datas)
+                                    {
+                                        if (group.ToLower() == "product")
+                                        {
+                                            <tr>
+                                                <td>
+                                                    <a href="/admin/product?id=@data.ID">
+                                                        <div class="table-data__info">
+                                                            <h4> @data.NAME - @data.CODE</h4>
+                                                            <span>
+                                                                @data.DECRIPTION
+                                                            </span>
+                                                        </div>
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                        }
+                                        if (group.ToLower() == "order")
+                                        {
+                                            <tr>
+                                                <td>
+                                                    <a href="/admin/order?id=@data.ID">
+                                                        <div class="table-data__info">
+                                                            <h4> @data.NAME - @data.CODE</h4>
+                                                            <span>@data.PHONE</span>
+                                                            <span>@data.EMAIL</span>
+                                                            <span>
+                                                                @data.ADRESS_SPECIFIC
+                                                                @(!string.IsNullOrEmpty(data.COMMUNITY_NAME) ? " - " + data.COMMUNITY_NAME : "")
+                                                                @(!string.IsNullOrEmpty(data.COMMUNITY_NAME) ? " - " + data.DISTRICT_NAME : "")
+                                                                @(!string.IsNullOrEmpty(data.COMMUNITY_NAME) ? " - " + data.CITY_NAME : "")
+                                                            </span>
+
+                                                        </div>
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                        }
+                                    }
+
+                                </tbody>
+                            </table>
+                        </div>
+                       
+                    </div>
+                </div>
+            </div>
+        }
+
+    }
+}

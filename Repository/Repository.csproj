@@ -104,6 +104,7 @@
     <Compile Include="Model\ProductTypeModel.cs" />
     <Compile Include="Model\ResultModel.cs" />
     <Compile Include="IRepository\IProductRepository.cs" />
+    <Compile Include="Model\SearchModel.cs" />
     <Compile Include="Model\SelectOptionModel.cs" />
     <Compile Include="Model\ShipFeeModel.cs" />
     <Compile Include="Model\StatusOrderModel.cs" />

@@ -159,11 +159,11 @@ var loadingBody = {};
 loadingBody.Show=function(){
     $("#body").LoadingOverlay("show", {
         //background: "rgba(165, 190, 100, 0.5)",
-        //image: "/Image/Áo.jpg",
+        //image: "/Image/LogoS2.png",
         image: "",
         fontawesome: "fas fa-sun-o fa-spin",
         //text: "Loading...",
-        maxSize: 100
+        maxSize: 50
     }) ;
 }
 
@@ -263,6 +263,27 @@ $(document).ready(function () {
                     $("#select2-community").html(response);
                 }
             });
+    });
+
+    $("#GlobalSearchInput").keyup(function (e) {
+        var div = $('#showSearchDiv');
+        if ($("#GlobalSearchInput").val().length > 0) {
+            div.slideDown("slow");
+            $.ajax(
+                {
+                    type: "POST",
+                    url: "/ADMIN/System/SearchCommonFromAdmin",
+                    data: {
+                        filterString: $("#GlobalSearchInput").val(),
+                    },
+                    success: function (response) {
+                        $("#showSearchDiv").html(response);
+                    }
+                });
+        }
+        else {
+            div.slideUp("slow")
+        }
     });
 
 })

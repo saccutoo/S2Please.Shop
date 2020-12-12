@@ -811,9 +811,26 @@ section {
     min-width: 935px;
 }
 
+.search-div {
+    width: 935px;
+}
+
+.search-div {
+    background: white;
+    position: absolute;
+    box-shadow: 0px 2px 5px 5px #ccc;
+    height: 500px;
+    top: 50px;
+    display: none;
+    overflow:auto
+}
+
 @media (max-width: 1600px) {
     .au-input--xl {
         min-width: 350px;
+    }
+    .search-div {
+        width: 350px;
     }
 }
 
@@ -821,12 +838,20 @@ section {
     .au-input--xl {
         min-width: 350px;
     }
+    .search-div {
+        width: 350px;
+    }
 }
 
 @media (max-width: 767px) {
     .au-input--xl {
         min-width: 150px;
     }
+
+    .search-div {
+        width: 150px;
+    }
+}
 }
 
 .au-btn--submit {

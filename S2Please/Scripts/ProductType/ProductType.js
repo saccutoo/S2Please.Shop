@@ -50,6 +50,7 @@ function saveProductType() {
                 toastr["success"](response.result.Message, response.result.CacheName);
                 $("#modal-center").modal("hide");
                 reaload("ProductType", ControlModel["ProductType"].PAGE_INDEX, $('#ProductType-paging-items-per-page').val(), "");
+                window.location.reload();
             }           
             else if (!response.result.IsPermission) {
                 window.location.href = response.result.Url;

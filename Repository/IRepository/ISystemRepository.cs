@@ -77,5 +77,8 @@ namespace Repository
 
         //Get All role
         ResultModel GetAllPermissionAction(long menuId);
+
+        //Search common from admin
+        ResultModel SearchCommonFromAdmin(string filterString);
     }
 }

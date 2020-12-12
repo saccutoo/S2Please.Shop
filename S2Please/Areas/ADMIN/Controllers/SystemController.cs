@@ -23,6 +23,7 @@ namespace S2Please.Areas.ADMIN.Controllers
             this._systemRepository = systemRepository;
             this._tableRepository = tableRepository;
         }
+
         public ActionResult ReloadDistrict(long codeCity)
         {
             SelectModel vm = new SelectModel();
@@ -81,6 +82,19 @@ namespace S2Please.Areas.ADMIN.Controllers
             var html = RenderViewToString(this.ControllerContext, "~/Areas/ADMIN/Views/Template/Form/_Select.cshtml", vm);
             return Json(html, JsonRequestBehavior.AllowGet);
 
+        }
+
+        public ActionResult SearchCommonFromAdmin(string filterString)
+        {
+            SearchViewModel vm = new SearchViewModel();
+            var response = _systemRepository.SearchCommonFromAdmin(filterString);
+            var result = JsonConvert.DeserializeObject<List<SearchModel>>(JsonConvert.SerializeObject(response.Results));
+            if (result != null && result.Count()>0)
+            {
+                vm.Datas = result;
+            }
+            var html = RenderViewToString(this.ControllerContext, "~/Areas/ADMIN/Views/Template/_Search.cshtml", vm);
+            return Json(html, JsonRequestBehavior.AllowGet);
         }
 
     }

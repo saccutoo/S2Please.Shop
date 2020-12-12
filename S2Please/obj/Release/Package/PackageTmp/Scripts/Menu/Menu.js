@@ -118,6 +118,7 @@ function saveDelete(id) {
                 toastr["success"](response.result.Message, response.result.CacheName);
                 $("#modal-center").modal("hide");
                  reaload("Menu", ControlModel["Menu"].PAGE_INDEX, $('#Menu-paging-items-per-page').val(), "");
+                 window.location.reload();
             }
             else if (!response.result.IsPermission) {
                 window.location.href = response.result.Url;

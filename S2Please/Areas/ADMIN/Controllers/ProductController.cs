@@ -33,7 +33,7 @@ namespace S2Please.Areas.ADMIN.Controllers
         }
 
         [HttpGet]
-        public ActionResult Index()
+        public ActionResult Index(long id=0)
         {
             ProductViewModel product = new ProductViewModel();
             var responseTableUser = _tableRepository.GetTableUserConfig(TableName.Product, CurrentUser.UserAdmin.USER_ID);
@@ -58,6 +58,8 @@ namespace S2Please.Areas.ADMIN.Controllers
             paramType.PAGE_NUMBER = product.Table.PAGE_INDEX == 0 ? 1 : product.Table.PAGE_INDEX;
             product.Table.TABLE_NAME = TableName.Product;
             product.Table.TITLE_TABLE_NAME = FunctionHelpers.GetValueLanguage("Table.Title.Product");
+            paramType.STRING_FILTER = id != 0 ? "AND P.ID=" + id : "";
+
             product.Table = RenderTable(product.Table, paramType);
             if (!product.Table.IS_PERMISSION)
             {
