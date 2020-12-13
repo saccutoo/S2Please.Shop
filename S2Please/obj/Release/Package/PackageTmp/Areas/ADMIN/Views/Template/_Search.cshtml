@@ -61,9 +61,9 @@
                                                 <td>
                                                     <a href="/admin/order?id=@data.ID">
                                                         <div class="table-data__info">
-                                                            <h4> @data.NAME - @data.CODE</h4>
-                                                            <span>@data.PHONE</span>
-                                                            <span>@data.EMAIL</span>
+                                                            <h4> @data.NAME - @data.CODE @(data.CREATED_DATE!=null ? " - " + data.CREATED_DATE.Value.ToString("dd/MM/yyyy HH:mm:ss") : "" )</h4>
+                                                            <span>@data.PHONE</span><br />
+                                                            <span>@data.EMAIL</span><br />
                                                             <span>
                                                                 @data.ADRESS_SPECIFIC
                                                                 @(!string.IsNullOrEmpty(data.COMMUNITY_NAME) ? " - " + data.COMMUNITY_NAME : "")

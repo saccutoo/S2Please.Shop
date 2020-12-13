@@ -12,17 +12,17 @@
 
 @foreach (var item in Model.Files)
 {
-<div id="row-img-by-color-@item.COLOR" class="row-img-by-color" value="@item.COLOR" style="@(!string.IsNullOrEmpty(item.FILE_NAME) ? "border:none" : "")">
+<div id="row-img-by-color-@item.COLOR" class="row-img-by-color" value="@item.COLOR" value-img="@item.FILE_NAME" style="@(!string.IsNullOrEmpty(item.FILE_NAME) ? "border:none" : "")">
     <input type="file" id="file-@item.COLOR" onchange="changeFile(this,'@item.COLOR')" hidden>
     <span class="fa fa-upload" onclick="clickFile('@item.COLOR')" value="@item.COLOR" id="span-@item.COLOR" @(!string.IsNullOrEmpty(item.FILE_NAME) ? "hidden" : "")></span>
-    <input id="id-@item.COLOR" value="@item.ID" name="ListImgByColor[@index].ID" hidden />
+    <input id="id-@item.COLOR.Replace(" ","-").Trim()" value="@item.ID" name="ListImgByColor[@index].ID" hidden />
     <input id="img-@item.COLOR" value="@item.FILE_NAME"  name="ListImgByColor[@index].IMG" class="validate-file-name" hidden />
     <input id="color-@item.COLOR" value="@item.COLOR"  name="ListImgByColor[@index].COLOR" hidden />
     @if (!string.IsNullOrEmpty(item.FILE_NAME))
     {
         <img src="~/Image/@item.FILE_NAME" class="img-thumbnail img-by-color" id="img-@item.COLOR" />
         <p class="fa fa-times row-img-slide" onclick="removeRowImgByColor('@item.COLOR','@item.ID')" id="p-@item.COLOR"></p>
-        <input id="file-name-@item.COLOR" value="@item.FILE_NAME" hidden />
+        <input id="file-name-@item.COLOR.Replace(" ","-").Trim()" value="@item.FILE_NAME" hidden />
     }
 </div>
     index++;

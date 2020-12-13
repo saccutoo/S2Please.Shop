@@ -22,5 +22,6 @@ namespace S2Please.Areas.WEB_SHOP.ViewModel
         public int NumberProductGet { get; set; } = 12;
         public bool ProductRandome { get; set; } = false;
         public bool IsLazyLoad { get; set; } = true;
+        public string FilterString { get; set; } = string.Empty;
     }
 }

@@ -119,6 +119,7 @@ namespace S2Please.Areas.WEB_SHOP.Controllers
             model.VALUE = viewModel.Value.ToString();
             model.PAGE_SIZE = viewModel.NumberProductGet;
             model.PAGE_NUMBER = 1;
+            model.STRING_FILTER = viewModel.FilterString.ToString();
             basicParam.Add(model);
             var basicParamType = MapperHelper.MapList<ParamType, Repository.Type.ParamType>(basicParam);
             //Lấy danh sách sản phẩm

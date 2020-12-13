@@ -167,11 +167,11 @@
                         <address>
                             <strong>@FunctionHelpers.GetValueLanguage("Product.ProductName"):</strong> <span>@Model.Product.NAME</span><br>
                             @*<strong>@FunctionHelpers.GetValueLanguage("Product.ProductCode"):</strong> <span>@Model.Product.PRODUCT_CODE</span><br>*@
-                            @if (Model.Product.PRODUCT_ORIGIN != null && Model.Product.PRODUCT_ORIGIN != "")
+                            @if (!string.IsNullOrEmpty(Model.Product.PRODUCT_ORIGIN.Trim()))
                             {
                                 <strong>@FunctionHelpers.GetValueLanguage("Product.ProductOrigin"):</strong> <span>@Model.Product.PRODUCT_ORIGIN</span><br>
                             }
-                            @if (Model.Product.PRODUCT_MATERIAL != null && Model.Product.PRODUCT_MATERIAL != "")
+                            @if (!string.IsNullOrEmpty(Model.Product.PRODUCT_MATERIAL.Trim()))
                             {
                                 <strong>@FunctionHelpers.GetValueLanguage("Product.ProductMateria"):</strong> <span>@Model.Product.PRODUCT_MATERIAL</span><br>
                             }
@@ -292,7 +292,7 @@
                     </ul>
                     <div class="tab-content">
                         <div class="tab-pane active" id="home">
-                            @Model.Product.DECRIPTION
+                            @Html.Raw(Model.Product.DECRIPTION)
                         </div>
                         <div class="tab-pane" id="profile">
                             <table class="table table-striped shop_attributes">
@@ -358,6 +358,7 @@
                         vm.NumberInPage = 3;
                         vm.NumberProductGet = 9;
                         vm.StoredProcedureName = "Product_Get_ProductByTypeId";
+                        vm.FilterString = Model.Product.ID.ToString();
                     }
                     @Html.Action("_ProductContent", "Product", new { area = "WEB_SHOP", viewModel = vm })
 

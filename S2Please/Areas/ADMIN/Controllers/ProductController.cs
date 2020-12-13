@@ -322,6 +322,7 @@ namespace S2Please.Areas.ADMIN.Controllers
             return Json(html, JsonRequestBehavior.AllowGet);
         }
 
+        [ValidateInput(false)]
         public ActionResult CheckValidation(ProductModel model, List<ProductColorSizeMapperModel> ColorSizeMap)
         {
             if (model != null)
@@ -343,7 +344,7 @@ namespace S2Please.Areas.ADMIN.Controllers
             }
             return Json(new { Invalid = false }, JsonRequestBehavior.AllowGet);
         }
-
+        [ValidateInput(false)]
         public ActionResult SaveProduct(ProductModel model, List<ProductColorSizeMapperModel> ColorSizeMap, List<ProductColorModel> ListImgByColor)
         {
  
@@ -357,7 +358,7 @@ namespace S2Please.Areas.ADMIN.Controllers
                     for (int i = 0; i < colors.Length; i++)
                     {
                         var value = colors[i].Replace(" ", "-");
-                        var data = ListImgByColor.Where(s => s.COLOR == value).FirstOrDefault();
+                        var data = ListImgByColor.Where(s => s.COLOR.Replace(" ","-").Trim() == value).FirstOrDefault();
 
                         colorTypes.Add(new ColorType()
                         {
@@ -746,7 +747,7 @@ namespace S2Please.Areas.ADMIN.Controllers
                 {
                     foreach (var item in listFile)
                     {
-                        var file = dataDynamic.Where(s => s["COLOR"].ToString() == item.COLOR).ToList().FirstOrDefault();
+                        var file = dataDynamic.Where(s => s["COLOR"].ToString() == item.COLOR.Replace(" ","-").Trim()).ToList().FirstOrDefault();
                         if (file!=null)
                         {
                            

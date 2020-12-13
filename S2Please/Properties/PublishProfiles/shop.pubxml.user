@@ -124,7 +124,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>10/22/2020 08:49:44</publishTime>
     </File>
     <File Include="Areas/ADMIN/Views/Product/_ListImgByColor.cshtml">
-      <publishTime>10/18/2020 21:18:38</publishTime>
+      <publishTime>12/13/2020 10:36:57</publishTime>
     </File>
     <File Include="Areas/ADMIN/Views/Product/_ListSlideImg.cshtml">
       <publishTime>10/18/2020 22:13:39</publishTime>
@@ -193,7 +193,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>12/10/2020 21:42:54</publishTime>
     </File>
     <File Include="Areas/ADMIN/Views/Template/_Search.cshtml">
-      <publishTime>12/11/2020 23:05:19</publishTime>
+      <publishTime>12/12/2020 15:19:05</publishTime>
     </File>
     <File Include="Areas/ADMIN/Views/Template/_Select.cshtml">
       <publishTime>08/01/2020 15:13:21</publishTime>
@@ -310,7 +310,10 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>09/04/2020 14:35:19</publishTime>
     </File>
     <File Include="Areas/WEB_SHOP/Views/Home/Index.cshtml">
-      <publishTime>12/04/2020 23:29:05</publishTime>
+      <publishTime>12/12/2020 09:47:56</publishTime>
+    </File>
+    <File Include="Areas/WEB_SHOP/Views/Home/Slide.cshtml">
+      <publishTime>12/12/2020 10:11:39</publishTime>
     </File>
     <File Include="Areas/WEB_SHOP/Views/Menu/DropdownLanuage.cshtml">
       <publishTime>11/11/2020 21:14:41</publishTime>
@@ -319,7 +322,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>12/11/2020 20:51:55</publishTime>
     </File>
     <File Include="Areas/WEB_SHOP/Views/Product/Detail.cshtml">
-      <publishTime>12/07/2020 09:56:54</publishTime>
+      <publishTime>12/13/2020 11:00:21</publishTime>
     </File>
     <File Include="Areas/WEB_SHOP/Views/Product/Products.cshtml">
       <publishTime>10/04/2020 14:20:35</publishTime>
@@ -553,13 +556,13 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>10/20/2020 15:35:24</publishTime>
     </File>
     <File Include="bin/Repository.dll">
-      <publishTime>12/11/2020 23:11:30</publishTime>
+      <publishTime>12/13/2020 08:41:27</publishTime>
     </File>
     <File Include="bin/Repository.dll.config">
       <publishTime>11/07/2020 00:40:38</publishTime>
     </File>
     <File Include="bin/Repository.pdb">
-      <publishTime>12/11/2020 23:11:30</publishTime>
+      <publishTime>12/13/2020 08:41:27</publishTime>
     </File>
     <File Include="bin/roslyn/csc.exe">
       <publishTime>06/18/2015 20:19:46</publishTime>
@@ -598,10 +601,10 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>06/18/2015 20:19:46</publishTime>
     </File>
     <File Include="bin/S2Please.dll">
-      <publishTime>12/11/2020 23:11:35</publishTime>
+      <publishTime>12/13/2020 11:04:45</publishTime>
     </File>
     <File Include="bin/S2Please.pdb">
-      <publishTime>12/11/2020 23:11:35</publishTime>
+      <publishTime>12/13/2020 11:04:45</publishTime>
     </File>
     <File Include="bin/SHOP.COMMON.dll">
       <publishTime>12/08/2020 23:32:42</publishTime>
@@ -2977,7 +2980,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>12/11/2020 21:02:50</publishTime>
     </File>
     <File Include="Scripts/Common/CommonAdmin.js">
-      <publishTime>12/11/2020 23:10:20</publishTime>
+      <publishTime>12/12/2020 09:31:39</publishTime>
     </File>
     <File Include="Scripts/Common/Table.js">
       <publishTime>11/12/2020 23:46:08</publishTime>
@@ -3115,7 +3118,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>12/02/2020 00:00:14</publishTime>
     </File>
     <File Include="Scripts/Product/AdminProduct.js">
-      <publishTime>11/18/2020 22:07:23</publishTime>
+      <publishTime>12/13/2020 10:35:19</publishTime>
     </File>
     <File Include="Scripts/Product/Product.js">
       <publishTime>10/18/2020 22:02:40</publishTime>

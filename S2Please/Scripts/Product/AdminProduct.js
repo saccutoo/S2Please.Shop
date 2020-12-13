@@ -267,7 +267,8 @@ $(document).ready(function () {
 
 });
 
-function reloadImgByColor(colorRemove,removeImg) {
+function reloadImgByColor(colorRemove, removeImg) {
+    debugger
     var color = $("#color").val();
     if (color == null || color =='') {
         color = colorRemove.split(' ').join('-');
@@ -282,12 +283,12 @@ function reloadImgByColor(colorRemove,removeImg) {
                 var isRemove = '0';
                 var colorName = color[i].split(' ').join('-');
                 if ($('#file-name-' + colorName).length > 0) {
-                    fileName = $('#file-name-' + color).val();
+                    fileName = $('#file-name-' + colorName).val();
                 }
                 if ($('#id-' + colorName).length > 0) {
                     id = $('#id-' + colorName).val();
                 }
-                if (colorRemove != null && colorRemove != '' && colorRemove == colorName) {
+                if (colorRemove != null && colorRemove != '' && colorRemove.split(' ').join('-') == colorName) {
                     isRemove = '1';
                 }
                 if (dynamic == null || dynamic == "") {
@@ -626,8 +627,20 @@ function saveProduct() {
             var rows = $('.row-img-by-color');
             if (rows.length > 0) {
                 for (var i = 0; i < rows.length; i++) {
-                    var value = rows[i].getAttribute('value');
-                    if ($('#img-' + value).val() == null || $('#img-' + value).val()=='') {
+                    //var value = rows[i].getAttribute('value');
+                    //if ($('#img-' + value).val() == null || $('#img-' + value).val()=='') {
+                    //    $("label[name='message-error-headingTwo']").text(errorImg4);
+                    //    $("#card-headingTwo").animate({
+                    //        'background-color': 'red',
+                    //    });
+                    //    $("#card-headingTwo").animate({
+                    //        'background-color': 'rgba(0,0,0,.03)',
+                    //    });
+                    //    loadingBody.Hide();
+                    //    return;
+                    //}
+                    var value = rows[i].getAttribute('value-img');
+                    if (value == null || value == '' || value == undefined) {
                         $("label[name='message-error-headingTwo']").text(errorImg4);
                         $("#card-headingTwo").animate({
                             'background-color': 'red',
@@ -638,7 +651,6 @@ function saveProduct() {
                         loadingBody.Hide();
                         return;
                     }
-
                 }
             }
 
