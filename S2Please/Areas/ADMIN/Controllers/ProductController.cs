@@ -158,11 +158,11 @@ namespace S2Please.Areas.ADMIN.Controllers
                         var check = RemoveFileUpload(item.FILE_NAME);
                     }
                 }
-                Session["SLIDE-IMG"] = null;
-                Session["SLIDE-IMG-REMOVE"] = null;
-                Session["COLOR-IMG"] = null;
-                Session["COLOR-IMG-REMOVE"] = null;
             }
+            Session["SLIDE-IMG"] = null;
+            Session["SLIDE-IMG-REMOVE"] = null;
+            Session["COLOR-IMG"] = null;
+            Session["COLOR-IMG-REMOVE"] = null;
             ProductSaveViewModel vm = new ProductSaveViewModel();
             vm.Product.ID = id;
 

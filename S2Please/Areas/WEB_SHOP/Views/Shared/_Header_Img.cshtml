@@ -12,6 +12,6 @@
     }
 </style>
 <section class="header_text sub">
-    <img class="pageBanner" src="~/Layout/themes/images/pageBanner.png" alt="New products">
+    @Html.Action("Slide", "Home", new { area = "WEB_SHOP" })
     <h4><span>@FunctionHelpers.GetValueLanguage(Model.KeyLanguage).ToUpper()</span></h4>
 </section>

@@ -32,7 +32,7 @@
                 @if (Model.DataProductTypes != null && Model.DataProductTypes.Count() > 0)
                 {
                     <ul class="nav nav-list">
-                        <li class="nav-header">@FunctionHelpers.GetValueLanguage("Product.RelatedCategories")</li>
+                        <li class="nav-header">@FunctionHelpers.GetValueLanguage("ProductType.ProductType")</li>
                         @{
                             int index = 0;
                             var data = string.Empty;
@@ -46,6 +46,18 @@
                                 if (data != null && item.ID.ToString() == data)
                                 {
                                     check = true;
+                                }
+                                if (!check)
+                                {
+                                    if (Model.ProductGroups!=null && Model.ProductGroups.Count()>0 )
+                                    {
+                                        var group = Model.ProductGroups.Where(s => s == item.PRODUCT_GROUP_ID.ToString());
+                                        if (group!=null)
+                                        {
+                                            check = true;
+
+                                        }
+                                    }
                                 }
                                 <li>
                                     @Html.Partial("~/Views/Template/_Checkbox.cshtml", new CheckBoxViewModel() { Id = "check-" + item.ID, Name = "checkbox", Value = item.ID.ToString(), AttributeCheck = check == true ? "checked" : "", Text = FunctionHelpers.GetValueLocalization(item.ID, "PRODUCT_TYPE", "NAME"), OnClick="clickProductType('Products',"+item.ID+")"})

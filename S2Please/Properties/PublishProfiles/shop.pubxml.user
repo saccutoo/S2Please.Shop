@@ -322,7 +322,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>12/11/2020 20:51:55</publishTime>
     </File>
     <File Include="Areas/WEB_SHOP/Views/Product/Detail.cshtml">
-      <publishTime>12/13/2020 11:00:21</publishTime>
+      <publishTime>12/13/2020 11:53:40</publishTime>
     </File>
     <File Include="Areas/WEB_SHOP/Views/Product/Products.cshtml">
       <publishTime>10/04/2020 14:20:35</publishTime>
@@ -601,10 +601,10 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>06/18/2015 20:19:46</publishTime>
     </File>
     <File Include="bin/S2Please.dll">
-      <publishTime>12/13/2020 11:04:45</publishTime>
+      <publishTime>12/13/2020 11:55:04</publishTime>
     </File>
     <File Include="bin/S2Please.pdb">
-      <publishTime>12/13/2020 11:04:45</publishTime>
+      <publishTime>12/13/2020 11:55:04</publishTime>
     </File>
     <File Include="bin/SHOP.COMMON.dll">
       <publishTime>12/08/2020 23:32:42</publishTime>

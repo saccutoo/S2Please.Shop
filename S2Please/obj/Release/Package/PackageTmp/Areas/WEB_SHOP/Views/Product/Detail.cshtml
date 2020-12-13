@@ -358,6 +358,7 @@
                         vm.NumberInPage = 3;
                         vm.NumberProductGet = 9;
                         vm.StoredProcedureName = "Product_Get_ProductByTypeId";
+                        vm.FilterString = Model.Product.ID.ToString();
                     }
                     @Html.Action("_ProductContent", "Product", new { area = "WEB_SHOP", viewModel = vm })
 
