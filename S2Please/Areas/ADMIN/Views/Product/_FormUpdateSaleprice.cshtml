@@ -1,0 +1,54 @@
+﻿@model S2Please.Areas.ADMIN.ViewModel.ProductSaveViewModel
+@using S2Please.Helper
+@using S2Please.Models
+@using Newtonsoft.Json
+@using S2Please.ViewModel
+@using System.Globalization
+@using SHOP.COMMON
+@{
+    Layout = null;
+    CultureInfo cul = CultureInfo.GetCultureInfo("vi-VN");   // try with "en-U
+    int index = 0;
+}
+<style>
+    .modal-body .padding-left-right {
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+
+    .modal-body {
+        padding-left: 0;
+        padding-right: 20px;
+    }
+</style>
+
+<div class="modal-header">
+    <h5 class="modal-title" id="scrollmodalLabel">@FunctionHelpers.GetValueLanguage("Product.UpdateSaleprice").ToUpper()</h5>
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<div class="modal-body" style="padding-left:15px;">
+    <form id="form-update-saleprice">
+        @if (Model != null && Model.ProductMapp != null && Model.ProductMapp.Count() > 0)
+        {
+            foreach (var item in Model.ProductMapp)
+            {
+                <div class="row form-group">
+                    <div class="col col-md-12">
+                        <input type="text" name="colorSizeMap[@index].ID" value="@item.ID" hidden/>
+                        @Html.Partial("~/Areas/ADMIN/Views/Template/Form/_InputMask.cshtml", new InputModel() { Type = "text", Id = "PRICE_" + index, Class = "", Name = "colorSizeMap[" + index + "].PRICE", Value = item.PRICE_IMPORT.ToString(), IsRequied = false, TypeInputMask = "currency", Attribute = "inputMask",LabelName=item.COLOR +"-" + item.SIZE_NAME })
+                    </div>                 
+                </div>
+                index++;
+            }
+        }
+    </form>
+</div>
+<div class="modal-footer">
+    <button type="button" class="au-btn au-btn-icon  btn btn-secondary" data-dismiss="modal">@FunctionHelpers.GetValueLanguage("Button.Title.Close")</button>
+    @if (FunctionHelpers.CheckPermission(MenuName.Product, Permission.Update))
+    {
+        <button type="button" class="au-btn au-btn-icon au-btn--green au-btn--smally" onclick="saveUpdateSaleprice()">@FunctionHelpers.GetValueLanguage("Button.Save")</button>
+    }
+</div>

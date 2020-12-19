@@ -64,13 +64,13 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>12/09/2020 00:08:53</publishTime>
     </File>
     <File Include="Areas/ADMIN/Views/Notification/DropdownNotifications.cshtml">
-      <publishTime>12/10/2020 23:02:36</publishTime>
+      <publishTime>12/18/2020 14:31:07</publishTime>
     </File>
     <File Include="Areas/ADMIN/Views/Notification/Message.cshtml">
       <publishTime>12/08/2020 20:51:54</publishTime>
     </File>
     <File Include="Areas/ADMIN/Views/Notification/NotificationMessage.cshtml">
-      <publishTime>12/05/2020 21:31:52</publishTime>
+      <publishTime>12/18/2020 14:21:08</publishTime>
     </File>
     <File Include="Areas/ADMIN/Views/Notification/_ContentMessageBySession.cshtml">
       <publishTime>12/06/2020 01:33:15</publishTime>
@@ -121,7 +121,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>11/25/2020 23:18:10</publishTime>
     </File>
     <File Include="Areas/ADMIN/Views/Product/_Detail.cshtml">
-      <publishTime>10/22/2020 08:49:44</publishTime>
+      <publishTime>12/13/2020 16:25:30</publishTime>
     </File>
     <File Include="Areas/ADMIN/Views/Product/_ListImgByColor.cshtml">
       <publishTime>12/13/2020 10:36:57</publishTime>
@@ -325,7 +325,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>12/13/2020 11:53:40</publishTime>
     </File>
     <File Include="Areas/WEB_SHOP/Views/Product/Products.cshtml">
-      <publishTime>10/04/2020 14:20:35</publishTime>
+      <publishTime>12/13/2020 13:02:32</publishTime>
     </File>
     <File Include="Areas/WEB_SHOP/Views/Product/_ListProduct.cshtml">
       <publishTime>10/04/2020 14:19:52</publishTime>
@@ -346,7 +346,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>07/19/2020 21:11:23</publishTime>
     </File>
     <File Include="Areas/WEB_SHOP/Views/Shared/_Header_Img.cshtml">
-      <publishTime>06/26/2020 00:58:51</publishTime>
+      <publishTime>12/13/2020 13:14:21</publishTime>
     </File>
     <File Include="Areas/WEB_SHOP/Views/Shared/_Header_Text.cshtml">
       <publishTime>06/26/2020 00:58:35</publishTime>
@@ -601,10 +601,10 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>06/18/2015 20:19:46</publishTime>
     </File>
     <File Include="bin/S2Please.dll">
-      <publishTime>12/13/2020 11:55:04</publishTime>
+      <publishTime>12/18/2020 14:34:27</publishTime>
     </File>
     <File Include="bin/S2Please.pdb">
-      <publishTime>12/13/2020 11:55:04</publishTime>
+      <publishTime>12/18/2020 14:34:27</publishTime>
     </File>
     <File Include="bin/SHOP.COMMON.dll">
       <publishTime>12/08/2020 23:32:42</publishTime>

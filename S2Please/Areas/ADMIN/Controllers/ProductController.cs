@@ -33,7 +33,7 @@ namespace S2Please.Areas.ADMIN.Controllers
         }
 
         [HttpGet]
-        public ActionResult Index(long id=0)
+        public ActionResult Index(long id = 0)
         {
             ProductViewModel product = new ProductViewModel();
             var responseTableUser = _tableRepository.GetTableUserConfig(TableName.Product, CurrentUser.UserAdmin.USER_ID);
@@ -69,7 +69,7 @@ namespace S2Please.Areas.ADMIN.Controllers
             return View(product);
         }
 
-        public ActionResult Detail(long id=0)
+        public ActionResult Detail(long id = 0)
         {
             ProductDetailViewModel vm = new ProductDetailViewModel();
 
@@ -112,7 +112,7 @@ namespace S2Please.Areas.ADMIN.Controllers
         //    return Json(html, JsonRequestBehavior.AllowGet);
         //}
 
-        public ActionResult Delete(long id=0)
+        public ActionResult Delete(long id = 0)
         {
             var result = new ResultModel();
             var response = _productRepository.DeleteProductByID(id, CurrentUser.UserAdmin.USER_ID);
@@ -135,12 +135,12 @@ namespace S2Please.Areas.ADMIN.Controllers
 
         public ActionResult ProductSave(long id = 0)
         {
-            bool checkPermission = FunctionHelpers.CheckPermission(TableName.Product,Permission.Update);
+            bool checkPermission = FunctionHelpers.CheckPermission(TableName.Product, Permission.Update);
             if (!checkPermission)
             {
                 return RedirectToRoute(new { action = "/Page404", controller = "Base", area = "" });
             }
-            if (id==0)
+            if (id == 0)
             {
                 if (Session["SLIDE-IMG"] != null)
                 {
@@ -172,9 +172,9 @@ namespace S2Please.Areas.ADMIN.Controllers
             var responseGroup = _productRepository.GetProductGroup();
             vm.Groups = responseGroup.Results.Where(s => s.TYPE == 2).ToList();
 
-            if (id!=0)
+            if (id != 0)
             {
-              
+
                 var responseProduct = _productRepository.GetProductByIdFromAdmin(id);
                 if (responseProduct != null)
                 {
@@ -189,15 +189,16 @@ namespace S2Please.Areas.ADMIN.Controllers
                 }
 
                 var responseProductColor = _productRepository.GetProductColorByProductId(id);
-                if (responseProductColor!=null && responseProductColor.Results!=null && responseProductColor.Results.Count()>0)
+                if (responseProductColor != null && responseProductColor.Results != null && responseProductColor.Results.Count() > 0)
                 {
                     vm.ProductColors = JsonConvert.DeserializeObject<List<ProductColorModel>>(JsonConvert.SerializeObject(responseProductColor.Results));
                     foreach (var item in vm.ProductColors)
                     {
-                        vm.FileColors.Add(new FileModel() { 
-                            ID=item.ID,
-                            COLOR=item.COLOR,
-                            FILE_NAME=item.IMG
+                        vm.FileColors.Add(new FileModel()
+                        {
+                            ID = item.ID,
+                            COLOR = item.COLOR,
+                            FILE_NAME = item.IMG
                         });
                     }
                     Session["COLOR-IMG"] = vm.FileColors;
@@ -300,11 +301,11 @@ namespace S2Please.Areas.ADMIN.Controllers
 
                 }
             }
-            if (ColorSizeMaps != null && ColorSizeMaps.Count()>0)
+            if (ColorSizeMaps != null && ColorSizeMaps.Count() > 0)
             {
                 foreach (var item in ColorSizeMaps)
                 {
-                    if (ColorSizeMap!=null && ColorSizeMap.Count()>0)
+                    if (ColorSizeMap != null && ColorSizeMap.Count() > 0)
                     {
                         var data = ColorSizeMap.Where(s => s.COLOR == item.COLOR && s.SIZE == item.SIZE).FirstOrDefault();
                         if (data != null)
@@ -314,7 +315,7 @@ namespace S2Please.Areas.ADMIN.Controllers
                             item.AMOUNT = data.AMOUNT;
                         }
                     }
-                   
+
                 }
             }
             vm.ColorSizeMapper = ColorSizeMaps;
@@ -347,7 +348,7 @@ namespace S2Please.Areas.ADMIN.Controllers
         [ValidateInput(false)]
         public ActionResult SaveProduct(ProductModel model, List<ProductColorSizeMapperModel> ColorSizeMap, List<ProductColorModel> ListImgByColor)
         {
- 
+
             model.PRODUCT_CODE = new Random().Next(10000, 99999).ToString() + new Random().Next(10000, 99999).ToString();
             List<ColorType> colorTypes = new List<ColorType>();
             if (!String.IsNullOrEmpty(model.COLOR))
@@ -358,21 +359,21 @@ namespace S2Please.Areas.ADMIN.Controllers
                     for (int i = 0; i < colors.Length; i++)
                     {
                         var value = colors[i].Replace(" ", "-");
-                        var data = ListImgByColor.Where(s => s.COLOR.Replace(" ","-").Trim() == value).FirstOrDefault();
+                        var data = ListImgByColor.Where(s => s.COLOR.Replace(" ", "-").Trim() == value).FirstOrDefault();
 
                         colorTypes.Add(new ColorType()
                         {
                             COLOR = colors[i],
                             PRODUCT_ID = model.ID,
-                            ID= data.ID,
-                            IMG= (data!=null ? data.IMG.ToString() : "")
+                            ID = data.ID,
+                            IMG = (data != null ? data.IMG.ToString() : "")
 
                         });
                     }
                 }
                 else
                 {
-                    var data = ListImgByColor.Where(s => s.COLOR == model.COLOR.Replace(" ","-")).FirstOrDefault();
+                    var data = ListImgByColor.Where(s => s.COLOR == model.COLOR.Replace(" ", "-")).FirstOrDefault();
                     colorTypes.Add(new ColorType()
                     {
                         COLOR = model.COLOR,
@@ -409,10 +410,10 @@ namespace S2Please.Areas.ADMIN.Controllers
             }
 
             List<ProductImgType> productImgs = new List<ProductImgType>();
-            if (Session["SLIDE-IMG"]!=null)
+            if (Session["SLIDE-IMG"] != null)
             {
-                var files= Session["SLIDE-IMG"] as List<FileModel>;
-                if (files!=null && files.Count()>0)
+                var files = Session["SLIDE-IMG"] as List<FileModel>;
+                if (files != null && files.Count() > 0)
                 {
                     int index = 0;
 
@@ -434,8 +435,8 @@ namespace S2Please.Areas.ADMIN.Controllers
                     }
                 }
             }
-                     
-            List<ColorSizeMapperType> colorSizeMapType = new List<ColorSizeMapperType>();                      
+
+            List<ColorSizeMapperType> colorSizeMapType = new List<ColorSizeMapperType>();
             colorSizeMapType = MapperHelper.MapList<ProductColorSizeMapperModel, ColorSizeMapperType>(ColorSizeMap);
             bool checkIsMAin = false;
             foreach (var item in colorSizeMapType)
@@ -463,7 +464,7 @@ namespace S2Please.Areas.ADMIN.Controllers
             var sizeTypeInsert = MapperHelper.MapList<SizeType, Repository.Type.SizeType>(sizeTypes);
             var productImgTypeInsert = MapperHelper.MapList<ProductImgType, Repository.Type.ProductImgType>(productImgs);
             var ColorSizeMapperTypeInsert = MapperHelper.MapList<ColorSizeMapperType, Repository.Type.ColorSizeMapperType>(colorSizeMapType);
-            var modelInsert=MapperHelper.Map<ProductModel, Repository.Model.ProductModel>(model);
+            var modelInsert = MapperHelper.Map<ProductModel, Repository.Model.ProductModel>(model);
 
             var result = new ResultModel();
             var response = _productRepository.SaveProduct(modelInsert, paramTypeInsert, colorTypeInsert, sizeTypeInsert, productImgTypeInsert, ColorSizeMapperTypeInsert);
@@ -517,7 +518,7 @@ namespace S2Please.Areas.ADMIN.Controllers
 
                         Session["Product"] = JsonConvert.DeserializeObject<ProductModel>(JsonConvert.SerializeObject(response.Results.FirstOrDefault()));
                         result.Success = true;
-                        if (model.ID!=0)
+                        if (model.ID != 0)
                         {
                             result.Message = FunctionHelpers.GetValueLanguage("Message.UpdateProduct.Success");
                         }
@@ -571,7 +572,7 @@ namespace S2Please.Areas.ADMIN.Controllers
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
-        public ActionResult RemoveFileSlide(string fileName, long id=0, bool removeAll=false)
+        public ActionResult RemoveFileSlide(string fileName, long id = 0, bool removeAll = false)
         {
             var response = new ResultModel();
             var listFile = Session["SLIDE-IMG"] as List<FileModel>;
@@ -626,13 +627,13 @@ namespace S2Please.Areas.ADMIN.Controllers
                 }
                 foreach (var item in listFile)
                 {
-                    if (item.ID==0)
+                    if (item.ID == 0)
                     {
                         var file = listFile.Where(s => s.FILE_NAME == item.FILE_NAME).FirstOrDefault();
                         if (file != null)
                         {
                             var check = RemoveFileUpload(item.FILE_NAME);
-                           
+
                         }
                     }
                     else
@@ -654,7 +655,7 @@ namespace S2Please.Areas.ADMIN.Controllers
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
-        public ActionResult UploadImgByColor(IEnumerable<HttpPostedFileBase> files,string dynamic)
+        public ActionResult UploadImgByColor(IEnumerable<HttpPostedFileBase> files, string dynamic)
         {
             SlideImgViewModel vm = new SlideImgViewModel();
 
@@ -675,7 +676,7 @@ namespace S2Please.Areas.ADMIN.Controllers
                 foreach (var item in dataDynamic)
                 {
                     var save = SaveFile(files);
-                    if (save!=null && save.Count()>0)
+                    if (save != null && save.Count() > 0)
                     {
                         if (listFile != null && listFile.Count() > 0)
                         {
@@ -712,8 +713,8 @@ namespace S2Please.Areas.ADMIN.Controllers
                             });
                         }
                     }
-                   
-                    
+
+
                 }
                 Session["COLOR-IMG"] = listFile;
                 vm.Files = listFile;
@@ -724,18 +725,18 @@ namespace S2Please.Areas.ADMIN.Controllers
             }
             else
             {
-                
+
                 var dataDynamic = JsonConvert.DeserializeObject<List<dynamic>>(dynamic);
-                if (listFile != null && listFile.Count() > 0 && dataDynamic.Count()> listFile.Count())
+                if (listFile != null && listFile.Count() > 0 && dataDynamic.Count() > listFile.Count())
                 {
                     foreach (var item in dataDynamic)
                     {
                         var file = listFile.Where(s => s.COLOR == item["COLOR"].ToString()).ToList().FirstOrDefault();
-                        if (file==null)
+                        if (file == null)
                         {
                             listFile.Add(new FileModel()
                             {
-                                ID= long.Parse(item["ID"].ToString()),
+                                ID = long.Parse(item["ID"].ToString()),
                                 FILE_NAME = item["FILE_NAME"].ToString(),
                                 COLOR = item["COLOR"].ToString(),
 
@@ -743,15 +744,15 @@ namespace S2Please.Areas.ADMIN.Controllers
                         }
                     }
                 }
-                if (listFile!=null && listFile.Count()>0)
+                if (listFile != null && listFile.Count() > 0)
                 {
                     foreach (var item in listFile)
                     {
-                        var file = dataDynamic.Where(s => s["COLOR"].ToString() == item.COLOR.Replace(" ","-").Trim()).ToList().FirstOrDefault();
-                        if (file!=null)
+                        var file = dataDynamic.Where(s => s["COLOR"].ToString() == item.COLOR.Replace(" ", "-").Trim()).ToList().FirstOrDefault();
+                        if (file != null)
                         {
-                           
-                            if (file["IS_REMOVE"]=="1")
+
+                            if (file["IS_REMOVE"] == "1")
                             {
                                 if (file["IS_REMOVE_IMG"] == "1")
                                 {
@@ -793,7 +794,7 @@ namespace S2Please.Areas.ADMIN.Controllers
                                         var check = RemoveFileUpload(item.FILE_NAME);
                                     }
                                 }
-                               
+
                             }
                             else
                             {
@@ -845,16 +846,69 @@ namespace S2Please.Areas.ADMIN.Controllers
                         }
                     }
                 }
-                
+
                 Session["COLOR-IMG"] = vm.Files;
                 var response = new ResultModel();
                 response.Success = true;
                 response.Html = RenderViewToString(this.ControllerContext, "~/Areas/ADMIN/Views/Product/_ListImgByColor.cshtml", vm);
                 return Json(response, JsonRequestBehavior.AllowGet);
             }
-           
+
         }
 
+        public ActionResult ShowFormUpdateSaleprice(long productId)
+        {
+            var result = new ResultModel();
+            ProductSaveViewModel vm = new ProductSaveViewModel();
+            var colorSizeMappResponse = _productRepository.GetProductColorSizeMapByProductId(productId, true);
+            if (colorSizeMappResponse != null)
+            {
+                if (colorSizeMappResponse.Success == false && CheckPermision(colorSizeMappResponse.StatusCode) == false)
+                {
+                    result.SetUrl("/Base/Page404");
+                }
+                else
+                {
+                    vm.ProductMapp = JsonConvert.DeserializeObject<List<ProductColorSizeMapperModel>>(JsonConvert.SerializeObject(colorSizeMappResponse.Results)); 
+                    result.Html= RenderViewToString(this.ControllerContext, "~/Areas/ADMIN/Views/Product/_FormUpdateSaleprice.cshtml", vm);
+                }
+            }
+            return Content(JsonConvert.SerializeObject(new
+            {
+                result
+            }));
+        }
+
+
+        public ActionResult SaveUpdateSaleprice(List<ProductColorSizeMapperModel> colorSizeMap)
+        {
+            var result = new ResultModel();
+            var type = MapperHelper.MapList<ProductColorSizeMapperModel, Repository.Type.ColorSizeMapperType>(colorSizeMap);
+            var response = _productRepository.SaveUpdateSaleprice(type, CurrentUser.UserAdmin.USER_ID,true);
+            if (response.Success == false && CheckPermision(response.StatusCode) == false)
+            {
+                result.SetUrl("/Base/Page404");
+            }
+            else
+            {
+                var resultProduct = JsonConvert.DeserializeObject<List<ProductColorSizeMapperModel>>(JsonConvert.SerializeObject(response.Results));
+                if (resultProduct != null && resultProduct.Count() > 0)
+                {
+                    if (response.Success)
+                    {
+                        result.SetDataMessage(true, FunctionHelpers.GetValueLanguage("Message.UpdateProduct.Success"), FunctionHelpers.GetValueLanguage("Message.Success"), string.Empty);
+                    }
+                    else
+                    {
+                        result.SetDataMessage(false, FunctionHelpers.GetValueLanguage("Message.UpdateFail"), FunctionHelpers.GetValueLanguage("Message.Error"), string.Empty);
+                    }
+                }
+            }
+            return Content(JsonConvert.SerializeObject(new
+            {
+                result
+            }));
+        }
         #region RenderTable
         public ActionResult ReloadTable(TableViewModel tableData, ParamType param)
         {
@@ -948,7 +1002,7 @@ namespace S2Please.Areas.ADMIN.Controllers
         public TableViewModel GetData(TableViewModel tableData, ParamType paramType)
         {
 
-            var type = MapperHelper.Map<ParamType, Repository.Type.ParamType> (paramType);
+            var type = MapperHelper.Map<ParamType, Repository.Type.ParamType>(paramType);
             var response = _productRepository.ProductFromAdmin(type);
 
             if (response != null)
@@ -1041,7 +1095,7 @@ namespace S2Please.Areas.ADMIN.Controllers
             {
                 for (int i = 0; i < tableData.DATA.Count(); i++)
                 {
-                    
+
                     Cell = Cell + 1;
                     foreach (var item in dt1.Columns)
                     {

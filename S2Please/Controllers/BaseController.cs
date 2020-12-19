@@ -67,8 +67,7 @@ namespace S2Please.Controllers
             {
                 foreach (var attachment in attachments)
                 {
-                    var dir = System.Configuration.ConfigurationManager.AppSettings["UploadFolder"].Replace("\\", "/");
-                    var path = Path.Combine(dir, attachment.Realname);
+                    var path = Server.MapPath("~/Image/" + attachment.Realname);
                     if (System.IO.File.Exists(path))
                     {
                         lstAttach.Add(new Attachment(new MemoryStream(System.IO.File.ReadAllBytes(path)), attachment.Name));

@@ -331,5 +331,31 @@ namespace Repository
             //Lấy danh sách sản phẩm
             return ListProcedure<ProductModel>(new ProductModel(), "Product_Get_SearchProduct", param);
         }
+
+        //Get Product color size map by product id
+        public ResultModel GetProductColorSizeMapByProductId(long id, bool isCheckPermission = false)
+        {
+            var param = new List<Param>();
+            param.Add(new Param { Key = "@PRODUCT_ID", Value = id.ToString() });
+            return ListProcedure<ProductColorSizeMapperModel>(new ProductColorSizeMapperModel(), "Product_Get_GetProductColorSizeMapByProductId", param,false,isCheckPermission);
+        }
+
+
+        //Update price import
+        public ResultModel SaveUpdateSaleprice(List<ColorSizeMapperType> colorSizeMapTypes, long updatedBy, bool isCheckPermission = false)
+        {
+            var param = new List<Param>();
+            param.Add(new Param { Key = "@UPDATED_BY", Value = updatedBy.ToString() });
+            param.Add(new Param
+            {
+                IsUserDefinedTableType = true,
+                paramUserDefinedTableType = new SqlParameter("@ColorSizeMap", SqlDbType.Structured)
+                {
+                    TypeName = "dbo.ColorSizeMapperType",
+                    Value = DataTableHelper.ConvertToUserDefinedDataTable(colorSizeMapTypes)
+                }
+            });
+            return ListProcedure<ProductColorSizeMapperModel>(new ProductColorSizeMapperModel(), "Product_Update_UpdateSaleprice", param, false, isCheckPermission);
+        }
     }
 }

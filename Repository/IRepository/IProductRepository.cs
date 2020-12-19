@@ -79,5 +79,11 @@ namespace Repository
 
         //Get Search Product
         ResultModel SearchProduct(List<ParamType> basicParamType);
+
+        //Get Product color size map by product id
+        ResultModel GetProductColorSizeMapByProductId(long id, bool isCheckPermission = false);
+
+        //Update price import
+        ResultModel SaveUpdateSaleprice(List<ColorSizeMapperType> colorSizeMapTypes, long updatedBy, bool isCheckPermission = false);
     }
 }

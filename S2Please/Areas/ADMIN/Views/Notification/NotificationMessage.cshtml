@@ -23,12 +23,9 @@
                         @Html.Partial("~/Areas/ADMIN/Views/Notification/_ContentNotificationMessage.cshtml", Model)
                     }
 
-                    @if (Model.Messengers != null && Model.Messengers.Count() > 0)
-                    {
-                        <div class="mess__footer">
-                            <a href="/admin/message">@FunctionHelpers.GetValueLanguage("Messenger.MessengerViewAll")</a>
-                        </div>
-                    }
+                    <div class="mess__footer">
+                        <a href="/admin/message">@FunctionHelpers.GetValueLanguage("Messenger.MessengerViewAll")</a>
+                    </div>
                 </div>             
             </div>
         </div>

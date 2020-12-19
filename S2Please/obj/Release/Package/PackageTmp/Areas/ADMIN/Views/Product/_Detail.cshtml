@@ -52,16 +52,16 @@
     </button>
 </div>
 <div class="modal-body" style="padding-left:15px;">
-   <div class="row">
-       <div class="col-sm-3 padding-left-right">
-           <strong>
-               @FunctionHelpers.GetValueLanguage("Product.ProductName")
-           </strong>
-       </div>
-       <div  class="col-sm-9 padding-left-right">
-           <span>@Model.Product.NAME</span>
-       </div>
-   </div>
+    <div class="row">
+        <div class="col-sm-3 padding-left-right">
+            <strong>
+                @FunctionHelpers.GetValueLanguage("Product.ProductName")
+            </strong>
+        </div>
+        <div class="col-sm-9 padding-left-right">
+            <span>@Model.Product.NAME</span>
+        </div>
+    </div>
     <div class="row">
         <div class="col-sm-3 padding-left-right">
             <strong>
@@ -79,100 +79,108 @@
             </strong>
         </div>
         <div class="col-sm-9 padding-left-right">
-            <span>@Model.Product.DECRIPTION</span>
+            <span>@Html.Raw(Model.Product.DECRIPTION)</span>
         </div>
     </div>
-    <div class="row">
-        <div class="col-sm-3 padding-left-right">
-            <strong>
-                @FunctionHelpers.GetValueLanguage("Product.ProductMateria")
-            </strong>
+
+    @if (!string.IsNullOrEmpty(Model.Product.PRODUCT_MATERIAL))
+    {
+        <div class="row">
+            <div class="col-sm-3 padding-left-right">
+                <strong>
+                    @FunctionHelpers.GetValueLanguage("Product.ProductMateria")
+                </strong>
+            </div>
+            <div class="col-sm-9 padding-left-right">
+                <span>@Model.Product.PRODUCT_MATERIAL</span>
+            </div>
         </div>
-        <div class="col-sm-9 padding-left-right">
-            <span>@Model.Product.PRODUCT_MATERIAL</span>
+    }
+    @if (!string.IsNullOrEmpty(Model.Product.PRODUCT_ORIGIN))
+    {
+        <div class="row">
+            <div class="col-sm-3 padding-left-right">
+                <strong>
+                    @FunctionHelpers.GetValueLanguage("Product.ProductOrigin")
+                </strong>
+            </div>
+            <div class="col-sm-9 padding-left-right">
+                <span>@Model.Product.PRODUCT_ORIGIN</span>
+            </div>
         </div>
-    </div>
-    <div class="row">
-        <div class="col-sm-3 padding-left-right">
-            <strong>
-                @FunctionHelpers.GetValueLanguage("Product.ProductOrigin")
-            </strong>
-        </div>
-        <div class="col-sm-9 padding-left-right">
-            <span>@Model.Product.PRODUCT_ORIGIN</span>
-        </div>
-    </div>
+    }
+    
     <br />
-    <div class="row table-responsive table-responsive-data2" >
-       <table class="table table-striped table-data2 ">
-           <thead>
-               <tr>
-                   <th>@FunctionHelpers.GetValueLanguage("Product.ProductColor")</th>
-                   <th>@FunctionHelpers.GetValueLanguage("Product.Size")</th>
-                   <th>@FunctionHelpers.GetValueLanguage("Product.QuantityRemaining")</th>
-                   <th>@FunctionHelpers.GetValueLanguage("Product.QuantitySold")</th>
-                   <th>@FunctionHelpers.GetValueLanguage("Product.ProductPrice")</th>
-                   <th>@FunctionHelpers.GetValueLanguage("Product.Rate")</th>
-               </tr>
-           </thead>
-           <tbody>
-               @if (Model.ColorSizeMapper != null && Model.ColorSizeMapper.Count() > 0)
-               {
-                   foreach (var item in Model.ColorSizeMapper)
-                   {
-                    <tr>
-                        <td>
-                            @{
-                                var color = Model.Colors.Where(s => s.ID == item.COLOR_ID).FirstOrDefault();
-                                if (color != null)
-                                {
-                                    <span>@color.COLOR</span>
+    <div class="row table-responsive table-responsive-data2">
+        <table class="table table-striped table-data2 ">
+            <thead>
+                <tr>
+                    <th>@FunctionHelpers.GetValueLanguage("Product.ProductColor")</th>
+                    <th>@FunctionHelpers.GetValueLanguage("Product.Size")</th>
+                    <th>@FunctionHelpers.GetValueLanguage("Product.QuantityRemaining")</th>
+                    <th>@FunctionHelpers.GetValueLanguage("Product.QuantitySold")</th>
+                    <th>@FunctionHelpers.GetValueLanguage("Product.ProductPrice")</th>
+                    <th>@FunctionHelpers.GetValueLanguage("Product.Rate")</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model.ColorSizeMapper != null && Model.ColorSizeMapper.Count() > 0)
+                {
+                    foreach (var item in Model.ColorSizeMapper)
+                    {
+                        <tr>
+                            <td>
+                                @{
+                                    var color = Model.Colors.Where(s => s.ID == item.COLOR_ID).FirstOrDefault();
+                                    if (color != null)
+                                    {
+                                        <span>@color.COLOR</span>
+                                    }
                                 }
-                            }
-                        </td>
-                        <td>
-                            @{
-                                var size = Model.Sizes.Where(s => s.ID == item.SIZE_ID).FirstOrDefault();
-                                if (size != null)
-                                {
-                                    <span>@size.SIZE_NAME</span>
+                            </td>
+                            <td>
+                                @{
+                                    var size = Model.Sizes.Where(s => s.ID == item.SIZE_ID).FirstOrDefault();
+                                    if (size != null)
+                                    {
+                                        <span>@size.SIZE_NAME</span>
+                                    }
                                 }
-                            }
-                        </td>
-                        <td>
-                            <span>@item.AMOUNT</span>
-                        </td>
-                        <td>
-                            <span>@item.QUANTITY_SOLD</span>
-                        </td>
-                        <td>
-                            <span>@item.PRICE.ToString("#,###", cul.NumberFormat)</span>
-                        </td>
-                        <td>
-                           @if (!String.IsNullOrEmpty(item.RATE.ToString()))
-                           {
-                               <span>@item.RATE.ToString() % </span>
-                           }
-                        </td>
-                    </tr>
-                   }
-               }
-               
-           </tbody>
-       </table>
+                            </td>
+                            <td>
+                                <span>@item.AMOUNT</span>
+                            </td>
+                            <td>
+                                <span>@item.QUANTITY_SOLD</span>
+                            </td>
+                            <td>
+                                <span style="color:red">@item.PRICE.ToString("#,###", cul.NumberFormat)</span>
+                            </td>
+                            <td>
+                                @if (!String.IsNullOrEmpty(item.RATE.ToString()))
+                                {
+                                    <span>@item.RATE.ToString() % </span>
+                                }
+                            </td>
+                        </tr>
+                    }
+                }
+
+            </tbody>
+        </table>
     </div>
 
     @if (Model.ProductImgs != null && Model.ProductImgs.Count() > 0)
     {
-       
+
         <div class="row">
-         
+
             @foreach (var item in Model.ProductImgs)
             {
                 <div class="list-img">
                     @if (item.PRODUCT_IMAGE.IndexOf(".mp4") > -1 || item.PRODUCT_IMAGE.IndexOf(".mkv") > -1)
                     {
-                        <a href="#" onclick="clickImg('@item.PRODUCT_IMAGE')" title="@item.PRODUCT_IMAGE" data-toggle="tooltip"> 
+                        <a href="#" onclick="clickImg('@item.PRODUCT_IMAGE')" title="@item.PRODUCT_IMAGE" data-toggle="tooltip">
                             <video>
                                 <source src="~/Image/@item.PRODUCT_IMAGE" type="video/mp4" controls autoplay>
                                 @*<source src="movie.ogg" type="video/ogg">*@
@@ -190,7 +198,7 @@
             }
         </div>
     }
-   
+
 </div>
 <div class="modal-footer">
     <button type="button" class="btn btn-secondary" data-dismiss="modal">@FunctionHelpers.GetValueLanguage("Button.Title.Close")</button>

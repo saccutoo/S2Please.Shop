@@ -11,9 +11,18 @@
             <i class="zmdi zmdi-notifications"></i>
             <span class="quantity" id="notification-quantity-total">@Model.Total</span>
             <div class="notifi-dropdown js-dropdown" id="notifi-dropdown">
-                <div class="notifi__title">
-                    <p>@string.Format(FunctionHelpers.GetValueLanguage("Notification.TotalDropdown"), Model.Total)</p>
-                </div>
+                @if (Model.Total != null && Model.Total > 0)
+                {
+                    <div class="notifi__title">
+                        <p>@string.Format(FunctionHelpers.GetValueLanguage("Notification.TotalDropdown"), Model.Total)</p>
+                    </div>
+                }
+                else
+                {
+                    <div class="notifi__title">
+                        <p>@FunctionHelpers.GetValueLanguage("Title.NoHasNotifition")</p>
+                    </div>
+                }
                 @if (Model != null && Model.Notifications != null && Model.Notifications.Count() > 0)
                 {
                     foreach (var item in Model.Notifications)

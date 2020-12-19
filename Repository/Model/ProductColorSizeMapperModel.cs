@@ -13,6 +13,7 @@ namespace Repository.Model
         public long PRODUCT_ID { get; set; }
         public long AMOUNT { get; set; }
         public float PRICE { get; set; }
+        public float PRICE_IMPORT { get; set; }
         public long RATE { get; set; }
         public bool IS_MAIN { get; set; }
         public float DISCOUNT_RATE { get; set; }

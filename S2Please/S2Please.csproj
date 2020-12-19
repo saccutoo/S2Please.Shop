@@ -1196,6 +1196,7 @@
     <Content Include="Areas\ADMIN\Views\Template\_PermissionAction.cshtml" />
     <Content Include="Areas\ADMIN\Views\Template\_Search.cshtml" />
     <Content Include="Areas\WEB_SHOP\Views\Home\Slide.cshtml" />
+    <Content Include="Areas\ADMIN\Views\Product\_FormUpdateSaleprice.cshtml" />
     <None Include="Properties\PublishProfiles\shop.pubxml" />
     <Content Include="Scripts\bootstrap-select-1.13.14\dist\css\bootstrap-select.css.map" />
     <Content Include="Scripts\bootstrap-select-1.13.14\dist\js\bootstrap-select.js.map" />

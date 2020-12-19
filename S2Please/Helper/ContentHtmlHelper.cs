@@ -63,13 +63,11 @@ namespace S2Please.Helper
                     html = html.Replace("{{CUSTOMER_NAME}}",item.CUSTOMER_NAME).Replace("{{TOTAL_NEW_MESSENGER}}",string.Format(FunctionHelpers.GetValueLanguage("Messenger.MessengerTotalNewBySession"), item.TOTAL)).Replace("{{TIME_AGO}}",FunctionHelpers.getTimeAgo(item.DATE_SEND.Value)).Replace("{{SESSION_ID}}", item.SESSION_ID).Replace("{{CONTENT_TEXT}}", item.CONTENT_TEXT);
                 }
             }
-            if (vm.Messengers != null && vm.Messengers.Count() > 0)
-            {
-                html += " " + @"<div class='mess__footer'>
+            html += " " + @"<div class='mess__footer'>
                                     <a href='/admin/message'>{{VIEW_ALL_MESSENGER}}</a>
                                 </div>";
-                html = html.Replace("{{VIEW_ALL_MESSENGER}}", FunctionHelpers.GetValueLanguage("Messenger.MessengerViewAll"));
-            }
+            html = html.Replace("{{VIEW_ALL_MESSENGER}}", FunctionHelpers.GetValueLanguage("Messenger.MessengerViewAll"));
+
             return html.Trim();
         }
 
@@ -159,7 +157,10 @@ namespace S2Please.Helper
                     html = html.Replace("{{TOTAL}}", string.Format(FunctionHelpers.GetValueLanguage("Notification.TotalDropdown"), viewModel.Total)).Replace("{{URL}}", item.URL).Replace("{{BG_COLOR}}", bgColor).Replace("{{ICON}}", item.ICON).Replace("{{CONTENT}}", item.CONTENT).Replace("{{SEND_DATE}}", FunctionHelpers.getTimeAgo(item.CREATED_DATE.Value));
                 }
             }
-
+            else
+            {
+                html = html.Replace("{{TOTAL}}", FunctionHelpers.GetValueLanguage("Title.NoHasNotifition"));
+            }
             return html.Trim();
         }
     }
