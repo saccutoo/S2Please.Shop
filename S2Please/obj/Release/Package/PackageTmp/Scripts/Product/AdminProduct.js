@@ -49,7 +49,6 @@ function clickAdd() {
 
 function reloadTableColorAndSize() {
     //listImg = [];
-    debugger
     var color = $("#color").val();
     var size = $("#size").val();
     if (color == null || size == null || color == "" || size == "") {
@@ -268,7 +267,6 @@ $(document).ready(function () {
 });
 
 function reloadImgByColor(colorRemove, removeImg) {
-    debugger
     var color = $("#color").val();
     if (color == null || color =='') {
         color = colorRemove.split(' ').join('-');
@@ -941,4 +939,63 @@ function base64ToByteArray(base64String) {
         console.log("Couldn't convert to byte array: " + e);
         return undefined;
     }
+}
+
+function UpdateSaleprice(id) {
+    loadingBody.Show();
+    $.ajax({
+        type: "POST",
+        url: "/ADMIN/Product/ShowFormUpdateSaleprice",
+        data: {
+            productId: id
+        },
+        dataType: "json",
+        success: function (response) {
+            if (response != null && !response.result.IsPermission) {
+                window.location.href = response.result.Url;
+            }
+            else {
+                $("#modal-content-right").html(response.result.Html);
+                $("#modal-right").modal("show");
+            }        
+            loadingBody.Hide();
+        },
+        error: function (response, status, error) {
+            alert("Error try again");
+        }
+    });
+}
+
+function saveUpdateSaleprice() {
+    var data=$('#form-update-saleprice').serializeArray();
+    for (var i = 0; i < data.length; i++) {
+        if (data[i].name.indexOf('PRICE') > -1) {
+            if (data[i].value.indexOf(',') > -1) {
+                data[i].value = data[i].value.split(',').join('');
+            }
+        }
+    }
+    $.ajax({
+        type: "POST",
+        url: "/ADMIN/Product/SaveUpdateSaleprice",
+        data: data,
+        dataType: "json",
+        success: function (response) {
+             if (response.result.Success) {
+                toastr["success"](response.result.Message, response.result.CacheName);
+                $("#modal-right").modal("hide");
+                reaload("Product", ControlModel["Product"].PAGE_INDEX, $('#Product-paging-items-per-page').val(), "");
+            }
+            else if (!response.result.IsPermission) {
+                window.location.href = response.result.Url;
+            }
+            else if (!response.result.Success && response.result.IsPermission) {
+                toastr["error"](response.result.Message, response.result.CacheName);
+            }
+            loadingBody.Hide();
+        },
+        error: function (response, status, error) {
+            alert("Error try again");
+        }
+    });
 }

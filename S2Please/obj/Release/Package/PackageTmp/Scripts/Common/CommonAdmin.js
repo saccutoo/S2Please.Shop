@@ -114,7 +114,6 @@ function remove(id, link) {
             id: id
         },
         success: function (response) {
-        debugger
         if (response.result.Success) {
                 $("#my-modal-center").modal("hide");
                 toastr["success"](response.result.CacheName, response.result.Message);

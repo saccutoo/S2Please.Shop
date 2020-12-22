@@ -82,7 +82,7 @@
     </form>
 </div>
 <div class="modal-footer">
-    <button type="button" class="btn btn-secondary au-btn au-btn-icon au-btn--smally" data-dismiss="modal">@FunctionHelpers.GetValueLanguage("Button.Title.Close")</button>
+    <button type="button" class="au-btn au-btn-icon btn btn-secondary au-btn au-btn-icon au-btn--smally" data-dismiss="modal">@FunctionHelpers.GetValueLanguage("Button.Title.Close")</button>
     @if (FunctionHelpers.CheckPermission(MenuName.ProductType,Permission.Update) && Model.Is_Save)
     {
         <button type="button" class="au-btn au-btn-icon au-btn--green au-btn--smally" onclick="saveProductType()">@FunctionHelpers.GetValueLanguage("Button.Save")</button>

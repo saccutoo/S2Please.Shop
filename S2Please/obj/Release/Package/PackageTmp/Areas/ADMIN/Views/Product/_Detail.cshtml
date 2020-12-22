@@ -119,6 +119,7 @@
                     <th>@FunctionHelpers.GetValueLanguage("Product.Size")</th>
                     <th>@FunctionHelpers.GetValueLanguage("Product.QuantityRemaining")</th>
                     <th>@FunctionHelpers.GetValueLanguage("Product.QuantitySold")</th>
+                    <th>@FunctionHelpers.GetValueLanguage("Product.PriceImport")</th>
                     <th>@FunctionHelpers.GetValueLanguage("Product.ProductPrice")</th>
                     <th>@FunctionHelpers.GetValueLanguage("Product.Rate")</th>
                 </tr>
@@ -152,6 +153,9 @@
                             </td>
                             <td>
                                 <span>@item.QUANTITY_SOLD</span>
+                            </td>
+                             <td>
+                                <span style="color:red">@item.PRICE_IMPORT.ToString("#,###", cul.NumberFormat)</span>
                             </td>
                             <td>
                                 <span style="color:red">@item.PRICE.ToString("#,###", cul.NumberFormat)</span>
