@@ -26,7 +26,7 @@ namespace S2Please
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
             RegisterDependencies.Register();
-            Hangfire._Execute();
+            //Hangfire._Execute();
             //SqlDependency.Start(ConfigurationManager.AppSettings["DBConnection"]);
         }
 

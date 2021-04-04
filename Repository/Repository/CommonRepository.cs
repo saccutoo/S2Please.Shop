@@ -107,6 +107,7 @@ namespace Repository
                 else
                 {
                     var response = GetData<T>(model, stroedProcedure, param);
+                    //var response = GetDataTest(stroedProcedure, param);
                     if (!response.Success)
                     {
                         var modelError = new ErrorModel();
@@ -127,6 +128,8 @@ namespace Repository
                         };
                     }
                     result = response.Results;
+                    //result = JsonConvert.DeserializeObject<List<dynamic>>(JsonConvert.SerializeObject(response.DicResults));
+
                     return new ResultModel
                     {
                         StatusCode = 0,
@@ -422,6 +425,106 @@ namespace Repository
             }
         }
 
+        public ResultModel GetDataTest(string stroedProcedure, List<Param> param)
+        {
+            SqlCommand outValue = new SqlCommand();
+            ResultModel result = new ResultModel();
+            try
+            {
+                using (var con = new SqlConnection(_connection))
+                {
+                    if (con.State == ConnectionState.Closed)
+                    {
+                        con.ConnectionString = _connection;
+                        con.Open();
+                    }
+                    using (var cmd = new SqlCommand(stroedProcedure, con))
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        if (param != null && param.Count() > 0)
+                        {
+                            foreach (var item in param)
+                            {
+
+                                if (item.IsUserDefinedTableType)
+                                {
+                                    cmd.Parameters.Add(item.paramUserDefinedTableType);
+                                }
+                                else if (item.IsOutPut)
+                                {
+                                    if (item.Type == "Int")
+                                    {
+                                        cmd.Parameters.Add(item.Key, SqlDbType.Int).Direction = ParameterDirection.Output;
+                                    }
+                                    else
+                                    {
+                                        cmd.Parameters.Add(item.Key, SqlDbType.NVarChar, 500);
+                                        cmd.Parameters[item.Key].Direction = ParameterDirection.Output;
+
+                                    }
+                                }
+                                else
+                                {
+                                    cmd.Parameters.AddWithValue(item.Key, item.Value);
+                                }
+                            }
+                        }
+
+                        using (SqlDataReader dr = cmd.ExecuteReader())
+                        {
+                            while (dr.Read())
+                            {
+                                if (dr.FieldCount > 0)
+                                {
+                                    Dictionary<string, object> dicObj = new Dictionary<string, object>();
+                                    for (int i = 0; i < dr.FieldCount; i++)
+                                    {
+                                        var column = dr.GetName(i);
+                                        var propVal = dr[column].ToString();
+                                        if (string.IsNullOrEmpty(propVal)) propVal = null;
+                                        dicObj[column]= propVal;
+                                    }
+                                    result.DicResults.Add(dicObj);
+                                }
+
+                            }
+                        }
+                        outValue = cmd;
+                    }
+
+                }
+            }
+            catch (Exception ex)
+            {
+                var parramError = string.Empty;
+                if (param != null && param.Count() > 0)
+                {
+                    var listParam = JsonConvert.DeserializeObject<dynamic>(JsonConvert.SerializeObject(param));
+                    if (listParam != null)
+                    {
+                        parramError = JsonConvert.SerializeObject(listParam);
+                    }
+                    else
+                    {
+                        parramError = JsonConvert.SerializeObject(JsonConvert.DeserializeObject<dynamic>(JsonConvert.SerializeObject(param)));
+                    }
+                }
+
+                return new ResultModel()
+                {
+                    OutValue = outValue,
+                    Success = false,
+                    error = "StroedName:" + stroedProcedure + " - " + " MessageError " + ex.Message + " - Parram:" + parramError
+                };
+            }
+
+            return new ResultModel()
+            {
+                DicResults = result.DicResults,
+                OutValue = outValue,
+                Success = true
+            };
+        }
     }
     public class Dynamic
     {

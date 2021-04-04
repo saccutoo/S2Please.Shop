@@ -23,7 +23,7 @@ namespace S2Please.Jobs
         /// minute/ hour/ day of month/ month/ day of week/ year
         ///  chạy liên tục và nghỉ sau mỗi 15 minutes
         /// </summary>
-        public static string CronExpression { get; set; } = "*/2 * * * *";     
+        public static string CronExpression { get; set; } = "*/1500 * * * *";     
         /// <summary>
         /// khung giờ chạy cố định là 5:00am tới 21:00pm
         /// </summary>

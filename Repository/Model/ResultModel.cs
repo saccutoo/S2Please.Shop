@@ -18,5 +18,8 @@ namespace Repository.Model
         public string Message { get; set; }
         public int Total { get; set; }
         public string Html { get; set; }
+        public List<Dictionary<string, object>> DicResults { get; set; } = new List<Dictionary<string, object>>();
+        public List<object> ObjResults { get; set; }
+
     }
 }
